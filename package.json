@@ -1,13 +1,51 @@
 {
-  "name": "token-forge",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "dispersa",
+  "version": "0.1.0",
+  "description": "A TypeScript library for processing DTCG design tokens with resolver support",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm --filter dispersa build && pnpm --filter dispersa-cli build && pnpm --filter './examples/**' -r build",
+    "test": "pnpm -r test",
+    "dev": "pnpm -r dev",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "prepare": "husky"
   },
-  "keywords": [],
+  "keywords": [
+    "design-tokens",
+    "dtcg",
+    "css",
+    "figma",
+    "tokens"
+  ],
   "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.0"
+  "license": "MIT",
+  "packageManager": "pnpm@10.18.0",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.46.3",
+    "vitest": "^2.1.8"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx,json,md,yaml,yml}": [
+      "prettier --write"
+    ]
+  }
 }
