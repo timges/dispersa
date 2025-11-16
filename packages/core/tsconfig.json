@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@lib/*": ["lib/*"],
+      "@build/*": ["build/*"],
+      "@builders/*": ["builders/*"],
+      "@renderers/*": ["renderers/*"],
+      "@services/*": ["services/*"],
+      "@adapters/*": ["adapters/*"],
+      "@shared/*": ["shared/*"],
+      "@config/*": ["config/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests", "src/legacy-structure"]
+}

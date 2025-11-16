@@ -1,0 +1,115 @@
+{
+  "name": "dispersa",
+  "version": "0.1.0",
+  "description": "Core library for processing DTCG design tokens",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./transforms": {
+      "import": {
+        "types": "./dist/transforms.d.ts",
+        "default": "./dist/transforms.js"
+      },
+      "require": {
+        "types": "./dist/transforms.d.cts",
+        "default": "./dist/transforms.cjs"
+      }
+    },
+    "./filters": {
+      "import": {
+        "types": "./dist/filters.d.ts",
+        "default": "./dist/filters.js"
+      },
+      "require": {
+        "types": "./dist/filters.d.cts",
+        "default": "./dist/filters.cjs"
+      }
+    },
+    "./builders": {
+      "import": {
+        "types": "./dist/builders.d.ts",
+        "default": "./dist/builders.js"
+      },
+      "require": {
+        "types": "./dist/builders.d.cts",
+        "default": "./dist/builders.cjs"
+      }
+    },
+    "./renderers": {
+      "import": {
+        "types": "./dist/renderers.d.ts",
+        "default": "./dist/renderers.js"
+      },
+      "require": {
+        "types": "./dist/renderers.d.cts",
+        "default": "./dist/renderers.cjs"
+      }
+    },
+    "./preprocessors": {
+      "import": {
+        "types": "./dist/preprocessors.d.ts",
+        "default": "./dist/preprocessors.js"
+      },
+      "require": {
+        "types": "./dist/preprocessors.d.cts",
+        "default": "./dist/preprocessors.cjs"
+      }
+    },
+    "./errors": {
+      "import": {
+        "types": "./dist/errors.d.ts",
+        "default": "./dist/errors.js"
+      },
+      "require": {
+        "types": "./dist/errors.d.cts",
+        "default": "./dist/errors.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "vitest run tests/e2e",
+    "test:contract": "vitest run tests/contract",
+    "test:performance": "vitest run tests/performance --reporter=verbose",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "change-case": "^5.4.4",
+    "culori": "^4.0.2",
+    "fast-glob": "^3.3.2",
+    "json-ptr": "^3.1.1",
+    "json-schema-to-ts": "^3.1.1",
+    "prettier": "^3.6.2"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/node": "^22.10.2",
+    "@vitest/coverage-v8": "^2.1.9",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
