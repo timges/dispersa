@@ -1,0 +1,86 @@
+/**
+ * @fileoverview Token utility functions
+ */
+
+import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
+
+/**
+ * Format deprecation message for a token
+ *
+ * Generates a standardized deprecation message that can be used in comments,
+ * descriptions, or warnings. Handles both boolean and string deprecation values.
+ *
+ * @param token - Token with optional deprecation information
+ * @param description - Optional existing description to prepend deprecation info to
+ * @param format - Output format: 'comment' for CSS comments, 'bracket' for Figma-style [DEPRECATED]
+ * @returns Formatted deprecation message or description with deprecation prefix
+ *
+ * @example
+ * ```typescript
+ * // CSS comment format
+ * formatDeprecationMessage(token, '', 'comment')
+ * // Returns: "DEPRECATED: Use new-token instead"
+ *
+ * // Bracket format for Figma
+ * formatDeprecationMessage(token, 'Primary color', 'bracket')
+ * // Returns: "[DEPRECATED: Use new-token instead] Primary color"
+ * ```
+ */
+export function formatDeprecationMessage(
+  token: ResolvedToken,
+  description: string = '',
+  format: 'comment' | 'bracket' = 'bracket',
+): string {
+  if (token.$deprecated == null || token.$deprecated === false) {
+    return description
+  }
+
+  const deprecationMsg = typeof token.$deprecated === 'string' ? token.$deprecated : ''
+
+  if (format === 'comment') {
+    // CSS comment format: "DEPRECATED: message" or just "DEPRECATED"
+    const msg = deprecationMsg ? ` ${deprecationMsg}` : ''
+    return `DEPRECATED${msg}`
+  } else {
+    // Bracket format: "[DEPRECATED: message]" or "[DEPRECATED]"
+    const msg = deprecationMsg ? `: ${deprecationMsg}` : ''
+    const prefix = `[DEPRECATED${msg}]`
+    return description ? `${prefix} ${description}` : prefix
+  }
+}
+
+/**
+ * Strip internal metadata from tokens before public output
+ */
+export function stripInternalTokenMetadata(tokens: InternalResolvedTokens): ResolvedTokens {
+  const cleaned: ResolvedTokens = {}
+
+  for (const [name, token] of Object.entries(tokens)) {
+    const { _isAlias: _alias, _sourceModifier: _source, _sourceSet: _sourceSet, ...rest } = token
+    cleaned[name] = rest
+  }
+
+  return cleaned
+}
+
+/**
+ * Get sorted token entries for deterministic output ordering
+ */
+export function getSortedTokenEntries(
+  tokens: ResolvedTokens,
+): Array<[name: string, token: ResolvedToken]> {
+  return Object.entries(tokens).sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+}
+
+/**
+ * Extract a pure alias reference name from a string value.
+ *
+ * Returns the inner token name for "{token.name}" inputs and undefined otherwise.
+ */
+export function getPureAliasReferenceName(value: unknown): string | undefined {
+  if (typeof value !== 'string') {
+    return undefined
+  }
+  const match = /^\{([^}]+)\}$/.exec(value)
+  return match?.[1]?.trim()
+}
