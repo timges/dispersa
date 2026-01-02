@@ -1,0 +1,2702 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Type Generation Integration Tests > Complete Type Definition > should be valid TypeScript 1`] = `
+"export type TokenNames =
+  | "color.primitive.red"
+  | "color.primitive.green"
+  | "color.primitive.blue"
+  | "color.primitive.gray.50"
+  | "color.primitive.gray.100"
+  | "color.primitive.gray.200"
+  | "color.primitive.gray.300"
+  | "color.primitive.gray.400"
+  | "color.primitive.gray.500"
+  | "color.primitive.gray.600"
+  | "color.primitive.gray.700"
+  | "color.primitive.gray.800"
+  | "color.primitive.gray.900"
+  | "color.primitive.brand.blue"
+  | "color.primitive.brand.indigo"
+  | "color.primitive.brand.purple"
+  | "color.base.background"
+  | "color.base.text"
+  | "color.base.primary"
+  | "dimension.base.0"
+  | "dimension.base.1"
+  | "dimension.base.2"
+  | "dimension.base.4"
+  | "dimension.base.8"
+  | "dimension.base.16"
+  | "dimension.viewport.full-height"
+  | "dimension.viewport.full-width"
+  | "dimension.border-radius.none"
+  | "dimension.border-radius.sm"
+  | "dimension.border-radius.md"
+  | "dimension.border-radius.lg"
+  | "dimension.border-radius.full"
+  | "typography.heading"
+  | "font.family.sans"
+  | "font.family.serif"
+  | "font.family.mono"
+  | "font.weight.light"
+  | "font.weight.normal"
+  | "font.weight.medium"
+  | "font.weight.semibold"
+  | "font.weight.bold"
+  | "font.size.xs"
+  | "font.size.sm"
+  | "font.size.base"
+  | "font.size.lg"
+  | "font.size.xl"
+  | "font.size.2xl"
+  | "font.size.3xl"
+  | "font.lineHeight.tight"
+  | "font.lineHeight.normal"
+  | "font.lineHeight.relaxed"
+  | "font.letterSpacing.tight"
+  | "font.letterSpacing.normal"
+  | "font.letterSpacing.wide"
+  | "spacing.scale.0"
+  | "spacing.scale.1"
+  | "spacing.scale.2"
+  | "spacing.scale.3"
+  | "spacing.scale.4"
+  | "spacing.scale.5"
+  | "spacing.scale.6"
+  | "spacing.scale.8"
+  | "spacing.scale.10"
+  | "spacing.scale.12"
+  | "spacing.scale.16"
+  | "spacing.scale.20"
+  | "spacing.semantic.xs"
+  | "spacing.semantic.sm"
+  | "spacing.semantic.md"
+  | "spacing.semantic.lg"
+  | "spacing.semantic.xl"
+  | "shadow.elevation.sm"
+  | "shadow.elevation.md"
+  | "shadow.elevation.lg"
+  | "shadow.elevation.xl"
+  | "shadow.inset.default"
+  | "animation.duration.instant"
+  | "animation.duration.fast"
+  | "animation.duration.normal"
+  | "animation.duration.slow"
+  | "animation.easing.linear"
+  | "animation.easing.ease-in"
+  | "animation.easing.ease-out"
+  | "animation.easing.ease-in-out"
+  | "opacity.transparent"
+  | "opacity.semi-transparent"
+  | "opacity.opaque"
+  | "semantic.color.text.primary"
+  | "semantic.color.text.secondary"
+  | "semantic.color.text.disabled"
+  | "semantic.color.background.primary"
+  | "semantic.color.background.secondary"
+  | "semantic.color.action.primary"
+  | "semantic.color.action.hover"
+  | "semantic.spacing.component.padding"
+  | "semantic.spacing.component.margin"
+  | "semantic.spacing.component.gap"
+
+export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}
+
+export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Complete Type Definition > should export all types 1`] = `
+"export type TokenNames =
+  | "color.primitive.red"
+  | "color.primitive.green"
+  | "color.primitive.blue"
+  | "color.primitive.gray.50"
+  | "color.primitive.gray.100"
+  | "color.primitive.gray.200"
+  | "color.primitive.gray.300"
+  | "color.primitive.gray.400"
+  | "color.primitive.gray.500"
+  | "color.primitive.gray.600"
+  | "color.primitive.gray.700"
+  | "color.primitive.gray.800"
+  | "color.primitive.gray.900"
+  | "color.primitive.brand.blue"
+  | "color.primitive.brand.indigo"
+  | "color.primitive.brand.purple"
+  | "color.base.background"
+  | "color.base.text"
+  | "color.base.primary"
+  | "dimension.base.0"
+  | "dimension.base.1"
+  | "dimension.base.2"
+  | "dimension.base.4"
+  | "dimension.base.8"
+  | "dimension.base.16"
+  | "dimension.viewport.full-height"
+  | "dimension.viewport.full-width"
+  | "dimension.border-radius.none"
+  | "dimension.border-radius.sm"
+  | "dimension.border-radius.md"
+  | "dimension.border-radius.lg"
+  | "dimension.border-radius.full"
+  | "typography.heading"
+  | "font.family.sans"
+  | "font.family.serif"
+  | "font.family.mono"
+  | "font.weight.light"
+  | "font.weight.normal"
+  | "font.weight.medium"
+  | "font.weight.semibold"
+  | "font.weight.bold"
+  | "font.size.xs"
+  | "font.size.sm"
+  | "font.size.base"
+  | "font.size.lg"
+  | "font.size.xl"
+  | "font.size.2xl"
+  | "font.size.3xl"
+  | "font.lineHeight.tight"
+  | "font.lineHeight.normal"
+  | "font.lineHeight.relaxed"
+  | "font.letterSpacing.tight"
+  | "font.letterSpacing.normal"
+  | "font.letterSpacing.wide"
+  | "spacing.scale.0"
+  | "spacing.scale.1"
+  | "spacing.scale.2"
+  | "spacing.scale.3"
+  | "spacing.scale.4"
+  | "spacing.scale.5"
+  | "spacing.scale.6"
+  | "spacing.scale.8"
+  | "spacing.scale.10"
+  | "spacing.scale.12"
+  | "spacing.scale.16"
+  | "spacing.scale.20"
+  | "spacing.semantic.xs"
+  | "spacing.semantic.sm"
+  | "spacing.semantic.md"
+  | "spacing.semantic.lg"
+  | "spacing.semantic.xl"
+  | "shadow.elevation.sm"
+  | "shadow.elevation.md"
+  | "shadow.elevation.lg"
+  | "shadow.elevation.xl"
+  | "shadow.inset.default"
+  | "animation.duration.instant"
+  | "animation.duration.fast"
+  | "animation.duration.normal"
+  | "animation.duration.slow"
+  | "animation.easing.linear"
+  | "animation.easing.ease-in"
+  | "animation.easing.ease-out"
+  | "animation.easing.ease-in-out"
+  | "opacity.transparent"
+  | "opacity.semi-transparent"
+  | "opacity.opaque"
+  | "semantic.color.text.primary"
+  | "semantic.color.text.secondary"
+  | "semantic.color.text.disabled"
+  | "semantic.color.background.primary"
+  | "semantic.color.background.secondary"
+  | "semantic.color.action.primary"
+  | "semantic.color.action.hover"
+  | "semantic.spacing.component.padding"
+  | "semantic.spacing.component.margin"
+  | "semantic.spacing.component.gap"
+
+export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}
+
+export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Complete Type Definition > should generate all type definitions together 1`] = `
+"export type TokenNames =
+  | "color.primitive.red"
+  | "color.primitive.green"
+  | "color.primitive.blue"
+  | "color.primitive.gray.50"
+  | "color.primitive.gray.100"
+  | "color.primitive.gray.200"
+  | "color.primitive.gray.300"
+  | "color.primitive.gray.400"
+  | "color.primitive.gray.500"
+  | "color.primitive.gray.600"
+  | "color.primitive.gray.700"
+  | "color.primitive.gray.800"
+  | "color.primitive.gray.900"
+  | "color.primitive.brand.blue"
+  | "color.primitive.brand.indigo"
+  | "color.primitive.brand.purple"
+  | "color.base.background"
+  | "color.base.text"
+  | "color.base.primary"
+  | "dimension.base.0"
+  | "dimension.base.1"
+  | "dimension.base.2"
+  | "dimension.base.4"
+  | "dimension.base.8"
+  | "dimension.base.16"
+  | "dimension.viewport.full-height"
+  | "dimension.viewport.full-width"
+  | "dimension.border-radius.none"
+  | "dimension.border-radius.sm"
+  | "dimension.border-radius.md"
+  | "dimension.border-radius.lg"
+  | "dimension.border-radius.full"
+  | "typography.heading"
+  | "font.family.sans"
+  | "font.family.serif"
+  | "font.family.mono"
+  | "font.weight.light"
+  | "font.weight.normal"
+  | "font.weight.medium"
+  | "font.weight.semibold"
+  | "font.weight.bold"
+  | "font.size.xs"
+  | "font.size.sm"
+  | "font.size.base"
+  | "font.size.lg"
+  | "font.size.xl"
+  | "font.size.2xl"
+  | "font.size.3xl"
+  | "font.lineHeight.tight"
+  | "font.lineHeight.normal"
+  | "font.lineHeight.relaxed"
+  | "font.letterSpacing.tight"
+  | "font.letterSpacing.normal"
+  | "font.letterSpacing.wide"
+  | "spacing.scale.0"
+  | "spacing.scale.1"
+  | "spacing.scale.2"
+  | "spacing.scale.3"
+  | "spacing.scale.4"
+  | "spacing.scale.5"
+  | "spacing.scale.6"
+  | "spacing.scale.8"
+  | "spacing.scale.10"
+  | "spacing.scale.12"
+  | "spacing.scale.16"
+  | "spacing.scale.20"
+  | "spacing.semantic.xs"
+  | "spacing.semantic.sm"
+  | "spacing.semantic.md"
+  | "spacing.semantic.lg"
+  | "spacing.semantic.xl"
+  | "shadow.elevation.sm"
+  | "shadow.elevation.md"
+  | "shadow.elevation.lg"
+  | "shadow.elevation.xl"
+  | "shadow.inset.default"
+  | "animation.duration.instant"
+  | "animation.duration.fast"
+  | "animation.duration.normal"
+  | "animation.duration.slow"
+  | "animation.easing.linear"
+  | "animation.easing.ease-in"
+  | "animation.easing.ease-out"
+  | "animation.easing.ease-in-out"
+  | "opacity.transparent"
+  | "opacity.semi-transparent"
+  | "opacity.opaque"
+  | "semantic.color.text.primary"
+  | "semantic.color.text.secondary"
+  | "semantic.color.text.disabled"
+  | "semantic.color.background.primary"
+  | "semantic.color.background.secondary"
+  | "semantic.color.action.primary"
+  | "semantic.color.action.hover"
+  | "semantic.spacing.component.padding"
+  | "semantic.spacing.component.margin"
+  | "semantic.spacing.component.gap"
+
+export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}
+
+export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Nested Structure Type Generation > should generate nested object type structure 1`] = `
+"export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Nested Structure Type Generation > should handle deep nesting 1`] = `
+"export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Nested Structure Type Generation > should handle numeric keys 1`] = `
+"export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Nested Structure Type Generation > should preserve token hierarchy 1`] = `
+"export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Nested Structure Type Generation > should properly indent nested structures 1`] = `
+"export type Tokens = {
+  color: {
+    primitive: {
+      /** Pure red in DTCG format */
+      red: string
+      /** Pure green in DTCG format */
+      green: string
+      /** Pure blue in HSL format */
+      blue: string
+      gray: {
+        "50": string
+        "100": string
+        "200": string
+        "300": string
+        "400": string
+        "500": string
+        "600": string
+        "700": string
+        "800": string
+        "900": string
+      }
+      brand: {
+        blue: string
+        indigo: string
+        purple: string
+      }
+    }
+    base: {
+      background: string
+      text: string
+      primary: string
+    }
+  }
+  dimension: {
+    base: {
+      "0": string
+      "1": string
+      "2": string
+      "4": string
+      "8": string
+      "16": string
+    }
+    viewport: {
+      "full-height": string
+      "full-width": string
+    }
+    "border-radius": {
+      none: string
+      sm: string
+      md: string
+      lg: string
+      full: string
+    }
+  }
+  typography: {
+    heading: string
+  }
+  font: {
+    family: {
+      /** Sans-serif font stack */
+      sans: string
+      serif: string
+      /** Monospace font as string */
+      mono: string
+    }
+    weight: {
+      light: string | number
+      /** Named font weight */
+      normal: string | number
+      medium: string | number
+      semibold: string | number
+      bold: string | number
+    }
+    size: {
+      xs: string
+      sm: string
+      base: string
+      lg: string
+      xl: string
+      "2xl": string
+      "3xl": string
+    }
+    lineHeight: {
+      tight: number
+      normal: number
+      relaxed: number
+    }
+    letterSpacing: {
+      tight: string
+      normal: string
+      wide: string
+    }
+  }
+  spacing: {
+    scale: {
+      "0": string
+      "1": string
+      "2": string
+      "3": string
+      "4": string
+      "5": string
+      "6": string
+      "8": string
+      "10": string
+      "12": string
+      "16": string
+      "20": string
+    }
+    semantic: {
+      xs: string
+      sm: string
+      md: string
+      lg: string
+      xl: string
+    }
+  }
+  shadow: {
+    elevation: {
+      /** Small elevation shadow */
+      sm: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      md: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      lg: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+      /** Extra large shadow with multiple layers */
+      xl: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+    inset: {
+      default: { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+    }
+  }
+  animation: {
+    duration: {
+      instant: string
+      fast: string
+      normal: string
+      slow: string
+    }
+    easing: {
+      linear: [number, number, number, number]
+      "ease-in": [number, number, number, number]
+      "ease-out": [number, number, number, number]
+      "ease-in-out": [number, number, number, number]
+    }
+  }
+  opacity: {
+    transparent: number
+    "semi-transparent": number
+    opaque: number
+  }
+  semantic: {
+    color: {
+      text: {
+        /** Primary text color - aliases to base */
+        primary: string
+        secondary: string
+        disabled: string
+      }
+      background: {
+        primary: string
+        secondary: string
+      }
+      action: {
+        /** Deep alias chain */
+        primary: string
+        hover: string
+      }
+    }
+    spacing: {
+      component: {
+        padding: string
+        margin: string
+        gap: string
+      }
+    }
+  }
+}"
+`;
+
+exports[`Type Generation Integration Tests > Token Name Type Generation > should format as multiline union 1`] = `
+"export type TokenNames =
+  | "color.primitive.red"
+  | "color.primitive.green"
+  | "color.primitive.blue"
+  | "color.primitive.gray.50"
+  | "color.primitive.gray.100"
+  | "color.primitive.gray.200"
+  | "color.primitive.gray.300"
+  | "color.primitive.gray.400"
+  | "color.primitive.gray.500"
+  | "color.primitive.gray.600"
+  | "color.primitive.gray.700"
+  | "color.primitive.gray.800"
+  | "color.primitive.gray.900"
+  | "color.primitive.brand.blue"
+  | "color.primitive.brand.indigo"
+  | "color.primitive.brand.purple"
+  | "color.base.background"
+  | "color.base.text"
+  | "color.base.primary"
+  | "dimension.base.0"
+  | "dimension.base.1"
+  | "dimension.base.2"
+  | "dimension.base.4"
+  | "dimension.base.8"
+  | "dimension.base.16"
+  | "dimension.viewport.full-height"
+  | "dimension.viewport.full-width"
+  | "dimension.border-radius.none"
+  | "dimension.border-radius.sm"
+  | "dimension.border-radius.md"
+  | "dimension.border-radius.lg"
+  | "dimension.border-radius.full"
+  | "typography.heading"
+  | "font.family.sans"
+  | "font.family.serif"
+  | "font.family.mono"
+  | "font.weight.light"
+  | "font.weight.normal"
+  | "font.weight.medium"
+  | "font.weight.semibold"
+  | "font.weight.bold"
+  | "font.size.xs"
+  | "font.size.sm"
+  | "font.size.base"
+  | "font.size.lg"
+  | "font.size.xl"
+  | "font.size.2xl"
+  | "font.size.3xl"
+  | "font.lineHeight.tight"
+  | "font.lineHeight.normal"
+  | "font.lineHeight.relaxed"
+  | "font.letterSpacing.tight"
+  | "font.letterSpacing.normal"
+  | "font.letterSpacing.wide"
+  | "spacing.scale.0"
+  | "spacing.scale.1"
+  | "spacing.scale.2"
+  | "spacing.scale.3"
+  | "spacing.scale.4"
+  | "spacing.scale.5"
+  | "spacing.scale.6"
+  | "spacing.scale.8"
+  | "spacing.scale.10"
+  | "spacing.scale.12"
+  | "spacing.scale.16"
+  | "spacing.scale.20"
+  | "spacing.semantic.xs"
+  | "spacing.semantic.sm"
+  | "spacing.semantic.md"
+  | "spacing.semantic.lg"
+  | "spacing.semantic.xl"
+  | "shadow.elevation.sm"
+  | "shadow.elevation.md"
+  | "shadow.elevation.lg"
+  | "shadow.elevation.xl"
+  | "shadow.inset.default"
+  | "animation.duration.instant"
+  | "animation.duration.fast"
+  | "animation.duration.normal"
+  | "animation.duration.slow"
+  | "animation.easing.linear"
+  | "animation.easing.ease-in"
+  | "animation.easing.ease-out"
+  | "animation.easing.ease-in-out"
+  | "opacity.transparent"
+  | "opacity.semi-transparent"
+  | "opacity.opaque"
+  | "semantic.color.text.primary"
+  | "semantic.color.text.secondary"
+  | "semantic.color.text.disabled"
+  | "semantic.color.background.primary"
+  | "semantic.color.background.secondary"
+  | "semantic.color.action.primary"
+  | "semantic.color.action.hover"
+  | "semantic.spacing.component.padding"
+  | "semantic.spacing.component.margin"
+  | "semantic.spacing.component.gap""
+`;
+
+exports[`Type Generation Integration Tests > Token Name Type Generation > should generate union type of all token names 1`] = `
+"export type TokenNames =
+  | "color.primitive.red"
+  | "color.primitive.green"
+  | "color.primitive.blue"
+  | "color.primitive.gray.50"
+  | "color.primitive.gray.100"
+  | "color.primitive.gray.200"
+  | "color.primitive.gray.300"
+  | "color.primitive.gray.400"
+  | "color.primitive.gray.500"
+  | "color.primitive.gray.600"
+  | "color.primitive.gray.700"
+  | "color.primitive.gray.800"
+  | "color.primitive.gray.900"
+  | "color.primitive.brand.blue"
+  | "color.primitive.brand.indigo"
+  | "color.primitive.brand.purple"
+  | "color.base.background"
+  | "color.base.text"
+  | "color.base.primary"
+  | "dimension.base.0"
+  | "dimension.base.1"
+  | "dimension.base.2"
+  | "dimension.base.4"
+  | "dimension.base.8"
+  | "dimension.base.16"
+  | "dimension.viewport.full-height"
+  | "dimension.viewport.full-width"
+  | "dimension.border-radius.none"
+  | "dimension.border-radius.sm"
+  | "dimension.border-radius.md"
+  | "dimension.border-radius.lg"
+  | "dimension.border-radius.full"
+  | "typography.heading"
+  | "font.family.sans"
+  | "font.family.serif"
+  | "font.family.mono"
+  | "font.weight.light"
+  | "font.weight.normal"
+  | "font.weight.medium"
+  | "font.weight.semibold"
+  | "font.weight.bold"
+  | "font.size.xs"
+  | "font.size.sm"
+  | "font.size.base"
+  | "font.size.lg"
+  | "font.size.xl"
+  | "font.size.2xl"
+  | "font.size.3xl"
+  | "font.lineHeight.tight"
+  | "font.lineHeight.normal"
+  | "font.lineHeight.relaxed"
+  | "font.letterSpacing.tight"
+  | "font.letterSpacing.normal"
+  | "font.letterSpacing.wide"
+  | "spacing.scale.0"
+  | "spacing.scale.1"
+  | "spacing.scale.2"
+  | "spacing.scale.3"
+  | "spacing.scale.4"
+  | "spacing.scale.5"
+  | "spacing.scale.6"
+  | "spacing.scale.8"
+  | "spacing.scale.10"
+  | "spacing.scale.12"
+  | "spacing.scale.16"
+  | "spacing.scale.20"
+  | "spacing.semantic.xs"
+  | "spacing.semantic.sm"
+  | "spacing.semantic.md"
+  | "spacing.semantic.lg"
+  | "spacing.semantic.xl"
+  | "shadow.elevation.sm"
+  | "shadow.elevation.md"
+  | "shadow.elevation.lg"
+  | "shadow.elevation.xl"
+  | "shadow.inset.default"
+  | "animation.duration.instant"
+  | "animation.duration.fast"
+  | "animation.duration.normal"
+  | "animation.duration.slow"
+  | "animation.easing.linear"
+  | "animation.easing.ease-in"
+  | "animation.easing.ease-out"
+  | "animation.easing.ease-in-out"
+  | "opacity.transparent"
+  | "opacity.semi-transparent"
+  | "opacity.opaque"
+  | "semantic.color.text.primary"
+  | "semantic.color.text.secondary"
+  | "semantic.color.text.disabled"
+  | "semantic.color.background.primary"
+  | "semantic.color.background.secondary"
+  | "semantic.color.action.primary"
+  | "semantic.color.action.hover"
+  | "semantic.spacing.component.padding"
+  | "semantic.spacing.component.margin"
+  | "semantic.spacing.component.gap""
+`;
+
+exports[`Type Generation Integration Tests > Token Value Type Generation > should generate record type mapping names to values 1`] = `
+"export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}"
+`;
+
+exports[`Type Generation Integration Tests > Token Value Type Generation > should handle array types 1`] = `
+"export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}"
+`;
+
+exports[`Type Generation Integration Tests > Token Value Type Generation > should handle composite token types 1`] = `
+"export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}"
+`;
+
+exports[`Type Generation Integration Tests > Token Value Type Generation > should infer correct TypeScript types from token types 1`] = `
+"export type TokenValues = {
+  /** Pure red in DTCG format */
+  "color.primitive.red": string
+  /** Pure green in DTCG format */
+  "color.primitive.green": string
+  /** Pure blue in HSL format */
+  "color.primitive.blue": string
+  "color.primitive.gray.50": string
+  "color.primitive.gray.100": string
+  "color.primitive.gray.200": string
+  "color.primitive.gray.300": string
+  "color.primitive.gray.400": string
+  "color.primitive.gray.500": string
+  "color.primitive.gray.600": string
+  "color.primitive.gray.700": string
+  "color.primitive.gray.800": string
+  "color.primitive.gray.900": string
+  "color.primitive.brand.blue": string
+  "color.primitive.brand.indigo": string
+  "color.primitive.brand.purple": string
+  "color.base.background": string
+  "color.base.text": string
+  "color.base.primary": string
+  "dimension.base.0": string
+  "dimension.base.1": string
+  "dimension.base.2": string
+  "dimension.base.4": string
+  "dimension.base.8": string
+  "dimension.base.16": string
+  "dimension.viewport.full-height": string
+  "dimension.viewport.full-width": string
+  "dimension.border-radius.none": string
+  "dimension.border-radius.sm": string
+  "dimension.border-radius.md": string
+  "dimension.border-radius.lg": string
+  "dimension.border-radius.full": string
+  "typography.heading": string
+  /** Sans-serif font stack */
+  "font.family.sans": string
+  "font.family.serif": string
+  /** Monospace font as string */
+  "font.family.mono": string
+  "font.weight.light": string | number
+  /** Named font weight */
+  "font.weight.normal": string | number
+  "font.weight.medium": string | number
+  "font.weight.semibold": string | number
+  "font.weight.bold": string | number
+  "font.size.xs": string
+  "font.size.sm": string
+  "font.size.base": string
+  "font.size.lg": string
+  "font.size.xl": string
+  "font.size.2xl": string
+  "font.size.3xl": string
+  "font.lineHeight.tight": number
+  "font.lineHeight.normal": number
+  "font.lineHeight.relaxed": number
+  "font.letterSpacing.tight": string
+  "font.letterSpacing.normal": string
+  "font.letterSpacing.wide": string
+  "spacing.scale.0": string
+  "spacing.scale.1": string
+  "spacing.scale.2": string
+  "spacing.scale.3": string
+  "spacing.scale.4": string
+  "spacing.scale.5": string
+  "spacing.scale.6": string
+  "spacing.scale.8": string
+  "spacing.scale.10": string
+  "spacing.scale.12": string
+  "spacing.scale.16": string
+  "spacing.scale.20": string
+  "spacing.semantic.xs": string
+  "spacing.semantic.sm": string
+  "spacing.semantic.md": string
+  "spacing.semantic.lg": string
+  "spacing.semantic.xl": string
+  /** Small elevation shadow */
+  "shadow.elevation.sm": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.md": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.elevation.lg": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  /** Extra large shadow with multiple layers */
+  "shadow.elevation.xl": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "shadow.inset.default": { color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean } | Array<{ color: string; offsetX: string; offsetY: string; blur: string; spread: string; inset?: boolean }>
+  "animation.duration.instant": string
+  "animation.duration.fast": string
+  "animation.duration.normal": string
+  "animation.duration.slow": string
+  "animation.easing.linear": [number, number, number, number]
+  "animation.easing.ease-in": [number, number, number, number]
+  "animation.easing.ease-out": [number, number, number, number]
+  "animation.easing.ease-in-out": [number, number, number, number]
+  "opacity.transparent": number
+  "opacity.semi-transparent": number
+  "opacity.opaque": number
+  /** Primary text color - aliases to base */
+  "semantic.color.text.primary": string
+  "semantic.color.text.secondary": string
+  "semantic.color.text.disabled": string
+  "semantic.color.background.primary": string
+  "semantic.color.background.secondary": string
+  /** Deep alias chain */
+  "semantic.color.action.primary": string
+  "semantic.color.action.hover": string
+  "semantic.spacing.component.padding": string
+  "semantic.spacing.component.margin": string
+  "semantic.spacing.component.gap": string
+}"
+`;
