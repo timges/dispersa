@@ -1,0 +1,685 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CSS Formatter > should format all token types correctly 1`] = `
+"/* Default theme variables */
+:root {
+  /* Pure red in DTCG format */
+  --color.primitive.red: #ff0000;
+  /* Pure green in DTCG format */
+  --color.primitive.green: #00ff00;
+  /* Pure blue in HSL format */
+  --color.primitive.blue: #0000ff;
+  --color.primitive.gray.50: #f9fafb;
+  --color.primitive.gray.100: #f3f4f6;
+  --color.primitive.gray.200: #e5e7eb;
+  --color.primitive.gray.300: #d1d5db;
+  --color.primitive.gray.400: #9ca3af;
+  --color.primitive.gray.500: #6b7280;
+  --color.primitive.gray.600: #4b5563;
+  --color.primitive.gray.700: #374151;
+  --color.primitive.gray.800: #1f2937;
+  --color.primitive.gray.900: #111827;
+  --color.primitive.brand.blue: #007bff;
+  --color.primitive.brand.indigo: #6610f2;
+  --color.primitive.brand.purple: #6f42c1;
+  --color.base.background: #ffffff;
+  --color.base.text: #111827;
+  --color.base.primary: #007bff;
+  --dimension.base.0: 0px;
+  --dimension.base.1: 0.25rem;
+  --dimension.base.2: 0.5rem;
+  --dimension.base.4: 1rem;
+  --dimension.base.8: 2rem;
+  --dimension.base.16: 4rem;
+  --dimension.viewport.full-height: 100rem;
+  --dimension.viewport.full-width: 100rem;
+  --dimension.border-radius.none: 0px;
+  --dimension.border-radius.sm: 0.125rem;
+  --dimension.border-radius.md: 0.375rem;
+  --dimension.border-radius.lg: 0.5rem;
+  --dimension.border-radius.full: 9999px;
+  /* Sans-serif font stack */
+  --font.family.sans: Inter, system-ui, sans-serif;
+  --font.family.serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font.family.mono: Monaco, monospace;
+  --font.weight.light: 300;
+  /* Named font weight */
+  --font.weight.normal: normal;
+  --font.weight.medium: 500;
+  --font.weight.semibold: semi-bold;
+  --font.weight.bold: 700;
+  --font.size.xs: 0.75rem;
+  --font.size.sm: 0.875rem;
+  --font.size.base: 1rem;
+  --font.size.lg: 1.125rem;
+  --font.size.xl: 1.25rem;
+  --font.size.2xl: 1.5rem;
+  --font.size.3xl: 1.875rem;
+  --font.lineHeight.tight: 1.25;
+  --font.lineHeight.normal: 1.5;
+  --font.lineHeight.relaxed: 1.75;
+  --font.letterSpacing.tight: -0.05rem;
+  --font.letterSpacing.normal: 0rem;
+  --font.letterSpacing.wide: 0.05rem;
+  --spacing.scale.0: 0px;
+  --spacing.scale.1: 0.25rem;
+  --spacing.scale.2: 0.5rem;
+  --spacing.scale.3: 0.75rem;
+  --spacing.scale.4: 1rem;
+  --spacing.scale.5: 1.25rem;
+  --spacing.scale.6: 1.5rem;
+  --spacing.scale.8: 2rem;
+  --spacing.scale.10: 2.5rem;
+  --spacing.scale.12: 3rem;
+  --spacing.scale.16: 4rem;
+  --spacing.scale.20: 5rem;
+  --spacing.semantic.xs: 0.25rem;
+  --spacing.semantic.sm: 0.5rem;
+  --spacing.semantic.md: 1rem;
+  --spacing.semantic.lg: 2rem;
+  --spacing.semantic.xl: 3rem;
+  /* Small elevation shadow */
+  --shadow.elevation.sm: 0px 1px 2px 0px #0000000d;
+  --shadow.elevation.md: 0px 4px 6px -1px #0000001a;
+  --shadow.elevation.lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow.elevation.xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow.inset.default: inset 0px 2px 4px 0px #0000000d;
+  --animation.duration.instant: 0ms;
+  --animation.duration.fast: 150ms;
+  --animation.duration.normal: 300ms;
+  --animation.duration.slow: 500ms;
+  --animation.easing.linear: 0, 0, 1, 1;
+  --animation.easing.ease-in: 0.42, 0, 1, 1;
+  --animation.easing.ease-out: 0, 0, 0.58, 1;
+  --animation.easing.ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity.transparent: 0;
+  --opacity.semi-transparent: 0.5;
+  --opacity.opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic.color.text.primary: #111827;
+  --semantic.color.text.secondary: #4b5563;
+  --semantic.color.text.disabled: #9ca3af;
+  --semantic.color.background.primary: #ffffff;
+  --semantic.color.background.secondary: #f3f4f6;
+  /* Deep alias chain */
+  --semantic.color.action.primary: #007bff;
+  --semantic.color.action.hover: #6610f2;
+  --semantic.spacing.component.padding: 1rem;
+  --semantic.spacing.component.margin: 2rem;
+  --semantic.spacing.component.gap: 0.5rem;
+}
+"
+`;
+
+exports[`CSS Formatter > should generate CSS with :root selector 1`] = `
+"/* Default theme variables */
+:root {
+  /* Pure red in DTCG format */
+  --color.primitive.red: #ff0000;
+  /* Pure green in DTCG format */
+  --color.primitive.green: #00ff00;
+  /* Pure blue in HSL format */
+  --color.primitive.blue: #0000ff;
+  --color.primitive.gray.50: #f9fafb;
+  --color.primitive.gray.100: #f3f4f6;
+  --color.primitive.gray.200: #e5e7eb;
+  --color.primitive.gray.300: #d1d5db;
+  --color.primitive.gray.400: #9ca3af;
+  --color.primitive.gray.500: #6b7280;
+  --color.primitive.gray.600: #4b5563;
+  --color.primitive.gray.700: #374151;
+  --color.primitive.gray.800: #1f2937;
+  --color.primitive.gray.900: #111827;
+  --color.primitive.brand.blue: #007bff;
+  --color.primitive.brand.indigo: #6610f2;
+  --color.primitive.brand.purple: #6f42c1;
+  --color.base.background: #ffffff;
+  --color.base.text: #111827;
+  --color.base.primary: #007bff;
+  --dimension.base.0: 0px;
+  --dimension.base.1: 0.25rem;
+  --dimension.base.2: 0.5rem;
+  --dimension.base.4: 1rem;
+  --dimension.base.8: 2rem;
+  --dimension.base.16: 4rem;
+  --dimension.viewport.full-height: 100rem;
+  --dimension.viewport.full-width: 100rem;
+  --dimension.border-radius.none: 0px;
+  --dimension.border-radius.sm: 0.125rem;
+  --dimension.border-radius.md: 0.375rem;
+  --dimension.border-radius.lg: 0.5rem;
+  --dimension.border-radius.full: 9999px;
+  /* Sans-serif font stack */
+  --font.family.sans: Inter, system-ui, sans-serif;
+  --font.family.serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font.family.mono: Monaco, monospace;
+  --font.weight.light: 300;
+  /* Named font weight */
+  --font.weight.normal: normal;
+  --font.weight.medium: 500;
+  --font.weight.semibold: semi-bold;
+  --font.weight.bold: 700;
+  --font.size.xs: 0.75rem;
+  --font.size.sm: 0.875rem;
+  --font.size.base: 1rem;
+  --font.size.lg: 1.125rem;
+  --font.size.xl: 1.25rem;
+  --font.size.2xl: 1.5rem;
+  --font.size.3xl: 1.875rem;
+  --font.lineHeight.tight: 1.25;
+  --font.lineHeight.normal: 1.5;
+  --font.lineHeight.relaxed: 1.75;
+  --font.letterSpacing.tight: -0.05rem;
+  --font.letterSpacing.normal: 0rem;
+  --font.letterSpacing.wide: 0.05rem;
+  --spacing.scale.0: 0px;
+  --spacing.scale.1: 0.25rem;
+  --spacing.scale.2: 0.5rem;
+  --spacing.scale.3: 0.75rem;
+  --spacing.scale.4: 1rem;
+  --spacing.scale.5: 1.25rem;
+  --spacing.scale.6: 1.5rem;
+  --spacing.scale.8: 2rem;
+  --spacing.scale.10: 2.5rem;
+  --spacing.scale.12: 3rem;
+  --spacing.scale.16: 4rem;
+  --spacing.scale.20: 5rem;
+  --spacing.semantic.xs: 0.25rem;
+  --spacing.semantic.sm: 0.5rem;
+  --spacing.semantic.md: 1rem;
+  --spacing.semantic.lg: 2rem;
+  --spacing.semantic.xl: 3rem;
+  /* Small elevation shadow */
+  --shadow.elevation.sm: 0px 1px 2px 0px #0000000d;
+  --shadow.elevation.md: 0px 4px 6px -1px #0000001a;
+  --shadow.elevation.lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow.elevation.xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow.inset.default: inset 0px 2px 4px 0px #0000000d;
+  --animation.duration.instant: 0ms;
+  --animation.duration.fast: 150ms;
+  --animation.duration.normal: 300ms;
+  --animation.duration.slow: 500ms;
+  --animation.easing.linear: 0, 0, 1, 1;
+  --animation.easing.ease-in: 0.42, 0, 1, 1;
+  --animation.easing.ease-out: 0, 0, 0.58, 1;
+  --animation.easing.ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity.transparent: 0;
+  --opacity.semi-transparent: 0.5;
+  --opacity.opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic.color.text.primary: #111827;
+  --semantic.color.text.secondary: #4b5563;
+  --semantic.color.text.disabled: #9ca3af;
+  --semantic.color.background.primary: #ffffff;
+  --semantic.color.background.secondary: #f3f4f6;
+  /* Deep alias chain */
+  --semantic.color.action.primary: #007bff;
+  --semantic.color.action.hover: #6610f2;
+  --semantic.spacing.component.padding: 1rem;
+  --semantic.spacing.component.margin: 2rem;
+  --semantic.spacing.component.gap: 0.5rem;
+}
+"
+`;
+
+exports[`CSS Formatter > should generate CSS with theme selectors 1`] = `
+"[data-theme="light"] {
+  /* Pure red in DTCG format */
+  --color.primitive.red: #ff0000;
+  /* Pure green in DTCG format */
+  --color.primitive.green: #00ff00;
+  /* Pure blue in HSL format */
+  --color.primitive.blue: #0000ff;
+  --color.primitive.gray.50: #f9fafb;
+  --color.primitive.gray.100: #f3f4f6;
+  --color.primitive.gray.200: #e5e7eb;
+  --color.primitive.gray.300: #d1d5db;
+  --color.primitive.gray.400: #9ca3af;
+  --color.primitive.gray.500: #6b7280;
+  --color.primitive.gray.600: #4b5563;
+  --color.primitive.gray.700: #374151;
+  --color.primitive.gray.800: #1f2937;
+  --color.primitive.gray.900: #111827;
+  --color.primitive.brand.blue: #007bff;
+  --color.primitive.brand.indigo: #6610f2;
+  --color.primitive.brand.purple: #6f42c1;
+  --color.base.background: #ffffff;
+  --color.base.text: #111827;
+  --color.base.primary: #007bff;
+  --dimension.base.0: 0px;
+  --dimension.base.1: 0.25rem;
+  --dimension.base.2: 0.5rem;
+  --dimension.base.4: 1rem;
+  --dimension.base.8: 2rem;
+  --dimension.base.16: 4rem;
+  --dimension.viewport.full-height: 100rem;
+  --dimension.viewport.full-width: 100rem;
+  --dimension.border-radius.none: 0px;
+  --dimension.border-radius.sm: 0.125rem;
+  --dimension.border-radius.md: 0.375rem;
+  --dimension.border-radius.lg: 0.5rem;
+  --dimension.border-radius.full: 9999px;
+  /* Sans-serif font stack */
+  --font.family.sans: Inter, system-ui, sans-serif;
+  --font.family.serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font.family.mono: Monaco, monospace;
+  --font.weight.light: 300;
+  /* Named font weight */
+  --font.weight.normal: normal;
+  --font.weight.medium: 500;
+  --font.weight.semibold: semi-bold;
+  --font.weight.bold: 700;
+  --font.size.xs: 0.75rem;
+  --font.size.sm: 0.875rem;
+  --font.size.base: 1rem;
+  --font.size.lg: 1.125rem;
+  --font.size.xl: 1.25rem;
+  --font.size.2xl: 1.5rem;
+  --font.size.3xl: 1.875rem;
+  --font.lineHeight.tight: 1.25;
+  --font.lineHeight.normal: 1.5;
+  --font.lineHeight.relaxed: 1.75;
+  --font.letterSpacing.tight: -0.05rem;
+  --font.letterSpacing.normal: 0rem;
+  --font.letterSpacing.wide: 0.05rem;
+  --spacing.scale.0: 0px;
+  --spacing.scale.1: 0.25rem;
+  --spacing.scale.2: 0.5rem;
+  --spacing.scale.3: 0.75rem;
+  --spacing.scale.4: 1rem;
+  --spacing.scale.5: 1.25rem;
+  --spacing.scale.6: 1.5rem;
+  --spacing.scale.8: 2rem;
+  --spacing.scale.10: 2.5rem;
+  --spacing.scale.12: 3rem;
+  --spacing.scale.16: 4rem;
+  --spacing.scale.20: 5rem;
+  --spacing.semantic.xs: 0.25rem;
+  --spacing.semantic.sm: 0.5rem;
+  --spacing.semantic.md: 1rem;
+  --spacing.semantic.lg: 2rem;
+  --spacing.semantic.xl: 3rem;
+  /* Small elevation shadow */
+  --shadow.elevation.sm: 0px 1px 2px 0px #0000000d;
+  --shadow.elevation.md: 0px 4px 6px -1px #0000001a;
+  --shadow.elevation.lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow.elevation.xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow.inset.default: inset 0px 2px 4px 0px #0000000d;
+  --animation.duration.instant: 0ms;
+  --animation.duration.fast: 150ms;
+  --animation.duration.normal: 300ms;
+  --animation.duration.slow: 500ms;
+  --animation.easing.linear: 0, 0, 1, 1;
+  --animation.easing.ease-in: 0.42, 0, 1, 1;
+  --animation.easing.ease-out: 0, 0, 0.58, 1;
+  --animation.easing.ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity.transparent: 0;
+  --opacity.semi-transparent: 0.5;
+  --opacity.opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic.color.text.primary: #111827;
+  --semantic.color.text.secondary: #4b5563;
+  --semantic.color.text.disabled: #9ca3af;
+  --semantic.color.background.primary: #ffffff;
+  --semantic.color.background.secondary: #f3f4f6;
+  /* Deep alias chain */
+  --semantic.color.action.primary: #007bff;
+  --semantic.color.action.hover: #6610f2;
+  --semantic.spacing.component.padding: 1rem;
+  --semantic.spacing.component.margin: 2rem;
+  --semantic.spacing.component.gap: 0.5rem;
+}
+"
+`;
+
+exports[`CSS Formatter > should generate CSS with theme selectors 2`] = `
+"[data-theme="dark"] {
+  /* Pure red in DTCG format */
+  --color.primitive.red: #ff0000;
+  /* Pure green in DTCG format */
+  --color.primitive.green: #00ff00;
+  /* Pure blue in HSL format */
+  --color.primitive.blue: #0000ff;
+  --color.primitive.gray.50: #111827;
+  --color.primitive.gray.100: #1f2937;
+  --color.primitive.gray.200: #e5e7eb;
+  --color.primitive.gray.300: #d1d5db;
+  --color.primitive.gray.400: #9ca3af;
+  --color.primitive.gray.500: #6b7280;
+  --color.primitive.gray.600: #4b5563;
+  --color.primitive.gray.700: #374151;
+  --color.primitive.gray.800: #1f2937;
+  --color.primitive.gray.900: #f9fafb;
+  --color.primitive.brand.blue: #007bff;
+  --color.primitive.brand.indigo: #6610f2;
+  --color.primitive.brand.purple: #6f42c1;
+  --color.base.background: #111827;
+  --color.base.text: #f9fafb;
+  --color.base.primary: #007bff;
+  --dimension.base.0: 0px;
+  --dimension.base.1: 0.25rem;
+  --dimension.base.2: 0.5rem;
+  --dimension.base.4: 1rem;
+  --dimension.base.8: 2rem;
+  --dimension.base.16: 4rem;
+  --dimension.viewport.full-height: 100rem;
+  --dimension.viewport.full-width: 100rem;
+  --dimension.border-radius.none: 0px;
+  --dimension.border-radius.sm: 0.125rem;
+  --dimension.border-radius.md: 0.375rem;
+  --dimension.border-radius.lg: 0.5rem;
+  --dimension.border-radius.full: 9999px;
+  /* Sans-serif font stack */
+  --font.family.sans: Inter, system-ui, sans-serif;
+  --font.family.serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font.family.mono: Monaco, monospace;
+  --font.weight.light: 300;
+  /* Named font weight */
+  --font.weight.normal: normal;
+  --font.weight.medium: 500;
+  --font.weight.semibold: semi-bold;
+  --font.weight.bold: 700;
+  --font.size.xs: 0.75rem;
+  --font.size.sm: 0.875rem;
+  --font.size.base: 1rem;
+  --font.size.lg: 1.125rem;
+  --font.size.xl: 1.25rem;
+  --font.size.2xl: 1.5rem;
+  --font.size.3xl: 1.875rem;
+  --font.lineHeight.tight: 1.25;
+  --font.lineHeight.normal: 1.5;
+  --font.lineHeight.relaxed: 1.75;
+  --font.letterSpacing.tight: -0.05rem;
+  --font.letterSpacing.normal: 0rem;
+  --font.letterSpacing.wide: 0.05rem;
+  --spacing.scale.0: 0px;
+  --spacing.scale.1: 0.25rem;
+  --spacing.scale.2: 0.5rem;
+  --spacing.scale.3: 0.75rem;
+  --spacing.scale.4: 1rem;
+  --spacing.scale.5: 1.25rem;
+  --spacing.scale.6: 1.5rem;
+  --spacing.scale.8: 2rem;
+  --spacing.scale.10: 2.5rem;
+  --spacing.scale.12: 3rem;
+  --spacing.scale.16: 4rem;
+  --spacing.scale.20: 5rem;
+  --spacing.semantic.xs: 0.25rem;
+  --spacing.semantic.sm: 0.5rem;
+  --spacing.semantic.md: 1rem;
+  --spacing.semantic.lg: 2rem;
+  --spacing.semantic.xl: 3rem;
+  /* Small elevation shadow */
+  --shadow.elevation.sm: 0px 1px 2px 0px #0000000d;
+  --shadow.elevation.md: 0px 4px 8px -1px #00000080;
+  --shadow.elevation.lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow.elevation.xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow.inset.default: inset 0px 2px 4px 0px #0000000d;
+  --animation.duration.instant: 0ms;
+  --animation.duration.fast: 150ms;
+  --animation.duration.normal: 300ms;
+  --animation.duration.slow: 500ms;
+  --animation.easing.linear: 0, 0, 1, 1;
+  --animation.easing.ease-in: 0.42, 0, 1, 1;
+  --animation.easing.ease-out: 0, 0, 0.58, 1;
+  --animation.easing.ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity.transparent: 0;
+  --opacity.semi-transparent: 0.5;
+  --opacity.opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic.color.text.primary: #f9fafb;
+  --semantic.color.text.secondary: #4b5563;
+  --semantic.color.text.disabled: #9ca3af;
+  --semantic.color.background.primary: #111827;
+  --semantic.color.background.secondary: #1f2937;
+  /* Deep alias chain */
+  --semantic.color.action.primary: #007bff;
+  --semantic.color.action.hover: #6610f2;
+  --semantic.spacing.component.padding: 1rem;
+  --semantic.spacing.component.margin: 2rem;
+  --semantic.spacing.component.gap: 0.5rem;
+}
+"
+`;
+
+exports[`CSS Formatter > should generate minified CSS 1`] = `"/* Default theme variables */:root{/* Pure red in DTCG format */--color.primitive.red:#ff0000;/* Pure green in DTCG format */--color.primitive.green:#00ff00;/* Pure blue in HSL format */--color.primitive.blue:#0000ff;--color.primitive.gray.50:#f9fafb;--color.primitive.gray.100:#f3f4f6;--color.primitive.gray.200:#e5e7eb;--color.primitive.gray.300:#d1d5db;--color.primitive.gray.400:#9ca3af;--color.primitive.gray.500:#6b7280;--color.primitive.gray.600:#4b5563;--color.primitive.gray.700:#374151;--color.primitive.gray.800:#1f2937;--color.primitive.gray.900:#111827;--color.primitive.brand.blue:#007bff;--color.primitive.brand.indigo:#6610f2;--color.primitive.brand.purple:#6f42c1;--color.base.background:#ffffff;--color.base.text:#111827;--color.base.primary:#007bff;--dimension.base.0:0px;--dimension.base.1:0.25rem;--dimension.base.2:0.5rem;--dimension.base.4:1rem;--dimension.base.8:2rem;--dimension.base.16:4rem;--dimension.viewport.full-height:100rem;--dimension.viewport.full-width:100rem;--dimension.border-radius.none:0px;--dimension.border-radius.sm:0.125rem;--dimension.border-radius.md:0.375rem;--dimension.border-radius.lg:0.5rem;--dimension.border-radius.full:9999px;/* Sans-serif font stack */--font.family.sans:Inter, system-ui, sans-serif;--font.family.serif:Merriweather, Georgia, serif;/* Monospace font as string */--font.family.mono:Monaco, monospace;--font.weight.light:300;/* Named font weight */--font.weight.normal:normal;--font.weight.medium:500;--font.weight.semibold:semi-bold;--font.weight.bold:700;--font.size.xs:0.75rem;--font.size.sm:0.875rem;--font.size.base:1rem;--font.size.lg:1.125rem;--font.size.xl:1.25rem;--font.size.2xl:1.5rem;--font.size.3xl:1.875rem;--font.lineHeight.tight:1.25;--font.lineHeight.normal:1.5;--font.lineHeight.relaxed:1.75;--font.letterSpacing.tight:-0.05rem;--font.letterSpacing.normal:0rem;--font.letterSpacing.wide:0.05rem;--spacing.scale.0:0px;--spacing.scale.1:0.25rem;--spacing.scale.2:0.5rem;--spacing.scale.3:0.75rem;--spacing.scale.4:1rem;--spacing.scale.5:1.25rem;--spacing.scale.6:1.5rem;--spacing.scale.8:2rem;--spacing.scale.10:2.5rem;--spacing.scale.12:3rem;--spacing.scale.16:4rem;--spacing.scale.20:5rem;--spacing.semantic.xs:0.25rem;--spacing.semantic.sm:0.5rem;--spacing.semantic.md:1rem;--spacing.semantic.lg:2rem;--spacing.semantic.xl:3rem;/* Small elevation shadow */--shadow.elevation.sm:0px 1px 2px 0px #0000000d;--shadow.elevation.md:0px 4px 6px -1px #0000001a;--shadow.elevation.lg:0px 10px 15px -3px #0000001a;/* Extra large shadow with multiple layers */--shadow.elevation.xl:0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;--shadow.inset.default:inset 0px 2px 4px 0px #0000000d;--animation.duration.instant:0ms;--animation.duration.fast:150ms;--animation.duration.normal:300ms;--animation.duration.slow:500ms;--animation.easing.linear:0, 0, 1, 1;--animation.easing.ease-in:0.42, 0, 1, 1;--animation.easing.ease-out:0, 0, 0.58, 1;--animation.easing.ease-in-out:0.42, 0, 0.58, 1;--opacity.transparent:0;--opacity.semi-transparent:0.5;--opacity.opaque:1;/* Primary text color - aliases to base */--semantic.color.text.primary:#111827;--semantic.color.text.secondary:#4b5563;--semantic.color.text.disabled:#9ca3af;--semantic.color.background.primary:#ffffff;--semantic.color.background.secondary:#f3f4f6;/* Deep alias chain */--semantic.color.action.primary:#007bff;--semantic.color.action.hover:#6610f2;--semantic.spacing.component.padding:1rem;--semantic.spacing.component.margin:2rem;--semantic.spacing.component.gap:0.5rem;}"`;
+
+exports[`CSS Formatter > should handle shadow arrays 1`] = `
+"/* Default theme variables */
+:root {
+  /* Pure red in DTCG format */
+  --color.primitive.red: #ff0000;
+  /* Pure green in DTCG format */
+  --color.primitive.green: #00ff00;
+  /* Pure blue in HSL format */
+  --color.primitive.blue: #0000ff;
+  --color.primitive.gray.50: #f9fafb;
+  --color.primitive.gray.100: #f3f4f6;
+  --color.primitive.gray.200: #e5e7eb;
+  --color.primitive.gray.300: #d1d5db;
+  --color.primitive.gray.400: #9ca3af;
+  --color.primitive.gray.500: #6b7280;
+  --color.primitive.gray.600: #4b5563;
+  --color.primitive.gray.700: #374151;
+  --color.primitive.gray.800: #1f2937;
+  --color.primitive.gray.900: #111827;
+  --color.primitive.brand.blue: #007bff;
+  --color.primitive.brand.indigo: #6610f2;
+  --color.primitive.brand.purple: #6f42c1;
+  --color.base.background: #ffffff;
+  --color.base.text: #111827;
+  --color.base.primary: #007bff;
+  --dimension.base.0: 0px;
+  --dimension.base.1: 0.25rem;
+  --dimension.base.2: 0.5rem;
+  --dimension.base.4: 1rem;
+  --dimension.base.8: 2rem;
+  --dimension.base.16: 4rem;
+  --dimension.viewport.full-height: 100rem;
+  --dimension.viewport.full-width: 100rem;
+  --dimension.border-radius.none: 0px;
+  --dimension.border-radius.sm: 0.125rem;
+  --dimension.border-radius.md: 0.375rem;
+  --dimension.border-radius.lg: 0.5rem;
+  --dimension.border-radius.full: 9999px;
+  /* Sans-serif font stack */
+  --font.family.sans: Inter, system-ui, sans-serif;
+  --font.family.serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font.family.mono: Monaco, monospace;
+  --font.weight.light: 300;
+  /* Named font weight */
+  --font.weight.normal: normal;
+  --font.weight.medium: 500;
+  --font.weight.semibold: semi-bold;
+  --font.weight.bold: 700;
+  --font.size.xs: 0.75rem;
+  --font.size.sm: 0.875rem;
+  --font.size.base: 1rem;
+  --font.size.lg: 1.125rem;
+  --font.size.xl: 1.25rem;
+  --font.size.2xl: 1.5rem;
+  --font.size.3xl: 1.875rem;
+  --font.lineHeight.tight: 1.25;
+  --font.lineHeight.normal: 1.5;
+  --font.lineHeight.relaxed: 1.75;
+  --font.letterSpacing.tight: -0.05rem;
+  --font.letterSpacing.normal: 0rem;
+  --font.letterSpacing.wide: 0.05rem;
+  --spacing.scale.0: 0px;
+  --spacing.scale.1: 0.25rem;
+  --spacing.scale.2: 0.5rem;
+  --spacing.scale.3: 0.75rem;
+  --spacing.scale.4: 1rem;
+  --spacing.scale.5: 1.25rem;
+  --spacing.scale.6: 1.5rem;
+  --spacing.scale.8: 2rem;
+  --spacing.scale.10: 2.5rem;
+  --spacing.scale.12: 3rem;
+  --spacing.scale.16: 4rem;
+  --spacing.scale.20: 5rem;
+  --spacing.semantic.xs: 0.25rem;
+  --spacing.semantic.sm: 0.5rem;
+  --spacing.semantic.md: 1rem;
+  --spacing.semantic.lg: 2rem;
+  --spacing.semantic.xl: 3rem;
+  /* Small elevation shadow */
+  --shadow.elevation.sm: 0px 1px 2px 0px #0000000d;
+  --shadow.elevation.md: 0px 4px 6px -1px #0000001a;
+  --shadow.elevation.lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow.elevation.xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow.inset.default: inset 0px 2px 4px 0px #0000000d;
+  --animation.duration.instant: 0ms;
+  --animation.duration.fast: 150ms;
+  --animation.duration.normal: 300ms;
+  --animation.duration.slow: 500ms;
+  --animation.easing.linear: 0, 0, 1, 1;
+  --animation.easing.ease-in: 0.42, 0, 1, 1;
+  --animation.easing.ease-out: 0, 0, 0.58, 1;
+  --animation.easing.ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity.transparent: 0;
+  --opacity.semi-transparent: 0.5;
+  --opacity.opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic.color.text.primary: #111827;
+  --semantic.color.text.secondary: #4b5563;
+  --semantic.color.text.disabled: #9ca3af;
+  --semantic.color.background.primary: #ffffff;
+  --semantic.color.background.secondary: #f3f4f6;
+  /* Deep alias chain */
+  --semantic.color.action.primary: #007bff;
+  --semantic.color.action.hover: #6610f2;
+  --semantic.spacing.component.padding: 1rem;
+  --semantic.spacing.component.margin: 2rem;
+  --semantic.spacing.component.gap: 0.5rem;
+}
+"
+`;
+
+exports[`CSS Formatter > should use token name as-is with CSS variable prefix 1`] = `
+"/* Default theme variables */
+:root {
+  /* Pure red in DTCG format */
+  --color-primitive-red: #ff0000;
+  /* Pure green in DTCG format */
+  --color-primitive-green: #00ff00;
+  /* Pure blue in HSL format */
+  --color-primitive-blue: #0000ff;
+  --color-primitive-gray-50: #f9fafb;
+  --color-primitive-gray-100: #f3f4f6;
+  --color-primitive-gray-200: #e5e7eb;
+  --color-primitive-gray-300: #d1d5db;
+  --color-primitive-gray-400: #9ca3af;
+  --color-primitive-gray-500: #6b7280;
+  --color-primitive-gray-600: #4b5563;
+  --color-primitive-gray-700: #374151;
+  --color-primitive-gray-800: #1f2937;
+  --color-primitive-gray-900: #111827;
+  --color-primitive-brand-blue: #007bff;
+  --color-primitive-brand-indigo: #6610f2;
+  --color-primitive-brand-purple: #6f42c1;
+  --color-base-background: #ffffff;
+  --color-base-text: #111827;
+  --color-base-primary: #007bff;
+  --dimension-base-0: 0px;
+  --dimension-base-1: 0.25rem;
+  --dimension-base-2: 0.5rem;
+  --dimension-base-4: 1rem;
+  --dimension-base-8: 2rem;
+  --dimension-base-16: 4rem;
+  --dimension-viewport-full-height: 100rem;
+  --dimension-viewport-full-width: 100rem;
+  --dimension-border-radius-none: 0px;
+  --dimension-border-radius-sm: 0.125rem;
+  --dimension-border-radius-md: 0.375rem;
+  --dimension-border-radius-lg: 0.5rem;
+  --dimension-border-radius-full: 9999px;
+  /* Sans-serif font stack */
+  --font-family-sans: Inter, system-ui, sans-serif;
+  --font-family-serif: Merriweather, Georgia, serif;
+  /* Monospace font as string */
+  --font-family-mono: Monaco, monospace;
+  --font-weight-light: 300;
+  /* Named font weight */
+  --font-weight-normal: normal;
+  --font-weight-medium: 500;
+  --font-weight-semibold: semi-bold;
+  --font-weight-bold: 700;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-lineheight-tight: 1.25;
+  --font-lineheight-normal: 1.5;
+  --font-lineheight-relaxed: 1.75;
+  --font-letterspacing-tight: -0.05rem;
+  --font-letterspacing-normal: 0rem;
+  --font-letterspacing-wide: 0.05rem;
+  --spacing-scale-0: 0px;
+  --spacing-scale-1: 0.25rem;
+  --spacing-scale-2: 0.5rem;
+  --spacing-scale-3: 0.75rem;
+  --spacing-scale-4: 1rem;
+  --spacing-scale-5: 1.25rem;
+  --spacing-scale-6: 1.5rem;
+  --spacing-scale-8: 2rem;
+  --spacing-scale-10: 2.5rem;
+  --spacing-scale-12: 3rem;
+  --spacing-scale-16: 4rem;
+  --spacing-scale-20: 5rem;
+  --spacing-semantic-xs: 0.25rem;
+  --spacing-semantic-sm: 0.5rem;
+  --spacing-semantic-md: 1rem;
+  --spacing-semantic-lg: 2rem;
+  --spacing-semantic-xl: 3rem;
+  /* Small elevation shadow */
+  --shadow-elevation-sm: 0px 1px 2px 0px #0000000d;
+  --shadow-elevation-md: 0px 4px 6px -1px #0000001a;
+  --shadow-elevation-lg: 0px 10px 15px -3px #0000001a;
+  /* Extra large shadow with multiple layers */
+  --shadow-elevation-xl:
+    0px 20px 25px -5px #0000001a, 0px 10px 10px -5px #0000000a;
+  --shadow-inset-default: inset 0px 2px 4px 0px #0000000d;
+  --animation-duration-instant: 0ms;
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 300ms;
+  --animation-duration-slow: 500ms;
+  --animation-easing-linear: 0, 0, 1, 1;
+  --animation-easing-ease-in: 0.42, 0, 1, 1;
+  --animation-easing-ease-out: 0, 0, 0.58, 1;
+  --animation-easing-ease-in-out: 0.42, 0, 0.58, 1;
+  --opacity-transparent: 0;
+  --opacity-semi-transparent: 0.5;
+  --opacity-opaque: 1;
+  /* Primary text color - aliases to base */
+  --semantic-color-text-primary: #111827;
+  --semantic-color-text-secondary: #4b5563;
+  --semantic-color-text-disabled: #9ca3af;
+  --semantic-color-background-primary: #ffffff;
+  --semantic-color-background-secondary: #f3f4f6;
+  /* Deep alias chain */
+  --semantic-color-action-primary: #007bff;
+  --semantic-color-action-hover: #6610f2;
+  --semantic-spacing-component-padding: 1rem;
+  --semantic-spacing-component-margin: 2rem;
+  --semantic-spacing-component-gap: 0.5rem;
+}
+"
+`;

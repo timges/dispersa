@@ -1,0 +1,1374 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JS Module Formatter > should generate default export format with nested structure 1`] = `
+"const tokens = {
+  color: {
+    primitive: {
+      red: {
+        colorSpace: 'srgb',
+        components: [1, 0, 0],
+      },
+      green: {
+        colorSpace: 'srgb',
+        components: [0, 1, 0],
+      },
+      blue: {
+        colorSpace: 'hsl',
+        components: [240, 1, 0.5],
+      },
+      gray: {
+        50: {
+          colorSpace: 'srgb',
+          components: [0.976, 0.98, 0.984],
+        },
+        100: {
+          colorSpace: 'srgb',
+          components: [0.953, 0.957, 0.965],
+        },
+        200: {
+          colorSpace: 'srgb',
+          components: [0.898, 0.906, 0.922],
+        },
+        300: {
+          colorSpace: 'srgb',
+          components: [0.82, 0.835, 0.859],
+        },
+        400: {
+          colorSpace: 'srgb',
+          components: [0.612, 0.639, 0.686],
+        },
+        500: {
+          colorSpace: 'srgb',
+          components: [0.42, 0.447, 0.502],
+        },
+        600: {
+          colorSpace: 'srgb',
+          components: [0.294, 0.333, 0.388],
+        },
+        700: {
+          colorSpace: 'srgb',
+          components: [0.216, 0.255, 0.318],
+        },
+        800: {
+          colorSpace: 'srgb',
+          components: [0.122, 0.161, 0.216],
+        },
+        900: {
+          colorSpace: 'srgb',
+          components: [0.067, 0.094, 0.153],
+        },
+      },
+      brand: {
+        blue: {
+          colorSpace: 'srgb',
+          components: [0, 0.482, 1],
+        },
+        indigo: {
+          colorSpace: 'srgb',
+          components: [0.4, 0.063, 0.949],
+        },
+        purple: {
+          colorSpace: 'srgb',
+          components: [0.435, 0.259, 0.757],
+        },
+      },
+    },
+    base: {
+      background: {
+        colorSpace: 'srgb',
+        components: [1, 1, 1],
+      },
+      text: {
+        colorSpace: 'srgb',
+        components: [0.067, 0.094, 0.153],
+      },
+      primary: {
+        colorSpace: 'srgb',
+        components: [0, 0.482, 1],
+      },
+    },
+  },
+  dimension: {
+    base: {
+      0: {
+        value: 0,
+        unit: 'px',
+      },
+      1: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      2: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      4: {
+        value: 1,
+        unit: 'rem',
+      },
+      8: {
+        value: 2,
+        unit: 'rem',
+      },
+      16: {
+        value: 4,
+        unit: 'rem',
+      },
+    },
+    viewport: {
+      'full-height': {
+        value: 100,
+        unit: 'rem',
+      },
+      'full-width': {
+        value: 100,
+        unit: 'rem',
+      },
+    },
+    'border-radius': {
+      none: {
+        value: 0,
+        unit: 'px',
+      },
+      sm: {
+        value: 0.125,
+        unit: 'rem',
+      },
+      md: {
+        value: 0.375,
+        unit: 'rem',
+      },
+      lg: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      full: {
+        value: 9999,
+        unit: 'px',
+      },
+    },
+  },
+  font: {
+    family: {
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      serif: ['Merriweather', 'Georgia', 'serif'],
+      mono: 'Monaco, monospace',
+    },
+    weight: {
+      light: 300,
+      normal: 'normal',
+      medium: 500,
+      semibold: 'semi-bold',
+      bold: 700,
+    },
+    size: {
+      xs: {
+        value: 0.75,
+        unit: 'rem',
+      },
+      sm: {
+        value: 0.875,
+        unit: 'rem',
+      },
+      base: {
+        value: 1,
+        unit: 'rem',
+      },
+      lg: {
+        value: 1.125,
+        unit: 'rem',
+      },
+      xl: {
+        value: 1.25,
+        unit: 'rem',
+      },
+      '2xl': {
+        value: 1.5,
+        unit: 'rem',
+      },
+      '3xl': {
+        value: 1.875,
+        unit: 'rem',
+      },
+    },
+    lineHeight: {
+      tight: 1.25,
+      normal: 1.5,
+      relaxed: 1.75,
+    },
+    letterSpacing: {
+      tight: {
+        value: -0.05,
+        unit: 'rem',
+      },
+      normal: {
+        value: 0,
+        unit: 'rem',
+      },
+      wide: {
+        value: 0.05,
+        unit: 'rem',
+      },
+    },
+  },
+  spacing: {
+    scale: {
+      0: {
+        value: 0,
+        unit: 'px',
+      },
+      1: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      2: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      3: {
+        value: 0.75,
+        unit: 'rem',
+      },
+      4: {
+        value: 1,
+        unit: 'rem',
+      },
+      5: {
+        value: 1.25,
+        unit: 'rem',
+      },
+      6: {
+        value: 1.5,
+        unit: 'rem',
+      },
+      8: {
+        value: 2,
+        unit: 'rem',
+      },
+      10: {
+        value: 2.5,
+        unit: 'rem',
+      },
+      12: {
+        value: 3,
+        unit: 'rem',
+      },
+      16: {
+        value: 4,
+        unit: 'rem',
+      },
+      20: {
+        value: 5,
+        unit: 'rem',
+      },
+    },
+    semantic: {
+      xs: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      sm: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      md: {
+        value: 1,
+        unit: 'rem',
+      },
+      lg: {
+        value: 2,
+        unit: 'rem',
+      },
+      xl: {
+        value: 3,
+        unit: 'rem',
+      },
+    },
+  },
+  shadow: {
+    elevation: {
+      sm: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.05,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 1,
+          unit: 'px',
+        },
+        blur: {
+          value: 2,
+          unit: 'px',
+        },
+        spread: {
+          value: 0,
+          unit: 'px',
+        },
+      },
+      md: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.1,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 4,
+          unit: 'px',
+        },
+        blur: {
+          value: 6,
+          unit: 'px',
+        },
+        spread: {
+          value: -1,
+          unit: 'px',
+        },
+      },
+      lg: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.1,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 10,
+          unit: 'px',
+        },
+        blur: {
+          value: 15,
+          unit: 'px',
+        },
+        spread: {
+          value: -3,
+          unit: 'px',
+        },
+      },
+      xl: [
+        {
+          color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
+          offsetX: { value: 0, unit: 'px' },
+          offsetY: { value: 20, unit: 'px' },
+          blur: { value: 25, unit: 'px' },
+          spread: { value: -5, unit: 'px' },
+        },
+        {
+          color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.04 },
+          offsetX: { value: 0, unit: 'px' },
+          offsetY: { value: 10, unit: 'px' },
+          blur: { value: 10, unit: 'px' },
+          spread: { value: -5, unit: 'px' },
+        },
+      ],
+    },
+    inset: {
+      default: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.05,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 2,
+          unit: 'px',
+        },
+        blur: {
+          value: 4,
+          unit: 'px',
+        },
+        spread: {
+          value: 0,
+          unit: 'px',
+        },
+        inset: true,
+      },
+    },
+  },
+  animation: {
+    duration: {
+      instant: '0ms',
+      fast: '150ms',
+      normal: '300ms',
+      slow: '500ms',
+    },
+    easing: {
+      linear: [0, 0, 1, 1],
+      'ease-in': [0.42, 0, 1, 1],
+      'ease-out': [0, 0, 0.58, 1],
+      'ease-in-out': [0.42, 0, 0.58, 1],
+    },
+  },
+  opacity: {
+    transparent: 0,
+    'semi-transparent': 0.5,
+    opaque: 1,
+  },
+  semantic: {
+    color: {
+      text: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [0.067, 0.094, 0.153],
+        },
+        secondary: {
+          colorSpace: 'srgb',
+          components: [0.294, 0.333, 0.388],
+        },
+        disabled: {
+          colorSpace: 'srgb',
+          components: [0.612, 0.639, 0.686],
+        },
+      },
+      background: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [1, 1, 1],
+        },
+        secondary: {
+          colorSpace: 'srgb',
+          components: [0.953, 0.957, 0.965],
+        },
+      },
+      action: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [0, 0.482, 1],
+        },
+        hover: {
+          colorSpace: 'srgb',
+          components: [0.4, 0.063, 0.949],
+        },
+      },
+    },
+    spacing: {
+      component: {
+        padding: {
+          value: 1,
+          unit: 'rem',
+        },
+        margin: {
+          value: 2,
+          unit: 'rem',
+        },
+        gap: {
+          value: 0.5,
+          unit: 'rem',
+        },
+      },
+    },
+  },
+}
+
+export default tokens
+"
+`;
+
+exports[`JS Module Formatter > should generate flat structure when specified 1`] = `
+"const tokens = {
+  'color.primitive.red': {
+    colorSpace: 'srgb',
+    components: [1, 0, 0],
+  },
+  'color.primitive.green': {
+    colorSpace: 'srgb',
+    components: [0, 1, 0],
+  },
+  'color.primitive.blue': {
+    colorSpace: 'hsl',
+    components: [240, 1, 0.5],
+  },
+  'color.primitive.gray.50': {
+    colorSpace: 'srgb',
+    components: [0.976, 0.98, 0.984],
+  },
+  'color.primitive.gray.100': {
+    colorSpace: 'srgb',
+    components: [0.953, 0.957, 0.965],
+  },
+  'color.primitive.gray.200': {
+    colorSpace: 'srgb',
+    components: [0.898, 0.906, 0.922],
+  },
+  'color.primitive.gray.300': {
+    colorSpace: 'srgb',
+    components: [0.82, 0.835, 0.859],
+  },
+  'color.primitive.gray.400': {
+    colorSpace: 'srgb',
+    components: [0.612, 0.639, 0.686],
+  },
+  'color.primitive.gray.500': {
+    colorSpace: 'srgb',
+    components: [0.42, 0.447, 0.502],
+  },
+  'color.primitive.gray.600': {
+    colorSpace: 'srgb',
+    components: [0.294, 0.333, 0.388],
+  },
+  'color.primitive.gray.700': {
+    colorSpace: 'srgb',
+    components: [0.216, 0.255, 0.318],
+  },
+  'color.primitive.gray.800': {
+    colorSpace: 'srgb',
+    components: [0.122, 0.161, 0.216],
+  },
+  'color.primitive.gray.900': {
+    colorSpace: 'srgb',
+    components: [0.067, 0.094, 0.153],
+  },
+  'color.primitive.brand.blue': {
+    colorSpace: 'srgb',
+    components: [0, 0.482, 1],
+  },
+  'color.primitive.brand.indigo': {
+    colorSpace: 'srgb',
+    components: [0.4, 0.063, 0.949],
+  },
+  'color.primitive.brand.purple': {
+    colorSpace: 'srgb',
+    components: [0.435, 0.259, 0.757],
+  },
+  'color.base.background': {
+    colorSpace: 'srgb',
+    components: [1, 1, 1],
+  },
+  'color.base.text': {
+    colorSpace: 'srgb',
+    components: [0.067, 0.094, 0.153],
+  },
+  'color.base.primary': {
+    colorSpace: 'srgb',
+    components: [0, 0.482, 1],
+  },
+  'dimension.base.0': {
+    value: 0,
+    unit: 'px',
+  },
+  'dimension.base.1': {
+    value: 0.25,
+    unit: 'rem',
+  },
+  'dimension.base.2': {
+    value: 0.5,
+    unit: 'rem',
+  },
+  'dimension.base.4': {
+    value: 1,
+    unit: 'rem',
+  },
+  'dimension.base.8': {
+    value: 2,
+    unit: 'rem',
+  },
+  'dimension.base.16': {
+    value: 4,
+    unit: 'rem',
+  },
+  'dimension.viewport.full-height': {
+    value: 100,
+    unit: 'rem',
+  },
+  'dimension.viewport.full-width': {
+    value: 100,
+    unit: 'rem',
+  },
+  'dimension.border-radius.none': {
+    value: 0,
+    unit: 'px',
+  },
+  'dimension.border-radius.sm': {
+    value: 0.125,
+    unit: 'rem',
+  },
+  'dimension.border-radius.md': {
+    value: 0.375,
+    unit: 'rem',
+  },
+  'dimension.border-radius.lg': {
+    value: 0.5,
+    unit: 'rem',
+  },
+  'dimension.border-radius.full': {
+    value: 9999,
+    unit: 'px',
+  },
+  'font.family.sans': ['Inter', 'system-ui', 'sans-serif'],
+  'font.family.serif': ['Merriweather', 'Georgia', 'serif'],
+  'font.family.mono': 'Monaco, monospace',
+  'font.weight.light': 300,
+  'font.weight.normal': 'normal',
+  'font.weight.medium': 500,
+  'font.weight.semibold': 'semi-bold',
+  'font.weight.bold': 700,
+  'font.size.xs': {
+    value: 0.75,
+    unit: 'rem',
+  },
+  'font.size.sm': {
+    value: 0.875,
+    unit: 'rem',
+  },
+  'font.size.base': {
+    value: 1,
+    unit: 'rem',
+  },
+  'font.size.lg': {
+    value: 1.125,
+    unit: 'rem',
+  },
+  'font.size.xl': {
+    value: 1.25,
+    unit: 'rem',
+  },
+  'font.size.2xl': {
+    value: 1.5,
+    unit: 'rem',
+  },
+  'font.size.3xl': {
+    value: 1.875,
+    unit: 'rem',
+  },
+  'font.lineHeight.tight': 1.25,
+  'font.lineHeight.normal': 1.5,
+  'font.lineHeight.relaxed': 1.75,
+  'font.letterSpacing.tight': {
+    value: -0.05,
+    unit: 'rem',
+  },
+  'font.letterSpacing.normal': {
+    value: 0,
+    unit: 'rem',
+  },
+  'font.letterSpacing.wide': {
+    value: 0.05,
+    unit: 'rem',
+  },
+  'spacing.scale.0': {
+    value: 0,
+    unit: 'px',
+  },
+  'spacing.scale.1': {
+    value: 0.25,
+    unit: 'rem',
+  },
+  'spacing.scale.2': {
+    value: 0.5,
+    unit: 'rem',
+  },
+  'spacing.scale.3': {
+    value: 0.75,
+    unit: 'rem',
+  },
+  'spacing.scale.4': {
+    value: 1,
+    unit: 'rem',
+  },
+  'spacing.scale.5': {
+    value: 1.25,
+    unit: 'rem',
+  },
+  'spacing.scale.6': {
+    value: 1.5,
+    unit: 'rem',
+  },
+  'spacing.scale.8': {
+    value: 2,
+    unit: 'rem',
+  },
+  'spacing.scale.10': {
+    value: 2.5,
+    unit: 'rem',
+  },
+  'spacing.scale.12': {
+    value: 3,
+    unit: 'rem',
+  },
+  'spacing.scale.16': {
+    value: 4,
+    unit: 'rem',
+  },
+  'spacing.scale.20': {
+    value: 5,
+    unit: 'rem',
+  },
+  'spacing.semantic.xs': {
+    value: 0.25,
+    unit: 'rem',
+  },
+  'spacing.semantic.sm': {
+    value: 0.5,
+    unit: 'rem',
+  },
+  'spacing.semantic.md': {
+    value: 1,
+    unit: 'rem',
+  },
+  'spacing.semantic.lg': {
+    value: 2,
+    unit: 'rem',
+  },
+  'spacing.semantic.xl': {
+    value: 3,
+    unit: 'rem',
+  },
+  'shadow.elevation.sm': {
+    color: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.05,
+    },
+    offsetX: {
+      value: 0,
+      unit: 'px',
+    },
+    offsetY: {
+      value: 1,
+      unit: 'px',
+    },
+    blur: {
+      value: 2,
+      unit: 'px',
+    },
+    spread: {
+      value: 0,
+      unit: 'px',
+    },
+  },
+  'shadow.elevation.md': {
+    color: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.1,
+    },
+    offsetX: {
+      value: 0,
+      unit: 'px',
+    },
+    offsetY: {
+      value: 4,
+      unit: 'px',
+    },
+    blur: {
+      value: 6,
+      unit: 'px',
+    },
+    spread: {
+      value: -1,
+      unit: 'px',
+    },
+  },
+  'shadow.elevation.lg': {
+    color: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.1,
+    },
+    offsetX: {
+      value: 0,
+      unit: 'px',
+    },
+    offsetY: {
+      value: 10,
+      unit: 'px',
+    },
+    blur: {
+      value: 15,
+      unit: 'px',
+    },
+    spread: {
+      value: -3,
+      unit: 'px',
+    },
+  },
+  'shadow.elevation.xl': [
+    {
+      color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
+      offsetX: { value: 0, unit: 'px' },
+      offsetY: { value: 20, unit: 'px' },
+      blur: { value: 25, unit: 'px' },
+      spread: { value: -5, unit: 'px' },
+    },
+    {
+      color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.04 },
+      offsetX: { value: 0, unit: 'px' },
+      offsetY: { value: 10, unit: 'px' },
+      blur: { value: 10, unit: 'px' },
+      spread: { value: -5, unit: 'px' },
+    },
+  ],
+  'shadow.inset.default': {
+    color: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.05,
+    },
+    offsetX: {
+      value: 0,
+      unit: 'px',
+    },
+    offsetY: {
+      value: 2,
+      unit: 'px',
+    },
+    blur: {
+      value: 4,
+      unit: 'px',
+    },
+    spread: {
+      value: 0,
+      unit: 'px',
+    },
+    inset: true,
+  },
+  'animation.duration.instant': '0ms',
+  'animation.duration.fast': '150ms',
+  'animation.duration.normal': '300ms',
+  'animation.duration.slow': '500ms',
+  'animation.easing.linear': [0, 0, 1, 1],
+  'animation.easing.ease-in': [0.42, 0, 1, 1],
+  'animation.easing.ease-out': [0, 0, 0.58, 1],
+  'animation.easing.ease-in-out': [0.42, 0, 0.58, 1],
+  'opacity.transparent': 0,
+  'opacity.semi-transparent': 0.5,
+  'opacity.opaque': 1,
+  'semantic.color.text.primary': {
+    colorSpace: 'srgb',
+    components: [0.067, 0.094, 0.153],
+  },
+  'semantic.color.text.secondary': {
+    colorSpace: 'srgb',
+    components: [0.294, 0.333, 0.388],
+  },
+  'semantic.color.text.disabled': {
+    colorSpace: 'srgb',
+    components: [0.612, 0.639, 0.686],
+  },
+  'semantic.color.background.primary': {
+    colorSpace: 'srgb',
+    components: [1, 1, 1],
+  },
+  'semantic.color.background.secondary': {
+    colorSpace: 'srgb',
+    components: [0.953, 0.957, 0.965],
+  },
+  'semantic.color.action.primary': {
+    colorSpace: 'srgb',
+    components: [0, 0.482, 1],
+  },
+  'semantic.color.action.hover': {
+    colorSpace: 'srgb',
+    components: [0.4, 0.063, 0.949],
+  },
+  'semantic.spacing.component.padding': {
+    value: 1,
+    unit: 'rem',
+  },
+  'semantic.spacing.component.margin': {
+    value: 2,
+    unit: 'rem',
+  },
+  'semantic.spacing.component.gap': {
+    value: 0.5,
+    unit: 'rem',
+  },
+}
+
+export default tokens
+"
+`;
+
+exports[`JS Module Formatter > should generate nested structure when specified 1`] = `
+"const tokens = {
+  color: {
+    primitive: {
+      red: {
+        colorSpace: 'srgb',
+        components: [1, 0, 0],
+      },
+      green: {
+        colorSpace: 'srgb',
+        components: [0, 1, 0],
+      },
+      blue: {
+        colorSpace: 'hsl',
+        components: [240, 1, 0.5],
+      },
+      gray: {
+        50: {
+          colorSpace: 'srgb',
+          components: [0.976, 0.98, 0.984],
+        },
+        100: {
+          colorSpace: 'srgb',
+          components: [0.953, 0.957, 0.965],
+        },
+        200: {
+          colorSpace: 'srgb',
+          components: [0.898, 0.906, 0.922],
+        },
+        300: {
+          colorSpace: 'srgb',
+          components: [0.82, 0.835, 0.859],
+        },
+        400: {
+          colorSpace: 'srgb',
+          components: [0.612, 0.639, 0.686],
+        },
+        500: {
+          colorSpace: 'srgb',
+          components: [0.42, 0.447, 0.502],
+        },
+        600: {
+          colorSpace: 'srgb',
+          components: [0.294, 0.333, 0.388],
+        },
+        700: {
+          colorSpace: 'srgb',
+          components: [0.216, 0.255, 0.318],
+        },
+        800: {
+          colorSpace: 'srgb',
+          components: [0.122, 0.161, 0.216],
+        },
+        900: {
+          colorSpace: 'srgb',
+          components: [0.067, 0.094, 0.153],
+        },
+      },
+      brand: {
+        blue: {
+          colorSpace: 'srgb',
+          components: [0, 0.482, 1],
+        },
+        indigo: {
+          colorSpace: 'srgb',
+          components: [0.4, 0.063, 0.949],
+        },
+        purple: {
+          colorSpace: 'srgb',
+          components: [0.435, 0.259, 0.757],
+        },
+      },
+    },
+    base: {
+      background: {
+        colorSpace: 'srgb',
+        components: [1, 1, 1],
+      },
+      text: {
+        colorSpace: 'srgb',
+        components: [0.067, 0.094, 0.153],
+      },
+      primary: {
+        colorSpace: 'srgb',
+        components: [0, 0.482, 1],
+      },
+    },
+  },
+  dimension: {
+    base: {
+      0: {
+        value: 0,
+        unit: 'px',
+      },
+      1: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      2: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      4: {
+        value: 1,
+        unit: 'rem',
+      },
+      8: {
+        value: 2,
+        unit: 'rem',
+      },
+      16: {
+        value: 4,
+        unit: 'rem',
+      },
+    },
+    viewport: {
+      'full-height': {
+        value: 100,
+        unit: 'rem',
+      },
+      'full-width': {
+        value: 100,
+        unit: 'rem',
+      },
+    },
+    'border-radius': {
+      none: {
+        value: 0,
+        unit: 'px',
+      },
+      sm: {
+        value: 0.125,
+        unit: 'rem',
+      },
+      md: {
+        value: 0.375,
+        unit: 'rem',
+      },
+      lg: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      full: {
+        value: 9999,
+        unit: 'px',
+      },
+    },
+  },
+  font: {
+    family: {
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      serif: ['Merriweather', 'Georgia', 'serif'],
+      mono: 'Monaco, monospace',
+    },
+    weight: {
+      light: 300,
+      normal: 'normal',
+      medium: 500,
+      semibold: 'semi-bold',
+      bold: 700,
+    },
+    size: {
+      xs: {
+        value: 0.75,
+        unit: 'rem',
+      },
+      sm: {
+        value: 0.875,
+        unit: 'rem',
+      },
+      base: {
+        value: 1,
+        unit: 'rem',
+      },
+      lg: {
+        value: 1.125,
+        unit: 'rem',
+      },
+      xl: {
+        value: 1.25,
+        unit: 'rem',
+      },
+      '2xl': {
+        value: 1.5,
+        unit: 'rem',
+      },
+      '3xl': {
+        value: 1.875,
+        unit: 'rem',
+      },
+    },
+    lineHeight: {
+      tight: 1.25,
+      normal: 1.5,
+      relaxed: 1.75,
+    },
+    letterSpacing: {
+      tight: {
+        value: -0.05,
+        unit: 'rem',
+      },
+      normal: {
+        value: 0,
+        unit: 'rem',
+      },
+      wide: {
+        value: 0.05,
+        unit: 'rem',
+      },
+    },
+  },
+  spacing: {
+    scale: {
+      0: {
+        value: 0,
+        unit: 'px',
+      },
+      1: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      2: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      3: {
+        value: 0.75,
+        unit: 'rem',
+      },
+      4: {
+        value: 1,
+        unit: 'rem',
+      },
+      5: {
+        value: 1.25,
+        unit: 'rem',
+      },
+      6: {
+        value: 1.5,
+        unit: 'rem',
+      },
+      8: {
+        value: 2,
+        unit: 'rem',
+      },
+      10: {
+        value: 2.5,
+        unit: 'rem',
+      },
+      12: {
+        value: 3,
+        unit: 'rem',
+      },
+      16: {
+        value: 4,
+        unit: 'rem',
+      },
+      20: {
+        value: 5,
+        unit: 'rem',
+      },
+    },
+    semantic: {
+      xs: {
+        value: 0.25,
+        unit: 'rem',
+      },
+      sm: {
+        value: 0.5,
+        unit: 'rem',
+      },
+      md: {
+        value: 1,
+        unit: 'rem',
+      },
+      lg: {
+        value: 2,
+        unit: 'rem',
+      },
+      xl: {
+        value: 3,
+        unit: 'rem',
+      },
+    },
+  },
+  shadow: {
+    elevation: {
+      sm: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.05,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 1,
+          unit: 'px',
+        },
+        blur: {
+          value: 2,
+          unit: 'px',
+        },
+        spread: {
+          value: 0,
+          unit: 'px',
+        },
+      },
+      md: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.1,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 4,
+          unit: 'px',
+        },
+        blur: {
+          value: 6,
+          unit: 'px',
+        },
+        spread: {
+          value: -1,
+          unit: 'px',
+        },
+      },
+      lg: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.1,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 10,
+          unit: 'px',
+        },
+        blur: {
+          value: 15,
+          unit: 'px',
+        },
+        spread: {
+          value: -3,
+          unit: 'px',
+        },
+      },
+      xl: [
+        {
+          color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
+          offsetX: { value: 0, unit: 'px' },
+          offsetY: { value: 20, unit: 'px' },
+          blur: { value: 25, unit: 'px' },
+          spread: { value: -5, unit: 'px' },
+        },
+        {
+          color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.04 },
+          offsetX: { value: 0, unit: 'px' },
+          offsetY: { value: 10, unit: 'px' },
+          blur: { value: 10, unit: 'px' },
+          spread: { value: -5, unit: 'px' },
+        },
+      ],
+    },
+    inset: {
+      default: {
+        color: {
+          colorSpace: 'srgb',
+          components: [0, 0, 0],
+          alpha: 0.05,
+        },
+        offsetX: {
+          value: 0,
+          unit: 'px',
+        },
+        offsetY: {
+          value: 2,
+          unit: 'px',
+        },
+        blur: {
+          value: 4,
+          unit: 'px',
+        },
+        spread: {
+          value: 0,
+          unit: 'px',
+        },
+        inset: true,
+      },
+    },
+  },
+  animation: {
+    duration: {
+      instant: '0ms',
+      fast: '150ms',
+      normal: '300ms',
+      slow: '500ms',
+    },
+    easing: {
+      linear: [0, 0, 1, 1],
+      'ease-in': [0.42, 0, 1, 1],
+      'ease-out': [0, 0, 0.58, 1],
+      'ease-in-out': [0.42, 0, 0.58, 1],
+    },
+  },
+  opacity: {
+    transparent: 0,
+    'semi-transparent': 0.5,
+    opaque: 1,
+  },
+  semantic: {
+    color: {
+      text: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [0.067, 0.094, 0.153],
+        },
+        secondary: {
+          colorSpace: 'srgb',
+          components: [0.294, 0.333, 0.388],
+        },
+        disabled: {
+          colorSpace: 'srgb',
+          components: [0.612, 0.639, 0.686],
+        },
+      },
+      background: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [1, 1, 1],
+        },
+        secondary: {
+          colorSpace: 'srgb',
+          components: [0.953, 0.957, 0.965],
+        },
+      },
+      action: {
+        primary: {
+          colorSpace: 'srgb',
+          components: [0, 0.482, 1],
+        },
+        hover: {
+          colorSpace: 'srgb',
+          components: [0.4, 0.063, 0.949],
+        },
+      },
+    },
+    spacing: {
+      component: {
+        padding: {
+          value: 1,
+          unit: 'rem',
+        },
+        margin: {
+          value: 2,
+          unit: 'rem',
+        },
+        gap: {
+          value: 0.5,
+          unit: 'rem',
+        },
+      },
+    },
+  },
+}
+
+export default tokens
+"
+`;
