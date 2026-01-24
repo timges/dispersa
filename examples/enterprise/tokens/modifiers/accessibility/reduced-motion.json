@@ -1,0 +1,22 @@
+{
+  "$description": "Reduced motion preference",
+  "$extensions": {
+    "com.enterprise.accessibility": "reduced-motion"
+  },
+  "duration": {
+    "base": {
+      "fast": {
+        "$type": "duration",
+        "$value": { "value": 0, "unit": "ms" }
+      },
+      "normal": {
+        "$type": "duration",
+        "$value": { "value": 0, "unit": "ms" }
+      },
+      "slow": {
+        "$type": "duration",
+        "$value": { "value": 0, "unit": "ms" }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$description": "Extended color palette with wide gamut colors",
+  "color": {
+    "base": {
+      "extended": {
+        "$description": "Extended colors using wider color gamuts",
+        "vibrantBlueP3": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "display-p3",
+            "components": [0.2, 0.5, 1]
+          },
+          "$description": "Vibrant blue in Display P3 for wider gamut displays"
+        },
+        "hdrGreen": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "rec2020",
+            "components": [0.1, 0.9, 0.3]
+          },
+          "$description": "HDR green for Rec. 2020 color space"
+        },
+        "prophotoMagenta": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "prophoto-rgb",
+            "components": [0.8, 0.2, 0.6]
+          },
+          "$description": "Magenta in ProPhoto RGB"
+        },
+        "adobeCyan": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "a98-rgb",
+            "components": [0.2, 0.7, 0.8],
+            "alpha": 0.9
+          },
+          "$description": "Cyan in Adobe RGB (1998)"
+        }
+      }
+    }
+  }
+}

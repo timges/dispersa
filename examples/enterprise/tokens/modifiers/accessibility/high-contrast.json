@@ -1,0 +1,21 @@
+{
+  "$description": "High contrast accessibility mode",
+  "$extensions": {
+    "com.enterprise.accessibility": "high-contrast"
+  },
+  "color": {
+    "alias": {
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.base.gray.900}",
+          "$description": "Stronger borders for high contrast"
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{color.base.black}"
+        }
+      }
+    }
+  }
+}

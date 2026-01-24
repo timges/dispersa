@@ -1,0 +1,55 @@
+{
+  "$description": "Motion and animation primitives",
+  "duration": {
+    "base": {
+      "instant": {
+        "$type": "duration",
+        "$value": { "value": 0, "unit": "ms" }
+      },
+      "fast": {
+        "$type": "duration",
+        "$value": { "value": 150, "unit": "ms" }
+      },
+      "normal": {
+        "$type": "duration",
+        "$value": { "value": 300, "unit": "ms" }
+      },
+      "slow": {
+        "$type": "duration",
+        "$value": { "value": 500, "unit": "ms" }
+      },
+      "slower": {
+        "$type": "duration",
+        "$value": { "value": 1000, "unit": "ms" }
+      }
+    }
+  },
+  "easing": {
+    "base": {
+      "linear": {
+        "$type": "cubicBezier",
+        "$value": [0, 0, 1, 1]
+      },
+      "ease": {
+        "$type": "cubicBezier",
+        "$value": [0.25, 0.1, 0.25, 1]
+      },
+      "easeIn": {
+        "$type": "cubicBezier",
+        "$value": [0.42, 0, 1, 1]
+      },
+      "easeOut": {
+        "$type": "cubicBezier",
+        "$value": [0, 0, 0.58, 1]
+      },
+      "easeInOut": {
+        "$type": "cubicBezier",
+        "$value": [0.42, 0, 0.58, 1]
+      },
+      "spring": {
+        "$type": "cubicBezier",
+        "$value": [0.34, 1.56, 0.64, 1]
+      }
+    }
+  }
+}

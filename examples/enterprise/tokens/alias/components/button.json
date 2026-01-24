@@ -1,0 +1,45 @@
+{
+  "$description": "Button component tokens",
+  "button": {
+    "primary": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.alias.interactive.primary}"
+      },
+      "backgroundHover": {
+        "$type": "color",
+        "$value": "{color.alias.interactive.hover}"
+      },
+      "backgroundActive": {
+        "$type": "color",
+        "$value": "{color.alias.interactive.active}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.alias.text.inverse}"
+      },
+      "padding": {
+        "$type": "dimension",
+        "$value": "{spacing.alias.md}"
+      }
+    },
+    "secondary": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.alias.background.secondary}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.alias.border.default}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.alias.text.primary}"
+      },
+      "padding": {
+        "$type": "dimension",
+        "$value": "{spacing.alias.md}"
+      }
+    }
+  }
+}

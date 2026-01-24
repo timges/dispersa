@@ -1,0 +1,88 @@
+{
+  "$description": "Shadow elevation system",
+  "shadow": {
+    "base": {
+      "none": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 0, "unit": "px" },
+            "blur": { "value": 0, "unit": "px" },
+            "spread": { "value": 0, "unit": "px" }
+          }
+        ],
+        "$description": "No shadow"
+      },
+      "sm": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0.05
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 1, "unit": "px" },
+            "blur": { "value": 2, "unit": "px" },
+            "spread": { "value": 0, "unit": "px" }
+          }
+        ]
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0.1
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 4, "unit": "px" },
+            "blur": { "value": 6, "unit": "px" },
+            "spread": { "value": -1, "unit": "px" }
+          }
+        ]
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0.1
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 10, "unit": "px" },
+            "blur": { "value": 15, "unit": "px" },
+            "spread": { "value": -3, "unit": "px" }
+          }
+        ]
+      },
+      "xl": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0.15
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 20, "unit": "px" },
+            "blur": { "value": 25, "unit": "px" },
+            "spread": { "value": -5, "unit": "px" }
+          }
+        ]
+      }
+    }
+  }
+}

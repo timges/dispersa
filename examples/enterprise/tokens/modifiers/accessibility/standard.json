@@ -1,0 +1,6 @@
+{
+  "$description": "Standard accessibility (default)",
+  "$extensions": {
+    "com.enterprise.accessibility": "standard"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$description": "TV/large screen platform",
+  "$extensions": {
+    "com.enterprise.platform": "tv"
+  },
+  "font": {
+    "base": {
+      "size": {
+        "base": {
+          "$type": "dimension",
+          "$value": {
+            "value": 1.5,
+            "unit": "rem"
+          },
+          "$description": "Larger base size for TV viewing distance"
+        }
+      }
+    }
+  },
+  "spacing": {
+    "alias": {
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "rem"
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 3,
+          "unit": "rem"
+        }
+      }
+    }
+  }
+}

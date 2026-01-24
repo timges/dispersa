@@ -1,0 +1,59 @@
+{
+  "$description": "Font weight scale",
+  "font": {
+    "base": {
+      "weight": {
+        "thin": {
+          "$type": "fontWeight",
+          "$value": 100
+        },
+        "light": {
+          "$type": "fontWeight",
+          "$value": 300
+        },
+        "normal": {
+          "$type": "fontWeight",
+          "$value": 400
+        },
+        "medium": {
+          "$type": "fontWeight",
+          "$value": 500
+        },
+        "semibold": {
+          "$type": "fontWeight",
+          "$value": 600
+        },
+        "bold": {
+          "$type": "fontWeight",
+          "$value": 700
+        },
+        "extrabold": {
+          "$type": "fontWeight",
+          "$value": 800
+        },
+        "black": {
+          "$type": "fontWeight",
+          "$value": 900
+        }
+      }
+    }
+  },
+  "number": {
+    "base": {
+      "lineHeight": {
+        "tight": {
+          "$type": "number",
+          "$value": 1.25
+        },
+        "normal": {
+          "$type": "number",
+          "$value": 1.5
+        },
+        "loose": {
+          "$type": "number",
+          "$value": 1.75
+        }
+      }
+    }
+  }
+}

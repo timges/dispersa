@@ -1,0 +1,6 @@
+{
+  "$description": "Web platform (default) - uses rem units",
+  "$extensions": {
+    "com.enterprise.platform": "web"
+  }
+}

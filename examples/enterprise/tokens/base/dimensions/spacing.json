@@ -1,0 +1,56 @@
+{
+  "$description": "Spacing scale for layout and components",
+  "spacing": {
+    "base": {
+      "0": {
+        "$type": "dimension",
+        "$value": { "value": 0, "unit": "px" }
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": { "value": 0.25, "unit": "rem" },
+        "$description": "4px"
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": { "value": 0.5, "unit": "rem" },
+        "$description": "8px"
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": { "value": 0.75, "unit": "rem" },
+        "$description": "12px"
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": { "value": 1, "unit": "rem" },
+        "$description": "16px"
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": { "value": 1.5, "unit": "rem" },
+        "$description": "24px"
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": { "value": 2, "unit": "rem" },
+        "$description": "32px"
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": { "value": 3, "unit": "rem" },
+        "$description": "48px"
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": { "value": 4, "unit": "rem" },
+        "$description": "64px"
+      },
+      "20": {
+        "$type": "dimension",
+        "$value": { "value": 5, "unit": "rem" },
+        "$description": "80px"
+      }
+    }
+  }
+}

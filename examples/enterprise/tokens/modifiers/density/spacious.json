@@ -1,0 +1,31 @@
+{
+  "$description": "Spacious density - increased spacing",
+  "$extensions": {
+    "com.enterprise.density": "spacious"
+  },
+  "spacing": {
+    "alias": {
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 3,
+          "unit": "rem"
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 5,
+          "unit": "rem"
+        }
+      }
+    }
+  }
+}

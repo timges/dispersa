@@ -1,0 +1,27 @@
+{
+  "$description": "Semantic spacing aliases",
+  "spacing": {
+    "alias": {
+      "xs": {
+        "$type": "dimension",
+        "$value": "{spacing.base.1}"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{spacing.base.2}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{spacing.base.4}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{spacing.base.8}"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{spacing.base.12}"
+      }
+    }
+  }
+}

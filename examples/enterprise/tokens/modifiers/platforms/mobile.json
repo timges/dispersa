@@ -1,0 +1,37 @@
+{
+  "$description": "Mobile platform - optimized for touch",
+  "$extensions": {
+    "com.enterprise.platform": "mobile"
+  },
+  "spacing": {
+    "alias": {
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "$description": "Slightly larger for touch"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      }
+    }
+  },
+  "button": {
+    "primary": {
+      "padding": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "$description": "Larger touch target"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$description": "High contrast theme for accessibility",
+  "$extensions": {
+    "com.enterprise.theme": "high-contrast",
+    "com.enterprise.accessibility": "enhanced"
+  },
+  "color": {
+    "alias": {
+      "text": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.base.white}"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.base.gray.200}"
+        }
+      },
+      "background": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.base.black}"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.base.gray.900}"
+        }
+      },
+      "interactive": {
+        "primary": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.4, 0.8, 1]
+          }
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.base.white}"
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{color.base.white}"
+        }
+      }
+    }
+  }
+}

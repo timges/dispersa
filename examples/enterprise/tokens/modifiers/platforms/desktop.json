@@ -1,0 +1,15 @@
+{
+  "$description": "Desktop platform - optimized for larger screens",
+  "$extensions": {
+    "com.enterprise.platform": "desktop"
+  },
+  "spacing": {
+    "alias": {
+      "xl": {
+        "$type": "dimension",
+        "$value": "{spacing.base.16}",
+        "$description": "Larger spacing for desktop"
+      }
+    }
+  }
+}

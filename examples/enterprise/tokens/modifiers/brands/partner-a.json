@@ -1,0 +1,27 @@
+{
+  "$description": "Partner Brand A overrides",
+  "$extensions": {
+    "com.enterprise.brand": "partner-a"
+  },
+  "color": {
+    "base": {
+      "brand": {
+        "primary": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8, 0.2, 0.4]
+          },
+          "$description": "Partner A primary color - red"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9, 0.5, 0.2]
+          }
+        }
+      }
+    }
+  }
+}

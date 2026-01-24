@@ -1,0 +1,109 @@
+{
+  "$description": "Core brand colors - foundational palette",
+  "color": {
+    "base": {
+      "brand": {
+        "$description": "Primary brand colors",
+        "primary": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0, 0.4, 1]
+          },
+          "$description": "Primary brand blue"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.42, 0.275, 0.757]
+          },
+          "$description": "Secondary brand purple"
+        },
+        "accent": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 0.4, 0]
+          },
+          "$description": "Accent orange"
+        }
+      },
+      "semantic": {
+        "$description": "Semantic colors for states",
+        "success": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.063, 0.725, 0.506]
+          },
+          "$description": "Success green"
+        },
+        "warning": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.961, 0.62, 0.145]
+          },
+          "$description": "Warning amber"
+        },
+        "danger": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.937, 0.267, 0.267]
+          },
+          "$description": "Danger red"
+        },
+        "info": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.2, 0.6, 0.8]
+          },
+          "$description": "Info blue"
+        }
+      },
+      "interactive": {
+        "$description": "Interactive state colors",
+        "hover": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0, 0.32, 0.8]
+          },
+          "$description": "Hover state"
+        },
+        "active": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0, 0.28, 0.7]
+          },
+          "$description": "Active state"
+        }
+      },
+      "dark": {
+        "$description": "Dark theme specific colors",
+        "interactive": {
+          "primary": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.3, 0.6, 1]
+            },
+            "$description": "Brighter blue for dark background"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.4, 0.7, 1]
+            },
+            "$description": "Brighter hover for dark background"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "$description": "Light theme (default)",
+  "$extensions": {
+    "com.enterprise.theme": "light"
+  }
+}

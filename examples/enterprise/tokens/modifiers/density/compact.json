@@ -1,0 +1,42 @@
+{
+  "$description": "Compact density - reduced spacing",
+  "$extensions": {
+    "com.enterprise.density": "compact"
+  },
+  "spacing": {
+    "alias": {
+      "xs": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      }
+    }
+  },
+  "button": {
+    "primary": {
+      "padding": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

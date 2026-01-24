@@ -1,0 +1,6 @@
+{
+  "$description": "Primary brand (default)",
+  "$extensions": {
+    "com.enterprise.brand": "primary"
+  }
+}

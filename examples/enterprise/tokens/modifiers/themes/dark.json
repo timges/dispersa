@@ -1,0 +1,63 @@
+{
+  "$description": "Dark theme overrides",
+  "$extensions": {
+    "com.enterprise.theme": "dark"
+  },
+  "color": {
+    "alias": {
+      "text": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.base.gray.50}"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.base.gray.400}"
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{color.base.gray.900}"
+        }
+      },
+      "background": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.base.gray.900}"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.base.gray.800}"
+        },
+        "tertiary": {
+          "$type": "color",
+          "$value": "{color.base.gray.700}"
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{color.base.white}"
+        }
+      },
+      "interactive": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.base.dark.interactive.primary}",
+          "$description": "Brighter blue for dark background"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.base.dark.interactive.hover}"
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.base.gray.700}"
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{color.base.gray.500}"
+        }
+      }
+    }
+  }
+}

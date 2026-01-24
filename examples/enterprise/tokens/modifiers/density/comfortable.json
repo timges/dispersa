@@ -1,0 +1,6 @@
+{
+  "$description": "Comfortable density (default)",
+  "$extensions": {
+    "com.enterprise.density": "comfortable"
+  }
+}

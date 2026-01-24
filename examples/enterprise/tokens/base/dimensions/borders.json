@@ -1,0 +1,47 @@
+{
+  "$description": "Border widths and radius values",
+  "border": {
+    "base": {
+      "width": {
+        "thin": {
+          "$type": "dimension",
+          "$value": { "value": 1, "unit": "px" }
+        },
+        "medium": {
+          "$type": "dimension",
+          "$value": { "value": 2, "unit": "px" }
+        },
+        "thick": {
+          "$type": "dimension",
+          "$value": { "value": 4, "unit": "px" }
+        }
+      },
+      "radius": {
+        "none": {
+          "$type": "dimension",
+          "$value": { "value": 0, "unit": "px" }
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": { "value": 0.125, "unit": "rem" }
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": { "value": 0.25, "unit": "rem" }
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": { "value": 0.5, "unit": "rem" }
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": { "value": 0.75, "unit": "rem" }
+        },
+        "full": {
+          "$type": "dimension",
+          "$value": { "value": 9999, "unit": "px" }
+        }
+      }
+    }
+  }
+}

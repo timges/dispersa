@@ -1,0 +1,29 @@
+{
+  "$description": "Input component tokens",
+  "input": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.alias.background.primary}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.alias.border.default}"
+    },
+    "borderFocus": {
+      "$type": "color",
+      "$value": "{color.alias.interactive.primary}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.alias.text.primary}"
+    },
+    "placeholder": {
+      "$type": "color",
+      "$value": "{color.alias.text.tertiary}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{spacing.alias.sm}"
+    }
+  }
+}

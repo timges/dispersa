@@ -1,0 +1,31 @@
+{
+  "$description": "Sizing scale for component dimensions",
+  "size": {
+    "base": {
+      "xs": {
+        "$type": "dimension",
+        "$value": { "value": 20, "unit": "px" }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": { "value": 24, "unit": "px" }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": { "value": 32, "unit": "px" }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": { "value": 40, "unit": "px" }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": { "value": 48, "unit": "px" }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": { "value": 64, "unit": "px" }
+      }
+    }
+  }
+}

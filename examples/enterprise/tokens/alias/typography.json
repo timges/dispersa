@@ -1,0 +1,95 @@
+{
+  "$description": "Semantic typography scale",
+  "typography": {
+    "alias": {
+      "heading": {
+        "xl": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.display}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.5xl}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.bold}"
+          }
+        },
+        "lg": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.display}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.3xl}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.bold}"
+          }
+        },
+        "md": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.sans}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.xl}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.semibold}"
+          }
+        }
+      },
+      "body": {
+        "lg": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.sans}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.lg}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.normal}"
+          }
+        },
+        "md": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.sans}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.base}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.normal}"
+          }
+        },
+        "sm": {
+          "family": {
+            "$type": "fontFamily",
+            "$value": "{font.base.family.sans}"
+          },
+          "size": {
+            "$type": "dimension",
+            "$value": "{font.base.size.sm}"
+          },
+          "weight": {
+            "$type": "fontWeight",
+            "$value": "{font.base.weight.normal}"
+          }
+        }
+      }
+    }
+  }
+}

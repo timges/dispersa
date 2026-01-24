@@ -1,0 +1,92 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/resolver.json",
+  "name": "Enterprise Example - Multi-Brand, Multi-Platform Design System",
+  "version": "2025.10",
+  "description": "Enterprise-scale design system demonstrating comprehensive DTCG 2025.10 features with 5-dimensional token variation (brand × platform × density × theme × accessibility)",
+  "sets": {
+    "base": {
+      "description": "Foundational base tokens organized by category",
+      "sources": [
+        { "$ref": "./tokens/base/colors/core.json" },
+        { "$ref": "./tokens/base/colors/palette.json" },
+        { "$ref": "./tokens/base/colors/grays.json" },
+        { "$ref": "./tokens/base/dimensions/spacing.json" },
+        { "$ref": "./tokens/base/dimensions/sizing.json" },
+        { "$ref": "./tokens/base/dimensions/borders.json" },
+        { "$ref": "./tokens/base/typography/fonts.json" },
+        { "$ref": "./tokens/base/typography/sizes.json" },
+        { "$ref": "./tokens/base/typography/weights.json" },
+        { "$ref": "./tokens/base/effects/shadows.json" },
+        { "$ref": "./tokens/base/effects/motion.json" }
+      ]
+    },
+    "alias": {
+      "description": "Alias token layer with component compositions",
+      "sources": [
+        { "$ref": "./tokens/alias/colors.json" },
+        { "$ref": "./tokens/alias/spacing.json" },
+        { "$ref": "./tokens/alias/typography.json" },
+        { "$ref": "./tokens/alias/components/button.json" },
+        { "$ref": "./tokens/alias/components/input.json" },
+        { "$ref": "./tokens/alias/components/card.json" }
+      ]
+    }
+  },
+  "modifiers": {
+    "brand": {
+      "description": "Brand variants for multi-brand support",
+      "default": "primary",
+      "contexts": {
+        "primary": [{ "$ref": "./tokens/modifiers/brands/primary.json" }],
+        "partner-a": [{ "$ref": "./tokens/modifiers/brands/partner-a.json" }],
+        "partner-b": [{ "$ref": "./tokens/modifiers/brands/partner-b.json" }]
+      }
+    },
+    "platform": {
+      "description": "Platform delivery contexts",
+      "default": "web",
+      "contexts": {
+        "web": [{ "$ref": "./tokens/modifiers/platforms/web.json" }],
+        "mobile": [{ "$ref": "./tokens/modifiers/platforms/mobile.json" }],
+        "desktop": [{ "$ref": "./tokens/modifiers/platforms/desktop.json" }],
+        "tv": [{ "$ref": "./tokens/modifiers/platforms/tv.json" }]
+      }
+    },
+    "density": {
+      "description": "UI density modes",
+      "default": "comfortable",
+      "contexts": {
+        "comfortable": [{ "$ref": "./tokens/modifiers/density/comfortable.json" }],
+        "compact": [{ "$ref": "./tokens/modifiers/density/compact.json" }],
+        "spacious": [{ "$ref": "./tokens/modifiers/density/spacious.json" }]
+      }
+    },
+    "theme": {
+      "description": "Color theme variations",
+      "default": "light",
+      "contexts": {
+        "light": [{ "$ref": "./tokens/modifiers/themes/light.json" }],
+        "dark": [{ "$ref": "./tokens/modifiers/themes/dark.json" }],
+        "high-contrast": [{ "$ref": "./tokens/modifiers/themes/high-contrast.json" }]
+      }
+    },
+    "accessibility": {
+      "description": "Accessibility preferences",
+      "default": "standard",
+      "contexts": {
+        "standard": [{ "$ref": "./tokens/modifiers/accessibility/standard.json" }],
+        "reduced-motion": [{ "$ref": "./tokens/modifiers/accessibility/reduced-motion.json" }],
+        "enhanced-contrast": [{ "$ref": "./tokens/modifiers/accessibility/high-contrast.json" }]
+      }
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/base" },
+    { "$ref": "#/sets/alias" },
+    { "$ref": "#/modifiers/brand" },
+    { "$ref": "#/modifiers/platform" },
+    { "$ref": "#/modifiers/density" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/accessibility" }
+  ]
+}
