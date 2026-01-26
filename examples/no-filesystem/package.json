@@ -1,0 +1,17 @@
+{
+  "name": "dispersa-in-memory-example",
+  "version": "1.0.0",
+  "description": "Example demonstrating Dispersa in-memory mode without filesystem",
+  "type": "module",
+  "scripts": {
+    "build": "tsx build.ts"
+  },
+  "dependencies": {
+    "dispersa": "file:../../packages/core"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
