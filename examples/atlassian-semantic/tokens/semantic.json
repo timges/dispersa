@@ -1,0 +1,67 @@
+{
+  "$description": "Semantic tokens (meaning-first). Names are nested to read like dot-paths (e.g. color.text, space.200).",
+  "color": {
+    "text": {
+      "$description": "Text colors",
+      "default": { "$type": "color", "$value": "{color.palette.neutral.1000}" },
+      "subtle": { "$type": "color", "$value": "{color.palette.neutral.800}" },
+      "inverse": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "success": { "$type": "color", "$value": "{color.palette.green.600}" },
+      "danger": { "$type": "color", "$value": "{color.palette.red.600}" }
+    },
+    "background": {
+      "$description": "Surface/background colors",
+      "canvas": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "surface": { "$type": "color", "$value": "{color.palette.neutral.100}" },
+      "surfaceRaised": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "selected": { "$type": "color", "$value": "{color.palette.blue.500}" }
+    },
+    "border": {
+      "$description": "Border colors",
+      "default": { "$type": "color", "$value": "{color.palette.neutral.200}" },
+      "focused": { "$type": "color", "$value": "{color.palette.blue.600}" },
+      "danger": { "$type": "color", "$value": "{color.palette.red.500}" }
+    },
+    "icon": {
+      "$description": "Icon colors",
+      "default": { "$type": "color", "$value": "{color.text.subtle}" },
+      "success": { "$type": "color", "$value": "{color.text.success}" },
+      "danger": { "$type": "color", "$value": "{color.text.danger}" },
+      "inverse": { "$type": "color", "$value": "{color.text.inverse}" }
+    }
+  },
+  "space": {
+    "$description": "Semantic spacing scale (defaults to base scale; density overrides can remap these)",
+    "0": { "$type": "dimension", "$value": "{space.scale.0}" },
+    "50": { "$type": "dimension", "$value": "{space.scale.50}" },
+    "100": { "$type": "dimension", "$value": "{space.scale.100}" },
+    "150": { "$type": "dimension", "$value": "{space.scale.150}" },
+    "200": { "$type": "dimension", "$value": "{space.scale.200}" },
+    "300": { "$type": "dimension", "$value": "{space.scale.300}" },
+    "400": { "$type": "dimension", "$value": "{space.scale.400}" }
+  },
+  "opacity": {
+    "$description": "Semantic opacity tokens",
+    "disabled": { "$type": "number", "$value": "{opacity.50}" },
+    "loading": { "$type": "number", "$value": "{opacity.30}" }
+  },
+  "radius": {
+    "$description": "Semantic corner radius",
+    "sm": { "$type": "dimension", "$value": "{radius.100}" },
+    "md": { "$type": "dimension", "$value": "{radius.200}" },
+    "lg": { "$type": "dimension", "$value": "{radius.300}" }
+  },
+  "elevation": {
+    "$description": "Semantic elevation (shadow) tokens",
+    "surface": { "$type": "shadow", "$value": "{elevation.shadow.100}" },
+    "overlay": { "$type": "shadow", "$value": "{elevation.shadow.200}" }
+  },
+  "motion": {
+    "$description": "Semantic motion tokens (motion modifier can override these)",
+    "duration": {
+      "fast": { "$type": "duration", "$value": "{duration.fast}" },
+      "normal": { "$type": "duration", "$value": "{duration.normal}" },
+      "slow": { "$type": "duration", "$value": "{duration.slow}" }
+    }
+  }
+}

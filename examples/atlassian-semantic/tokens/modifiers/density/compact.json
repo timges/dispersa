@@ -1,0 +1,16 @@
+{
+  "$description": "Compact density overrides (semantic spacing + component paddings)",
+  "$extensions": { "com.example.density": "compact" },
+  "space": {
+    "50": { "$type": "dimension", "$value": { "value": 2, "unit": "px" } },
+    "100": { "$type": "dimension", "$value": { "value": 6, "unit": "px" } },
+    "150": { "$type": "dimension", "$value": { "value": 10, "unit": "px" } },
+    "200": { "$type": "dimension", "$value": { "value": 14, "unit": "px" } }
+  },
+  "button": {
+    "primary": {
+      "paddingInline": { "$type": "dimension", "$value": "{space.150}" },
+      "paddingBlock": { "$type": "dimension", "$value": "{space.50}" }
+    }
+  }
+}

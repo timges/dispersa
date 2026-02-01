@@ -1,0 +1,11 @@
+{
+  "$description": "Reduced motion: reduce/zero-out durations",
+  "$extensions": { "com.example.motion": "reduced-motion" },
+  "motion": {
+    "duration": {
+      "fast": { "$type": "duration", "$value": { "value": 0, "unit": "ms" } },
+      "normal": { "$type": "duration", "$value": { "value": 0, "unit": "ms" } },
+      "slow": { "$type": "duration", "$value": { "value": 0, "unit": "ms" } }
+    }
+  }
+}

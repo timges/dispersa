@@ -1,0 +1,11 @@
+{
+  "$description": "Cozy density overrides (baseline for this example)",
+  "$extensions": { "com.example.density": "cozy" },
+  "space": {
+    "50": { "$type": "dimension", "$value": "{space.scale.50}" },
+    "100": { "$type": "dimension", "$value": "{space.scale.100}" },
+    "150": { "$type": "dimension", "$value": "{space.scale.150}" },
+    "200": { "$type": "dimension", "$value": "{space.scale.200}" },
+    "300": { "$type": "dimension", "$value": "{space.scale.300}" }
+  }
+}

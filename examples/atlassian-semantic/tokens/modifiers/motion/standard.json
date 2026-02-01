@@ -1,0 +1,11 @@
+{
+  "$description": "Standard motion (default)",
+  "$extensions": { "com.example.motion": "standard" },
+  "motion": {
+    "duration": {
+      "fast": { "$type": "duration", "$value": "{duration.fast}" },
+      "normal": { "$type": "duration", "$value": "{duration.normal}" },
+      "slow": { "$type": "duration", "$value": "{duration.slow}" }
+    }
+  }
+}

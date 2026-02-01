@@ -1,0 +1,18 @@
+{
+  "$description": "Light theme overrides (semantic layer)",
+  "$extensions": { "com.example.theme": "light" },
+  "color": {
+    "text": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.1000}" },
+      "subtle": { "$type": "color", "$value": "{color.palette.neutral.800}" },
+      "inverse": { "$type": "color", "$value": "{color.palette.neutral.0}" }
+    },
+    "background": {
+      "canvas": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "surface": { "$type": "color", "$value": "{color.palette.neutral.100}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.200}" }
+    }
+  }
+}

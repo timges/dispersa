@@ -1,0 +1,123 @@
+{
+  "$description": "Base tokens (raw values) - palettes, scales, primitives",
+  "color": {
+    "palette": {
+      "$description": "Foundational palette ramps (raw)",
+      "blue": {
+        "500": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.1, 0.4, 0.95] }
+        },
+        "600": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.05, 0.32, 0.84] }
+        }
+      },
+      "green": {
+        "500": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.12, 0.7, 0.36] }
+        },
+        "600": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.08, 0.58, 0.29] }
+        }
+      },
+      "red": {
+        "500": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.9, 0.2, 0.2] }
+        },
+        "600": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.78, 0.14, 0.14] }
+        }
+      },
+      "neutral": {
+        "$description": "Neutral ramp for surfaces and text",
+        "0": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [1, 1, 1] }
+        },
+        "100": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.97, 0.97, 0.98] }
+        },
+        "200": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.93, 0.94, 0.95] }
+        },
+        "800": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.16, 0.18, 0.22] }
+        },
+        "900": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.1, 0.11, 0.14] }
+        },
+        "1000": {
+          "$type": "color",
+          "$value": { "colorSpace": "srgb", "components": [0.04, 0.05, 0.07] }
+        }
+      }
+    }
+  },
+  "space": {
+    "scale": {
+      "$description": "Raw spacing scale (px)",
+      "0": { "$type": "dimension", "$value": { "value": 0, "unit": "px" } },
+      "50": { "$type": "dimension", "$value": { "value": 4, "unit": "px" } },
+      "100": { "$type": "dimension", "$value": { "value": 8, "unit": "px" } },
+      "150": { "$type": "dimension", "$value": { "value": 12, "unit": "px" } },
+      "200": { "$type": "dimension", "$value": { "value": 16, "unit": "px" } },
+      "300": { "$type": "dimension", "$value": { "value": 24, "unit": "px" } },
+      "400": { "$type": "dimension", "$value": { "value": 32, "unit": "px" } }
+    }
+  },
+  "opacity": {
+    "$description": "Raw opacity values",
+    "0": { "$type": "number", "$value": 0 },
+    "10": { "$type": "number", "$value": 0.1 },
+    "30": { "$type": "number", "$value": 0.3 },
+    "50": { "$type": "number", "$value": 0.5 },
+    "80": { "$type": "number", "$value": 0.8 },
+    "100": { "$type": "number", "$value": 1 }
+  },
+  "radius": {
+    "$description": "Corner radius scale",
+    "100": { "$type": "dimension", "$value": { "value": 4, "unit": "px" } },
+    "200": { "$type": "dimension", "$value": { "value": 8, "unit": "px" } },
+    "300": { "$type": "dimension", "$value": { "value": 12, "unit": "px" } }
+  },
+  "duration": {
+    "$description": "Base motion durations",
+    "fast": { "$type": "duration", "$value": { "value": 120, "unit": "ms" } },
+    "normal": { "$type": "duration", "$value": { "value": 200, "unit": "ms" } },
+    "slow": { "$type": "duration", "$value": { "value": 320, "unit": "ms" } }
+  },
+  "elevation": {
+    "$description": "Raw elevation shadows",
+    "shadow": {
+      "100": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.12 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 1, "unit": "px" },
+          "blur": { "value": 2, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        }
+      },
+      "200": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.16 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 4, "unit": "px" },
+          "blur": { "value": 10, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        }
+      }
+    }
+  }
+}

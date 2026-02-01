@@ -1,0 +1,43 @@
+{
+  "$description": "Component tokens composed from semantic tokens",
+  "button": {
+    "primary": {
+      "$description": "Primary button tokens",
+      "background": { "$type": "color", "$value": "{color.palette.blue.600}" },
+      "backgroundHover": { "$type": "color", "$value": "{color.palette.blue.500}" },
+      "text": { "$type": "color", "$value": "{color.text.inverse}" },
+      "border": { "$type": "color", "$value": "{color.border.focused}" },
+      "radius": { "$type": "dimension", "$value": "{radius.md}" },
+      "paddingInline": { "$type": "dimension", "$value": "{space.150}" },
+      "paddingBlock": { "$type": "dimension", "$value": "{space.100}" },
+      "transitionDuration": { "$type": "duration", "$value": "{motion.duration.normal}" }
+    }
+  },
+  "badge": {
+    "$description": "Status badge tokens",
+    "success": {
+      "background": { "$type": "color", "$value": "{color.palette.green.500}" },
+      "text": { "$type": "color", "$value": "{color.text.inverse}" },
+      "paddingInline": { "$type": "dimension", "$value": "{space.100}" },
+      "paddingBlock": { "$type": "dimension", "$value": "{space.50}" },
+      "radius": { "$type": "dimension", "$value": "{radius.sm}" }
+    },
+    "danger": {
+      "background": { "$type": "color", "$value": "{color.palette.red.500}" },
+      "text": { "$type": "color", "$value": "{color.text.inverse}" },
+      "paddingInline": { "$type": "dimension", "$value": "{space.100}" },
+      "paddingBlock": { "$type": "dimension", "$value": "{space.50}" },
+      "radius": { "$type": "dimension", "$value": "{radius.sm}" }
+    }
+  },
+  "surface": {
+    "$description": "Common surface tokens",
+    "card": {
+      "background": { "$type": "color", "$value": "{color.background.surfaceRaised}" },
+      "border": { "$type": "color", "$value": "{color.border.default}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.surface}" },
+      "padding": { "$type": "dimension", "$value": "{space.200}" },
+      "radius": { "$type": "dimension", "$value": "{radius.lg}" }
+    }
+  }
+}

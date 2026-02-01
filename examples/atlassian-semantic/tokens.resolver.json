@@ -1,0 +1,56 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/resolver.json",
+  "name": "Atlassian Semantic Example (DTCG stable) - Dispersa",
+  "version": "2025.10",
+  "description": "Semantic-first token naming inspired by Atlassian (color.text.*, space.*, elevation.*), implemented as DTCG-stable tokens with resolver modifiers (theme × density × motion).",
+  "sets": {
+    "base": {
+      "description": "Foundational base values (no references)",
+      "sources": [{ "$ref": "./tokens/base.json" }]
+    },
+    "semantic": {
+      "description": "Semantic tokens referencing base values",
+      "sources": [{ "$ref": "./tokens/semantic.json" }]
+    },
+    "components": {
+      "description": "Component tokens referencing semantic tokens",
+      "sources": [{ "$ref": "./tokens/components.json" }]
+    }
+  },
+  "modifiers": {
+    "density": {
+      "description": "Density modes (compact/cozy/comfortable)",
+      "default": "cozy",
+      "contexts": {
+        "compact": [{ "$ref": "./tokens/modifiers/density/compact.json" }],
+        "cozy": [{ "$ref": "./tokens/modifiers/density/cozy.json" }],
+        "comfortable": [{ "$ref": "./tokens/modifiers/density/comfortable.json" }]
+      }
+    },
+    "theme": {
+      "description": "Theme modes (light/dark/high-contrast)",
+      "default": "light",
+      "contexts": {
+        "light": [{ "$ref": "./tokens/modifiers/theme/light.json" }],
+        "dark": [{ "$ref": "./tokens/modifiers/theme/dark.json" }],
+        "high-contrast": [{ "$ref": "./tokens/modifiers/theme/high-contrast.json" }]
+      }
+    },
+    "motion": {
+      "description": "Motion preference (standard/reduced-motion)",
+      "default": "standard",
+      "contexts": {
+        "standard": [{ "$ref": "./tokens/modifiers/motion/standard.json" }],
+        "reduced-motion": [{ "$ref": "./tokens/modifiers/motion/reduced-motion.json" }]
+      }
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/base" },
+    { "$ref": "#/sets/semantic" },
+    { "$ref": "#/sets/components" },
+    { "$ref": "#/modifiers/density" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/motion" }
+  ]
+}

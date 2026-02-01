@@ -1,0 +1,18 @@
+{
+  "$description": "High-contrast theme overrides (semantic layer)",
+  "$extensions": { "com.example.theme": "high-contrast" },
+  "color": {
+    "text": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "subtle": { "$type": "color", "$value": "{color.palette.neutral.0}" }
+    },
+    "background": {
+      "canvas": { "$type": "color", "$value": "{color.palette.neutral.1000}" },
+      "surface": { "$type": "color", "$value": "{color.palette.neutral.1000}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "focused": { "$type": "color", "$value": "{color.palette.neutral.0}" }
+    }
+  }
+}

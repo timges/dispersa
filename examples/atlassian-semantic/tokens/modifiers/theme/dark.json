@@ -1,0 +1,20 @@
+{
+  "$description": "Dark theme overrides (semantic layer)",
+  "$extensions": { "com.example.theme": "dark" },
+  "color": {
+    "text": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.0}" },
+      "subtle": { "$type": "color", "$value": "{color.palette.neutral.200}" },
+      "inverse": { "$type": "color", "$value": "{color.palette.neutral.1000}" }
+    },
+    "background": {
+      "canvas": { "$type": "color", "$value": "{color.palette.neutral.1000}" },
+      "surface": { "$type": "color", "$value": "{color.palette.neutral.900}" },
+      "surfaceRaised": { "$type": "color", "$value": "{color.palette.neutral.800}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{color.palette.neutral.800}" },
+      "focused": { "$type": "color", "$value": "{color.palette.blue.500}" }
+    }
+  }
+}
