@@ -42,5 +42,3 @@ export class TypeWriter {
     return this.generator.generate(tokens, options)
   }
 }
-
-export const typeWriter = new TypeWriter()

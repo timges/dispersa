@@ -5,7 +5,7 @@
  * and warning dispatch across all Dispersa components.
  */
 
-import type { ValidationOptions } from '@shared/types/validation'
+import type { ValidationMode, ValidationOptions } from '@shared/types/validation'
 
 /**
  * Centralized validation handler that all components share.
@@ -14,13 +14,10 @@ import type { ValidationOptions } from '@shared/types/validation'
  * repeated calls avoid re-reading options on every invocation.
  */
 export class ValidationHandler {
-  private mode: 'error' | 'warn' | 'off'
-  private warningHandler: (message: string) => void
+  private mode: ValidationMode
 
   constructor(options?: ValidationOptions) {
     this.mode = options?.mode ?? 'error'
-    // eslint-disable-next-line no-console
-    this.warningHandler = options?.onWarning ?? console.warn
   }
 
   /**
@@ -45,16 +42,9 @@ export class ValidationHandler {
       throw error
     }
     if (this.mode === 'warn') {
-      this.warningHandler(error.message)
+      // eslint-disable-next-line no-console
+      console.warn(error.message)
     }
-  }
-
-  /**
-   * Handle a validation issue from a message string.
-   * Creates a ValidationError and delegates to handleIssue.
-   */
-  handleIssueMessage(message: string, createError: (msg: string) => Error): void {
-    this.handleIssue(createError(message))
   }
 
   /**
@@ -64,6 +54,7 @@ export class ValidationHandler {
     if (this.mode === 'off') {
       return
     }
-    this.warningHandler(message)
+    // eslint-disable-next-line no-console
+    console.warn(message)
   }
 }

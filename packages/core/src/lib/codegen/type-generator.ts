@@ -115,8 +115,7 @@ export class TypeGenerator {
         if (name == null) {
           continue
         }
-        const isLast = i === names.length - 1
-        lines.push(`  | "${name}"${isLast ? '' : ''}`)
+        lines.push(`  | "${name}"`)
       }
     }
 
@@ -267,7 +266,10 @@ export class TypeGenerator {
   }
 
   /**
-   * Map token type to TypeScript type
+   * Map a DTCG token type to its TypeScript type representation.
+   *
+   * Covers the standard DTCG types (color, dimension, shadow, etc.).
+   * Falls back to `string` for unrecognised types.
    */
   private tokenTypeToTsType(tokenType: TokenType): string {
     switch (tokenType) {
@@ -311,50 +313,4 @@ export class TypeGenerator {
       'name' in value
     )
   }
-
-  /**
-   * Generate all type definitions with custom names
-   */
-  generateAll(
-    tokens: ResolvedTokens,
-    options: {
-      namesType?: string
-      valuesType?: string
-      tokensType?: string
-    },
-  ): string[] {
-    const lines: string[] = []
-
-    // Generate token names type
-    lines.push(...this.generateTokenNamesType(tokens, options.namesType ?? 'TokenName'))
-    lines.push('')
-
-    // Generate token values type
-    lines.push(...this.generateTokenValuesType(tokens, options.valuesType ?? 'TokenValues'))
-    lines.push('')
-
-    // Generate tokens structure type
-    lines.push(
-      ...this.generateStructureType(tokens, {
-        exportType: 'type',
-        includeValues: false,
-        moduleName: options.tokensType ?? 'Tokens',
-      }),
-    )
-
-    return lines
-  }
-
-  /**
-   * Generate nested type structure (alias for generateStructureType)
-   */
-  generateNestedType(tokens: ResolvedTokens, typeName: string): string[] {
-    return this.generateStructureType(tokens, {
-      exportType: 'type',
-      includeValues: false,
-      moduleName: typeName,
-    })
-  }
 }
-
-export const typeGenerator = new TypeGenerator()

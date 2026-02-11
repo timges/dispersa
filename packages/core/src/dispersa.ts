@@ -159,28 +159,6 @@ export class Dispersa {
   }
 
   /**
-   * Registers a custom JSON schema for token validation
-   *
-   * @param schema - JSON Schema object (must have $id or title property)
-   *
-   * @example
-   * ```typescript
-   * dispersa.registerValidator({
-   *   $id: 'custom-token-type',
-   *   type: 'object',
-   *   properties: {
-   *     $value: { type: 'string' },
-   *     $type: { const: 'custom' }
-   *   }
-   * })
-   * ```
-   */
-  registerValidator(schema: Record<string, unknown>): void {
-    const name = (schema.$id as string) ?? (schema.title as string) ?? 'custom'
-    this.validator.registerSchema(name, schema)
-  }
-
-  /**
    * Builds design tokens from a resolver configuration
    *
    * Processes tokens through the resolution pipeline, applies preprocessors,
@@ -267,12 +245,31 @@ export class Dispersa {
   }
 
   /**
-   * Builds design tokens and throws on any failure
+   * Builds design tokens and throws on any failure.
    *
-   * Use this method when you want fail-fast behavior in CLI or CI workflows.
+   * Unlike {@link build}, which catches errors and returns them inside
+   * `BuildResult.errors`, this method propagates the first error as an
+   * exception. Use it when you want fail-fast behavior in CLI or CI workflows.
+   *
+   * @param config - Build configuration specifying resolver, outputs, transforms, etc.
+   * @returns A successful `BuildResult` (never contains errors)
+   * @throws {ConfigurationError} When the build config or resolver is invalid
+   * @throws {DispersaError} When token resolution, transforms, or rendering fails
+   *
+   * @example
+   * ```typescript
+   * try {
+   *   const result = await dispersa.buildOrThrow({
+   *     resolver: './tokens.resolver.json',
+   *     outputs: [css({ name: 'css', file: 'tokens.css' })],
+   *     buildPath: './output',
+   *   })
+   * } catch (error) {
+   *   process.exit(1)
+   * }
+   * ```
    */
   async buildOrThrow(config: BuildConfig): Promise<BuildResult> {
-    // Validate build config if validation enabled
     // Validate overall build config structure
     const configErrors = this.validator.validateBuildConfig(config)
     if (configErrors.length > 0) {

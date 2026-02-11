@@ -189,7 +189,7 @@ describe('Pipeline $ref Resolution', () => {
   })
 
   it('warns and preserves unresolved $ref objects in warn mode', async () => {
-    const warn = vi.fn()
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const resolver: ResolverDocument = {
       version: '2025.10',
       sets: {
@@ -212,7 +212,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa({ validation: { mode: 'warn', onWarning: warn } })
+    const dispersa = new Dispersa({ validation: { mode: 'warn' } })
     const tokens = await dispersa.resolveTokens(resolver)
 
     expect(tokens['color.base'].$value).toEqual({
@@ -220,5 +220,6 @@ describe('Pipeline $ref Resolution', () => {
       components: [{ $ref: '#/color/missing/$value/components/0' }, 0.4, 0.7],
     })
     expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })

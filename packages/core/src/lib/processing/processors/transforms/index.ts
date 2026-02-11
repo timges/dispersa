@@ -2,7 +2,7 @@
  * @fileoverview Transforms module exports
  */
 
-export type { Transform, TransformGroup } from './types'
+export type { Transform } from './types'
 
 // Built-in transforms
 export {

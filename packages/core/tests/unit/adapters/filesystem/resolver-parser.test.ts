@@ -159,14 +159,15 @@ describe('ResolverParser', () => {
     })
 
     it('should warn instead of throwing for unsupported version when mode is warn', () => {
-      const warn = vi.fn()
-      parser = new ResolverParser({ validation: { mode: 'warn', onWarning: warn } })
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      parser = new ResolverParser({ validation: { mode: 'warn' } })
       const invalidDoc = { ...validResolverDoc, version: '1.0.0' }
 
       const result = parser.parseObject(invalidDoc)
 
       expect(result.version).toBe('1.0.0')
       expect(warn).toHaveBeenCalled()
+      warn.mockRestore()
     })
 
     it('should skip validation for unsupported version when mode is off', () => {

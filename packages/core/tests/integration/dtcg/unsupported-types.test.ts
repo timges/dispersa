@@ -28,7 +28,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(typographyToken, 'typography')
+      const errors = validator.validateToken(typographyToken)
       expect(errors.length).toBe(0)
     })
 
@@ -42,7 +42,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(borderToken, 'border')
+      const errors = validator.validateToken(borderToken)
       expect(errors.length).toBe(0)
     })
 
@@ -58,7 +58,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(strokeStyleToken, 'strokeStyle')
+      const errors = validator.validateToken(strokeStyleToken)
       expect(errors.length).toBe(0)
     })
 
@@ -71,7 +71,7 @@ describe('Composite Token Types', () => {
         ],
       }
 
-      const errors = validator.validateToken(gradientToken, 'gradient')
+      const errors = validator.validateToken(gradientToken)
       expect(errors.length).toBe(0)
     })
 
@@ -85,7 +85,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(transitionToken, 'transition')
+      const errors = validator.validateToken(transitionToken)
       expect(errors.length).toBe(0)
     })
   })
@@ -129,7 +129,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(shadowToken, 'shadow')
+      const errors = validator.validateToken(shadowToken)
       expect(errors.length).toBe(0)
     })
 
@@ -139,7 +139,7 @@ describe('Composite Token Types', () => {
         $value: ['Arial', 'sans-serif'],
       }
 
-      const errors = validator.validateToken(fontFamilyToken, 'fontFamily')
+      const errors = validator.validateToken(fontFamilyToken)
       expect(errors.length).toBe(0)
     })
 
@@ -149,7 +149,7 @@ describe('Composite Token Types', () => {
         $value: 700,
       }
 
-      const errors = validator.validateToken(fontWeightToken, 'fontWeight')
+      const errors = validator.validateToken(fontWeightToken)
       expect(errors.length).toBe(0)
     })
 
@@ -159,7 +159,7 @@ describe('Composite Token Types', () => {
         $value: 'Brand name',
       }
 
-      const errors = validator.validateToken(stringToken, 'string')
+      const errors = validator.validateToken(stringToken)
       expect(errors.length).toBeGreaterThan(0)
     })
   })
@@ -171,7 +171,7 @@ describe('Composite Token Types', () => {
         $value: { value: 1, unit: 'em' },
       }
 
-      const errors = validator.validateToken(dimensionToken, 'dimension')
+      const errors = validator.validateToken(dimensionToken)
       expect(errors.length).toBeGreaterThan(0)
     })
 
@@ -181,7 +181,7 @@ describe('Composite Token Types', () => {
         $value: 'dash',
       }
 
-      const errors = validator.validateToken(strokeStyleToken, 'strokeStyle')
+      const errors = validator.validateToken(strokeStyleToken)
       expect(errors.length).toBeGreaterThan(0)
     })
 
@@ -196,7 +196,7 @@ describe('Composite Token Types', () => {
         },
       }
 
-      const errors = validator.validateToken(shadowToken, 'shadow')
+      const errors = validator.validateToken(shadowToken)
       expect(errors.length).toBeGreaterThan(0)
     })
 
@@ -209,7 +209,7 @@ describe('Composite Token Types', () => {
         ],
       }
 
-      const errors = validator.validateToken(gradientToken, 'gradient')
+      const errors = validator.validateToken(gradientToken)
       expect(errors.length).toBe(0)
     })
   })

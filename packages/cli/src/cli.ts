@@ -233,7 +233,6 @@ async function buildAliasMap(cwd: string): Promise<Record<string, string>> {
     alias['@config'] = resolve(coreRoot, 'config')
     alias['@lib'] = resolve(coreRoot, 'lib')
     alias['@renderers'] = resolve(coreRoot, 'renderers')
-    alias['@services'] = resolve(coreRoot, 'services')
     alias['@shared'] = resolve(coreRoot, 'shared')
     return alias
   }

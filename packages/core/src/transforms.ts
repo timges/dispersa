@@ -13,7 +13,7 @@
 // TRANSFORM TYPE
 // ============================================================================
 
-export type { Transform, TransformGroup } from '@lib/processing/processors/transforms/types'
+export type { Transform } from '@lib/processing/processors/transforms/types'
 
 // ============================================================================
 // COLOR TRANSFORMS

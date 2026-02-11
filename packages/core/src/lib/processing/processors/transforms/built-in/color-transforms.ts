@@ -110,6 +110,7 @@ export function colorToColorFunction(): Transform {
 
         return { ...token, $value: formatted }
       } catch {
+        // Gracefully fall back to original token on unsupported color values
         return token
       }
     },

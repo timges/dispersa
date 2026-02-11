@@ -31,7 +31,7 @@ import {
   filterTokensBySource,
   normalizeModifierInputs,
   resolveMediaQuery,
-  resolveOutputPath,
+  resolveFileName,
   resolveSelector,
 } from './bundlers/utils'
 import type { CssRendererOptions, RenderContext, RenderOutput, Renderer } from './types'
@@ -86,6 +86,9 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
     return await this.formatStandalone(context, opts)
   }
 
+  private static readonly PRETTIER_PRINT_WIDTH = 80
+  private static readonly PRETTIER_TAB_WIDTH = 2
+
   /**
    * Format tokens as CSS custom properties
    *
@@ -113,80 +116,96 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
       ...options,
     }
 
+    const groups = this.groupTokens(tokens, opts)
+    const referenceTokens = opts.referenceTokens ?? tokens
     const lines: string[] = []
+
+    for (const [selector, groupTokens] of Object.entries(groups)) {
+      this.buildCssBlock(lines, groupTokens, selector, tokens, referenceTokens, opts)
+    }
+
+    const cssString = lines.join('')
+    return opts.minify ? cssString : await this.formatWithPrettier(cssString)
+  }
+
+  private buildCssBlock(
+    lines: string[],
+    groupTokens: ResolvedToken[],
+    selector: string,
+    tokens: ResolvedTokens,
+    referenceTokens: ResolvedTokens,
+    opts: Required<ResolvedCssOptions>,
+  ): void {
     const indent = opts.minify ? '' : '  '
     const newline = opts.minify ? '' : '\n'
     const space = opts.minify ? '' : ' '
+    const hasMediaQuery = opts.mediaQuery != null && opts.mediaQuery !== ''
+    const tokenIndent = hasMediaQuery ? indent + indent : indent
 
-    // Group tokens by theme/modifier if available
-    const groups = this.groupTokens(tokens, opts)
-
-    const referenceTokens = opts.referenceTokens ?? tokens
-
-    for (const [selector, groupTokens] of Object.entries(groups)) {
-      // Check if we need to wrap in a media query
-      const hasMediaQuery = opts.mediaQuery != null && opts.mediaQuery !== ''
-
-      if (hasMediaQuery) {
-        lines.push(`@media ${opts.mediaQuery}${space}{${newline}`)
-        lines.push(`${indent}${selector}${space}{${newline}`)
-      } else {
-        lines.push(`${selector}${space}{${newline}`)
-      }
-
-      for (const token of groupTokens) {
-        const entries = this.buildCssEntries(
-          token,
-          tokens,
-          referenceTokens,
-          opts.preserveReferences ?? false,
-        )
-        const tokenIndent = hasMediaQuery ? indent + indent : indent
-
-        // Add deprecation comment if token is deprecated
-        if (token.$deprecated != null && token.$deprecated !== false) {
-          const deprecationMsg = formatDeprecationMessage(token, '', 'comment')
-          lines.push(`${tokenIndent}/* ${this.sanitizeCssCommentText(deprecationMsg)} */${newline}`)
-        }
-
-        // Add description comment
-        if (token.$description && token.$description !== '') {
-          lines.push(
-            `${tokenIndent}/* ${this.sanitizeCssCommentText(token.$description)} */${newline}`,
-          )
-        }
-
-        for (const entry of entries) {
-          lines.push(`${tokenIndent}--${entry.name}:${space}${entry.value};${newline}`)
-        }
-      }
-
-      // Close blocks
-      if (hasMediaQuery) {
-        lines.push(`${indent}}${newline}`)
-        lines.push(`}${newline}${newline}`)
-      } else {
-        lines.push(`}${newline}${newline}`)
-      }
+    if (hasMediaQuery) {
+      lines.push(`@media ${opts.mediaQuery}${space}{${newline}`)
+      lines.push(`${indent}${selector}${space}{${newline}`)
+    } else {
+      lines.push(`${selector}${space}{${newline}`)
     }
 
-    const cssString = lines.join(opts.minify ? '' : '')
-
-    // Use Prettier for consistent, high-quality formatting (unless minified)
-    if (!opts.minify) {
-      try {
-        return await prettier.format(cssString, {
-          parser: 'css',
-          printWidth: 80,
-          tabWidth: 2,
-          useTabs: false,
-        })
-      } catch {
-        return cssString
-      }
+    for (const token of groupTokens) {
+      this.pushTokenLines(
+        lines,
+        token,
+        tokens,
+        referenceTokens,
+        opts.preserveReferences ?? false,
+        tokenIndent,
+        newline,
+        space,
+      )
     }
 
-    return cssString
+    if (hasMediaQuery) {
+      lines.push(`${indent}}${newline}`)
+    }
+    lines.push(`}${newline}${newline}`)
+  }
+
+  private pushTokenLines(
+    lines: string[],
+    token: ResolvedToken,
+    tokens: ResolvedTokens,
+    referenceTokens: ResolvedTokens,
+    preserveReferences: boolean,
+    indent: string,
+    newline: string,
+    space: string,
+  ): void {
+    const entries = this.buildCssEntries(token, tokens, referenceTokens, preserveReferences)
+
+    if (token.$deprecated != null && token.$deprecated !== false) {
+      const deprecationMsg = formatDeprecationMessage(token, '', 'comment')
+      lines.push(`${indent}/* ${this.sanitizeCssCommentText(deprecationMsg)} */${newline}`)
+    }
+
+    if (token.$description && token.$description !== '') {
+      lines.push(`${indent}/* ${this.sanitizeCssCommentText(token.$description)} */${newline}`)
+    }
+
+    for (const entry of entries) {
+      lines.push(`${indent}--${entry.name}:${space}${entry.value};${newline}`)
+    }
+  }
+
+  private async formatWithPrettier(css: string): Promise<string> {
+    try {
+      return await prettier.format(css, {
+        parser: 'css',
+        printWidth: CssRenderer.PRETTIER_PRINT_WIDTH,
+        tabWidth: CssRenderer.PRETTIER_TAB_WIDTH,
+        useTabs: false,
+      })
+    } catch {
+      // Prettier may fail on edge-case CSS; fall back to raw string
+      return css
+    }
   }
 
   /**
@@ -544,26 +563,25 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
   private formatValue(token: ResolvedToken): string {
     const value = token.$value
 
-    // Handle DTCG color object format
-    if (token.$type === 'color' && isColorObject(value)) {
+    const typed = this.formatTypedValue(token.$type, value)
+    if (typed !== undefined) {
+      return typed
+    }
+
+    return this.formatPrimitiveOrStructured(value, token.$type)
+  }
+
+  private formatTypedValue(type: string | undefined, value: unknown): string | undefined {
+    if (type === 'color' && isColorObject(value)) {
       return colorObjectToHex(value)
     }
 
-    // Handle DTCG dimension object format
-    if (token.$type === 'dimension') {
-      // DTCG 2025-10 spec requires dimension values to be objects
-      if (typeof value === 'string') {
-        // Legacy fallback: If value is a string (from incomplete alias resolution
-        // or non-compliant input), return as-is for backwards compatibility.
-        // Note: This is NOT DTCG compliant. Proper dimension values should always
-        // use object format { value: number, unit: string }
-        return value
-      }
-      // Convert DTCG dimension object to CSS string (e.g., "16px")
-      return dimensionObjectToString(value as DimensionValue)
+    if (type === 'dimension') {
+      // Legacy fallback: string values from incomplete alias resolution
+      return typeof value === 'string' ? value : dimensionObjectToString(value as DimensionValue)
     }
 
-    if (token.$type === 'duration') {
+    if (type === 'duration') {
       if (this.isDurationObject(value)) {
         return this.formatDurationValue(value)
       }
@@ -572,33 +590,31 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
       }
     }
 
-    // Handle different value types
+    return undefined
+  }
+
+  private formatPrimitiveOrStructured(value: unknown, tokenType?: string): string {
     if (typeof value === 'string') {
       return value
     }
-
     if (typeof value === 'number') {
       return String(value)
     }
-
     if (Array.isArray(value)) {
-      // Check if this is an array of shadow objects (for layered shadows)
-      if (token.$type === 'shadow' && value.length > 0 && typeof value[0] === 'object') {
-        return value
-          .map((shadowObj) => this.formatShadow(shadowObj as unknown as Shadow))
-          .join(', ')
-      }
-
-      // For arrays like font families
-      return value.map((v) => (typeof v === 'string' && v.includes(' ') ? `"${v}"` : v)).join(', ')
+      return this.formatArrayValue(value, tokenType)
     }
-
     if (typeof value === 'object' && value != null) {
-      // Handle composite tokens
-      return this.formatCompositeValue(value as Record<string, unknown>, token.$type)
+      return this.formatCompositeValue(value as Record<string, unknown>, tokenType)
     }
-
     return String(value)
+  }
+
+  private formatArrayValue(value: unknown[], tokenType?: string): string {
+    if (tokenType === 'shadow' && value.length > 0 && typeof value[0] === 'object') {
+      return value.map((shadowObj) => this.formatShadow(shadowObj as unknown as Shadow)).join(', ')
+    }
+    // For arrays like font families
+    return value.map((v) => (typeof v === 'string' && v.includes(' ') ? `"${v}"` : v)).join(', ')
   }
 
   /**
@@ -719,149 +735,183 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
     context: RenderContext,
     options: CssRendererOptions,
   ): Promise<RenderOutput> {
-    const { output, permutations } = context
-
     const requiresFile = context.buildPath !== undefined && context.buildPath !== ''
-    if (!output.file && requiresFile) {
+    if (!context.output.file && requiresFile) {
       throw new ConfigurationError(
-        `Output "${output.name}": file is required for standalone CSS output`,
+        `Output "${context.output.name}": file is required for standalone CSS output`,
       )
     }
 
     const files: Record<string, string> = {}
-
-    for (const { tokens, modifierInputs } of permutations) {
-      const isBase = this.isBasePermutation(modifierInputs, context.meta.defaults)
-      const { modifierName, modifierContext } = this.resolveModifierContext(
+    for (const { tokens, modifierInputs } of context.permutations) {
+      const { fileName, content } = await this.buildStandaloneFile(
+        tokens,
         modifierInputs,
         context,
-        isBase,
+        options,
       )
-
-      const selector = resolveSelector(
-        options.selector,
-        modifierName,
-        modifierContext,
-        isBase,
-        modifierInputs,
-      )
-      const mediaQuery = resolveMediaQuery(
-        options.mediaQuery,
-        modifierName,
-        modifierContext,
-        isBase,
-        modifierInputs,
-      )
-
-      const content = await this.formatTokens(tokens, {
-        selector,
-        mediaQuery,
-        minify: options.minify ?? false,
-        preserveReferences: options.preserveReferences ?? false,
-        referenceTokens: tokens,
-      })
-
-      const fileName = output.file
-        ? resolveOutputPath(output.file, modifierInputs)
-        : buildInMemoryOutputKey({
-            outputName: output.name,
-            extension: 'css',
-            modifierInputs,
-            resolver: context.resolver,
-            defaults: context.meta.defaults,
-          })
       files[fileName] = content
     }
 
-    return {
-      kind: 'outputTree',
-      files,
-    }
+    return { kind: 'outputTree', files }
+  }
+
+  private async buildStandaloneFile(
+    tokens: ResolvedTokens,
+    modifierInputs: Record<string, string>,
+    context: RenderContext,
+    options: CssRendererOptions,
+  ): Promise<{ fileName: string; content: string }> {
+    const isBase = this.isBasePermutation(modifierInputs, context.meta.defaults)
+    const { modifierName, modifierContext } = this.resolveModifierContext(
+      modifierInputs,
+      context,
+      isBase,
+    )
+
+    const selector = resolveSelector(
+      options.selector,
+      modifierName,
+      modifierContext,
+      isBase,
+      modifierInputs,
+    )
+    const mediaQuery = resolveMediaQuery(
+      options.mediaQuery,
+      modifierName,
+      modifierContext,
+      isBase,
+      modifierInputs,
+    )
+
+    const content = await this.formatTokens(tokens, {
+      selector,
+      mediaQuery,
+      minify: options.minify ?? false,
+      preserveReferences: options.preserveReferences ?? false,
+      referenceTokens: tokens,
+    })
+
+    const fileName = context.output.file
+      ? resolveFileName(context.output.file, modifierInputs)
+      : buildInMemoryOutputKey({
+          outputName: context.output.name,
+          extension: 'css',
+          modifierInputs,
+          resolver: context.resolver,
+          defaults: context.meta.defaults,
+        })
+
+    return { fileName, content }
   }
 
   private async formatModifier(
     context: RenderContext,
     options: CssRendererOptions,
   ): Promise<RenderOutput> {
-    const { output, resolver, permutations } = context
-
     const requiresFile = context.buildPath !== undefined && context.buildPath !== ''
-    if (!output.file && requiresFile) {
+    if (!context.output.file && requiresFile) {
       throw new ConfigurationError(
-        `Output "${output.name}": file is required for modifier CSS output`,
+        `Output "${context.output.name}": file is required for modifier CSS output`,
       )
     }
-
-    if (!resolver.modifiers) {
+    if (!context.resolver.modifiers) {
       throw new ConfigurationError('Modifier preset requires modifiers to be defined in resolver')
     }
 
     const files: Record<string, string> = {}
-    const defaults = context.meta.defaults
 
-    for (const [modifierName, modifierDef] of Object.entries(resolver.modifiers)) {
+    for (const [modifierName, modifierDef] of Object.entries(context.resolver.modifiers)) {
       for (const contextValue of Object.keys(modifierDef.contexts)) {
-        const expectedSource = `${modifierName}-${contextValue}`
-        let tokensFromSource: ResolvedTokens = {}
-        let referenceTokensByContext: ResolvedTokens = {}
-
-        for (const { tokens, modifierInputs } of permutations) {
-          if (modifierInputs[modifierName] !== contextValue) {
-            continue
-          }
-
-          const filtered = filterTokensBySource(tokens, expectedSource)
-          tokensFromSource = { ...tokensFromSource, ...filtered }
-          referenceTokensByContext = { ...referenceTokensByContext, ...tokens }
-        }
-
-        if (Object.keys(tokensFromSource).length === 0) {
-          continue
-        }
-
-        const isBase = contextValue === defaults[modifierName]
-        const modifierInputs = { ...defaults, [modifierName]: contextValue }
-
-        const selector = resolveSelector(
-          options.selector,
+        const result = await this.buildModifierContextFile(
           modifierName,
           contextValue,
-          isBase,
-          modifierInputs,
+          context,
+          options,
         )
-        const mediaQuery = resolveMediaQuery(
-          options.mediaQuery,
-          modifierName,
-          contextValue,
-          isBase,
-          modifierInputs,
-        )
-
-        const content = await this.formatTokens(tokensFromSource, {
-          selector,
-          mediaQuery,
-          minify: options.minify ?? false,
-          preserveReferences: options.preserveReferences ?? false,
-          referenceTokens: referenceTokensByContext,
-        })
-
-        const fileName = output.file
-          ? resolveOutputPath(output.file, modifierInputs, modifierName, contextValue)
-          : buildInMemoryOutputKey({
-              outputName: output.name,
-              extension: 'css',
-              modifierInputs,
-              resolver: context.resolver,
-              defaults: context.meta.defaults,
-            })
-        files[fileName] = content
+        if (result) {
+          files[result.fileName] = result.content
+        }
       }
     }
 
-    return {
-      kind: 'outputTree',
-      files,
+    return { kind: 'outputTree', files }
+  }
+
+  private collectTokensForModifierContext(
+    modifierName: string,
+    contextValue: string,
+    permutations: RenderContext['permutations'],
+  ): { tokensFromSource: ResolvedTokens; referenceTokens: ResolvedTokens } {
+    const expectedSource = `${modifierName}-${contextValue}`
+    let tokensFromSource: ResolvedTokens = {}
+    let referenceTokens: ResolvedTokens = {}
+
+    for (const { tokens, modifierInputs } of permutations) {
+      if (modifierInputs[modifierName] !== contextValue) {
+        continue
+      }
+      tokensFromSource = { ...tokensFromSource, ...filterTokensBySource(tokens, expectedSource) }
+      referenceTokens = { ...referenceTokens, ...tokens }
     }
+
+    return { tokensFromSource, referenceTokens }
+  }
+
+  private async buildModifierContextFile(
+    modifierName: string,
+    contextValue: string,
+    context: RenderContext,
+    options: CssRendererOptions,
+  ): Promise<{ fileName: string; content: string } | undefined> {
+    const { tokensFromSource, referenceTokens } = this.collectTokensForModifierContext(
+      modifierName,
+      contextValue,
+      context.permutations,
+    )
+
+    if (Object.keys(tokensFromSource).length === 0) {
+      return undefined
+    }
+
+    const defaults = context.meta.defaults
+    const isBase = contextValue === defaults[modifierName]
+    const modifierInputs = { ...defaults, [modifierName]: contextValue }
+
+    const selector = resolveSelector(
+      options.selector,
+      modifierName,
+      contextValue,
+      isBase,
+      modifierInputs,
+    )
+    const mediaQuery = resolveMediaQuery(
+      options.mediaQuery,
+      modifierName,
+      contextValue,
+      isBase,
+      modifierInputs,
+    )
+
+    const content = await this.formatTokens(tokensFromSource, {
+      selector,
+      mediaQuery,
+      minify: options.minify ?? false,
+      preserveReferences: options.preserveReferences ?? false,
+      referenceTokens,
+    })
+
+    const fileName = context.output.file
+      ? resolveFileName(context.output.file, modifierInputs, modifierName, contextValue)
+      : buildInMemoryOutputKey({
+          outputName: context.output.name,
+          extension: 'css',
+          modifierInputs,
+          resolver: context.resolver,
+          defaults: context.meta.defaults,
+        })
+
+    return { fileName, content }
   }
 
   private resolveModifierContext(

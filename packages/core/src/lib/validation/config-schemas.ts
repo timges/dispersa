@@ -401,21 +401,6 @@ export type DispersaOptionsBase = FromSchema<typeof dispersaOptionsSchema>
 export type BuildConfigBase = FromSchema<typeof buildConfigSchema>
 
 /**
- * Transform Plugin type generated from transformPluginSchema
- */
-export type TransformPluginBase = FromSchema<typeof transformPluginSchema>
-
-/**
- * Renderer Plugin type generated from rendererPluginSchema
- */
-export type RendererPluginBase = FromSchema<typeof rendererPluginSchema>
-
-/**
- * Filter Plugin type generated from filterPluginSchema
- */
-export type FilterPluginBase = FromSchema<typeof filterPluginSchema>
-
-/**
  * Preprocessor Plugin type generated from preprocessorPluginSchema
  */
 export type PreprocessorPluginBase = FromSchema<typeof preprocessorPluginSchema>

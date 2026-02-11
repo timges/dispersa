@@ -89,6 +89,50 @@ function buildStableDashKey(params: {
     .join('-')
 }
 
+/** Generate the optional getTokens helper function source */
+function buildHelperFunction(dimensions: string[]): string {
+  const dimensionOrder = dimensions.map((d) => JSON.stringify(d)).join(', ')
+  return [
+    `/**`,
+    ` * Get tokens for a specific modifier combination`,
+    ` * @param {Object} modifiers - Modifier values (e.g., { theme: 'dark', brand: 'partner-a' })`,
+    ` * @returns {Object} Resolved tokens for the combination`,
+    ` */`,
+    `export function getTokens(modifiers = {}) {`,
+    `  const key = [${dimensionOrder}]`,
+    `    .map(dim => modifiers[dim] ?? tokenBundle._meta.defaults[dim])`,
+    `    .join('-')`,
+    `  const camelKey = key`,
+    `    .split('-')`,
+    `    .filter(Boolean)`,
+    `    .map((w, i) => (i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))`,
+    `    .join('')`,
+    `  return tokenBundle.tokens[camelKey]`,
+    `}`,
+    ``,
+    ``,
+  ].join('\n')
+}
+
+/** Assemble the final JS bundle output string */
+function assembleJsBundle(
+  metadata: ReturnType<typeof buildMetadata>,
+  jsBlocks: string[],
+  generateHelper: boolean,
+): string {
+  let output = `const tokenBundle = {\n`
+  output += `  _meta: ${JSON.stringify(metadata, null, 2).replace(/\n/g, '\n  ')},\n`
+  output += `  tokens: {\n${jsBlocks.join(',\n')}\n  }\n`
+  output += `}\n\n`
+
+  if (generateHelper) {
+    output += buildHelperFunction(metadata.dimensions)
+  }
+
+  output += `export default tokenBundle\n`
+  return output
+}
+
 /**
  * Bundle tokens as JS module with metadata and optional helper
  *
@@ -103,77 +147,26 @@ export async function bundleAsJsModule(
   options: JsModuleRendererOptions | undefined,
   formatTokens?: (tokens: ResolvedTokens) => Promise<string>,
 ): Promise<string> {
-  // Build metadata
-  const metadata = buildMetadata(resolver)
+  if (!formatTokens) {
+    throw new ConfigurationError('JS formatter was not provided')
+  }
 
-  // Build tokens object
+  const metadata = buildMetadata(resolver)
   const jsBlocks: string[] = []
 
   for (const { tokens, modifierInputs } of bundleData) {
-    // Strip internal metadata before formatting
     const cleanTokens = stripInternalMetadata(tokens)
-
-    // Stable key in metadata dimension order (avoids Object.values insertion-order dependence)
     const key = buildStableDashKey({
       modifierInputs,
       dimensions: metadata.dimensions,
       defaults: metadata.defaults,
     })
-    // Convert to camelCase for JS object keys (kept for backward compatibility)
     const camelKey = toCamelKey(key)
-
-    // Extract modifier info
-    if (!formatTokens) {
-      throw new ConfigurationError('JS formatter was not provided')
-    }
-
-    // Format tokens using the renderer (respects structure, minify, etc.)
     const formattedJs = await formatTokens(cleanTokens)
-
-    // Extract the token object from formatted JS using balanced brace matching
-    // Handles nested objects/arrays correctly unlike regex
     const tokenObject = extractObjectFromJsModule(formattedJs)
-
-    const comment = `  // ${key}`
-    // Indent the extracted object to fit within the bundle structure
     const indentedObject = tokenObject.replace(/\n/g, '\n  ')
-    // Always quote keys to avoid invalid identifiers (e.g., keys starting with digits)
-    jsBlocks.push(`${comment}\n  ${JSON.stringify(camelKey)}: ${indentedObject}`)
+    jsBlocks.push(`  // ${key}\n  ${JSON.stringify(camelKey)}: ${indentedObject}`)
   }
 
-  // Check if helper function should be generated
-  // The generateHelper option is part of JsModuleRendererOptions but not on OutputConfig
-  // Check if it exists on the output config
-  const generateHelper = options?.generateHelper ?? false
-
-  // Build the output
-  let outputContent = `const tokenBundle = {\n`
-  outputContent += `  _meta: ${JSON.stringify(metadata, null, 2).replace(/\n/g, '\n  ')},\n`
-  outputContent += `  tokens: {\n${jsBlocks.join(',\n')}\n  }\n`
-  outputContent += `}\n\n`
-
-  // Add helper function if requested
-  if (generateHelper) {
-    const dimensionOrder = metadata.dimensions.map((d) => JSON.stringify(d)).join(', ')
-    outputContent += `/**\n`
-    outputContent += ` * Get tokens for a specific modifier combination\n`
-    outputContent += ` * @param {Object} modifiers - Modifier values (e.g., { theme: 'dark', brand: 'partner-a' })\n`
-    outputContent += ` * @returns {Object} Resolved tokens for the combination\n`
-    outputContent += ` */\n`
-    outputContent += `export function getTokens(modifiers = {}) {\n`
-    outputContent += `  const key = [${dimensionOrder}]\n`
-    outputContent += `    .map(dim => modifiers[dim] || tokenBundle._meta.defaults[dim])\n`
-    outputContent += `    .join('-')\n`
-    outputContent += `  const camelKey = key\n`
-    outputContent += `    .split('-')\n`
-    outputContent += `    .filter(Boolean)\n`
-    outputContent += `    .map((w, i) => (i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))\n`
-    outputContent += `    .join('')\n`
-    outputContent += `  return tokenBundle.tokens[camelKey]\n`
-    outputContent += `}\n\n`
-  }
-
-  outputContent += `export default tokenBundle\n`
-
-  return outputContent
+  return assembleJsBundle(metadata, jsBlocks, options?.generateHelper ?? false)
 }

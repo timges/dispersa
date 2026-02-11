@@ -11,7 +11,7 @@ import { JsonPointer } from 'json-ptr'
 
 import type { ReferenceObject } from './resolution.types'
 
-export type ResolverContext = {
+type ResolverContext = {
   baseDir: string
   cache: Map<string, unknown>
   visited: Set<string>
@@ -87,38 +87,7 @@ export class ReferenceResolver {
     this.context.visited.add(refString)
 
     try {
-      let resolved: unknown
-
-      // Handle fragment-only references (JSON Pointer within current document)
-      if (refString.startsWith('#/')) {
-        if (!currentDocument) {
-          throw new ValidationError(
-            `Cannot resolve fragment reference ${refString} without current document`,
-            [
-              {
-                message: `Cannot resolve fragment reference ${refString} without current document`,
-              },
-            ],
-          )
-        }
-        resolved = this.resolveFragment(refString, currentDocument)
-      }
-      // Handle file references with optional fragments
-      else {
-        const [filePath, fragment] = refString.split('#')
-
-        if (filePath) {
-          resolved = await this.resolveFile(filePath)
-
-          if (fragment) {
-            resolved = this.resolveFragment(`#${fragment}`, resolved)
-          }
-        } else {
-          throw new ValidationError(`Invalid reference: ${refString}`, [
-            { message: `Invalid reference: ${refString}` },
-          ])
-        }
-      }
+      let resolved = await this.resolveRefTarget(refString, currentDocument)
 
       // Apply local property overrides if any (DTCG spec section 4.2.2)
       if (localProperties && Object.keys(localProperties).length > 0) {
@@ -129,6 +98,41 @@ export class ReferenceResolver {
     } finally {
       this.context.visited.delete(refString)
     }
+  }
+
+  /**
+   * Resolve the target of a $ref string to its raw value
+   *
+   * Handles fragment-only references (JSON Pointer within current document)
+   * and file references with optional fragment suffixes.
+   */
+  private async resolveRefTarget(refString: string, currentDocument?: unknown): Promise<unknown> {
+    // Fragment-only references (JSON Pointer within current document)
+    if (refString.startsWith('#/')) {
+      if (!currentDocument) {
+        throw new ValidationError(
+          `Cannot resolve fragment reference ${refString} without current document`,
+          [
+            {
+              message: `Cannot resolve fragment reference ${refString} without current document`,
+            },
+          ],
+        )
+      }
+      return this.resolveFragment(refString, currentDocument)
+    }
+
+    // File references with optional fragments
+    const [filePath, fragment] = refString.split('#')
+
+    if (!filePath) {
+      throw new ValidationError(`Invalid reference: ${refString}`, [
+        { message: `Invalid reference: ${refString}` },
+      ])
+    }
+
+    const resolved = await this.resolveFile(filePath)
+    return fragment ? this.resolveFragment(`#${fragment}`, resolved) : resolved
   }
 
   /**
@@ -144,7 +148,9 @@ export class ReferenceResolver {
       }
 
       if (!JsonPointer.has(document, pointerPath)) {
-        throw new Error(`Invalid reference: ${ref}`)
+        throw new ValidationError(`Invalid reference: ${ref}`, [
+          { message: `Invalid reference: ${ref}` },
+        ])
       }
 
       return JsonPointer.get(document, pointerPath)
@@ -385,6 +391,7 @@ export class ReferenceResolver {
     try {
       return this.resolveFragment(ref, document)
     } catch {
+      // Fragment may not exist; return undefined so callers can skip type inference
       return undefined
     }
   }

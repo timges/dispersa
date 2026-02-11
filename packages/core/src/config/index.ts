@@ -69,26 +69,6 @@ export type { ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
 export type { ValidationOptions } from '@shared/types/validation'
 
 /**
- * CSS renderer preset options
- */
-export type CssRendererPreset = 'standalone' | 'modifier' | 'bundle'
-
-/**
- * JSON renderer preset options
- */
-export type JsonRendererPreset = 'standalone' | 'bundle'
-
-/**
- * Figma Variables renderer preset options
- */
-export type FigmaRendererPreset = 'figma'
-
-/**
- * JavaScript renderer preset options
- */
-export type JsRendererPreset = 'standalone' | 'bundle'
-
-/**
  * Output configuration for a single build target
  *
  * Defines how tokens should be formatted and output for a specific target

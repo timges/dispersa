@@ -5,7 +5,7 @@
 import type { ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
 import {
   buildInMemoryOutputKey,
-  resolveOutputPath,
+  resolveFileName,
   stripInternalMetadata,
 } from '@renderers/bundlers/utils'
 import { ConfigurationError } from '@shared/errors/index'
@@ -49,7 +49,7 @@ export class JsonRenderer implements Renderer<JsonRendererOptions> {
       const processedTokens = stripInternalMetadata(tokens)
       const content = await this.formatTokens(processedTokens, opts)
       const fileName = context.output.file
-        ? resolveOutputPath(context.output.file, modifierInputs)
+        ? resolveFileName(context.output.file, modifierInputs)
         : buildInMemoryOutputKey({
             outputName: context.output.name,
             extension: 'json',

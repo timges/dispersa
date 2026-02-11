@@ -17,8 +17,10 @@
 // ============================================================================
 
 export type {
+  BuildError,
   BuildResult,
   CssRendererOptions,
+  ErrorCode,
   FigmaVariablesOptions,
   FormatOptions,
   JsModuleRendererOptions,

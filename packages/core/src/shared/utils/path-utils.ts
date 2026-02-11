@@ -16,13 +16,3 @@ export function formatTokenPath(parentPath: string[], name?: string): string {
   }
   return parentPath.length > 0 ? `${parentPath.join('.')}.${name}` : name
 }
-
-/**
- * Join path segments into a dot-notation path
- *
- * @param segments - Path segments
- * @returns Dot-notation path string
- */
-export function joinPath(segments: string[]): string {
-  return segments.join('.')
-}

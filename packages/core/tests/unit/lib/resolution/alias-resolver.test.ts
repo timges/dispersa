@@ -267,13 +267,14 @@ describe('Alias Resolver Integration Tests', () => {
     }
 
     it('should warn and leave unresolved reference in warn mode', () => {
-      const warn = vi.fn()
-      aliasResolver = new AliasResolver({ validation: { mode: 'warn', onWarning: warn } })
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      aliasResolver = new AliasResolver({ validation: { mode: 'warn' } })
 
       const resolved = aliasResolver.resolve(missingReferenceTokens)
 
       expect(resolved['color.primary'].$value).toBe('{missing.token}')
       expect(warn).toHaveBeenCalled()
+      warn.mockRestore()
     })
 
     it('should skip validation in off mode', () => {

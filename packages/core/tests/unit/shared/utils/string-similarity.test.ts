@@ -7,11 +7,7 @@
 
 import { describe, expect, it } from 'vitest'
 
-import {
-  findSimilar,
-  formatSuggestions,
-  levenshteinDistance,
-} from '../../../../src/shared/utils/string-similarity'
+import { findSimilar, levenshteinDistance } from '../../../../src/shared/utils/string-similarity'
 
 describe('levenshteinDistance', () => {
   it('should return 0 for identical strings', () => {
@@ -130,25 +126,5 @@ describe('findSimilar', () => {
     const contexts = ['light', 'dark', 'high-contrast']
     const result = findSimilar('ligt', contexts)
     expect(result).toContain('light')
-  })
-})
-
-describe('formatSuggestions', () => {
-  it('should return empty string for no suggestions', () => {
-    expect(formatSuggestions([])).toBe('')
-  })
-
-  it('should format single suggestion', () => {
-    expect(formatSuggestions(['color.primary'])).toBe(' Did you mean "color.primary"?')
-  })
-
-  it('should format two suggestions with "or"', () => {
-    const result = formatSuggestions(['color.primary', 'color.primary.dark'])
-    expect(result).toBe(' Did you mean "color.primary" or "color.primary.dark"?')
-  })
-
-  it('should format three suggestions with commas and "or"', () => {
-    const result = formatSuggestions(['color.primary', 'color.secondary', 'color.tertiary'])
-    expect(result).toBe(' Did you mean "color.primary", "color.secondary" or "color.tertiary"?')
   })
 })

@@ -5,6 +5,7 @@
  */
 
 import type { DimensionValue, ResolvedToken } from '@lib/tokens/types'
+import { DEFAULT_BASE_FONT_SIZE_PX } from '@shared/constants'
 
 import type { Transform } from '../types'
 
@@ -25,8 +26,7 @@ export function dimensionToPx(): Transform {
 
       // Convert dimension object to px
       if (isDimensionObject(value)) {
-        const baseFontSize = 16 // Default base font size
-        const converted = convertDimension(value as DimensionValue, 'px', baseFontSize)
+        const converted = convertDimension(value as DimensionValue, 'px', DEFAULT_BASE_FONT_SIZE_PX)
         return { ...token, $value: dimensionObjectToString(converted) }
       }
 
@@ -51,8 +51,11 @@ export function dimensionToRem(): Transform {
 
       // Convert dimension object to rem
       if (isDimensionObject(value)) {
-        const baseFontSize = 16
-        const converted = convertDimension(value as DimensionValue, 'rem', baseFontSize)
+        const converted = convertDimension(
+          value as DimensionValue,
+          'rem',
+          DEFAULT_BASE_FONT_SIZE_PX,
+        )
         return { ...token, $value: dimensionObjectToString(converted) }
       }
 

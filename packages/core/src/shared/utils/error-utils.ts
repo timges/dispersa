@@ -77,25 +77,3 @@ export function toBuildError(error: unknown, outputName?: string): BuildError {
 
   return { message, code: 'UNKNOWN', severity: 'error' }
 }
-
-/**
- * Create an error with proper cause chain (Error.cause)
- * Preserves the original error context for better debugging
- *
- * @param message - Error message
- * @param cause - Original error that caused this error
- * @returns Error with cause chain
- */
-export function createErrorWithCause(message: string, cause: unknown): Error {
-  return new Error(message, { cause })
-}
-
-/**
- * Check if value is an Error instance
- *
- * @param value - Value to check
- * @returns True if value is an Error
- */
-export function isError(value: unknown): value is Error {
-  return value instanceof Error
-}

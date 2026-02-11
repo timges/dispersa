@@ -175,6 +175,50 @@ type DefaultLayerBlock = {
   tokens: BundleDataItem['tokens']
 }
 
+/** Collect tokens belonging to a specific set, excluding already-included tokens */
+function collectSetTokens(
+  tokens: BundleDataItem['tokens'],
+  setName: string,
+  included: Set<string>,
+): BundleDataItem['tokens'] {
+  const result: BundleDataItem['tokens'] = {}
+  for (const [name, token] of Object.entries(tokens)) {
+    if (!included.has(name) && getSourceSet(token) === setName) {
+      result[name] = token
+    }
+  }
+  return result
+}
+
+/** Collect tokens belonging to a specific modifier source, excluding already-included tokens */
+function collectModifierTokens(
+  tokens: BundleDataItem['tokens'],
+  expectedSource: string,
+  included: Set<string>,
+): BundleDataItem['tokens'] {
+  const result: BundleDataItem['tokens'] = {}
+  for (const [name, token] of Object.entries(tokens)) {
+    if (!included.has(name) && (getSourceModifier(token) ?? '').toLowerCase() === expectedSource) {
+      result[name] = token
+    }
+  }
+  return result
+}
+
+/** Collect all tokens not yet included in any block */
+function collectRemainder(
+  tokens: BundleDataItem['tokens'],
+  included: Set<string>,
+): BundleDataItem['tokens'] {
+  const result: BundleDataItem['tokens'] = {}
+  for (const [name, token] of Object.entries(tokens)) {
+    if (!included.has(name)) {
+      result[name] = token
+    }
+  }
+  return result
+}
+
 function buildDefaultLayerBlocks(
   tokens: BundleDataItem['tokens'],
   baseModifierInputs: Record<string, string>,
@@ -182,8 +226,8 @@ function buildDefaultLayerBlocks(
 ): DefaultLayerBlock[] {
   const blocks: DefaultLayerBlock[] = []
   const included = new Set<string>()
-
   const baseInputs = normalizeModifierInputs(baseModifierInputs)
+
   const addBlock = (key: string, blockTokens: BundleDataItem['tokens'], description?: string) => {
     if (Object.keys(blockTokens).length === 0) {
       return
@@ -202,67 +246,55 @@ function buildDefaultLayerBlocks(
 
     if (ref.startsWith('#/sets/')) {
       const setName = ref.slice('#/sets/'.length)
-      const setDescription = resolver.sets?.[setName]?.description
-      const setTokens: BundleDataItem['tokens'] = {}
-
-      for (const [name, token] of Object.entries(tokens)) {
-        if (included.has(name)) {
-          continue
-        }
-        const sourceSet = getSourceSet(token)
-        if (sourceSet === setName) {
-          setTokens[name] = token
-        }
-      }
-
-      addBlock(`Set: ${setName}`, setTokens, setDescription)
+      addBlock(
+        `Set: ${setName}`,
+        collectSetTokens(tokens, setName, included),
+        resolver.sets?.[setName]?.description,
+      )
       continue
     }
 
     if (ref.startsWith('#/modifiers/')) {
       const modifierName = ref.slice('#/modifiers/'.length)
       const modifier = resolver.modifiers?.[modifierName]
-      if (!modifier) {
-        continue
-      }
-
       const selectedContext = baseInputs[modifierName.toLowerCase()]
-      if (!selectedContext) {
+      if (!modifier || !selectedContext) {
         continue
       }
 
       const expectedSource = `${modifierName}-${selectedContext}`.toLowerCase()
-      const modifierTokens: BundleDataItem['tokens'] = {}
-
-      for (const [name, token] of Object.entries(tokens)) {
-        if (included.has(name)) {
-          continue
-        }
-        const source = getSourceModifier(token) ?? ''
-        if (source.toLowerCase() === expectedSource) {
-          modifierTokens[name] = token
-        }
-      }
-
       addBlock(
         `Modifier: ${modifierName}=${selectedContext} (default)`,
-        modifierTokens,
+        collectModifierTokens(tokens, expectedSource, included),
         modifier.description,
       )
     }
   }
 
-  // Safety: include any remaining tokens (should be rare)
-  const remainder: BundleDataItem['tokens'] = {}
-  for (const [name, token] of Object.entries(tokens)) {
-    if (included.has(name)) {
-      continue
-    }
-    remainder[name] = token
-  }
-  addBlock('Unattributed', remainder)
-
+  addBlock('Unattributed', collectRemainder(tokens, included))
   return blocks
+}
+
+/** Find a permutation that differs from the base in exactly one modifier dimension */
+function findSingleDiffPermutation(
+  bundleData: BundleDataItem[],
+  modifierName: string,
+  context: string,
+  baseInputs: Record<string, string>,
+): BundleDataItem | undefined {
+  const normalizedModifier = modifierName.toLowerCase()
+  const normalizedContext = context.toLowerCase()
+
+  return bundleData.find((item) => {
+    if (item.isBase) {
+      return false
+    }
+    const inputs = normalizeModifierInputs(item.modifierInputs)
+    if (inputs[normalizedModifier] !== normalizedContext) {
+      return false
+    }
+    return Object.entries(baseInputs).every(([k, v]) => k === normalizedModifier || inputs[k] === v)
+  })
 }
 
 function orderBundleData(
@@ -281,6 +313,11 @@ function orderBundleData(
     return bundleData
   }
 
+  const firstModifierDef = modifiers[orderedModifierNames[0] ?? '']
+  if (!firstModifierDef) {
+    return bundleData
+  }
+
   const includedKeys = new Set<string>()
   const ordered: BundleDataItem[] = []
 
@@ -296,44 +333,6 @@ function orderBundleData(
     ordered.push(item)
   }
 
-  const findSingleDiff = (modifierName: string, context: string) => {
-    const normalizedModifier = modifierName.toLowerCase()
-    const normalizedContext = context.toLowerCase()
-
-    return bundleData.find((item) => {
-      if (item.isBase) {
-        return false
-      }
-
-      const inputs = normalizeModifierInputs(item.modifierInputs)
-      if (inputs[normalizedModifier] !== normalizedContext) {
-        return false
-      }
-
-      for (const [k, v] of Object.entries(baseInputs)) {
-        if (k === normalizedModifier) {
-          continue
-        }
-        if (inputs[k] !== v) {
-          return false
-        }
-      }
-
-      return true
-    })
-  }
-
-  const firstModifier = orderedModifierNames[0]
-  if (!firstModifier) {
-    return bundleData
-  }
-
-  const firstModifierDef = modifiers[firstModifier]
-  if (!firstModifierDef) {
-    return bundleData
-  }
-
-  // Base (root) always comes first, regardless of context key order
   pushUnique(baseItem)
 
   for (const modifierName of orderedModifierNames) {
@@ -342,14 +341,12 @@ function orderBundleData(
       continue
     }
 
-    const contexts = Object.keys(modifierDef.contexts)
     const defaultValue = baseInputs[modifierName.toLowerCase()] ?? ''
-
-    for (const ctx of contexts) {
+    for (const ctx of Object.keys(modifierDef.contexts)) {
       if (defaultValue === ctx.toLowerCase()) {
         continue
       }
-      pushUnique(findSingleDiff(modifierName, ctx))
+      pushUnique(findSingleDiffPermutation(bundleData, modifierName, ctx, baseInputs))
     }
   }
 

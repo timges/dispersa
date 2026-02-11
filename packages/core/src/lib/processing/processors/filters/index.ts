@@ -4,10 +4,4 @@
  */
 
 export type { Filter } from './types'
-export {
-  isFigmaCompatible as excludeUnsupportedFigmaTypes,
-  isAlias,
-  isBase,
-  byType,
-  byPath,
-} from './built-in'
+export { isAlias, isBase, byType, byPath } from './built-in'

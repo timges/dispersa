@@ -214,7 +214,6 @@ describe('In-Memory API E2E Tests', () => {
       const dispersa = new Dispersa({
         validation: {
           mode: 'warn',
-          onWarning: () => {},
         },
       })
 

@@ -368,7 +368,7 @@ text.secondary:
 exports[`enterprise > should produce expected file structure and content 1`] = `
 {
   "css/tokens.css": "66fa13854e0df95f",
-  "js-bundle/tokens.js": "5a3181e7dd2ce550",
+  "js-bundle/tokens.js": "cab0a518bb8b6de7",
   "js/tokens-dark-partner-a.js": "0d654a280fdc9547",
   "js/tokens-dark-partner-b.js": "e2bbdfcc871c528f",
   "js/tokens-dark-primary.js": "596539266862c803",

@@ -37,7 +37,7 @@ export function isColorObject(value: unknown): value is ColorValueObject {
  * Convert a color component value to culori format
  * The "none" keyword becomes undefined (culori's representation of missing channels)
  */
-export function componentToCulori(component: ColorComponent): number | undefined {
+function componentToCulori(component: ColorComponent): number | undefined {
   return component === 'none' ? undefined : component
 }
 

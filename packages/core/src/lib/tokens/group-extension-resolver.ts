@@ -6,6 +6,7 @@
  */
 
 import { ValidationError } from '@shared/errors/index'
+import { isTokenLike } from '@shared/utils/token-utils'
 
 import type { Token, TokenCollection, TokenGroup } from './types'
 
@@ -230,7 +231,7 @@ export class GroupExtensionResolver {
    * Type guard: check if value is a token
    */
   private isToken(value: unknown): value is Token {
-    return typeof value === 'object' && value !== null && ('$value' in value || '$ref' in value)
+    return isTokenLike(value)
   }
 
   /**

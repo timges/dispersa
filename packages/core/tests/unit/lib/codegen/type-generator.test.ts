@@ -108,118 +108,6 @@ describe('Type Generation Integration Tests', () => {
     })
   })
 
-  describe('Nested Structure Type Generation', () => {
-    it('should generate nested object type structure', () => {
-      const lines = generator.generateNestedType(tokens, 'Tokens')
-      const output = lines.join('\n')
-
-      expect(output).toContain('export type Tokens = {')
-      expect(output).toContain('color: {')
-      expect(output).toContain('primitive: {')
-      expect(output).toContain('red: string')
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should preserve token hierarchy', () => {
-      const lines = generator.generateNestedType(tokens, 'Tokens')
-      const output = lines.join('\n')
-
-      // Should have nested structure: color.primitive.gray.50
-      expect(output).toContain('color: {')
-      expect(output).toMatch(/primitive:\s*\{/)
-      expect(output).toMatch(/gray:\s*\{/)
-
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should handle numeric keys', () => {
-      const lines = generator.generateNestedType(tokens, 'Tokens')
-      const output = lines.join('\n')
-
-      // Numeric keys like "50", "100" should be quoted
-      expect(output).toMatch(/"50":\s*string/)
-      expect(output).toMatch(/"4":\s*string/)
-
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should handle deep nesting', () => {
-      const lines = generator.generateNestedType(tokens, 'Tokens')
-      const output = lines.join('\n')
-
-      // semantic.spacing.component.padding is deeply nested
-      expect(output).toContain('semantic: {')
-      expect(output).toMatch(/spacing:\s*\{/)
-      expect(output).toMatch(/component:\s*\{/)
-      expect(output).toMatch(/padding:\s*string/)
-
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should properly indent nested structures', () => {
-      const generatedLines = generator.generateNestedType(tokens, 'Tokens')
-      const output = generatedLines.join('\n')
-
-      const lines = output.split('\n')
-      const indentedLines = lines.filter((line) => line.startsWith('  '))
-
-      expect(indentedLines.length).toBeGreaterThan(0)
-      expect(output).toMatchSnapshot()
-    })
-  })
-
-  describe('Complete Type Definition', () => {
-    it('should generate all type definitions together', () => {
-      const lines = generator.generateAll(tokens, {
-        namesType: 'TokenNames',
-        valuesType: 'TokenValues',
-        tokensType: 'Tokens',
-      })
-      const output = lines.join('\n')
-
-      expect(output).toContain('export type TokenNames =')
-      expect(output).toContain('export type TokenValues = {')
-      expect(output).toContain('export type Tokens = {')
-
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should be valid TypeScript', () => {
-      const lines = generator.generateAll(tokens, {
-        namesType: 'TokenNames',
-        valuesType: 'TokenValues',
-        tokensType: 'Tokens',
-      })
-      const output = lines.join('\n')
-
-      // Basic syntax checks
-      expect(output).not.toContain('undefined')
-      expect(output).not.toContain('null')
-
-      // Should have balanced braces
-      const openBraces = (output.match(/{/g) ?? []).length
-      const closeBraces = (output.match(/}/g) ?? []).length
-      expect(openBraces).toBe(closeBraces)
-
-      expect(output).toMatchSnapshot()
-    })
-
-    it('should export all types', () => {
-      const lines = generator.generateAll(tokens, {
-        namesType: 'TokenNames',
-        valuesType: 'TokenValues',
-        tokensType: 'Tokens',
-      })
-      const output = lines.join('\n')
-
-      // Count export statements
-      const exports = output.match(/export type/g)
-      expect(exports?.length).toBe(3)
-
-      expect(output).toMatchSnapshot()
-    })
-  })
-
   describe('Edge Cases', () => {
     it('should handle empty token collection', () => {
       const emptyTokens: ResolvedTokens = {}
@@ -233,11 +121,6 @@ describe('Type Generation Integration Tests', () => {
       // Can be on one or two lines
       expect(values).toContain('export type TokenValues = {')
       expect(values).toContain('}')
-
-      const nestedLines = generator.generateNestedType(emptyTokens, 'Tokens')
-      const nested = nestedLines.join('\n')
-      expect(nested).toContain('export type Tokens = {')
-      expect(nested).toContain('}')
     })
 
     it('should handle special characters in token names', () => {
@@ -296,23 +179,6 @@ describe('Type Generation Integration Tests', () => {
       const valuesLines = generator.generateTokenValuesType(tokens, 'MyTokenValues')
       const values = valuesLines.join('\n')
       expect(values).toContain('export type MyTokenValues = {')
-
-      const nestedLines = generator.generateNestedType(tokens, 'MyTokens')
-      const nested = nestedLines.join('\n')
-      expect(nested).toContain('export type MyTokens = {')
-    })
-
-    it('should allow different type names for each generation', () => {
-      const lines = generator.generateAll(tokens, {
-        namesType: 'DesignTokenNames',
-        valuesType: 'DesignTokenValues',
-        tokensType: 'DesignTokens',
-      })
-      const output = lines.join('\n')
-
-      expect(output).toContain('DesignTokenNames')
-      expect(output).toContain('DesignTokenValues')
-      expect(output).toContain('DesignTokens')
     })
   })
 })

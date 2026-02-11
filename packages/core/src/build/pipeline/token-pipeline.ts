@@ -1,6 +1,6 @@
 /**
  * @fileoverview Token resolution pipeline
- * Handles the flow: parse resolver → resolve tokens → preprocess → flatten → resolve aliases → apply transforms
+ * Handles the flow: parse resolver → resolve tokens → preprocess → resolve $ref → flatten → resolve aliases → apply transforms
  *
  * Pipeline stages are explicitly typed to prevent temporal coupling and ensure
  * operations happen in the correct order.
@@ -85,38 +85,44 @@ export class TokenPipeline {
     resolutionEngine: ResolutionEngine
     modifierInputs: ModifierInputs
   }> {
-    // Stage 1: Load resolver
     const stage1 = await this.loadResolver(resolver)
-
-    // Stage 2: Create resolution engine
-    const stage2 = this.createEngine(stage1)
-
-    // Stage 3: Resolve tokens
-    const stage3 = await this.resolveTokens(stage2, modifierInputs)
-
-    // Stage 4: Apply preprocessors (if provided)
-    const stage4 = await this.preprocessTokens(stage3, preprocessorList)
-
-    // Stage 5: Resolve JSON Pointer references
-    const stage5 = await this.resolveReferences(stage4)
-
-    // Stage 6: Parse and flatten
-    const stage6 = this.flattenTokens(stage5)
-
-    // Stage 7: Resolve aliases
-    const stage7 = this.resolveAliases(stage6)
-
-    // Stage 8: Apply filters
-    const stage8 = this.applyFilterStage(stage7, filterList)
-
-    // Stage 9: Apply transforms
-    const stage9 = this.applyTransformStage(stage8, transformList)
+    const engine = this.createEngine(stage1)
+    const result = await this.runPipelineStages(
+      engine,
+      modifierInputs,
+      preprocessorList,
+      filterList,
+      transformList,
+    )
 
     return {
-      tokens: stage9.tokens,
-      resolutionEngine: stage9.resolutionEngine,
-      modifierInputs: stage9.modifierInputs,
+      tokens: result.tokens,
+      resolutionEngine: result.resolutionEngine,
+      modifierInputs: result.modifierInputs,
     }
+  }
+
+  /**
+   * Run pipeline stages 3-9 on a pre-created engine
+   *
+   * Shared by both `resolve()` (single permutation) and
+   * `resolveAllPermutations()` (parallel permutations) to keep the
+   * stage sequence defined in exactly one place.
+   */
+  private async runPipelineStages(
+    engine: EngineReadyStage,
+    modifierInputs: ModifierInputs,
+    preprocessorList?: Preprocessor[],
+    filterList?: Filter[],
+    transformList?: Transform[],
+  ): Promise<FinalStage> {
+    const rawTokens = await this.resolveTokens(engine, modifierInputs)
+    const preprocessed = await this.preprocessTokens(rawTokens, preprocessorList)
+    const refResolved = await this.resolveReferences(preprocessed)
+    const flattened = this.flattenTokens(refResolved)
+    const aliasResolved = this.resolveAliases(flattened)
+    const filtered = this.applyFilterStage(aliasResolved, filterList)
+    return this.applyTransformStage(filtered, transformList)
   }
 
   /**
@@ -306,17 +312,17 @@ export class TokenPipeline {
     return await Promise.all(
       permutationInputs.map(async (modifierInputs) => {
         const engine = this.createEngine(stage1, sharedCache)
-        const stage3 = await this.resolveTokens(engine, modifierInputs)
-        const stage4 = await this.preprocessTokens(stage3, preprocessorList)
-        const stage5 = await this.resolveReferences(stage4)
-        const stage6 = this.flattenTokens(stage5)
-        const stage7 = this.resolveAliases(stage6)
-        const stage8 = this.applyFilterStage(stage7, filterList)
-        const stage9 = this.applyTransformStage(stage8, transformList)
+        const result = await this.runPipelineStages(
+          engine,
+          modifierInputs,
+          preprocessorList,
+          filterList,
+          transformList,
+        )
 
         return {
-          tokens: stage9.tokens,
-          modifierInputs: stage9.modifierInputs,
+          tokens: result.tokens,
+          modifierInputs: result.modifierInputs,
         }
       }),
     )

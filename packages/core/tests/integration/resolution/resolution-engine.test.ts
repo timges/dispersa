@@ -198,15 +198,16 @@ describe('Resolution Engine Integration', () => {
 
   describe('Validation Modes', () => {
     it('should warn instead of throwing for invalid modifier input types', async () => {
-      const warn = vi.fn()
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
       const resolverPath = getFixturePath('tokens.resolver.json')
       const resolver = await parser.parseFile(resolverPath)
       const engine = new ResolutionEngine(resolver, refResolver, {
-        validation: { mode: 'warn', onWarning: warn },
+        validation: { mode: 'warn' },
       })
 
       await expect(engine.resolve({ theme: true as any })).resolves.toBeDefined()
       expect(warn).toHaveBeenCalled()
+      warn.mockRestore()
     })
 
     it('should skip validation when mode is off', async () => {

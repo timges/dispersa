@@ -166,15 +166,17 @@ export type MediaQueryFunction = (
  * Controls how tokens are converted to CSS custom properties (CSS variables).
  *
  * **Note:** Token naming is controlled through transforms, not renderer options.
- * Use `name:kebab-case` transform and `namePrefix()` for naming control.
+ * Use `nameKebabCase()` and `namePrefix()` for naming control.
  *
  * @example String-based selectors
  * ```typescript
- * outputs: [{
- *   renderer: 'css',
- *   transforms: ['name:kebab-case', namePrefix('ds-')],
- *   options: { preset: 'bundle', selector: ':root' }
- * }]
+ * css({
+ *   name: 'tokens',
+ *   file: 'tokens.css',
+ *   transforms: [nameKebabCase(), namePrefix('ds-')],
+ *   preset: 'bundle',
+ *   selector: ':root',
+ * })
  * ```
  *
  * @example Function-based selectors

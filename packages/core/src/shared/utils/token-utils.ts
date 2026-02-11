@@ -73,6 +73,16 @@ export function getSortedTokenEntries(
 }
 
 /**
+ * Check if a value looks like a DTCG token (has `$value` or `$ref` property).
+ *
+ * This is the base structural check shared by parsers, validators, and resolvers.
+ * Individual modules may wrap this in a type-guard to narrow to their own token types.
+ */
+export function isTokenLike(value: unknown): boolean {
+  return typeof value === 'object' && value !== null && ('$value' in value || '$ref' in value)
+}
+
+/**
  * Extract a pure alias reference name from a string value.
  *
  * Returns the inner token name for "{token.name}" inputs and undefined otherwise.

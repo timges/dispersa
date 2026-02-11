@@ -40,17 +40,3 @@ export type Transform = {
    */
   transform: (token: ResolvedToken) => ResolvedToken
 }
-
-/**
- * Group of transforms that can be applied together
- *
- * Allows organizing related transforms and applying them as a unit.
- * Transforms in the group are applied in array order.
- */
-export type TransformGroup = {
-  /** Name identifier for the group */
-  name: string
-
-  /** Ordered array of transforms to apply (by name or inline definition) */
-  transforms: (string | Transform)[]
-}

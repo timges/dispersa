@@ -6,9 +6,9 @@ import type { InternalTokenDocument } from '@lib/tokens/types'
 import { ConfigurationError, ModifierError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { CaseInsensitiveMap } from '@shared/utils/case-insensitive-map'
-import { findSimilar } from '@shared/utils/string-similarity'
 import { ValidationHandler } from '@shared/utils/validation-handler'
 
+import { ModifierInputProcessor } from './modifier-input-processor'
 import { ReferenceResolver } from './reference-resolver'
 import type {
   Modifier,
@@ -18,6 +18,9 @@ import type {
   Set,
 } from './resolution.types'
 
+const JSON_POINTER_SETS_PREFIX = '#/sets/'
+const JSON_POINTER_MODIFIERS_PREFIX = '#/modifiers/'
+
 export type ResolutionOptions = {
   errorOnMissingDefault?: boolean
   validation?: ValidationOptions
@@ -26,8 +29,11 @@ export type ResolutionOptions = {
 export class ResolutionEngine {
   private resolver: ResolverDocument
   private refResolver: ReferenceResolver
-  private options: ResolutionOptions
   private validationHandler: ValidationHandler
+  private inputProcessor: ModifierInputProcessor
+
+  /** Pre-built reverse lookup from Modifier reference → modifier name */
+  private modifierNameCache: Map<Modifier, string>
 
   constructor(
     resolver: ResolverDocument,
@@ -36,10 +42,24 @@ export class ResolutionEngine {
   ) {
     this.resolver = resolver
     this.refResolver = refResolver
-    this.options = {
-      ...options,
-    }
     this.validationHandler = new ValidationHandler(options.validation)
+    this.inputProcessor = new ModifierInputProcessor({
+      modifiers: resolver.modifiers,
+      validationHandler: this.validationHandler,
+      errorOnMissingDefault: options.errorOnMissingDefault,
+    })
+    this.modifierNameCache = this.buildModifierNameCache()
+  }
+
+  private buildModifierNameCache(): Map<Modifier, string> {
+    const cache = new Map<Modifier, string>()
+    if (!this.resolver.modifiers) {
+      return cache
+    }
+    for (const [name, mod] of Object.entries(this.resolver.modifiers)) {
+      cache.set(mod as Modifier, name)
+    }
+    return cache
   }
 
   /**
@@ -70,25 +90,7 @@ export class ResolutionEngine {
     normalizedInputs: ModifierInputs
     resolvedInputs: ModifierInputs
   } {
-    // Validate input types (DTCG spec section 5.2: inputs MUST be strings)
-    if (this.validationHandler.shouldValidate()) {
-      this.validateInputTypes(modifierInputs)
-    }
-
-    const originalInputMap = this.buildOriginalInputMap(modifierInputs)
-
-    // Normalize inputs to be case-insensitive per DTCG spec (SHOULD requirement)
-    const normalizedInputs = this.normalizeInputs(modifierInputs)
-
-    // Validate inputs
-    if (this.validationHandler.shouldValidate()) {
-      this.validateInputs(normalizedInputs)
-    }
-
-    // Fill in defaults for missing modifiers
-    const normalizedWithDefaults = this.fillDefaults(normalizedInputs)
-    const resolvedInputs = this.buildResolvedInputs(normalizedWithDefaults, originalInputMap)
-    return { normalizedInputs: normalizedWithDefaults, resolvedInputs }
+    return this.inputProcessor.prepare(modifierInputs)
   }
 
   private async resolveWithPreparedInputs(inputs: ModifierInputs): Promise<InternalTokenDocument> {
@@ -99,8 +101,8 @@ export class ResolutionEngine {
       if (ReferenceResolver.isReference(item)) {
         const ref = item.$ref
 
-        if (ref.startsWith('#/sets/')) {
-          const setName = ref.slice('#/sets/'.length)
+        if (ref.startsWith(JSON_POINTER_SETS_PREFIX)) {
+          const setName = ref.slice(JSON_POINTER_SETS_PREFIX.length)
           const resolved = await this.refResolver.resolve(item, this.resolver)
           if (this.isSet(resolved)) {
             const setTokens = await this.resolveSet(resolved, inputs, setName)
@@ -174,11 +176,11 @@ export class ResolutionEngine {
       }
 
       // resolutionOrder references are JSON Pointers; we care about "#/modifiers/<name>"
-      if (!item.$ref.startsWith('#/modifiers/')) {
+      if (!item.$ref.startsWith(JSON_POINTER_MODIFIERS_PREFIX)) {
         continue
       }
 
-      const name = item.$ref.slice('#/modifiers/'.length)
+      const name = item.$ref.slice(JSON_POINTER_MODIFIERS_PREFIX.length)
       const modifier = modifiers[name]
       if (!modifier || seen.has(name)) {
         continue
@@ -198,187 +200,6 @@ export class ResolutionEngine {
     }
 
     return ordered
-  }
-
-  /**
-   * Validate that all input values are strings (DTCG spec section 5.2)
-   */
-  private validateInputTypes(inputs: ModifierInputs): void {
-    for (const [key, value] of Object.entries(inputs)) {
-      if (typeof value !== 'string') {
-        this.validationHandler.handleIssue(
-          new ConfigurationError(
-            `Invalid input type for modifier "${key}". Expected string but got ${typeof value}. ` +
-              `All modifier inputs must be strings (e.g., { "beta": "true" } not { "beta": true }).`,
-          ),
-        )
-      }
-    }
-  }
-
-  /**
-   * Normalize modifier inputs to be case-insensitive
-   *
-   * Per DTCG spec SHOULD requirement: inputs should be case-insensitive.
-   * For example, { "theme": "dark" }, { "Theme": "Dark" }, and { "THEME": "DARK" }
-   * should be treated as equivalent.
-   */
-  private normalizeInputs(inputs: ModifierInputs): ModifierInputs {
-    const normalized: ModifierInputs = {}
-
-    for (const [key, value] of Object.entries(inputs)) {
-      if (typeof value !== 'string') {
-        continue
-      }
-      normalized[key.toLowerCase()] = value.toLowerCase()
-    }
-
-    return normalized
-  }
-
-  private buildOriginalInputMap(
-    inputs: ModifierInputs,
-  ): Map<string, { key: string; value: string }> {
-    const original = new Map<string, { key: string; value: string }>()
-    for (const [key, value] of Object.entries(inputs)) {
-      if (typeof value !== 'string') {
-        continue
-      }
-      const lowerKey = key.toLowerCase()
-      if (!original.has(lowerKey)) {
-        original.set(lowerKey, { key, value })
-      }
-    }
-    return original
-  }
-
-  private buildResolvedInputs(
-    normalizedInputs: ModifierInputs,
-    originalInputMap: Map<string, { key: string; value: string }>,
-  ): ModifierInputs {
-    const resolved: ModifierInputs = {}
-    const seenNormalized = new Set<string>()
-
-    if (this.resolver.modifiers) {
-      for (const [modifierName, modifier] of Object.entries(this.resolver.modifiers)) {
-        const normalizedName = modifierName.toLowerCase()
-        const normalizedValue = normalizedInputs[normalizedName]
-        if (normalizedValue == null) {
-          continue
-        }
-        seenNormalized.add(normalizedName)
-        const contextMap = new CaseInsensitiveMap<string>()
-        for (const contextName of Object.keys(modifier.contexts)) {
-          contextMap.set(contextName, contextName)
-        }
-        const originalContext = contextMap.getOriginalKey(normalizedValue)
-        const fallbackValue = originalInputMap.get(normalizedName)?.value ?? normalizedValue
-        resolved[modifierName] = originalContext ?? fallbackValue
-      }
-    }
-
-    for (const [normalizedName, normalizedValue] of Object.entries(normalizedInputs)) {
-      if (seenNormalized.has(normalizedName)) {
-        continue
-      }
-      const originalEntry = originalInputMap.get(normalizedName)
-      resolved[originalEntry?.key ?? normalizedName] = originalEntry?.value ?? normalizedValue
-    }
-
-    return resolved
-  }
-
-  /**
-   * Validate modifier inputs
-   * Note: inputs should already be normalized to lowercase before calling this method
-   */
-  private validateInputs(inputs: ModifierInputs): void {
-    if (!this.resolver.modifiers) {
-      if (Object.keys(inputs).length > 0) {
-        throw new ConfigurationError('No modifiers defined in resolver document')
-      }
-      return
-    }
-
-    // Create case-insensitive map of modifiers
-    // Note: Type assertion needed because generated ResolverDocument type has looser
-    // type for modifiers (unknown[]) than our Modifier type. See DX-COMPARISON.md
-    const modifierMap = new CaseInsensitiveMap<{ name: string; modifier: Modifier }>()
-    for (const [name, modifier] of Object.entries(this.resolver.modifiers)) {
-      modifierMap.set(name, { name, modifier: modifier as Modifier })
-    }
-
-    const allModifierNames = Object.keys(this.resolver.modifiers)
-
-    for (const [modifierName, contextValue] of Object.entries(inputs)) {
-      const modifierEntry = modifierMap.get(modifierName)
-
-      if (modifierEntry === undefined) {
-        const suggestions = findSimilar(modifierName, allModifierNames)
-        this.validationHandler.handleIssue(new ModifierError(modifierName, undefined, suggestions))
-        continue
-      }
-
-      // Create case-insensitive map of contexts
-      const contextMap = new CaseInsensitiveMap<string>()
-      for (const contextName of Object.keys(modifierEntry.modifier.contexts)) {
-        contextMap.set(contextName, contextName)
-      }
-
-      if (!contextMap.has(contextValue)) {
-        const validContexts = Object.keys(modifierEntry.modifier.contexts)
-        this.validationHandler.handleIssue(
-          new ModifierError(modifierName, contextValue, validContexts),
-        )
-      }
-    }
-  }
-
-  /**
-   * Fill in default values for missing modifiers
-   * Note: inputs should already be normalized to lowercase before calling this method
-   */
-  private fillDefaults(inputs: ModifierInputs): ModifierInputs {
-    if (!this.resolver.modifiers) {
-      return { ...inputs }
-    }
-
-    const result = { ...inputs }
-
-    for (const [modifierName, modifier] of Object.entries(this.resolver.modifiers)) {
-      const normalizedModifierName = modifierName.toLowerCase()
-
-      if (normalizedModifierName in result) {
-        continue
-      }
-
-      if (modifier.default) {
-        result[normalizedModifierName] = modifier.default.toLowerCase()
-        continue
-      }
-
-      if (this.shouldErrorOnMissingDefault()) {
-        throw new ConfigurationError(`No default value for modifier: ${modifierName}`)
-      }
-
-      this.validationHandler.warn(
-        `Missing modifier input for "${modifierName}". Using first context.`,
-      )
-      // Use first context as default
-      const firstContext = Object.keys(modifier.contexts)[0]
-      if (firstContext) {
-        result[normalizedModifierName] = firstContext.toLowerCase()
-      }
-    }
-
-    return result
-  }
-
-  private shouldErrorOnMissingDefault(): boolean {
-    if (this.options.errorOnMissingDefault !== undefined) {
-      return this.options.errorOnMissingDefault
-    }
-    return this.validationHandler.isStrict()
   }
 
   /**
@@ -422,7 +243,7 @@ export class ResolutionEngine {
       }
 
       // Tag tokens with their source set name (for bundle grouping)
-      const taggedTokens = this.tagTokensWithSet(sourceTokens, setName ?? 'set')
+      const taggedTokens = this.tagTokens(sourceTokens, '_sourceSet', setName ?? 'set')
       tokens = this.mergeTokens(tokens, taggedTokens)
     }
 
@@ -454,17 +275,7 @@ export class ResolutionEngine {
   }
 
   private findModifierName(modifier: Modifier): string | undefined {
-    if (!this.resolver.modifiers) {
-      return undefined
-    }
-
-    for (const [name, mod] of Object.entries(this.resolver.modifiers)) {
-      if (mod === modifier) {
-        return name
-      }
-    }
-
-    return undefined
+    return this.modifierNameCache.get(modifier)
   }
 
   private resolveContextValue(
@@ -524,7 +335,7 @@ export class ResolutionEngine {
 
     for (const source of context) {
       const sourceTokens = await this.resolveSourceTokens(source)
-      const taggedTokens = this.tagTokensWithSource(sourceTokens, sourceTag)
+      const taggedTokens = this.tagTokens(sourceTokens, '_sourceModifier', sourceTag)
       tokens = this.mergeTokens(tokens, taggedTokens)
     }
 
@@ -571,54 +382,25 @@ export class ResolutionEngine {
   }
 
   /**
-   * Tag all tokens in a collection with their source modifier
-   * Used for bundle mode to track which modifier defined each token
+   * Tag all tokens in a collection with a metadata property.
+   * Used for bundle mode to track which set or modifier defined each token.
    */
-  private tagTokensWithSource(
+  private tagTokens(
     tokens: InternalTokenDocument,
-    sourceModifier: string,
+    property: '_sourceModifier' | '_sourceSet',
+    value: string,
   ): InternalTokenDocument {
     const result: InternalTokenDocument = {}
 
-    for (const [key, value] of Object.entries(tokens)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        if ('$value' in value) {
-          // This is a token - tag it with source
-          result[key] = {
-            ...value,
-            _sourceModifier: sourceModifier,
-          }
+    for (const [key, entry] of Object.entries(tokens)) {
+      if (typeof entry === 'object' && entry !== null && !Array.isArray(entry)) {
+        if ('$value' in entry) {
+          result[key] = { ...entry, [property]: value }
         } else {
-          // This is a group - recursively tag children
-          result[key] = this.tagTokensWithSource(value as InternalTokenDocument, sourceModifier)
+          result[key] = this.tagTokens(entry as InternalTokenDocument, property, value)
         }
       } else {
-        // Keep non-object values as-is
-        result[key] = value
-      }
-    }
-
-    return result
-  }
-
-  private tagTokensWithSet(
-    tokens: InternalTokenDocument,
-    sourceSet: string,
-  ): InternalTokenDocument {
-    const result: InternalTokenDocument = {}
-
-    for (const [key, value] of Object.entries(tokens)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        if ('$value' in value) {
-          result[key] = {
-            ...value,
-            _sourceSet: sourceSet,
-          }
-        } else {
-          result[key] = this.tagTokensWithSet(value as InternalTokenDocument, sourceSet)
-        }
-      } else {
-        result[key] = value
+        result[key] = entry
       }
     }
 

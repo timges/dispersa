@@ -574,14 +574,28 @@ type BuildResult = {
 
 type BuildError = {
   message: string
-  code: ErrorCode // e.g. 'TOKEN_REFERENCE', 'CIRCULAR_REFERENCE', 'FILE_OPERATION'
+  code: ErrorCode
   path?: string // file path (for FILE_OPERATION errors)
   tokenPath?: string // token path (for TOKEN_REFERENCE, CIRCULAR_REFERENCE errors)
   severity: 'error' | 'warning'
+  suggestions?: string[] // e.g. similar token names for TOKEN_REFERENCE errors
 }
 ```
 
-Error codes map to the error hierarchy: `TOKEN_REFERENCE`, `CIRCULAR_REFERENCE`, `VALIDATION`, `COLOR_PARSE`, `DIMENSION_FORMAT`, `FILE_OPERATION`, `CONFIGURATION`, `BASE_PERMUTATION`, `MODIFIER`, `UNKNOWN`.
+`ErrorCode` is a union of all failure types:
+
+| Code                 | Description                                 |
+| -------------------- | ------------------------------------------- |
+| `TOKEN_REFERENCE`    | Unresolved alias reference (`{token.name}`) |
+| `CIRCULAR_REFERENCE` | Circular alias chain detected               |
+| `VALIDATION`         | Schema or structural validation failure     |
+| `COLOR_PARSE`        | Invalid color value                         |
+| `DIMENSION_FORMAT`   | Invalid dimension value                     |
+| `FILE_OPERATION`     | File read/write failure                     |
+| `CONFIGURATION`      | Invalid build or renderer configuration     |
+| `BASE_PERMUTATION`   | Missing base permutation for bundle mode    |
+| `MODIFIER`           | Invalid modifier input or context           |
+| `UNKNOWN`            | Catch-all for unexpected errors             |
 
 ## Lifecycle hooks
 
@@ -681,11 +695,11 @@ const dispersa = new Dispersa(options?: DispersaOptions)
 
 **Constructor options:**
 
-| Option       | Type                                    | Description                                   |
-| ------------ | --------------------------------------- | --------------------------------------------- |
-| `resolver`   | `string \| ResolverDocument`            | Default resolver (file path or inline object) |
-| `buildPath`  | `string`                                | Default output directory                      |
-| `validation` | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation behavior                           |
+| Option       | Type                                    | Description                                            |
+| ------------ | --------------------------------------- | ------------------------------------------------------ |
+| `resolver`   | `string \| ResolverDocument`            | Default resolver (file path or inline object)          |
+| `buildPath`  | `string`                                | Default output directory                               |
+| `validation` | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation behavior (`'warn'` logs via `console.warn`) |
 
 **Methods:**
 

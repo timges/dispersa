@@ -28,6 +28,9 @@ export type {
   ValidationOptions,
 } from '@config/index'
 
+// Validation types
+export type { ValidationMode } from '@shared/types/validation'
+
 // Token types
 export type {
   ResolvedToken,
@@ -71,6 +74,7 @@ export type { Preprocessor } from '@lib/processing/processors/preprocessors/type
 // Renderer types
 export type {
   BuildError,
+  BuildOutput,
   BuildResult,
   CssRendererOptions,
   ErrorCode,
@@ -78,11 +82,14 @@ export type {
   FormatOptions,
   JsModuleRendererOptions,
   JsonRendererOptions,
+  MediaQueryFunction,
   OutputTree,
+  PermutationData,
   Renderer,
   RenderContext,
   RenderMeta,
   RenderOutput,
+  SelectorFunction,
 } from '@renderers/types'
 
 // Resolver types

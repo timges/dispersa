@@ -9,7 +9,6 @@
       "@build/*": ["build/*"],
       "@builders/*": ["builders/*"],
       "@renderers/*": ["renderers/*"],
-      "@services/*": ["services/*"],
       "@adapters/*": ["adapters/*"],
       "@shared/*": ["shared/*"],
       "@config/*": ["config/*"]

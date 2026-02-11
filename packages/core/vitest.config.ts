@@ -29,7 +29,6 @@ export default defineConfig({
       '@build': path.resolve(__dirname, './src/build'),
       '@builders': path.resolve(__dirname, './src/builders'),
       '@renderers': path.resolve(__dirname, './src/renderers'),
-      '@services': path.resolve(__dirname, './src/services'),
       '@adapters': path.resolve(__dirname, './src/adapters'),
       '@shared': path.resolve(__dirname, './src/shared'),
       '@config': path.resolve(__dirname, './src/config'),

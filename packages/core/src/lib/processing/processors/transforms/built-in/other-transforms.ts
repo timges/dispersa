@@ -51,6 +51,48 @@ export function fontWeightToNumber(): Transform {
   }
 }
 
+type DurationUnit = 'ms' | 's'
+type ParsedDuration = { value: number; unit: DurationUnit }
+
+/** Parse a raw duration value (object or string form) into a normalized representation */
+function parseDuration(rawValue: unknown): ParsedDuration | null {
+  if (
+    typeof rawValue === 'object' &&
+    rawValue !== null &&
+    'value' in rawValue &&
+    'unit' in rawValue
+  ) {
+    const unit = (rawValue as { unit: string }).unit
+    const numeric = Number((rawValue as { value: unknown }).value)
+    if (Number.isFinite(numeric) && (unit === 'ms' || unit === 's')) {
+      return { value: numeric, unit }
+    }
+    return null
+  }
+
+  const str = typeof rawValue === 'string' || typeof rawValue === 'number' ? String(rawValue) : ''
+  if (str.endsWith('ms')) {
+    const numeric = parseFloat(str)
+    return Number.isFinite(numeric) ? { value: numeric, unit: 'ms' } : null
+  }
+  if (str.endsWith('s')) {
+    const numeric = parseFloat(str)
+    return Number.isFinite(numeric) ? { value: numeric, unit: 's' } : null
+  }
+
+  return null
+}
+
+/** Convert a parsed duration to the target unit */
+function convertDurationUnit(parsed: ParsedDuration, target: DurationUnit): ParsedDuration {
+  if (parsed.unit === target) {
+    return parsed
+  }
+  return target === 'ms'
+    ? { value: parsed.value * 1000, unit: 'ms' }
+    : { value: parsed.value / 1000, unit: 's' }
+}
+
 /**
  * Convert duration to milliseconds
  */
@@ -58,45 +100,12 @@ export function durationToMs(): Transform {
   return {
     matcher: (token: ResolvedToken) => token.$type === 'duration',
     transform: (token: ResolvedToken) => {
-      const rawValue = token.$value
-      if (
-        typeof rawValue === 'object' &&
-        rawValue !== null &&
-        'value' in rawValue &&
-        'unit' in rawValue
-      ) {
-        const unit = rawValue.unit as string
-        const numeric = Number((rawValue as { value?: unknown }).value)
-        if (Number.isFinite(numeric)) {
-          if (unit === 'ms') {
-            return token
-          }
-          if (unit === 's') {
-            return { ...token, $value: { value: numeric * 1000, unit: 'ms' } }
-          }
-        }
+      const parsed = parseDuration(token.$value)
+      if (!parsed) {
         return token
       }
-
-      const value =
-        typeof rawValue === 'string' || typeof rawValue === 'number' ? String(rawValue) : ''
-
-      // Already ms
-      if (value.endsWith('ms')) {
-        const numeric = parseFloat(value)
-        if (Number.isFinite(numeric)) {
-          return { ...token, $value: { value: numeric, unit: 'ms' } }
-        }
-        return token
-      }
-
-      // Convert seconds to ms
-      if (value.endsWith('s')) {
-        const num = parseFloat(value)
-        return { ...token, $value: { value: num * 1000, unit: 'ms' } }
-      }
-
-      return token
+      const converted = convertDurationUnit(parsed, 'ms')
+      return { ...token, $value: { value: converted.value, unit: converted.unit } }
     },
   }
 }
@@ -108,45 +117,12 @@ export function durationToSeconds(): Transform {
   return {
     matcher: (token: ResolvedToken) => token.$type === 'duration',
     transform: (token: ResolvedToken) => {
-      const rawValue = token.$value
-      if (
-        typeof rawValue === 'object' &&
-        rawValue !== null &&
-        'value' in rawValue &&
-        'unit' in rawValue
-      ) {
-        const unit = rawValue.unit as string
-        const numeric = Number((rawValue as { value?: unknown }).value)
-        if (Number.isFinite(numeric)) {
-          if (unit === 's') {
-            return token
-          }
-          if (unit === 'ms') {
-            return { ...token, $value: { value: numeric / 1000, unit: 's' } }
-          }
-        }
+      const parsed = parseDuration(token.$value)
+      if (!parsed) {
         return token
       }
-
-      const value =
-        typeof rawValue === 'string' || typeof rawValue === 'number' ? String(rawValue) : ''
-
-      // Already seconds
-      if (value.endsWith('s') && !value.endsWith('ms')) {
-        const numeric = parseFloat(value)
-        if (Number.isFinite(numeric)) {
-          return { ...token, $value: { value: numeric, unit: 's' } }
-        }
-        return token
-      }
-
-      // Convert ms to seconds
-      if (value.endsWith('ms')) {
-        const num = parseFloat(value)
-        return { ...token, $value: { value: num / 1000, unit: 's' } }
-      }
-
-      return token
+      const converted = convertDurationUnit(parsed, 's')
+      return { ...token, $value: { value: converted.value, unit: converted.unit } }
     },
   }
 }

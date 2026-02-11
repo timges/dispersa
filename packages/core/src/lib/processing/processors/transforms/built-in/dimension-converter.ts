@@ -20,21 +20,14 @@ export function dimensionObjectToString(dimension: DimensionValue): string {
 }
 
 /**
- * Get numeric value from dimension (without unit)
- */
-export function getDimensionValue(value: DimensionValue): number {
-  return value.value
-}
-
-/**
- * Get unit from dimension
- */
-export function getDimensionUnit(value: DimensionValue): string {
-  return value.unit
-}
-
-/**
- * Convert dimension between units
+ * Convert a DTCG dimension object between units (px, rem).
+ *
+ * Converts via px as an intermediate: rem -> px -> target.
+ * Returns the original value unchanged for unsupported unit combinations.
+ *
+ * @param value - Source dimension object
+ * @param toUnit - Target CSS unit
+ * @param baseFontSize - Base font size in px used for rem conversions
  */
 export function convertDimension(
   value: DimensionValue,

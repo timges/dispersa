@@ -52,6 +52,12 @@ export function levenshteinDistance(a: string, b: string): number {
   return prev[aLen]!
 }
 
+/** Minimum edit distance threshold for "did you mean?" suggestions */
+const MIN_EDIT_DISTANCE = 2
+
+/** Fraction of target string length used to auto-scale the max distance */
+const SIMILARITY_THRESHOLD_FACTOR = 0.4
+
 /**
  * Find strings from `candidates` that are similar to `target`.
  *
@@ -74,7 +80,9 @@ export function findSimilar(
     return []
   }
 
-  const threshold = maxDistance ?? Math.max(2, Math.ceil(target.length * 0.4))
+  const threshold =
+    maxDistance ??
+    Math.max(MIN_EDIT_DISTANCE, Math.ceil(target.length * SIMILARITY_THRESHOLD_FACTOR))
 
   const scored = candidates
     .map((candidate) => ({
@@ -85,29 +93,4 @@ export function findSimilar(
     .sort((a, b) => a.distance - b.distance)
 
   return scored.slice(0, maxResults).map((entry) => entry.value)
-}
-
-/**
- * Format a "Did you mean?" hint for error messages.
- *
- * @param suggestions - Array of suggested strings
- * @returns Formatted hint string, or empty string if no suggestions
- *
- * @example
- * ```typescript
- * formatSuggestions(['color.primary', 'color.primary-dark'])
- * // → ' Did you mean "color.primary" or "color.primary-dark"?'
- * ```
- */
-export function formatSuggestions(suggestions: string[]): string {
-  if (suggestions.length === 0) {
-    return ''
-  }
-  if (suggestions.length === 1) {
-    return ` Did you mean "${suggestions[0]}"?`
-  }
-
-  const quoted = suggestions.map((s) => `"${s}"`)
-  const last = quoted.pop()!
-  return ` Did you mean ${quoted.join(', ')} or ${last}?`
 }

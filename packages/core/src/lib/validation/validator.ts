@@ -6,22 +6,11 @@
  */
 
 import { ConfigurationError } from '@shared/errors/index'
+import { isTokenLike } from '@shared/utils/token-utils'
 import Ajv, { type ErrorObject, type ValidateFunction } from 'ajv'
 import addFormats from 'ajv-formats'
 
-import {
-  buildConfigSchema,
-  cssRendererOptionsSchema,
-  figmaRendererOptionsSchema,
-  filterPluginSchema,
-  jsModuleRendererOptionsSchema,
-  jsonRendererOptionsSchema,
-  outputConfigSchema,
-  preprocessorPluginSchema,
-  rendererPluginSchema,
-  dispersaOptionsSchema,
-  transformPluginSchema,
-} from './config-schemas'
+import { buildConfigSchema, outputConfigSchema, dispersaOptionsSchema } from './config-schemas'
 import {
   dtcgSchemaRegistry,
   formatSchema,
@@ -45,33 +34,6 @@ export type ValidationError = {
 }
 
 /**
- * Custom validation hook function
- *
- * Allows extending validation with custom logic beyond JSON Schema.
- *
- * @param data - The data being validated
- * @param errors - Current validation errors (can be modified)
- * @returns Updated array of validation errors
- */
-export type ValidationHook = (data: unknown, errors: ValidationError[]) => ValidationError[]
-
-/**
- * Options for schema validator configuration
- */
-export type SchemaValidatorOptions = {
-  /**
-   * Custom validation hook called after schema validation
-   * Allows adding custom validation logic or modifying errors
-   */
-  onValidate?: ValidationHook
-
-  /**
-   * Custom hooks for specific token types (e.g., { 'color': validateColorFn })
-   */
-  typeValidators?: Record<string, ValidationHook>
-}
-
-/**
  * Validates design tokens and resolver documents against JSON schemas
  *
  * Uses AJV (Another JSON Validator) to validate data structures and ensure
@@ -88,15 +50,14 @@ export type SchemaValidatorOptions = {
  * }
  *
  * // Validate token
- * const tokenErrors = validator.validateToken(tokenData, 'color')
+ * const tokenErrors = validator.validateToken(tokenData)
  * ```
  */
 export class SchemaValidator {
   private ajv: Ajv
   private validators: Map<string, ValidateFunction>
-  private options: SchemaValidatorOptions
 
-  constructor(options: SchemaValidatorOptions = {}) {
+  constructor() {
     this.ajv = new Ajv({
       allErrors: true,
       strict: false,
@@ -104,7 +65,6 @@ export class SchemaValidator {
     })
     addFormats(this.ajv)
     this.validators = new Map()
-    this.options = options
     this.registerDefaultSchemas()
   }
 
@@ -123,16 +83,6 @@ export class SchemaValidator {
     this.registerSchema('outputConfig', outputConfigSchema)
     this.registerSchema('dispersaOptions', dispersaOptionsSchema)
     this.registerSchema('buildConfig', buildConfigSchema)
-    this.registerSchema('transformPlugin', transformPluginSchema)
-    this.registerSchema('rendererPlugin', rendererPluginSchema)
-    this.registerSchema('filterPlugin', filterPluginSchema)
-    this.registerSchema('preprocessorPlugin', preprocessorPluginSchema)
-
-    // Register renderer options schemas
-    this.registerSchema('cssRendererOptions', cssRendererOptionsSchema)
-    this.registerSchema('jsonRendererOptions', jsonRendererOptionsSchema)
-    this.registerSchema('jsModuleRendererOptions', jsModuleRendererOptionsSchema)
-    this.registerSchema('figmaRendererOptions', figmaRendererOptionsSchema)
   }
 
   /**
@@ -183,20 +133,7 @@ export class SchemaValidator {
     }
 
     const valid = validator(data)
-    let errors = valid ? [] : this.formatErrors(validator.errors ?? [])
-
-    // Apply global validation hook
-    if (this.options.onValidate != null) {
-      errors = this.options.onValidate(data, errors)
-    }
-
-    // Apply type-specific validation hook
-    const typeValidator = this.options.typeValidators?.[schemaName]
-    if (typeValidator != null) {
-      errors = typeValidator(data, errors)
-    }
-
-    return errors
+    return valid ? [] : this.formatErrors(validator.errors ?? [])
   }
 
   /**
@@ -221,22 +158,17 @@ export class SchemaValidator {
    * Validates a design token structure
    *
    * Validates a token against the DTCG token schema. The schema itself
-   * enforces type-specific constraints based on the token's $type.
+   * enforces type-specific constraints based on the token's `$type` field.
    *
    * @param data - Token data to validate
-   * @param tokenType - Optional token type (ignored; kept for API compatibility)
    * @returns Array of validation errors (empty if valid)
    *
    * @example
    * ```typescript
-   * // Generic token validation
    * const errors = validator.validateToken(tokenData)
-   *
-   * // Type-aware validation (schema enforces $type rules)
-   * const colorErrors = validator.validateToken(colorData, 'color')
    * ```
    */
-  validateToken(data: unknown, _tokenType?: string): ValidationError[] {
+  validateToken(data: unknown): ValidationError[] {
     return this.validate('token', data)
   }
 
@@ -288,7 +220,7 @@ export class SchemaValidator {
     message?: string
   } {
     // First, check structural hints
-    const hasValue = typeof obj === 'object' && obj !== null && ('$value' in obj || '$ref' in obj)
+    const hasValue = isTokenLike(obj)
 
     if (hasValue) {
       // Looks like a token - validate as token
@@ -349,7 +281,7 @@ export class SchemaValidator {
    *
    * @example
    * ```typescript
-   * const errors = validator.validateToken(tokenData, 'color')
+   * const errors = validator.validateToken(tokenData)
    * if (errors.length > 0) {
    *   const message = validator.getErrorMessage(errors)
    *   console.error(message)
@@ -378,16 +310,6 @@ export class SchemaValidator {
    *
    * @param data - Output configuration data
    * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const outputErrors = validator.validateOutputConfig({
-   *   name: 'css',
-   *   renderer: cssRenderer(),
-   *   options: { preset: 'bundle' },
-   *   file: 'tokens.css'
-   * })
-   * ```
    */
   validateOutputConfig(data: unknown): ValidationError[] {
     return this.validate('outputConfig', data)
@@ -396,20 +318,8 @@ export class SchemaValidator {
   /**
    * Validates DispersaOptions structure
    *
-   * Validates constructor options including inline resolver objects.
-   * The resolver schema is referenced directly in the options schema,
-   * so inline ResolverDocument objects are validated automatically.
-   *
    * @param data - Dispersa options data
    * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const optionsErrors = validator.validateDispersaOptions({
-   *   resolver: './tokens.resolver.json',
-   *   buildPath: './output'
-   * })
-   * ```
    */
   validateDispersaOptions(data: unknown): ValidationError[] {
     return this.validate('dispersaOptions', data)
@@ -418,196 +328,10 @@ export class SchemaValidator {
   /**
    * Validates BuildConfig structure
    *
-   * Validates build configuration including inline resolver objects.
-   * The resolver schema is referenced directly in the build config schema,
-   * so inline ResolverDocument objects are validated automatically.
-   *
    * @param data - Build configuration data
    * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const configErrors = validator.validateBuildConfig({
-   *   outputs: [{ name: 'css', renderer: cssRenderer(), options: { preset: 'bundle' } }]
-   * })
-   * ```
    */
   validateBuildConfig(data: unknown): ValidationError[] {
     return this.validate('buildConfig', data)
-  }
-
-  /**
-   * Validates Transform plugin structure
-   *
-   * @param data - Transform plugin data
-   * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const transformErrors = validator.validateTransform({
-   *   name: 'color:hex',
-   *   transform: (token) => token
-   * })
-   * ```
-   */
-  validateTransform(data: unknown): ValidationError[] {
-    const errors = this.validate('transformPlugin', data)
-
-    // Additional runtime validation for function properties
-    if (errors.length === 0 && typeof data === 'object' && data !== null) {
-      const transform = data as Record<string, unknown>
-
-      if (typeof transform.transform !== 'function') {
-        errors.push({
-          message: 'Transform "transform" property must be a function',
-          path: '/transform',
-        })
-      }
-
-      if (transform.matcher !== undefined && typeof transform.matcher !== 'function') {
-        errors.push({
-          message: 'Transform "matcher" property must be a function if provided',
-          path: '/matcher',
-        })
-      }
-    }
-
-    return errors
-  }
-
-  /**
-   * Validates Renderer plugin structure
-   *
-   * @param data - Renderer plugin data
-   * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const rendererErrors = validator.validateRenderer({
-   *   name: 'scss',
-   *   format: (tokens) => '...'
-   * })
-   * ```
-   */
-  validateRenderer(data: unknown): ValidationError[] {
-    const errors = this.validate('rendererPlugin', data)
-
-    // Additional runtime validation for function properties
-    if (errors.length === 0 && typeof data === 'object' && data !== null) {
-      const renderer = data as Record<string, unknown>
-
-      if (typeof renderer.format !== 'function') {
-        errors.push({
-          message: 'Renderer "format" property must be a function',
-          path: '/format',
-        })
-      }
-    }
-
-    return errors
-  }
-
-  /**
-   * Validates Filter plugin structure
-   *
-   * @param data - Filter plugin data
-   * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const filterErrors = validator.validateFilter({
-   *   name: 'colors-only',
-   *   filter: (token) => token.$type === 'color'
-   * })
-   * ```
-   */
-  validateFilter(data: unknown): ValidationError[] {
-    const errors = this.validate('filterPlugin', data)
-
-    // Additional runtime validation for function properties
-    if (errors.length === 0 && typeof data === 'object' && data !== null) {
-      const filter = data as Record<string, unknown>
-
-      if (typeof filter.filter !== 'function') {
-        errors.push({
-          message: 'Filter "filter" property must be a function',
-          path: '/filter',
-        })
-      }
-    }
-
-    return errors
-  }
-
-  /**
-   * Validates Preprocessor plugin structure
-   *
-   * @param data - Preprocessor plugin data
-   * @returns Array of validation errors (empty if valid)
-   *
-   * @example
-   * ```typescript
-   * const preprocessorErrors = validator.validatePreprocessor({
-   *   name: 'strip-metadata',
-   *   preprocess: (raw) => raw
-   * })
-   * ```
-   */
-  validatePreprocessor(data: unknown): ValidationError[] {
-    const errors = this.validate('preprocessorPlugin', data)
-
-    // Additional runtime validation for function properties
-    if (errors.length === 0 && typeof data === 'object' && data !== null) {
-      const preprocessor = data as Record<string, unknown>
-
-      if (typeof preprocessor.preprocess !== 'function') {
-        errors.push({
-          message: 'Preprocessor "preprocess" property must be a function',
-          path: '/preprocess',
-        })
-      }
-    }
-
-    return errors
-  }
-
-  /**
-   * Validates CSS renderer options
-   *
-   * @param data - CSS renderer options data
-   * @returns Array of validation errors (empty if valid)
-   */
-  validateCssRendererOptions(data: unknown): ValidationError[] {
-    return this.validate('cssRendererOptions', data)
-  }
-
-  /**
-   * Validates JSON renderer options
-   *
-   * @param data - JSON renderer options data
-   * @returns Array of validation errors (empty if valid)
-   */
-  validateJsonRendererOptions(data: unknown): ValidationError[] {
-    return this.validate('jsonRendererOptions', data)
-  }
-
-  /**
-   * Validates JS Module renderer options
-   *
-   * @param data - JS Module renderer options data
-   * @returns Array of validation errors (empty if valid)
-   */
-  validateJsModuleRendererOptions(data: unknown): ValidationError[] {
-    return this.validate('jsModuleRendererOptions', data)
-  }
-
-  /**
-   * Validates Figma Variables renderer options
-   *
-   * @param data - Figma Variables renderer options data
-   * @returns Array of validation errors (empty if valid)
-   */
-  validateFigmaVariablesOptions(data: unknown): ValidationError[] {
-    return this.validate('figmaRendererOptions', data)
   }
 }

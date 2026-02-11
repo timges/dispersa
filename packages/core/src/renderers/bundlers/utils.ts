@@ -324,7 +324,7 @@ export function interpolatePattern(
 
   // Replace modifier input placeholders
   for (const [key, value] of Object.entries(modifierInputs)) {
-    result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), value)
+    result = result.replaceAll(`{${key}}`, value)
   }
   return result
 }
@@ -382,16 +382,4 @@ export function resolveFileName(
   }
 
   return fileName
-}
-
-/**
- * Resolve output path for a given permutation without writing to disk.
- */
-export function resolveOutputPath(
-  outputFileName: string | ((modifierInputs: ModifierInputs) => string),
-  modifierInputs: ModifierInputs,
-  modifierName?: string,
-  context?: string,
-): string {
-  return resolveFileName(outputFileName, modifierInputs, modifierName, context)
 }

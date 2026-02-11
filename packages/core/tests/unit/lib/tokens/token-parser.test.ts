@@ -235,8 +235,8 @@ describe('Token Parser Integration Tests', () => {
     })
 
     it('should warn and continue on invalid token names in warn mode', () => {
-      const warn = vi.fn()
-      const validatingParser = new TokenParser({ validation: { mode: 'warn', onWarning: warn } })
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const validatingParser = new TokenParser({ validation: { mode: 'warn' } })
       const collection = {
         'bad.name': {
           $type: 'color',
@@ -246,6 +246,7 @@ describe('Token Parser Integration Tests', () => {
 
       expect(() => validatingParser.flatten(collection)).not.toThrow()
       expect(warn).toHaveBeenCalled()
+      warn.mockRestore()
     })
 
     it('should skip validation on invalid token names in off mode', () => {

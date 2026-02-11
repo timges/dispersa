@@ -10,6 +10,7 @@ import { ValidationError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { getErrorMessage } from '@shared/utils/error-utils'
 import { formatTokenPath } from '@shared/utils/path-utils'
+import { isTokenLike } from '@shared/utils/token-utils'
 import { ValidationHandler } from '@shared/utils/validation-handler'
 
 import { GroupExtensionResolver } from './group-extension-resolver'
@@ -24,6 +25,9 @@ import type {
   TokenType,
   TokenValue,
 } from './types'
+
+/** Characters forbidden in DTCG token/group names: `{`, `}`, and `.` */
+const INVALID_NAME_CHARS_REGEX = /[{}.]/
 
 export type TokenParserOptions = {
   preserveExtensions?: boolean
@@ -173,7 +177,7 @@ export class TokenParser {
   }
 
   private looksLikeToken(value: unknown): boolean {
-    return typeof value === 'object' && value !== null && ('$value' in value || '$ref' in value)
+    return isTokenLike(value)
   }
 
   private shouldSkipKey(key: string): boolean {
@@ -213,7 +217,7 @@ export class TokenParser {
     }
 
     const tokenForValidation = this.stripInternalMetadata(token)
-    const errors = this.validator.validateToken(tokenForValidation, tokenType)
+    const errors = this.validator.validateToken(tokenForValidation)
     if (errors.length === 0) {
       return
     }
@@ -255,7 +259,7 @@ export class TokenParser {
    * Type guard: check if value is a token
    */
   private isToken(value: unknown): value is InternalToken {
-    return typeof value === 'object' && value != null && ('$value' in value || '$ref' in value)
+    return isTokenLike(value)
   }
 
   /**
@@ -298,7 +302,7 @@ export class TokenParser {
       )
     }
 
-    if (/[{}.]/.test(name)) {
+    if (INVALID_NAME_CHARS_REGEX.test(name)) {
       const path = formatTokenPath(parentPath, name)
       const invalidChars = name.match(/[{}.]/g)?.join(', ') ?? ''
       this.handleValidationIssue(
@@ -352,11 +356,9 @@ export class TokenParser {
    * Per DTCG spec: "Tools MAY display a warning when token names differ only by case."
    * This helps prevent issues in case-insensitive environments.
    *
-   * Note: This method performs validation but does not emit warnings.
-   * Case-sensitive name conflicts are considered acceptable per DTCG spec.
+   * Emits warnings via the configured validation handler when conflicts are found.
    */
   private checkCaseSensitiveNames(tokens: InternalResolvedTokens): void {
-    // Validation logic retained for potential future warning system
     const lowercaseMap = new Map<string, string>()
 
     for (const tokenName of Object.keys(tokens)) {
@@ -364,9 +366,7 @@ export class TokenParser {
       const existing = lowercaseMap.get(lower)
 
       if (existing && existing !== tokenName) {
-        // Case-sensitive name conflict detected
-        // Per DTCG spec, this is allowed but tools MAY warn
-        // Future: Could be emitted through a proper warning/event system
+        // Case-sensitive name conflict detected (DTCG spec allows but tools MAY warn)
         this.reportWarning(
           `Token names differ only by case: "${existing}" and "${tokenName}". This may break in case-insensitive environments.`,
         )
@@ -388,11 +388,8 @@ export class TokenParser {
    * Validate a single token
    */
   validateToken(token: Token): { valid: boolean; errors: string[] } {
-    const tokenType = token.$type
     const tokenForValidation = this.stripInternalMetadata(token as Record<string, unknown>)
-    const errors = tokenType
-      ? this.validator.validateToken(tokenForValidation, tokenType)
-      : this.validator.validateToken(tokenForValidation)
+    const errors = this.validator.validateToken(tokenForValidation)
 
     return {
       valid: errors.length === 0,
