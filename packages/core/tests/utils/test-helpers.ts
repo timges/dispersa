@@ -66,25 +66,3 @@ export async function tempFileExists(tempDir: string, filename: string): Promise
 export function normalizeLineEndings(content: string): string {
   return content.replace(/\r\n/g, '\n')
 }
-
-/**
- * Remove dynamic values from snapshots (like timestamps, IDs)
- */
-export function sanitizeSnapshot(content: string): string {
-  // Remove Figma variable IDs (they're generated with timestamps)
-  let sanitized = content.replace(/"id":\s*"VariableID:[^"]+"/g, '"id": "VariableID:DYNAMIC"')
-
-  // Normalize valuesByMode keys
-  sanitized = sanitized.replace(/"valuesByMode":\s*\{\s*"[^"]+":/g, '"valuesByMode": { "MODE_ID":')
-
-  // Remove modeId values
-  sanitized = sanitized.replace(/"modeId":\s*"[^"]+"/g, '"modeId": "MODE_ID"')
-
-  // Remove variableCollectionId values
-  sanitized = sanitized.replace(
-    /"variableCollectionId":\s*"[^"]+"/g,
-    '"variableCollectionId": "COLLECTION_ID"',
-  )
-
-  return normalizeLineEndings(sanitized)
-}

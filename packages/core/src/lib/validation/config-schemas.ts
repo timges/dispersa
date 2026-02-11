@@ -81,23 +81,6 @@ export const jsModuleRendererOptionsSchema = {
 } as const
 
 /**
- * Figma Variables Renderer Options Schema
- */
-export const figmaRendererOptionsSchema = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  type: 'object',
-  properties: {
-    collectionName: { type: 'string' },
-    modeMapping: {
-      type: 'object',
-      additionalProperties: { type: 'string' },
-    },
-    preserveReferences: { type: 'boolean' },
-  },
-  additionalProperties: true, // Allow custom properties for extended renderers
-} as const
-
-/**
  * Transform Plugin Schema
  *
  * Validates structure of Transform objects at registration time.
@@ -373,11 +356,6 @@ export type JsonRendererOptions = FromSchema<typeof jsonRendererOptionsSchema>
  * JS Module Renderer Options type generated from jsModuleRendererOptionsSchema
  */
 export type JsModuleRendererOptions = FromSchema<typeof jsModuleRendererOptionsSchema>
-
-/**
- * Figma Variables Options type generated from figmaRendererOptionsSchema
- */
-export type FigmaVariablesOptions = FromSchema<typeof figmaRendererOptionsSchema>
 
 /**
  * Output Config type generated from outputConfigSchema

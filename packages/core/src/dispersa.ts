@@ -30,7 +30,7 @@ import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
  *
  * Dispersa processes DTCG-compliant design tokens through a configurable pipeline,
  * resolves references and aliases, applies transforms and filters, and generates output
- * in multiple formats (CSS, JSON, JavaScript, Figma Variables).
+ * in multiple formats (CSS, JSON, JavaScript).
  *
  * **Runtime Validation:**
  * Dispersa validates all configuration inputs at runtime, including constructor options,

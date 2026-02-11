@@ -78,7 +78,6 @@ export type {
   BuildResult,
   CssRendererOptions,
   ErrorCode,
-  FigmaVariablesOptions,
   FormatOptions,
   JsModuleRendererOptions,
   JsonRendererOptions,
@@ -99,13 +98,8 @@ export type { ModifierInputs, ResolverDocument } from '@lib/resolution/resolutio
 // OUTPUT BUILDERS
 // ============================================================================
 
-export { css, json, js, figma } from './builders'
-export type {
-  CssBuilderConfig,
-  JsonBuilderConfig,
-  JsBuilderConfig,
-  FigmaBuilderConfig,
-} from './builders'
+export { css, json, js } from './builders'
+export type { CssBuilderConfig, JsonBuilderConfig, JsBuilderConfig } from './builders'
 
 // ============================================================================
 // CUSTOM RENDERER HELPERS

@@ -8,7 +8,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { type RenderContext, type Renderer, Dispersa, css, figma, js, json } from 'dispersa'
+import { type RenderContext, type Renderer, Dispersa, css, js, json } from 'dispersa'
 import { isAlias } from 'dispersa/filters'
 import {
   colorToColorFunction,
@@ -87,13 +87,6 @@ const result = await dispersa.build({
       moduleName: 'tokens',
       structure: 'flat',
       transforms: [nameCamelCase()],
-    }),
-    figma({
-      name: 'figma',
-      file: 'tokens-figma.json',
-      collectionName: 'Design Tokens',
-      modeMapping: { default: 'Default' },
-      preserveReferences: true,
     }),
   ],
 })

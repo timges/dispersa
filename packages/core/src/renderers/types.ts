@@ -208,24 +208,6 @@ export type CssRendererOptions = {
 }
 
 /**
- * Options for Figma Variables JSON export renderer
- *
- * Generates JSON compatible with Figma's variable import feature.
- *
- * @example
- * ```typescript
- * {
- *   collectionName: 'Design Tokens',
- *   modeMapping: {
- *     'light': 'Light Mode',
- *     'dark': 'Dark Mode'
- *   }
- * }
- * ```
- */
-export type { FigmaVariablesOptions } from '@lib/validation/config-schemas'
-
-/**
  * Options for JSON renderer
  *
  * Controls the structure and formatting of JSON token output.

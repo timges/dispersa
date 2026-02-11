@@ -21,7 +21,6 @@ export type {
   BuildResult,
   CssRendererOptions,
   ErrorCode,
-  FigmaVariablesOptions,
   FormatOptions,
   JsModuleRendererOptions,
   JsonRendererOptions,

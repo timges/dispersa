@@ -9,7 +9,6 @@ import type { ModifierInputs, ResolverDocument } from '@lib/resolution/resolutio
 import type {
   BuildConfigBase,
   CssRendererOptions,
-  FigmaVariablesOptions,
   JsModuleRendererOptions,
   JsonRendererOptions,
   OutputConfigBase,
@@ -22,12 +21,7 @@ import type { ValidationOptions } from '@shared/types/validation'
 export type { Filter, Preprocessor, Transform }
 
 // Re-export renderer types
-export type {
-  CssRendererOptions,
-  FigmaVariablesOptions,
-  JsModuleRendererOptions,
-  JsonRendererOptions,
-}
+export type { CssRendererOptions, JsModuleRendererOptions, JsonRendererOptions }
 
 // ============================================================================
 // LIFECYCLE HOOK TYPES
@@ -88,16 +82,14 @@ export type { ValidationOptions } from '@shared/types/validation'
  * ```typescript
  * import { css, json } from 'dispersa'
  * import { colorToHex, dimensionToPx } from 'dispersa/transforms'
- * import { isFigmaCompatible } from 'dispersa/filters'
  *
- * // CSS output with transforms and filters
+ * // CSS output with transforms
  * css({
  *   name: 'css',
  *   file: 'css/tokens.css',
  *   preset: 'bundle',
  *   selector: ':root',
  *   transforms: [colorToHex(), dimensionToPx()],
- *   filters: [isFigmaCompatible()],
  * })
  *
  * // JSON output with static filename
@@ -136,7 +128,6 @@ export type { ValidationOptions } from '@shared/types/validation'
  * @see CssRendererOptions
  * @see JsonRendererOptions
  * @see JsModuleRendererOptions
- * @see FigmaVariablesOptions
  */
 export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
   OutputConfigBase,
@@ -250,8 +241,8 @@ export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
  *
  * @example Combining global and output-specific filters
  * ```typescript
- * import { css, figma } from 'dispersa'
- * import { byType, isFigmaCompatible } from 'dispersa/filters'
+ * import { css, json } from 'dispersa'
+ * import { byType } from 'dispersa/filters'
  * import { nameKebabCase } from 'dispersa/transforms'
  *
  * await dispersa.build({
@@ -261,11 +252,10 @@ export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
  *       preset: 'bundle',
  *       selector: ':root',
  *     }),
- *     figma({
- *       name: 'figma',
- *       collectionName: 'Design Tokens',
- *       modeMapping: { light: 'Light', dark: 'Dark' },
- *       filters: [isFigmaCompatible()],
+ *     json({
+ *       name: 'json',
+ *       preset: 'standalone',
+ *       structure: 'flat',
  *     }),
  *   ],
  *   filters: [byType('color')],

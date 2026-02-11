@@ -6,7 +6,7 @@
  */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { byPath, byType, isAlias, isBase, isFigmaCompatible, type Filter } from '../../src/filters'
+import { byPath, byType, isAlias, isBase, type Filter } from '../../src/filters'
 import type { ResolvedToken } from '../../src/lib/tokens/types'
 
 describe('Filter Interface Contract', () => {
@@ -76,7 +76,6 @@ describe('Filter Interface Contract', () => {
 
   describe('Built-in Filters Structure', () => {
     const builtInFilters = [
-      { name: 'isFigmaCompatible', filter: isFigmaCompatible() },
       { name: 'isAlias', filter: isAlias() },
       { name: 'isBase', filter: isBase() },
     ]
@@ -109,15 +108,6 @@ describe('Filter Interface Contract', () => {
   })
 
   describe('Filter Behavior Validation', () => {
-    describe('isFigmaCompatible', () => {
-      const figmaFilter = isFigmaCompatible()
-
-      it('should filter unsupported Figma types', () => {
-        expect(figmaFilter.filter(mockColorToken)).toBe(true)
-        expect(figmaFilter.filter(mockShadowToken)).toBe(false)
-      })
-    })
-
     describe('isAlias', () => {
       const aliasFilter = isAlias()
 
@@ -186,13 +176,7 @@ describe('Filter Interface Contract', () => {
     describe('String Pattern', () => {
       describe('Filter Interface Contract Stability', () => {
         it('should maintain consistent structure across all filters', () => {
-          const allFilters = [
-            isFigmaCompatible(),
-            isAlias(),
-            isBase(),
-            byType('color'),
-            byPath('test'),
-          ]
+          const allFilters = [isAlias(), isBase(), byType('color'), byPath('test')]
 
           allFilters.forEach((filter) => {
             // Required properties
@@ -208,13 +192,7 @@ describe('Filter Interface Contract', () => {
         })
 
         it('should have filter functions that accept exactly one argument', () => {
-          const filters = [
-            isFigmaCompatible(),
-            isAlias(),
-            isBase(),
-            byType('color'),
-            byPath('test'),
-          ]
+          const filters = [isAlias(), isBase(), byType('color'), byPath('test')]
 
           filters.forEach((filter) => {
             expect(filter.filter.length).toBe(1)
@@ -222,13 +200,7 @@ describe('Filter Interface Contract', () => {
         })
 
         it('should never throw errors when called with valid tokens', () => {
-          const filters = [
-            isFigmaCompatible(),
-            isAlias(),
-            isBase(),
-            byType('color'),
-            byPath('test'),
-          ]
+          const filters = [isAlias(), isBase(), byType('color'), byPath('test')]
 
           const tokens = [mockColorToken, mockShadowToken, mockAliasToken, mockBaseToken]
 
@@ -240,13 +212,7 @@ describe('Filter Interface Contract', () => {
         })
 
         it('should always return boolean values', () => {
-          const filters = [
-            isFigmaCompatible(),
-            isAlias(),
-            isBase(),
-            byType('color'),
-            byPath('test'),
-          ]
+          const filters = [isAlias(), isBase(), byType('color'), byPath('test')]
 
           const tokens = [mockColorToken, mockShadowToken, mockAliasToken, mockBaseToken]
 

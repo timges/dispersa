@@ -6,7 +6,6 @@ exports[`advanced > should produce expected file structure and content 1`] = `
   "tokens-dark-desktop-compact.json": "256f99aa39f4916a",
   "tokens-dark-mobile-comfortable.json": "e6ffd91ad541bc40",
   "tokens-dark-mobile-compact.json": "7b94a6112196a232",
-  "tokens-figma.json": "4191837ae07bbbae",
   "tokens-forest-desktop-comfortable.json": "4f3b6e3b32862af1",
   "tokens-forest-desktop-compact.json": "19b5d8585e5a1e06",
   "tokens-forest-mobile-comfortable.json": "8558ae1917ce0aa0",

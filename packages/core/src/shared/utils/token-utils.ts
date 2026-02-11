@@ -12,7 +12,7 @@ import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@lib
  *
  * @param token - Token with optional deprecation information
  * @param description - Optional existing description to prepend deprecation info to
- * @param format - Output format: 'comment' for CSS comments, 'bracket' for Figma-style [DEPRECATED]
+ * @param format - Output format: 'comment' for CSS comments, 'bracket' for [DEPRECATED] prefix
  * @returns Formatted deprecation message or description with deprecation prefix
  *
  * @example
@@ -21,7 +21,7 @@ import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@lib
  * formatDeprecationMessage(token, '', 'comment')
  * // Returns: "DEPRECATED: Use new-token instead"
  *
- * // Bracket format for Figma
+ * // Bracket format
  * formatDeprecationMessage(token, 'Primary color', 'bracket')
  * // Returns: "[DEPRECATED: Use new-token instead] Primary color"
  * ```

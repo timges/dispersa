@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest'
 
 import { defineRenderer, isOutputTree } from '../../src/renderers'
 import { cssRenderer } from '../../src/renderers/css'
-import { figmaRenderer } from '../../src/renderers/figma-variables'
 import { jsRenderer } from '../../src/renderers/js-module'
 import { jsonRenderer } from '../../src/renderers/json'
 import type { OutputConfig } from '../../src/config'
@@ -57,7 +56,6 @@ describe('Renderer Interface Contract', () => {
     { name: 'cssRenderer', renderer: cssRenderer() },
     { name: 'jsonRenderer', renderer: jsonRenderer() },
     { name: 'jsRenderer', renderer: jsRenderer() },
-    { name: 'figmaRenderer', renderer: figmaRenderer() },
   ]
 
   describe('Format Method Signature', () => {

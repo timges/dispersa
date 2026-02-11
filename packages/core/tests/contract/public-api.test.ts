@@ -31,7 +31,6 @@ describe('Public API Contract Tests', () => {
       expect(actualExports).toContain('css')
       expect(actualExports).toContain('json')
       expect(actualExports).toContain('js')
-      expect(actualExports).toContain('figma')
       expect(actualExports).toContain('outputTree')
       expect(actualExports).toContain('isOutputTree')
       expect(actualExports).toContain('defineRenderer')
@@ -48,11 +47,9 @@ describe('Public API Contract Tests', () => {
       expect(actualExports).not.toContain('cssRenderer')
       expect(actualExports).not.toContain('jsonRenderer')
       expect(actualExports).not.toContain('jsRenderer')
-      expect(actualExports).not.toContain('figmaRenderer')
       expect(actualExports).not.toContain('CssRenderer')
       expect(actualExports).not.toContain('JsonRenderer')
       expect(actualExports).not.toContain('JsModuleRenderer')
-      expect(actualExports).not.toContain('FigmaVariablesRenderer')
     })
   })
 
@@ -90,7 +87,6 @@ describe('Public API Contract Tests', () => {
     it('should export all filter functions', () => {
       expect(FiltersAPI).toHaveProperty('isAlias')
       expect(FiltersAPI).toHaveProperty('isBase')
-      expect(FiltersAPI).toHaveProperty('isFigmaCompatible')
       expect(FiltersAPI).toHaveProperty('byType')
       expect(FiltersAPI).toHaveProperty('byPath')
     })
@@ -115,12 +111,10 @@ describe('Public API Contract Tests', () => {
       expect(BuildersAPI).toHaveProperty('css')
       expect(BuildersAPI).toHaveProperty('json')
       expect(BuildersAPI).toHaveProperty('js')
-      expect(BuildersAPI).toHaveProperty('figma')
 
       expect(typeof BuildersAPI.css).toBe('function')
       expect(typeof BuildersAPI.json).toBe('function')
       expect(typeof BuildersAPI.js).toBe('function')
-      expect(typeof BuildersAPI.figma).toBe('function')
     })
 
     it('builders should return valid output configs', () => {
@@ -154,11 +148,9 @@ describe('Public API Contract Tests', () => {
       expect(actualExports).not.toContain('cssRenderer')
       expect(actualExports).not.toContain('jsonRenderer')
       expect(actualExports).not.toContain('jsRenderer')
-      expect(actualExports).not.toContain('figmaRenderer')
       expect(actualExports).not.toContain('CssRenderer')
       expect(actualExports).not.toContain('JsonRenderer')
       expect(actualExports).not.toContain('JsModuleRenderer')
-      expect(actualExports).not.toContain('FigmaVariablesRenderer')
     })
   })
 

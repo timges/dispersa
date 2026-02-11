@@ -1,11 +1,11 @@
 # Dispersa
 
-A TypeScript build system for processing [DTCG 2025.10](https://www.designtokens.org/) design tokens. Dispersa loads resolver documents, resolves references and modifiers, applies filters and transforms, then renders output to CSS, JSON, JS/TS modules, and Figma Variables.
+A TypeScript build system for processing [DTCG 2025.10](https://www.designtokens.org/) design tokens. Dispersa loads resolver documents, resolves references and modifiers, applies filters and transforms, then renders output to CSS, JSON, and JS/TS modules.
 
 ## Features
 
 - **DTCG 2025.10 compliant** -- full support for the resolver and token format specifications
-- **Multiple outputs** -- CSS custom properties, JSON, JS/TS modules, Figma Variables
+- **Multiple outputs** -- CSS custom properties, JSON, JS/TS modules
 - **Extensible pipeline** -- custom preprocessors, filters, transforms, and renderers
 - **Schema validation** -- AJV runtime validation with schema-generated TypeScript types
 - **In-memory mode** -- use without the filesystem for build tools, APIs, and testing
@@ -133,20 +133,6 @@ Renders JavaScript/TypeScript modules.
 | `transforms`     | `Transform[]`              | --             | Per-output transforms                        |
 | `filters`        | `Filter[]`                 | --             | Per-output filters                           |
 
-### `figma(config)`
-
-Renders Figma Variables JSON.
-
-| Option               | Type                     | Default  | Description                          |
-| -------------------- | ------------------------ | -------- | ------------------------------------ |
-| `name`               | `string`                 | --       | Unique output identifier             |
-| `file`               | `string \| function`     | --       | Output path                          |
-| `collectionName`     | `string`                 | required | Figma collection name                |
-| `modeMapping`        | `Record<string, string>` | required | Map modifier contexts to Figma modes |
-| `preserveReferences` | `boolean`                | --       | Preserve token references            |
-| `transforms`         | `Transform[]`            | --       | Per-output transforms                |
-| `filters`            | `Filter[]`               | --       | Per-output filters                   |
-
 ## Output presets
 
 Presets control how modifier permutations are packaged into files.
@@ -240,13 +226,12 @@ Import from `dispersa/transforms`. All transforms are factory functions that ret
 
 Import from `dispersa/filters`. All filters are factory functions that return a `Filter` object.
 
-| Factory               | Description                                                 |
-| --------------------- | ----------------------------------------------------------- |
-| `byType(type)`        | Include tokens matching the given `$type`                   |
-| `byPath(pattern)`     | Include tokens whose path matches a string or `RegExp`      |
-| `isAlias()`           | Include only alias tokens (tokens referencing other tokens) |
-| `isBase()`            | Include only base tokens (tokens with direct values)        |
-| `isFigmaCompatible()` | Include only Figma-compatible token types                   |
+| Factory           | Description                                                 |
+| ----------------- | ----------------------------------------------------------- |
+| `byType(type)`    | Include tokens matching the given `$type`                   |
+| `byPath(pattern)` | Include tokens whose path matches a string or `RegExp`      |
+| `isAlias()`       | Include only alias tokens (tokens referencing other tokens) |
+| `isBase()`        | Include only base tokens (tokens with direct values)        |
 
 ```typescript
 import { byType, isAlias } from 'dispersa/filters'
@@ -714,15 +699,15 @@ const dispersa = new Dispersa(options?: DispersaOptions)
 
 ### Subpath exports
 
-| Export                   | Description                                                               |
-| ------------------------ | ------------------------------------------------------------------------- |
-| `dispersa`               | `Dispersa` class, builder functions (`css`, `json`, `js`, `figma`), types |
-| `dispersa/transforms`    | Built-in transform factories                                              |
-| `dispersa/filters`       | Built-in filter factories                                                 |
-| `dispersa/builders`      | Output builder functions                                                  |
-| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper                 |
-| `dispersa/preprocessors` | Preprocessor type                                                         |
-| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)              |
+| Export                   | Description                                                      |
+| ------------------------ | ---------------------------------------------------------------- |
+| `dispersa`               | `Dispersa` class, builder functions (`css`, `json`, `js`), types |
+| `dispersa/transforms`    | Built-in transform factories                                     |
+| `dispersa/filters`       | Built-in filter factories                                        |
+| `dispersa/builders`      | Output builder functions                                         |
+| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper        |
+| `dispersa/preprocessors` | Preprocessor type                                                |
+| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)     |
 
 Everything outside these entry points is internal and not a stable API contract.
 
@@ -739,7 +724,7 @@ Resolver -> Preprocessors -> $ref resolution -> Parse/flatten -> Alias resolutio
 5. **Alias resolution** -- resolves `{token.name}` references with cycle detection
 6. **Filters** -- removes tokens (global filters first, then per-output)
 7. **Transforms** -- mutates token values and names (global first, then per-output)
-8. **Renderers** -- formats tokens into the target output (CSS, JSON, JS, Figma, or custom)
+8. **Renderers** -- formats tokens into the target output (CSS, JSON, JS, or custom)
 
 ## Examples
 

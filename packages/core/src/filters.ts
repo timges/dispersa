@@ -19,10 +19,4 @@ export type { Filter } from '@lib/processing/processors/filters/types'
 // BUILT-IN FILTERS
 // ============================================================================
 
-export {
-  byPath,
-  byType,
-  isAlias,
-  isBase,
-  isFigmaCompatible,
-} from '@lib/processing/processors/filters/built-in'
+export { byPath, byType, isAlias, isBase } from '@lib/processing/processors/filters/built-in'

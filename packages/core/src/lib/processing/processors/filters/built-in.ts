@@ -65,35 +65,6 @@ export function byPath(pattern: RegExp | string): Filter {
 }
 
 /**
- * Filter that includes only token types supported by Figma Variables API
- *
- * Figma Variables only support: COLOR, FLOAT, STRING, BOOLEAN.
- * This filter excludes shadow tokens, which are composite types not supported
- * as Figma variables (they exist as Effect Styles instead).
- *
- * @example
- * ```typescript
- * outputs: [{
- *   figma({
- *     name: 'figma',
- *     file: 'tokens-figma.json',
- *     collectionName: 'Design Tokens',
- *     modeMapping: { default: 'Default' },
- *     filters: [isFigmaCompatible()],
- *   }),
- * }]
- * ```
- */
-export function isFigmaCompatible(): Filter {
-  return {
-    filter: (token) => {
-      const unsupportedTypes: TokenType[] = ['shadow']
-      return !unsupportedTypes.includes(token.$type as TokenType)
-    },
-  }
-}
-
-/**
  * Filter to include only alias tokens (tokens that reference other tokens)
  *
  * Useful for shipping only semantic/alias tokens to consumers while keeping
