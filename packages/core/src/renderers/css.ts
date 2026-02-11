@@ -112,12 +112,12 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
       mediaQuery: '',
       minify: false,
       preserveReferences: false,
-      referenceTokens: undefined,
       ...options,
+      referenceTokens: options?.referenceTokens ?? tokens,
     }
 
     const groups = this.groupTokens(tokens, opts)
-    const referenceTokens = opts.referenceTokens ?? tokens
+    const referenceTokens = opts.referenceTokens
     const lines: string[] = []
 
     for (const [selector, groupTokens] of Object.entries(groups)) {
