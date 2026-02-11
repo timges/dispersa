@@ -1,0 +1,17 @@
+{
+  "$description": "Dark theme overrides",
+  "color": {
+    "alias": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.base.white}",
+        "$description": "Light text on dark background"
+      },
+      "background": {
+        "$type": "color",
+        "$value": "{color.base.black}",
+        "$description": "Dark background"
+      }
+    }
+  }
+}

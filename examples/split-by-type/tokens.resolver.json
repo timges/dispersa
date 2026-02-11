@@ -1,0 +1,23 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/resolver.json",
+  "name": "Split-by-Type Example - Dispersa",
+  "version": "2025.10",
+  "description": "Design tokens split into separate CSS files by category",
+  "sets": {
+    "core": {
+      "description": "Core tokens (base and alias)",
+      "sources": [{ "$ref": "./tokens/base.json" }, { "$ref": "./tokens/alias.json" }]
+    }
+  },
+  "modifiers": {
+    "theme": {
+      "description": "Theme variations",
+      "default": "light",
+      "contexts": {
+        "light": [{ "$ref": "./tokens/themes/light.json" }],
+        "dark": [{ "$ref": "./tokens/themes/dark.json" }]
+      }
+    }
+  },
+  "resolutionOrder": [{ "$ref": "#/sets/core" }, { "$ref": "#/modifiers/theme" }]
+}

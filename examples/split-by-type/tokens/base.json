@@ -1,0 +1,136 @@
+{
+  "$description": "Base token values - foundational colors, spacing, and typography",
+  "color": {
+    "base": {
+      "$description": "Base color palette",
+      "blue": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0, 0.4, 0.8]
+        },
+        "$description": "Primary brand blue"
+      },
+      "gray": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.42, 0.46, 0.49]
+        },
+        "$description": "Neutral gray"
+      },
+      "white": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1, 1, 1]
+        },
+        "$description": "Pure white"
+      },
+      "black": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0, 0, 0]
+        },
+        "$description": "Pure black"
+      }
+    }
+  },
+  "spacing": {
+    "base": {
+      "$description": "Base spacing scale",
+      "1": {
+        "$type": "dimension",
+        "$value": { "value": 4, "unit": "px" }
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": { "value": 8, "unit": "px" }
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": { "value": 12, "unit": "px" }
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": { "value": 16, "unit": "px" }
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": { "value": 24, "unit": "px" }
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": { "value": 32, "unit": "px" }
+      }
+    }
+  },
+  "font": {
+    "$description": "Typography system",
+    "family": {
+      "$description": "Font family stacks",
+      "sans": {
+        "$type": "fontFamily",
+        "$value": ["Inter", "system-ui", "sans-serif"],
+        "$description": "Sans-serif font stack for UI and body text"
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": ["JetBrains Mono", "Menlo", "monospace"],
+        "$description": "Monospace font stack for code"
+      }
+    },
+    "size": {
+      "$description": "Font size scale",
+      "sm": {
+        "$type": "dimension",
+        "$value": { "value": 0.875, "unit": "rem" },
+        "$description": "Small - 14px"
+      },
+      "base": {
+        "$type": "dimension",
+        "$value": { "value": 1, "unit": "rem" },
+        "$description": "Base - 16px"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": { "value": 1.25, "unit": "rem" },
+        "$description": "Large - 20px"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.5, "unit": "rem" },
+        "$description": "Extra large - 24px"
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": { "value": 2.25, "unit": "rem" },
+        "$description": "2X large - 36px"
+      }
+    },
+    "weight": {
+      "$description": "Font weights",
+      "normal": {
+        "$type": "fontWeight",
+        "$value": 400,
+        "$description": "Normal/regular weight"
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500,
+        "$description": "Medium weight"
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600,
+        "$description": "Semibold weight"
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700,
+        "$description": "Bold weight"
+      }
+    }
+  }
+}

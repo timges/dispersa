@@ -17,7 +17,6 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Create a Dispersa instance
 const dispersa = new Dispersa({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: path.join(__dirname, 'output'),
@@ -44,18 +43,18 @@ const result = await dispersa.build({
 })
 
 if (result.success) {
-  console.log('✅ Build successful!')
+  console.log('Build successful!')
   console.log(`Generated ${result.outputs.length} file(s)`)
   console.log('\nOutput:')
-  result.outputs.forEach((output) => {
+  for (const output of result.outputs) {
     console.log(`  - ${output.path}`)
-  })
+  }
 } else {
-  console.error('❌ Build failed')
+  console.error('Build failed')
   if (result.errors) {
-    result.errors.forEach((error) => {
+    for (const error of result.errors) {
       console.error('  -', error.message)
-    })
+    }
   }
   process.exit(1)
 }

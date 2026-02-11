@@ -1,0 +1,78 @@
+{
+  "$description": "Alias tokens - semantic references to base tokens",
+  "color": {
+    "alias": {
+      "$description": "Semantic color aliases",
+      "primary": {
+        "$type": "color",
+        "$value": "{color.base.blue}",
+        "$description": "Primary action color"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.base.black}",
+        "$description": "Primary text color"
+      },
+      "background": {
+        "$type": "color",
+        "$value": "{color.base.white}",
+        "$description": "Page background"
+      }
+    }
+  },
+  "spacing": {
+    "alias": {
+      "$description": "Semantic spacing aliases",
+      "small": {
+        "$type": "dimension",
+        "$value": "{spacing.base.2}",
+        "$description": "Small spacing"
+      },
+      "medium": {
+        "$type": "dimension",
+        "$value": "{spacing.base.4}",
+        "$description": "Medium spacing"
+      },
+      "large": {
+        "$type": "dimension",
+        "$value": "{spacing.base.8}",
+        "$description": "Large spacing"
+      }
+    }
+  },
+  "font": {
+    "alias": {
+      "$description": "Semantic typography aliases",
+      "body": {
+        "$type": "fontFamily",
+        "$value": "{font.family.sans}",
+        "$description": "Body text font"
+      },
+      "code": {
+        "$type": "fontFamily",
+        "$value": "{font.family.mono}",
+        "$description": "Code font"
+      },
+      "size-body": {
+        "$type": "dimension",
+        "$value": "{font.size.base}",
+        "$description": "Body text size"
+      },
+      "size-heading": {
+        "$type": "dimension",
+        "$value": "{font.size.2xl}",
+        "$description": "Heading text size"
+      },
+      "weight-body": {
+        "$type": "fontWeight",
+        "$value": "{font.weight.normal}",
+        "$description": "Body text weight"
+      },
+      "weight-heading": {
+        "$type": "fontWeight",
+        "$value": "{font.weight.bold}",
+        "$description": "Heading text weight"
+      }
+    }
+  }
+}

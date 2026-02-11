@@ -48,6 +48,12 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.19.0)
 
+  examples:
+    devDependencies:
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.0)
+
   examples/advanced:
     dependencies:
       dispersa:
@@ -171,40 +177,12 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  examples/polaris-packaging:
+  examples/split-by-type:
     dependencies:
       dispersa:
         specifier: file:../../packages/core
         version: link:../../packages/core
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.2
     devDependencies:
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.25
-      tsx:
-        specifier: ^4.7.0
-        version: 4.20.6
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-
-  examples/spectrum-component-states:
-    dependencies:
-      dispersa:
-        specifier: file:../../packages/core
-        version: link:../../packages/core
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.2
-    devDependencies:
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.25

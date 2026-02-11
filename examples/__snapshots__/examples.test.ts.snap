@@ -1,0 +1,747 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`advanced > should produce expected file structure and content 1`] = `
+{
+  "tokens-dark-desktop-comfortable.json": "75ff1550f3e07679",
+  "tokens-dark-desktop-compact.json": "256f99aa39f4916a",
+  "tokens-dark-mobile-comfortable.json": "e6ffd91ad541bc40",
+  "tokens-dark-mobile-compact.json": "7b94a6112196a232",
+  "tokens-figma.json": "4191837ae07bbbae",
+  "tokens-forest-desktop-comfortable.json": "4f3b6e3b32862af1",
+  "tokens-forest-desktop-compact.json": "19b5d8585e5a1e06",
+  "tokens-forest-mobile-comfortable.json": "8558ae1917ce0aa0",
+  "tokens-forest-mobile-compact.json": "1b577154420e6782",
+  "tokens-high-contrast-desktop-comfortable.json": "e2f3bd475432341b",
+  "tokens-high-contrast-desktop-compact.json": "29c39705e452cfe9",
+  "tokens-high-contrast-mobile-comfortable.json": "20e78279cd2aaa56",
+  "tokens-high-contrast-mobile-compact.json": "29c39705e452cfe9",
+  "tokens-light-desktop-comfortable.json": "c7e67747258c98ef",
+  "tokens-light-desktop-compact.json": "3731fe98db703937",
+  "tokens-light-mobile-comfortable.json": "524b3b54706eb206",
+  "tokens-light-mobile-compact.json": "044700d040439a1a",
+  "tokens-mod-density-compact.css": "ebaa4e52395a2c72",
+  "tokens-mod-platform-desktop.css": "39ea9e1e36f880c1",
+  "tokens-mod-platform-mobile.css": "b7310a0cc13a6601",
+  "tokens-mod-theme-dark.css": "b9bd2852fc27578f",
+  "tokens-mod-theme-forest.css": "d2b9e914b8f8711e",
+  "tokens-mod-theme-high-contrast.css": "07a22daeb45ba1fd",
+  "tokens-mod-theme-light.css": "5847a4bd1b29e5c9",
+  "tokens.css": "4486d1f52d23470e",
+  "tokens.d.ts": "333c64665341f2e9",
+  "tokens.js": "f0f7dd0e4801191d",
+  "tokens.light-desktop-comfortable.my-renderer.json": "3a2a103a84e7c178",
+}
+`;
+
+exports[`atlassian-semantic > should produce expected file structure and content 1`] = `
+{
+  "css/tokens.css": "1e06bfe9f4df5533",
+  "js/tokens.js": "783eb7931477a089",
+  "json/tokens-dark-comfortable-reduced-motion.json": "62043ec36078b47f",
+  "json/tokens-dark-comfortable-standard.json": "35325f2ece608389",
+  "json/tokens-dark-compact-reduced-motion.json": "d8bb012f02beea0a",
+  "json/tokens-dark-compact-standard.json": "e2cfe6c170c73536",
+  "json/tokens-dark-cozy-reduced-motion.json": "c719f3b16996b3b5",
+  "json/tokens-dark-cozy-standard.json": "4c03aa11267a28af",
+  "json/tokens-high-contrast-comfortable-reduced-motion.json": "81a32743b1525a78",
+  "json/tokens-high-contrast-comfortable-standard.json": "ce0baebd881001af",
+  "json/tokens-high-contrast-compact-reduced-motion.json": "892b9ef30448d08b",
+  "json/tokens-high-contrast-compact-standard.json": "7fb792b332c96d48",
+  "json/tokens-high-contrast-cozy-reduced-motion.json": "7eb4686cb340c8b0",
+  "json/tokens-high-contrast-cozy-standard.json": "f8bf163f51ea97ac",
+  "json/tokens-light-comfortable-reduced-motion.json": "28c7d9aeb157ab6d",
+  "json/tokens-light-comfortable-standard.json": "3832327976aab27d",
+  "json/tokens-light-compact-reduced-motion.json": "b6d4e3316511a270",
+  "json/tokens-light-compact-standard.json": "88ea346649ae8d1e",
+  "json/tokens-light-cozy-reduced-motion.json": "55ef6826d15ce44e",
+  "json/tokens-light-cozy-standard.json": "b8cb6cf1f32eae62",
+}
+`;
+
+exports[`basic > should produce expected output 1`] = `
+{
+  "tokens-mod-theme-dark.css": "[data-theme="bla"] {
+  /* Dark background */
+  --color-alias-background: var(--color-base-black);
+  /* Primary action color */
+  --color-alias-primary: var(--color-base-blue);
+  /* Light text on dark background */
+  --color-alias-text: var(--color-base-white);
+  /* Pure black */
+  --color-base-black: #000000;
+  /* Primary brand blue */
+  --color-base-blue: #0066cc;
+  /* Neutral gray */
+  --color-base-gray: #6b757d;
+  /* Pure white */
+  --color-base-white: #ffffff;
+  /* Large spacing */
+  --spacing-alias-large: var(--spacing-base-8);
+  /* Medium spacing */
+  --spacing-alias-medium: var(--spacing-base-4);
+  /* Small spacing */
+  --spacing-alias-small: var(--spacing-base-2);
+  --spacing-base-1: 4px;
+  --spacing-base-2: 8px;
+  --spacing-base-3: 12px;
+  --spacing-base-4: 16px;
+  --spacing-base-6: 24px;
+  --spacing-base-8: 32px;
+}
+",
+  "tokens-mod-theme-light.css": "[data-theme="bla"] {
+  /* Light background */
+  --color-alias-background: var(--color-base-white);
+  /* Primary action color */
+  --color-alias-primary: var(--color-base-blue);
+  /* Dark text on light background */
+  --color-alias-text: var(--color-base-black);
+  /* Pure black */
+  --color-base-black: #000000;
+  /* Primary brand blue */
+  --color-base-blue: #0066cc;
+  /* Neutral gray */
+  --color-base-gray: #6b757d;
+  /* Pure white */
+  --color-base-white: #ffffff;
+  /* Large spacing */
+  --spacing-alias-large: var(--spacing-base-8);
+  /* Medium spacing */
+  --spacing-alias-medium: var(--spacing-base-4);
+  /* Small spacing */
+  --spacing-alias-small: var(--spacing-base-2);
+  --spacing-base-1: 4px;
+  --spacing-base-2: 8px;
+  --spacing-base-3: 12px;
+  --spacing-base-4: 16px;
+  --spacing-base-6: 24px;
+  --spacing-base-8: 32px;
+}
+",
+  "tokens.css": "/* Set: core */
+/* Core tokens (base and alias) */
+:root {
+  /* Primary action color */
+  --color-alias-primary: var(--color-base-blue);
+  /* Pure black */
+  --color-base-black: #000000;
+  /* Primary brand blue */
+  --color-base-blue: #0066cc;
+  /* Neutral gray */
+  --color-base-gray: #6b757d;
+  /* Pure white */
+  --color-base-white: #ffffff;
+  /* Large spacing */
+  --spacing-alias-large: var(--spacing-base-8);
+  /* Medium spacing */
+  --spacing-alias-medium: var(--spacing-base-4);
+  /* Small spacing */
+  --spacing-alias-small: var(--spacing-base-2);
+  --spacing-base-1: 4px;
+  --spacing-base-2: 8px;
+  --spacing-base-3: 12px;
+  --spacing-base-4: 16px;
+  --spacing-base-6: 24px;
+  --spacing-base-8: 32px;
+}
+
+
+/* Modifier: theme=light (default) */
+/* Theme variations */
+:root {
+  /* Light background */
+  --color-alias-background: var(--color-base-white);
+  /* Dark text on light background */
+  --color-alias-text: var(--color-base-black);
+}
+
+
+/* Modifier: theme=dark */
+[data-theme="dark"] {
+  /* Dark background */
+  --color-alias-background: var(--color-base-black);
+  /* Light text on dark background */
+  --color-alias-text: var(--color-base-white);
+}
+",
+}
+`;
+
+exports[`custom-plugins > should produce expected output 1`] = `
+{
+  "android/values/colors.xml": "<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="color_red_100">#ffebedff</color>
+  <color name="color_red_500">#f54236ff</color>
+  <color name="color_red_900">#b81c1cff</color>
+  <color name="color_blue_100">#e3f2fcff</color>
+  <color name="color_blue_500">#2196f2ff</color>
+  <color name="color_blue_900">#0d47a1ff</color>
+  <color name="color_gray_100">#f5f5f5ff</color>
+  <color name="color_gray_500">#9e9e9eff</color>
+  <color name="color_gray_900">#212121ff</color>
+  <color name="button_primary_background">#2196f2ff</color>
+  <color name="button_primary_text">#f5f5f5ff</color>
+  <color name="button_danger_background">#f54236ff</color>
+  <color name="button_danger_text">#f5f5f5ff</color>
+  <color name="text_primary">#212121ff</color>
+  <color name="text_secondary">#9e9e9eff</color>
+</resources>",
+  "android/values/dimens.xml": "<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="spacing_xs">4dp</dimen>
+  <dimen name="spacing_sm">8dp</dimen>
+  <dimen name="spacing_md">16dp</dimen>
+  <dimen name="spacing_lg">24dp</dimen>
+  <dimen name="spacing_xl">32dp</dimen>
+  <dimen name="fontsize_small">12dp</dimen>
+  <dimen name="fontsize_base">16dp</dimen>
+  <dimen name="fontsize_large">20dp</dimen>
+  <dimen name="button_padding">16dp</dimen>
+  <dimen name="text_body">16dp</dimen>
+  <dimen name="text_small">12dp</dimen>
+  <dimen name="layout_gutter">24dp</dimen>
+  <dimen name="layout_margin">16dp</dimen>
+</resources>",
+  "swift/tokens.swift": "import SwiftUI
+
+enum DesignTokens {
+  enum Colors {
+    static let colorRed100 = Color(.sRGB, red: 1, green: 0.92, blue: 0.93, opacity: 1)
+    static let colorRed500 = Color(.sRGB, red: 0.96, green: 0.26, blue: 0.21, opacity: 1)
+    static let colorRed900 = Color(.sRGB, red: 0.72, green: 0.11, blue: 0.11, opacity: 1)
+    static let colorBlue100 = Color(.sRGB, red: 0.89, green: 0.95, blue: 0.99, opacity: 1)
+    static let colorBlue500 = Color(.sRGB, red: 0.13, green: 0.59, blue: 0.95, opacity: 1)
+    static let colorBlue900 = Color(.sRGB, red: 0.05, green: 0.28, blue: 0.63, opacity: 1)
+    static let colorGray100 = Color(.sRGB, red: 0.96, green: 0.96, blue: 0.96, opacity: 1)
+    static let colorGray500 = Color(.sRGB, red: 0.62, green: 0.62, blue: 0.62, opacity: 1)
+    static let colorGray900 = Color(.sRGB, red: 0.13, green: 0.13, blue: 0.13, opacity: 1)
+    static let buttonPrimaryBackground = Color(.sRGB, red: 0.13, green: 0.59, blue: 0.95, opacity: 1)
+    static let buttonPrimaryText = Color(.sRGB, red: 0.96, green: 0.96, blue: 0.96, opacity: 1)
+    static let buttonDangerBackground = Color(.sRGB, red: 0.96, green: 0.26, blue: 0.21, opacity: 1)
+    static let buttonDangerText = Color(.sRGB, red: 0.96, green: 0.96, blue: 0.96, opacity: 1)
+    static let textPrimary = Color(.sRGB, red: 0.13, green: 0.13, blue: 0.13, opacity: 1)
+    static let textSecondary = Color(.sRGB, red: 0.62, green: 0.62, blue: 0.62, opacity: 1)
+  }
+
+  enum Dimensions {
+    static let spacingXs: CGFloat = 4
+    static let spacingSm: CGFloat = 8
+    static let spacingMd: CGFloat = 16
+    static let spacingLg: CGFloat = 24
+    static let spacingXl: CGFloat = 32
+    static let fontsizeSmall: CGFloat = 12
+    static let fontsizeBase: CGFloat = 16
+    static let fontsizeLarge: CGFloat = 20
+    static let buttonPadding: CGFloat = 16
+    static let textBody: CGFloat = 16
+    static let textSmall: CGFloat = 12
+    static let layoutGutter: CGFloat = 24
+    static let layoutMargin: CGFloat = 16
+  }
+
+}",
+  "tokens.yaml": "color.red.100:
+  value:
+    colorSpace: srgb
+    components:
+      - 1
+      - 0.92
+      - 0.93
+  type: color
+color.red.500:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.96
+      - 0.26
+      - 0.21
+  type: color
+color.red.900:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.72
+      - 0.11
+      - 0.11
+  type: color
+color.blue.100:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.89
+      - 0.95
+      - 0.99
+  type: color
+color.blue.500:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.13
+      - 0.59
+      - 0.95
+  type: color
+color.blue.900:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.05
+      - 0.28
+      - 0.63
+  type: color
+color.gray.100:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.96
+      - 0.96
+      - 0.96
+  type: color
+color.gray.500:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.62
+      - 0.62
+      - 0.62
+  type: color
+color.gray.900:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.13
+      - 0.13
+      - 0.13
+  type: color
+button.primary.background:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.13
+      - 0.59
+      - 0.95
+  type: color
+button.primary.text:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.96
+      - 0.96
+      - 0.96
+  type: color
+button.danger.background:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.96
+      - 0.26
+      - 0.21
+  type: color
+button.danger.text:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.96
+      - 0.96
+      - 0.96
+  type: color
+text.primary:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.13
+      - 0.13
+      - 0.13
+  type: color
+text.secondary:
+  value:
+    colorSpace: srgb
+    components:
+      - 0.62
+      - 0.62
+      - 0.62
+  type: color
+",
+}
+`;
+
+exports[`enterprise > should produce expected file structure and content 1`] = `
+{
+  "css/tokens.css": "66fa13854e0df95f",
+  "js-bundle/tokens.js": "5a3181e7dd2ce550",
+  "js/tokens-dark-partner-a.js": "0d654a280fdc9547",
+  "js/tokens-dark-partner-b.js": "e2bbdfcc871c528f",
+  "js/tokens-dark-primary.js": "596539266862c803",
+  "js/tokens-high-contrast-partner-a.js": "9359cfda96ff8bbb",
+  "js/tokens-high-contrast-partner-b.js": "1006ccf9f23da6b4",
+  "js/tokens-high-contrast-primary.js": "a5c51bcf0549caa9",
+  "js/tokens-light-partner-a.js": "72c2c653cf273b6d",
+  "js/tokens-light-partner-b.js": "c12e2dbf02def81e",
+  "js/tokens-light-primary.js": "3028b38c4b932500",
+  "json-bundle/tokens.json": "556cb1b34eefd0e4",
+  "json/tokens-dark-partner-a.json": "f4f81c5e6b87f23d",
+  "json/tokens-dark-partner-b.json": "395abf6b36b052c7",
+  "json/tokens-dark-primary.json": "f36727aa0da06afc",
+  "json/tokens-high-contrast-partner-a.json": "e726d19aad8e376a",
+  "json/tokens-high-contrast-partner-b.json": "9843888270d95bb8",
+  "json/tokens-high-contrast-primary.json": "bd95ee53c74bec32",
+  "json/tokens-light-partner-a.json": "b712ddabfe2b7e9f",
+  "json/tokens-light-partner-b.json": "aab69ed1775de446",
+  "json/tokens-light-primary.json": "c5a8c55f71cfc472",
+  "types/tokens.d.ts": "4a986b56f306acdb",
+}
+`;
+
+exports[`no-filesystem > should produce expected output 1`] = `
+"
+> dispersa-in-memory-example@1.0.0 build /Users/tgesemann/Documents/dev/priv/dispersa/examples/no-filesystem
+> tsx build.ts
+
+Built 5 outputs in memory
+
+--- css ---
+/* Set: base */
+/* Base design tokens */
+:root {
+  --color-brand-primary: #0066cc;
+  --color-brand-secondary: #663399;
+  --color-neutral-black: #000000;
+  --color-neutral-white: #ffffff;
+  --spacing-base: 1rem;
+  --spacing-large: 2rem;
+  --spacing-small: 0.5rem;
+  --typography-font-family-mono: "Fira Code", monospace;
+  --typography-font-family-sans: Inter, system-ui, sans-serif;
+}
+
+
+/* Modifier: theme=light (default) */
+/* Color theme variations */
+:root {
+  --semantic-background: #ffffff;
+  --semantic-text: #000000;
+}
+
+
+/* Modifier: theme=dark */
+:root {
+  --semantic-background: #000000;
+  --semantic-text: #ffffff;
+}
+
+
+--- json ---
+{
+  "color.brand.primary": { "colorSpace": "srgb", "components": [0, 0.4, 0.8] },
+  "color.brand.secondary": {
+    "colorSpace": "srgb",
+    "components": [0.4, 0.2, 0.6]
+  },
+  "color.neutral.black": { "colorSpace": "srgb", "components": [0, 0, 0] },
+  "color.neutral.white": { "colorSpace": "srgb", "components": [1, 1, 1] },
+  "semantic.background": { "colorSpace": "srgb", "components": [1, 1, 1] },
+  "semantic.text": { "colorSpace": "srgb", "components": [0, 0, 0] },
+  "spacing.base": { "value": 16, "unit": "px" },
+  "spacing.large": { "value": 32, "unit": "px" },
+  "spacing.small": { "value": 8, "unit": "px" },
+  "typography.fontFamily.mono": ["Fira Code", "monospace"],
+  "typography.fontFamily.sans": ["Inter", "system-ui", "sans-serif"]
+}
+
+
+--- json ---
+{
+  "color.brand.primary": { "colorSpace": "srgb", "components": [0, 0.4, 0.8] },
+  "color.brand.secondary": {
+    "colorSpace": "srgb",
+    "components": [0.4, 0.2, 0.6]
+  },
+  "color.neutral.black": { "colorSpace": "srgb", "components": [0, 0, 0] },
+  "color.neutral.white": { "colorSpace": "srgb", "components": [1, 1, 1] },
+  "semantic.background": { "colorSpace": "srgb", "components": [0, 0, 0] },
+  "semantic.text": { "colorSpace": "srgb", "components": [1, 1, 1] },
+  "spacing.base": { "value": 16, "unit": "px" },
+  "spacing.large": { "value": 32, "unit": "px" },
+  "spacing.small": { "value": 8, "unit": "px" },
+  "typography.fontFamily.mono": ["Fira Code", "monospace"],
+  "typography.fontFamily.sans": ["Inter", "system-ui", "sans-serif"]
+}
+
+
+--- js ---
+const tokens = {
+  color: {
+    brand: {
+      primary: {
+        colorSpace: 'srgb',
+        components: [0, 0.4, 0.8],
+      },
+      secondary: {
+        colorSpace: 'srgb',
+        components: [0.4, 0.2, 0.6],
+      },
+    },
+    neutral: {
+      black: {
+        colorSpace: 'srgb',
+        components: [0, 0, 0],
+      },
+      white: {
+        colorSpace: 'srgb',
+        components: [1, 1, 1],
+      },
+    },
+  },
+  semantic: {
+    background: {
+      colorSpace: 'srgb',
+      components: [1, 1, 1],
+    },
+    text: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+    },
+  },
+  spacing: {
+    base: {
+      unit: 'px',
+      value: 16,
+    },
+    large: {
+      unit: 'px',
+      value: 32,
+    },
+    small: {
+      unit: 'px',
+      value: 8,
+    },
+  },
+  typography: {
+    fontFamily: {
+      mono: ['Fira Code', 'monospace'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+    },
+  },
+}
+
+export default tokens
+
+
+--- js ---
+const tokens = {
+  color: {
+    brand: {
+      primary: {
+        colorSpace: 'srgb',
+        components: [0, 0.4, 0.8],
+      },
+      secondary: {
+        colorSpace: 'srgb',
+        components: [0.4, 0.2, 0.6],
+      },
+    },
+    neutral: {
+      black: {
+        colorSpace: 'srgb',
+        components: [0, 0, 0],
+      },
+      white: {
+        colorSpace: 'srgb',
+        components: [1, 1, 1],
+      },
+    },
+  },
+  semantic: {
+    background: {
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+    },
+    text: {
+      colorSpace: 'srgb',
+      components: [1, 1, 1],
+    },
+  },
+  spacing: {
+    base: {
+      unit: 'px',
+      value: 16,
+    },
+    large: {
+      unit: 'px',
+      value: 32,
+    },
+    small: {
+      unit: 'px',
+      value: 8,
+    },
+  },
+  typography: {
+    fontFamily: {
+      mono: ['Fira Code', 'monospace'],
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+    },
+  },
+}
+
+export default tokens
+
+
+Light background: {"colorSpace":"srgb","components":[1,1,1]}
+Dark background: {"colorSpace":"srgb","components":[0,0,0]}
+
+2 permutation(s):
+  theme=light (11 tokens)
+  theme=dark (11 tokens)
+"
+`;
+
+exports[`split-by-type > should produce expected output 1`] = `
+{
+  "css/colors.css": "/* Set: core */
+/* Core tokens (base and alias) */
+:root {
+  /* Primary action color */
+  --color-alias-primary: var(--color-base-blue);
+  /* Pure black */
+  --color-base-black: #000000;
+  /* Primary brand blue */
+  --color-base-blue: #0066cc;
+  /* Neutral gray */
+  --color-base-gray: #6b757d;
+  /* Pure white */
+  --color-base-white: #ffffff;
+}
+
+
+/* Modifier: theme=light (default) */
+/* Theme variations */
+:root {
+  /* Light background */
+  --color-alias-background: var(--color-base-white);
+  /* Dark text on light background */
+  --color-alias-text: var(--color-base-black);
+}
+
+
+/* Modifier: theme=dark */
+[data-theme="dark"] {
+  /* Dark background */
+  --color-alias-background: var(--color-base-black);
+  /* Light text on dark background */
+  --color-alias-text: var(--color-base-white);
+}
+",
+  "css/spacings.css": "/* Set: core */
+/* Core tokens (base and alias) */
+:root {
+  /* Large spacing */
+  --spacing-alias-large: 32px;
+  /* Medium spacing */
+  --spacing-alias-medium: 16px;
+  /* Small spacing */
+  --spacing-alias-small: 8px;
+  --spacing-base-1: 4px;
+  --spacing-base-2: 8px;
+  --spacing-base-3: 12px;
+  --spacing-base-4: 16px;
+  --spacing-base-6: 24px;
+  --spacing-base-8: 32px;
+}
+
+
+/* Modifier: theme=dark */
+[data-theme="dark"] {
+  /* Large spacing */
+  --spacing-alias-large: 32px;
+  /* Medium spacing */
+  --spacing-alias-medium: 16px;
+  /* Small spacing */
+  --spacing-alias-small: 8px;
+  --spacing-base-1: 4px;
+  --spacing-base-2: 8px;
+  --spacing-base-3: 12px;
+  --spacing-base-4: 16px;
+  --spacing-base-6: 24px;
+  --spacing-base-8: 32px;
+}
+",
+  "css/typography.css": "/* Set: core */
+/* Core tokens (base and alias) */
+:root {
+  /* Body text font */
+  --font-alias-body: Inter, system-ui, sans-serif;
+  /* Code font */
+  --font-alias-code: "JetBrains Mono", Menlo, monospace;
+  /* Body text size */
+  --font-alias-size-body: 1rem;
+  /* Heading text size */
+  --font-alias-size-heading: 2.25rem;
+  /* Body text weight */
+  --font-alias-weight-body: 400;
+  /* Heading text weight */
+  --font-alias-weight-heading: 700;
+  /* Monospace font stack for code */
+  --font-family-mono: "JetBrains Mono", Menlo, monospace;
+  /* Sans-serif font stack for UI and body text */
+  --font-family-sans: Inter, system-ui, sans-serif;
+  /* 2X large - 36px */
+  --font-size-2xl: 2.25rem;
+  /* Base - 16px */
+  --font-size-base: 1rem;
+  /* Large - 20px */
+  --font-size-lg: 1.25rem;
+  /* Small - 14px */
+  --font-size-sm: 0.875rem;
+  /* Extra large - 24px */
+  --font-size-xl: 1.5rem;
+  /* Bold weight */
+  --font-weight-bold: 700;
+  /* Medium weight */
+  --font-weight-medium: 500;
+  /* Normal/regular weight */
+  --font-weight-normal: 400;
+  /* Semibold weight */
+  --font-weight-semibold: 600;
+}
+
+
+/* Modifier: theme=dark */
+[data-theme="dark"] {
+  /* Body text font */
+  --font-alias-body: Inter, system-ui, sans-serif;
+  /* Code font */
+  --font-alias-code: "JetBrains Mono", Menlo, monospace;
+  /* Body text size */
+  --font-alias-size-body: 1rem;
+  /* Heading text size */
+  --font-alias-size-heading: 2.25rem;
+  /* Body text weight */
+  --font-alias-weight-body: 400;
+  /* Heading text weight */
+  --font-alias-weight-heading: 700;
+  /* Monospace font stack for code */
+  --font-family-mono: "JetBrains Mono", Menlo, monospace;
+  /* Sans-serif font stack for UI and body text */
+  --font-family-sans: Inter, system-ui, sans-serif;
+  /* 2X large - 36px */
+  --font-size-2xl: 2.25rem;
+  /* Base - 16px */
+  --font-size-base: 1rem;
+  /* Large - 20px */
+  --font-size-lg: 1.25rem;
+  /* Small - 14px */
+  --font-size-sm: 0.875rem;
+  /* Extra large - 24px */
+  --font-size-xl: 1.5rem;
+  /* Bold weight */
+  --font-weight-bold: 700;
+  /* Medium weight */
+  --font-weight-medium: 500;
+  /* Normal/regular weight */
+  --font-weight-normal: 400;
+  /* Semibold weight */
+  --font-weight-semibold: 600;
+}
+",
+}
+`;
