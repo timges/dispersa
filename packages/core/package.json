@@ -13,6 +13,16 @@
   "bugs": {
     "url": "https://github.com/timges/dispersa/issues"
   },
+  "keywords": [
+    "design-tokens",
+    "dtcg",
+    "css",
+    "figma",
+    "tokens",
+    "css-variables",
+    "design-system",
+    "token-pipeline"
+  ],
   "publishConfig": {
     "access": "public"
   },
