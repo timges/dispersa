@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { applyTransforms, applyFilters } from '../../../../src/lib/processing/token-modifier'
-import type { Transform } from '../../../../src/lib/processing/processors/transforms/types'
-import type { Filter } from '../../../../src/lib/processing/processors/filters/types'
-import type { ResolvedTokens, ResolvedToken } from '../../../../src/lib/tokens/types'
+import { applyTransforms, applyFilters } from '../../../../src/processing/token-modifier'
+import type { Transform } from '../../../../src/processing/processors/transforms/types'
+import type { Filter } from '../../../../src/processing/processors/filters/types'
+import type { ResolvedTokens, ResolvedToken } from '../../../../src/tokens/types'
 
 describe('Token Modifier', () => {
   const mockTokens: ResolvedTokens = {

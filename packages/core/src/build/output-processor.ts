@@ -6,7 +6,7 @@ import * as path from 'node:path'
 
 import { writeOutputFile } from '@adapters/filesystem/file-utils'
 import type { ModifierInputs, OutputConfig, ResolvedTokens } from '@config/index'
-import { applyFilters, applyTransforms } from '@lib/processing/token-modifier'
+import { applyFilters, applyTransforms } from '@processing/token-modifier'
 import { resolveFileName } from '@renderers/bundlers/utils'
 import { isOutputTree } from '@renderers/output-tree'
 import type {

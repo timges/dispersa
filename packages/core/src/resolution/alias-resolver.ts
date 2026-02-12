@@ -3,13 +3,13 @@
  * Resolves {tokenName} references in token values
  */
 
-import type { InternalResolvedToken, InternalResolvedTokens, TokenValue } from '@lib/tokens/types'
 import { DEFAULT_MAX_ALIAS_DEPTH } from '@shared/constants'
 import { CircularReferenceError, TokenReferenceError, ValidationError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { findSimilar } from '@shared/utils/string-similarity'
 import { getPureAliasReferenceName } from '@shared/utils/token-utils'
 import { ValidationHandler } from '@shared/utils/validation-handler'
+import type { InternalResolvedToken, InternalResolvedTokens, TokenValue } from '@tokens/types'
 
 export type AliasResolutionOptions = {
   maxDepth?: number

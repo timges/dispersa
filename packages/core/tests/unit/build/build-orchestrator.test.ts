@@ -7,7 +7,7 @@ import { BuildOrchestrator } from '../../../src/build/build-orchestrator'
 import { TokenPipeline } from '../../../src/build/pipeline/token-pipeline'
 import { OutputProcessor } from '../../../src/build/output-processor'
 import type { BuildConfig, ResolverDocument } from '../../../src/config/index'
-import { ReferenceResolver, ResolutionEngine } from '../../../src/lib/resolution'
+import { ReferenceResolver, ResolutionEngine } from '../../../src/resolution'
 import type { PermutationData } from '../../../src/renderers/types'
 
 describe('BuildOrchestrator', () => {

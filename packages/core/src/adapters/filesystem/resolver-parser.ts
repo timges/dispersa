@@ -6,11 +6,11 @@ import { constants as fsConstants } from 'node:fs'
 import { readFile, access } from 'node:fs/promises'
 import * as path from 'node:path'
 
-import type { ResolverDocument } from '@lib/resolution/resolution.types'
-import { SchemaValidator } from '@lib/validation/index'
+import type { ResolverDocument } from '@resolution/resolution.types'
 import { FileOperationError, ValidationError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { ValidationHandler } from '@shared/utils/validation-handler'
+import { SchemaValidator } from '@validation/index'
 
 export type ParserOptions = {
   allowUnknownVersion?: boolean

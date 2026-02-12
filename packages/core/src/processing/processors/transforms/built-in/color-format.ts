@@ -3,7 +3,7 @@
  * Split from color-converter to avoid pulling these into bundles that only need hex.
  */
 
-import type { ColorValueObject } from '@lib/tokens/types'
+import type { ColorValueObject } from '@tokens/types'
 import { formatRgb, formatHsl } from 'culori'
 
 import { dtcgObjectToCulori } from './color-converter'

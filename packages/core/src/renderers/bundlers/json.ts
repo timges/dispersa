@@ -2,9 +2,9 @@
  * @fileoverview JSON bundler for multi-theme output
  */
 
-import type { ResolverDocument } from '@lib/resolution/resolution.types'
-import type { ResolvedTokens } from '@lib/tokens/types'
+import type { ResolverDocument } from '@resolution/resolution.types'
 import { ConfigurationError } from '@shared/errors/index'
+import type { ResolvedTokens } from '@tokens/types'
 
 import type { BundleDataItem } from './types'
 import {

@@ -21,13 +21,17 @@ export default defineConfig({
   external: ['ajv', 'ajv-formats', 'change-case', 'culori', 'fast-glob', 'json-ptr', 'prettier'],
   esbuildOptions(options) {
     options.alias = {
-      '@lib': path.resolve(__dirname, './src/lib'),
       '@build': path.resolve(__dirname, './src/build'),
       '@renderers': path.resolve(__dirname, './src/renderers'),
       '@adapters': path.resolve(__dirname, './src/adapters'),
       '@shared': path.resolve(__dirname, './src/shared'),
       '@config': path.resolve(__dirname, './src/config'),
       '@builders': path.resolve(__dirname, './src/builders'),
+      '@tokens': path.resolve(__dirname, './src/tokens'),
+      '@codegen': path.resolve(__dirname, './src/codegen'),
+      '@processing': path.resolve(__dirname, './src/processing'),
+      '@resolution': path.resolve(__dirname, './src/resolution'),
+      '@validation': path.resolve(__dirname, './src/validation'),
     }
   },
 })

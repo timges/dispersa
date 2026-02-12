@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 import { bundleAsCss } from '../../../src/renderers/bundlers/css'
 
 describe('CSS bundler ordering', () => {

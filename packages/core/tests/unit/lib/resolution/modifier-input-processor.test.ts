@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { ModifierInputProcessor } from '../../../../src/lib/resolution/modifier-input-processor'
-import type { ResolverDocument } from '../../../../src/lib/resolution/resolution.types'
+import { ModifierInputProcessor } from '../../../../src/resolution/modifier-input-processor'
+import type { ResolverDocument } from '../../../../src/resolution/resolution.types'
 import { ValidationHandler } from '../../../../src/shared/utils/validation-handler'
 
 function createModifiers(

@@ -4,7 +4,7 @@
 
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { TokenPipeline } from '../../../src/build/pipeline/token-pipeline'
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 
 // Note: TokenPipeline is primarily tested through integration tests
 // These unit tests focus on pipeline construction and configuration

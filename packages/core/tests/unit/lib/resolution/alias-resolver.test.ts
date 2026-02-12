@@ -4,10 +4,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getFixturePath } from '../../../utils/test-helpers'
 import { ResolvedTokens } from '../../../../src'
-import { AliasResolver } from '../../../../src/lib/resolution/alias-resolver'
-import { TokenParser } from '../../../../src/lib/tokens/token-parser'
+import { AliasResolver } from '../../../../src/resolution/alias-resolver'
+import { TokenParser } from '../../../../src/tokens/token-parser'
 import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
-import { ReferenceResolver, ResolutionEngine } from '../../../../src/lib/resolution'
+import { ReferenceResolver, ResolutionEngine } from '../../../../src/resolution'
 
 describe('Alias Resolver Integration Tests', () => {
   let aliasResolver: AliasResolver

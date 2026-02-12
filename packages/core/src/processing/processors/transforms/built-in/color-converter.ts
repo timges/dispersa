@@ -3,7 +3,7 @@
  * Uses culori for accurate color science and conversions
  */
 
-import type { ColorComponent, ColorSpace, ColorValueObject } from '@lib/tokens/types'
+import type { ColorComponent, ColorSpace, ColorValueObject } from '@tokens/types'
 import {
   formatHex,
   formatHex8,

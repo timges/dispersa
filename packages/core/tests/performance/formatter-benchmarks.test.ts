@@ -5,8 +5,8 @@
 
 import { describe, expect, it } from 'vitest'
 import type { OutputConfig } from '../../src/config'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
-import type { ResolvedTokens } from '../../src/lib/tokens/types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
+import type { ResolvedTokens } from '../../src/tokens/types'
 import { cssRenderer, jsRenderer, jsonRenderer } from '../../src/renderers'
 import type { RenderContext, Renderer } from '../../src/renderers/types'
 

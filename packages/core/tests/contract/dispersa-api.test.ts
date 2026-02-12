@@ -7,7 +7,7 @@
 
 import { beforeEach, describe, expect, it } from 'vitest'
 import { json } from '../../src/index'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
 import { Dispersa } from '../../src/dispersa'
 
 describe('Dispersa Class API Contract', () => {

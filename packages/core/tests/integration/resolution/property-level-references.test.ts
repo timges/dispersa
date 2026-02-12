@@ -8,9 +8,9 @@ import { mkdirSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { AliasResolver } from '../../../src/lib/resolution/alias-resolver'
-import { ReferenceResolver } from '../../../src/lib/resolution/reference-resolver'
-import type { ResolvedTokens } from '../../../src/lib/tokens/types'
+import { AliasResolver } from '../../../src/resolution/alias-resolver'
+import { ReferenceResolver } from '../../../src/resolution/reference-resolver'
+import type { ResolvedTokens } from '../../../src/tokens/types'
 
 describe('Property-Level References (JSON Pointer Only)', () => {
   let refResolver: ReferenceResolver

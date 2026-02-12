@@ -3,8 +3,8 @@ import * as path from 'node:path'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ResolverParser } from '../../../src/adapters/filesystem/resolver-parser'
-import { ReferenceResolver, ResolutionEngine } from '../../../src/lib/resolution'
-import { TokenParser } from '../../../src/lib/tokens/token-parser'
+import { ReferenceResolver, ResolutionEngine } from '../../../src/resolution'
+import { TokenParser } from '../../../src/tokens/token-parser'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Resolution Engine Integration', () => {

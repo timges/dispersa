@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { TokenParser } from '../../../../src/lib/tokens/token-parser'
+import { TokenParser } from '../../../../src/tokens/token-parser'
 import { getFixturePath } from '../../../utils/test-helpers'
 
 describe('Token Parser Integration Tests', () => {

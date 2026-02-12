@@ -4,7 +4,7 @@
 
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
-import type { ResolverDocument } from '../../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../../src/resolution/resolution.types'
 import * as fs from 'node:fs/promises'
 
 // Mock fs module
@@ -14,7 +14,7 @@ vi.mock('node:fs/promises', () => ({
 }))
 
 // Mock SchemaValidator
-vi.mock('../../../../src/lib/validation/index', () => ({
+vi.mock('../../../../src/validation/index', () => ({
   SchemaValidator: vi.fn().mockImplementation(() => ({
     validateResolver: vi.fn().mockReturnValue([]),
     getErrorMessage: vi.fn().mockReturnValue('Validation error'),

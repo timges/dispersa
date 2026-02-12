@@ -4,7 +4,7 @@ import { join } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 import { Dispersa } from '../../../src/dispersa'
 
 describe('In-Memory Resolver BaseDir', () => {

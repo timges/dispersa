@@ -2,10 +2,12 @@
  * @fileoverview Configuration types for Dispersa
  */
 
-import type { Filter } from '@lib/processing/processors/filters/types'
-import type { Preprocessor } from '@lib/processing/processors/preprocessors/types'
-import type { Transform } from '@lib/processing/processors/transforms/types'
-import type { ModifierInputs, ResolverDocument } from '@lib/resolution/resolution.types'
+import type { Filter } from '@processing/processors/filters/types'
+import type { Preprocessor } from '@processing/processors/preprocessors/types'
+import type { Transform } from '@processing/processors/transforms/types'
+import type { BuildResult, FormatOptions, Renderer } from '@renderers/types'
+import type { ModifierInputs, ResolverDocument } from '@resolution/resolution.types'
+import type { ValidationOptions } from '@shared/types/validation'
 import type {
   BuildConfigBase,
   CssRendererOptions,
@@ -13,9 +15,7 @@ import type {
   JsonRendererOptions,
   OutputConfigBase,
   DispersaOptionsBase,
-} from '@lib/validation/config-schemas'
-import type { BuildResult, FormatOptions, Renderer } from '@renderers/types'
-import type { ValidationOptions } from '@shared/types/validation'
+} from '@validation/config-schemas'
 
 // Re-export for convenience
 export type { Filter, Preprocessor, Transform }
@@ -57,7 +57,7 @@ export type { ModifierInputs, ResolverDocument }
 export type { BuildResult, Renderer } from '@renderers/types'
 
 // Re-export from tokens
-export type { ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
+export type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 
 // Re-export validation types
 export type { ValidationOptions } from '@shared/types/validation'

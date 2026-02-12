@@ -5,7 +5,7 @@
  * including token name unions, value types, and nested structure types.
  */
 
-import type { ResolvedTokens, ResolvedToken, TokenType } from '@lib/tokens/types'
+import type { ResolvedTokens, ResolvedToken, TokenType } from '@tokens/types'
 
 /**
  * Options for TypeScript type generation

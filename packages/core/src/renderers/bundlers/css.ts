@@ -2,10 +2,10 @@
  * @fileoverview CSS bundler for multi-theme output
  */
 
-import type { ResolverDocument } from '@lib/resolution/resolution.types'
-import type { ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
 import type { CssRendererOptions } from '@renderers/types'
+import type { ResolverDocument } from '@resolution/resolution.types'
 import { BasePermutationError, ConfigurationError } from '@shared/errors/index'
+import type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 
 import type { BundleDataItem } from './types'
 import {

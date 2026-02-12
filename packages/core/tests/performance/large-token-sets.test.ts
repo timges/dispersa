@@ -5,7 +5,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { css } from '../../src/builders'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
 import { Dispersa } from '../../src/dispersa'
 
 describe('Large Token Sets (Enterprise Scale)', () => {

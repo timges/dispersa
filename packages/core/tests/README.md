@@ -108,7 +108,7 @@ pnpm test:coverage
 
 - Test files: `*.test.ts`
 - Location: Mirror source structure in appropriate test folder
-- Example: `src/lib/resolution/alias-resolver.ts` → `tests/unit/lib/resolution/alias-resolver.test.ts`
+- Example: `src/resolution/alias-resolver.ts` → `tests/unit/resolution/alias-resolver.test.ts`
 
 ## 🔧 Test Utilities
 
@@ -168,7 +168,7 @@ Coverage thresholds are enforced in `vitest.config.ts`:
 
 ```bash
 # Run specific test file
-pnpm test tests/unit/lib/resolution/alias-resolver.test.ts
+pnpm test tests/unit/resolution/alias-resolver.test.ts
 
 # Run tests matching pattern
 pnpm test --grep "color transform"

@@ -8,7 +8,7 @@
  */
 
 import { describe, expect, it, beforeEach } from 'vitest'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
 import { Dispersa } from '../../src/dispersa'
 
 describe('Resolution Performance Benchmarks', () => {

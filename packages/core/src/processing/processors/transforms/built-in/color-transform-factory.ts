@@ -3,7 +3,7 @@
  * Handles both simple conversions and modern color space transformations
  */
 
-import { ColorValue, ColorValueObject, ResolvedToken } from '@lib/tokens/types'
+import { ColorValue, ColorValueObject, ResolvedToken } from '@tokens/types'
 import { converter, formatCss, type Mode } from 'culori'
 
 import { Transform } from '..'

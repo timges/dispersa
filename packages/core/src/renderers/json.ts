@@ -2,7 +2,6 @@
  * @fileoverview JSON renderer using Prettier for consistent formatting
  */
 
-import type { ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
 import {
   buildInMemoryOutputKey,
   resolveFileName,
@@ -10,6 +9,7 @@ import {
 } from '@renderers/bundlers/utils'
 import { ConfigurationError } from '@shared/errors/index'
 import { getSortedTokenEntries } from '@shared/utils/token-utils'
+import type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 import prettier from 'prettier'
 
 import { outputTree } from './output-tree'

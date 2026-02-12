@@ -4,8 +4,8 @@ import {
   colorToHex,
   colorToHsl,
   colorToRgb,
-} from '../../../../../src/lib/processing/processors/transforms/built-in/color-transforms'
-import type { ColorValueObject, ResolvedToken } from '../../../../../src/lib/tokens/types'
+} from '../../../../../src/processing/processors/transforms/built-in/color-transforms'
+import type { ColorValueObject, ResolvedToken } from '../../../../../src/tokens/types'
 
 describe('Alpha Channel Preservation Tests (DTCG Format)', () => {
   describe('colorToHex transform', () => {

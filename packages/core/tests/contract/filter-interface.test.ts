@@ -7,7 +7,7 @@
 
 import { beforeEach, describe, expect, it } from 'vitest'
 import { byPath, byType, isAlias, isBase, type Filter } from '../../src/filters'
-import type { ResolvedToken } from '../../src/lib/tokens/types'
+import type { ResolvedToken } from '../../src/tokens/types'
 
 describe('Filter Interface Contract', () => {
   let mockColorToken: ResolvedToken

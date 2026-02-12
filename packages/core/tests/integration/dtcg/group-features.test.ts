@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { TokenCollection } from '../../../src'
-import { AliasResolver } from '../../../src/lib/resolution/alias-resolver'
-import { TokenParser } from '../../../src/lib/tokens/token-parser'
+import { AliasResolver } from '../../../src/resolution/alias-resolver'
+import { TokenParser } from '../../../src/tokens/token-parser'
 
 const srgb = (red: number, green: number, blue: number) => ({
   colorSpace: 'srgb',

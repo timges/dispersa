@@ -3,10 +3,10 @@
  */
 
 import type { ModifierInputs, ResolvedTokens } from '@config/index'
-import type { ResolverDocument } from '@lib/resolution/resolution.types'
-import type { InternalResolvedTokens } from '@lib/tokens/types'
 import type { MediaQueryFunction, SelectorFunction } from '@renderers/types'
+import type { ResolverDocument } from '@resolution/resolution.types'
 import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
+import type { InternalResolvedTokens } from '@tokens/types'
 
 function sanitizeDataAttributeName(value: string): string {
   // Attribute names are more constrained than token/modifier names.

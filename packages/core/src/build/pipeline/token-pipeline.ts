@@ -16,12 +16,12 @@ import type {
 } from '@config/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { ValidationHandler } from '@shared/utils/validation-handler'
-import { applyFilters, applyTransforms } from '@lib/processing/token-modifier'
-import { AliasResolver } from '@lib/resolution/alias-resolver'
-import { ReferenceResolver } from '@lib/resolution/reference-resolver'
-import { ResolutionEngine } from '@lib/resolution/resolution-engine'
-import { TokenParser } from '@lib/tokens/token-parser'
-import type { InternalResolvedTokens, InternalTokenDocument } from '@lib/tokens/types'
+import { applyFilters, applyTransforms } from '@processing/token-modifier'
+import { AliasResolver } from '@resolution/alias-resolver'
+import { ReferenceResolver } from '@resolution/reference-resolver'
+import { ResolutionEngine } from '@resolution/resolution-engine'
+import { TokenParser } from '@tokens/token-parser'
+import type { InternalResolvedTokens, InternalTokenDocument } from '@tokens/types'
 import type {
   AliasResolvedStage,
   EngineReadyStage,

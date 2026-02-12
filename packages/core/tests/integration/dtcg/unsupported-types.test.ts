@@ -3,8 +3,8 @@
  */
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { TokenParser } from '../../../src/lib/tokens/token-parser'
-import { SchemaValidator } from '../../../src/lib/validation/validator'
+import { TokenParser } from '../../../src/tokens/token-parser'
+import { SchemaValidator } from '../../../src/validation/validator'
 
 describe('Composite Token Types', () => {
   let validator: SchemaValidator

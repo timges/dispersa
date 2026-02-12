@@ -5,7 +5,7 @@
 
 import * as path from 'node:path'
 
-import type { ResolverDocument } from '@lib/resolution/resolution.types'
+import type { ResolverDocument } from '@resolution/resolution.types'
 import type { ValidationOptions } from '@shared/types/validation'
 
 import { ResolverParser } from './resolver-parser'

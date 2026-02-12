@@ -2,9 +2,9 @@
  * @fileoverview Utilities for applying transforms and filters to tokens
  */
 
-import type { Filter } from '@lib/processing/processors/filters/types'
-import type { Transform } from '@lib/processing/processors/transforms/types'
-import type { ResolvedTokens } from '@lib/tokens/types'
+import type { Filter } from '@processing/processors/filters/types'
+import type { Transform } from '@processing/processors/transforms/types'
+import type { ResolvedTokens } from '@tokens/types'
 
 /**
  * Apply a list of transforms to tokens

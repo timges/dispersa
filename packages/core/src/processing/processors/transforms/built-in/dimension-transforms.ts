@@ -4,8 +4,8 @@
  * and converts to string format for output
  */
 
-import type { DimensionValue, ResolvedToken } from '@lib/tokens/types'
 import { DEFAULT_BASE_FONT_SIZE_PX } from '@shared/constants'
+import type { DimensionValue, ResolvedToken } from '@tokens/types'
 
 import type { Transform } from '../types'
 

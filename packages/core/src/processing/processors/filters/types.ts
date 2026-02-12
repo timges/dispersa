@@ -2,7 +2,7 @@
  * @fileoverview Filter system types for token selection
  */
 
-import type { ResolvedToken } from '@lib/tokens/types'
+import type { ResolvedToken } from '@tokens/types'
 
 /**
  * Filter definition for selecting tokens

@@ -6,23 +6,18 @@
 import {
   colorObjectToHex,
   isColorObject,
-} from '@lib/processing/processors/transforms/built-in/color-converter'
+} from '@processing/processors/transforms/built-in/color-converter'
 import {
   dimensionObjectToString,
   isDimensionObject,
-} from '@lib/processing/processors/transforms/built-in/dimension-converter'
-import type {
-  DimensionValue,
-  DurationValue,
-  ResolvedToken,
-  ResolvedTokens,
-} from '@lib/tokens/types'
+} from '@processing/processors/transforms/built-in/dimension-converter'
 import { ConfigurationError } from '@shared/errors/index'
 import {
   formatDeprecationMessage,
   getPureAliasReferenceName,
   getSortedTokenEntries,
 } from '@shared/utils/token-utils'
+import type { DimensionValue, DurationValue, ResolvedToken, ResolvedTokens } from '@tokens/types'
 import prettier from 'prettier'
 
 import { bundleAsCss } from './bundlers/css'

@@ -5,8 +5,8 @@
  * used in output configurations to control which tokens are included in output.
  */
 
-import { AliasResolver } from '@lib/resolution/alias-resolver'
-import type { TokenType } from '@lib/tokens/types'
+import { AliasResolver } from '@resolution/alias-resolver'
+import type { TokenType } from '@tokens/types'
 
 import type { Filter } from './types'
 

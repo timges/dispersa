@@ -48,7 +48,7 @@ export type {
   TransitionValue,
   GradientValue,
   TokenType,
-} from '@lib/tokens/types'
+} from '@tokens/types'
 
 // Token type guards
 export {
@@ -60,16 +60,16 @@ export {
   isDurationToken,
   isTransitionToken,
   isGradientToken,
-} from '@lib/tokens/types'
+} from '@tokens/types'
 
 // Transform types
-export type { Transform } from '@lib/processing/processors/transforms/types'
+export type { Transform } from '@processing/processors/transforms/types'
 
 // Filter types
-export type { Filter } from '@lib/processing/processors/filters/types'
+export type { Filter } from '@processing/processors/filters/types'
 
 // Preprocessor types
-export type { Preprocessor } from '@lib/processing/processors/preprocessors/types'
+export type { Preprocessor } from '@processing/processors/preprocessors/types'
 
 // Renderer types
 export type {
@@ -92,7 +92,7 @@ export type {
 } from '@renderers/types'
 
 // Resolver types
-export type { ModifierInputs, ResolverDocument } from '@lib/resolution/resolution.types'
+export type { ModifierInputs, ResolverDocument } from '@resolution/resolution.types'
 
 // ============================================================================
 // OUTPUT BUILDERS

@@ -147,8 +147,8 @@ vi.mock('node:fs/promises', () => ({
 }))
 
 // ❌ Bad - Over-mocking hides integration issues
-vi.mock('../../src/lib/resolution/alias-resolver')
-vi.mock('../../src/lib/tokens/token-parser')
+vi.mock('../../src/resolution/alias-resolver')
+vi.mock('../../src/tokens/token-parser')
 // Now your test doesn't actually test anything!
 ```
 

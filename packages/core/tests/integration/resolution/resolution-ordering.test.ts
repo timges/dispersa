@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 import { Dispersa } from '../../../src/dispersa'
 
 const srgb = (red: number, green: number, blue: number) => ({

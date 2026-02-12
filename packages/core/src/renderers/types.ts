@@ -3,7 +3,7 @@
  */
 
 import type { ModifierInputs, OutputConfig, ResolverDocument } from '@config/index'
-import type { ResolvedTokens } from '@lib/tokens/types'
+import type { ResolvedTokens } from '@tokens/types'
 
 /**
  * Generic options object for renderers
@@ -221,7 +221,7 @@ export type CssRendererOptions = {
  * }
  * ```
  */
-export type { JsonRendererOptions } from '@lib/validation/config-schemas'
+export type { JsonRendererOptions } from '@validation/config-schemas'
 
 /**
  * Options for JavaScript module renderer
@@ -238,7 +238,7 @@ export type { JsonRendererOptions } from '@lib/validation/config-schemas'
  * }
  * ```
  */
-export type { JsModuleRendererOptions } from '@lib/validation/config-schemas'
+export type { JsModuleRendererOptions } from '@validation/config-schemas'
 
 /**
  * Result of a token build operation

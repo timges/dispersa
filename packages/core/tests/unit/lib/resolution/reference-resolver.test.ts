@@ -2,7 +2,7 @@ import * as path from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
-import { ReferenceResolver } from '../../../../src/lib/resolution/reference-resolver'
+import { ReferenceResolver } from '../../../../src/resolution/reference-resolver'
 import { getFixturesDir } from '../../../utils/fixtures'
 
 describe('ReferenceResolver', () => {

@@ -3,8 +3,8 @@
  * Handles dimension object format { value: number, unit: string }
  */
 
-import type { DimensionValue } from '@lib/tokens/types'
 import { DEFAULT_BASE_FONT_SIZE_PX } from '@shared/constants'
+import type { DimensionValue } from '@tokens/types'
 /**
  * Check if a value is in dimension object format
  */

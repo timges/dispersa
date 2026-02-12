@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { extractModifierInfo } from '../../../../src/lib/resolution/modifier-utils'
-import type { ResolverDocument } from '../../../../src/lib/resolution/resolution.types'
+import { extractModifierInfo } from '../../../../src/resolution/modifier-utils'
+import type { ResolverDocument } from '../../../../src/resolution/resolution.types'
 
 function createResolver(
   modifiers: Record<string, { default?: string; contexts: Record<string, unknown[]> }>,

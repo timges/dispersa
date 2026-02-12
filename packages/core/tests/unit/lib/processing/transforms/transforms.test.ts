@@ -13,13 +13,13 @@ import {
   nameKebabCase,
   namePascalCase,
   nameSnakeCase,
-} from '../../../../../src/lib/processing/processors/transforms/built-in'
-import type { Transform } from '../../../../../src/lib/processing/processors/transforms/types'
+} from '../../../../../src/processing/processors/transforms/built-in'
+import type { Transform } from '../../../../../src/processing/processors/transforms/types'
 import type {
   ColorValueObject,
   ResolvedToken,
   ResolvedTokens,
-} from '../../../../../src/lib/tokens/types'
+} from '../../../../../src/tokens/types'
 
 describe('Transform Integration Tests', () => {
   describe('Built-in Value Transforms', () => {

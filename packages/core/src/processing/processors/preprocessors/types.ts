@@ -2,8 +2,8 @@
  * @fileoverview Preprocessor system types for raw token transformation
  */
 
-import type { InternalTokenDocument } from '@lib/tokens/types'
-import type { PreprocessorPluginBase } from '@lib/validation/config-schemas'
+import type { InternalTokenDocument } from '@tokens/types'
+import type { PreprocessorPluginBase } from '@validation/config-schemas'
 
 /**
  * Preprocessor definition for transforming raw token data

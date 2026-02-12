@@ -5,13 +5,13 @@ import path from 'node:path'
 
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { OutputConfig } from '../../../src/config'
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 import { CssRenderer } from '../../../src/renderers/css'
 import { JsonRenderer } from '../../../src/renderers/json'
 import { isOutputTree } from '../../../src/renderers'
 import type { RenderContext } from '../../../src/renderers/types'
-import { AliasResolver } from '../../../src/lib/resolution/alias-resolver'
-import { TokenParser } from '../../../src/lib/tokens/token-parser'
+import { AliasResolver } from '../../../src/resolution/alias-resolver'
+import { TokenParser } from '../../../src/tokens/token-parser'
 
 describe('Composite Tokens', () => {
   let parser: TokenParser

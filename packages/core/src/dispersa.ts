@@ -20,10 +20,10 @@ import type {
   ResolverDocument,
   DispersaOptions,
 } from '@config/index'
-import { SchemaValidator } from '@lib/validation/validator'
 import { ConfigurationError } from '@shared/errors/index'
 import { toBuildError } from '@shared/utils/error-utils'
 import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
+import { SchemaValidator } from '@validation/validator'
 
 /**
  * DTCG design token processor with multi-format output support

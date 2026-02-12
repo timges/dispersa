@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { ResolverParser } from '../../../src/adapters/filesystem/resolver-parser'
-import { ReferenceResolver, ResolutionEngine } from '../../../src/lib/resolution'
+import { ReferenceResolver, ResolutionEngine } from '../../../src/resolution'
 import { getFixturePath } from '../../utils/test-helpers'
 
 const srgb = (red: number, green: number, blue: number) => ({

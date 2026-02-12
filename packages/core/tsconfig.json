@@ -5,7 +5,11 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
-      "@lib/*": ["lib/*"],
+      "@codegen/*": ["codegen/*"],
+      "@tokens/*": ["tokens/*"],
+      "@processing/*": ["processing/*"],
+      "@resolution/*": ["resolution/*"],
+      "@validation/*": ["validation/*"],
       "@build/*": ["build/*"],
       "@builders/*": ["builders/*"],
       "@renderers/*": ["renderers/*"],

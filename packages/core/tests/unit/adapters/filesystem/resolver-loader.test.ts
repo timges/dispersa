@@ -5,7 +5,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ResolverLoader } from '../../../../src/adapters/filesystem/resolver-loader'
 import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
-import type { ResolverDocument } from '../../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../../src/resolution/resolution.types'
 
 // Mock ResolverParser
 vi.mock('../../../../src/adapters/filesystem/resolver-parser')

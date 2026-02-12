@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { GroupExtensionResolver } from '../../../../src/lib/tokens/group-extension-resolver'
-import type { TokenCollection } from '../../../../src/lib/tokens/types'
+import { GroupExtensionResolver } from '../../../../src/tokens/group-extension-resolver'
+import type { TokenCollection } from '../../../../src/tokens/types'
 
 function createResolver() {
   return new GroupExtensionResolver()

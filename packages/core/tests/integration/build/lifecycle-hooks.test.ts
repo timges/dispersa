@@ -9,7 +9,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { Dispersa, css, json } from '../../../src/index'
 import { colorToHex, nameKebabCase } from '../../../src/transforms'
-import type { ResolverDocument } from '../../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../../src/resolution/resolution.types'
 
 /**
  * Minimal inline resolver for hook tests (no filesystem needed)

@@ -4,7 +4,7 @@
 
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { TypeWriter } from '../../../../src/adapters/filesystem/type-writer'
-import type { ResolvedTokens } from '../../../../src/lib/tokens/types'
+import type { ResolvedTokens } from '../../../../src/tokens/types'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
 
@@ -15,7 +15,7 @@ vi.mock('node:fs/promises', () => ({
 }))
 
 // Mock TypeGenerator
-vi.mock('../../../../src/lib/codegen/type-generator', () => ({
+vi.mock('../../../../src/codegen/type-generator', () => ({
   TypeGenerator: vi.fn().mockImplementation(() => ({
     generate: vi.fn().mockReturnValue('export type Tokens = { color: string }'),
   })),

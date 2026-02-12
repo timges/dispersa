@@ -12,9 +12,8 @@
  */
 
 import type { LifecycleHooks, OutputConfig } from '@config/index'
-import type { Filter } from '@lib/processing/processors/filters/types'
-import type { Transform } from '@lib/processing/processors/transforms/types'
-import type { ModifierInputs } from '@lib/resolution/resolution.types'
+import type { Filter } from '@processing/processors/filters/types'
+import type { Transform } from '@processing/processors/transforms/types'
 import { cssRenderer } from '@renderers/css'
 import { jsRenderer } from '@renderers/js-module'
 import { jsonRenderer } from '@renderers/json'
@@ -23,6 +22,7 @@ import type {
   JsModuleRendererOptions,
   JsonRendererOptions,
 } from '@renderers/types'
+import type { ModifierInputs } from '@resolution/resolution.types'
 
 // ============================================================================
 // BASE BUILDER CONFIGURATION

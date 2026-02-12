@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 
 import { css, json, js } from '../../src/index'
 import { colorToHex, dimensionToRem } from '../../src/transforms'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
 import { Dispersa } from '../../src/dispersa'
 
 describe('In-Memory API E2E Tests', () => {

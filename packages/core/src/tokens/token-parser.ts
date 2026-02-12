@@ -5,13 +5,13 @@
 import * as path from 'node:path'
 
 import { readJSONFile } from '@adapters/filesystem/file-utils'
-import { SchemaValidator } from '@lib/validation/validator'
 import { ValidationError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { getErrorMessage } from '@shared/utils/error-utils'
 import { formatTokenPath } from '@shared/utils/path-utils'
 import { isTokenLike } from '@shared/utils/token-utils'
 import { ValidationHandler } from '@shared/utils/validation-handler'
+import { SchemaValidator } from '@validation/validator'
 
 import { GroupExtensionResolver } from './group-extension-resolver'
 import type {

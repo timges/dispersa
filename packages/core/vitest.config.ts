@@ -25,7 +25,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@lib': path.resolve(__dirname, './src/lib'),
+      '@codegen': path.resolve(__dirname, './src/codegen'),
+      '@tokens': path.resolve(__dirname, './src/tokens'),
+      '@processing': path.resolve(__dirname, './src/processing'),
+      '@resolution': path.resolve(__dirname, './src/resolution'),
+      '@validation': path.resolve(__dirname, './src/validation'),
       '@build': path.resolve(__dirname, './src/build'),
       '@builders': path.resolve(__dirname, './src/builders'),
       '@renderers': path.resolve(__dirname, './src/renderers'),

@@ -4,9 +4,9 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest'
-import { TokenParser } from '../../../src/lib/tokens/token-parser'
+import { TokenParser } from '../../../src/tokens/token-parser'
 import Ajv from 'ajv'
-import { dtcgSchemaRegistry, tokenSchema } from '../../../src/lib/validation/schemas'
+import { dtcgSchemaRegistry, tokenSchema } from '../../../src/validation/schemas'
 
 describe('DTCG Color Specification Compliance', () => {
   let parser: TokenParser

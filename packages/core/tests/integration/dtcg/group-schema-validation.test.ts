@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { SchemaValidator } from '../../../src/lib/validation/validator'
+import { SchemaValidator } from '../../../src/validation/validator'
 
 const srgb = (red: number, green: number, blue: number) => ({
   colorSpace: 'srgb',

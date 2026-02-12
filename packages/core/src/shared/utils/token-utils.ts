@@ -2,7 +2,7 @@
  * @fileoverview Token utility functions
  */
 
-import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@lib/tokens/types'
+import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@tokens/types'
 
 /**
  * Format deprecation message for a token

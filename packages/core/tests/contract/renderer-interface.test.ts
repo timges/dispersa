@@ -9,7 +9,7 @@ import { cssRenderer } from '../../src/renderers/css'
 import { jsRenderer } from '../../src/renderers/js-module'
 import { jsonRenderer } from '../../src/renderers/json'
 import type { OutputConfig } from '../../src/config'
-import type { ResolverDocument } from '../../src/lib/resolution/resolution.types'
+import type { ResolverDocument } from '../../src/resolution/resolution.types'
 import type { FormatOptions, RenderContext, Renderer } from '../../src/renderers/types'
 
 const baseResolver: ResolverDocument = {

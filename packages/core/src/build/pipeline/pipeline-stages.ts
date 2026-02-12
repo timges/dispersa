@@ -5,10 +5,10 @@
  * This prevents temporal coupling by making the order explicit through types.
  */
 
-import type { ReferenceResolver } from '@lib/resolution/reference-resolver'
-import type { ResolutionEngine } from '@lib/resolution/resolution-engine'
+import type { ReferenceResolver } from '@resolution/reference-resolver'
+import type { ResolutionEngine } from '@resolution/resolution-engine'
 import type { ModifierInputs, ResolverDocument } from '@config/index'
-import type { InternalResolvedTokens, InternalTokenDocument } from '@lib/tokens/types'
+import type { InternalResolvedTokens, InternalTokenDocument } from '@tokens/types'
 
 /**
  * Stage 1: Loaded resolver with base directory
