@@ -1,6 +1,7 @@
 {
   "name": "dispersa-basic-example",
   "version": "1.0.1",
+  "private": true,
   "description": "Basic example demonstrating Dispersa",
   "type": "module",
   "scripts": {

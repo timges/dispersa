@@ -1,6 +1,7 @@
 {
   "name": "dispersa-in-memory-example",
   "version": "1.0.1",
+  "private": true,
   "description": "Example demonstrating Dispersa in-memory mode without filesystem",
   "type": "module",
   "scripts": {

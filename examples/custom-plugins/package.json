@@ -1,6 +1,7 @@
 {
   "name": "dispersa-custom-plugins-example",
   "version": "1.0.1",
+  "private": true,
   "description": "Dispersa example demonstrating custom filters, formatters, and transforms",
   "type": "module",
   "scripts": {

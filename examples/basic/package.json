@@ -1,6 +1,7 @@
 {
   "name": "dispersa-hello-world",
   "version": "1.0.1",
+  "private": true,
   "description": "Minimal hello-world example for Dispersa",
   "type": "module",
   "scripts": {

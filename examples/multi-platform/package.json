@@ -1,6 +1,7 @@
 {
   "name": "dispersa-multi-platform",
   "version": "1.0.1",
+  "private": true,
   "description": "Multi-platform design token example: CSS, Tailwind, iOS (Swift), Android (Kotlin)",
   "type": "module",
   "scripts": {

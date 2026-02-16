@@ -1,6 +1,7 @@
 {
   "name": "dispersa-complex-example",
   "version": "1.0.1",
+  "private": true,
   "description": "Complex example demonstrating comprehensive DTCG test suite with Dispersa",
   "type": "module",
   "scripts": {
