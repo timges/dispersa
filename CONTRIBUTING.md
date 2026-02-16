@@ -43,15 +43,13 @@ pnpm test
 ```
 dispersa/
 ├── packages/
-│   ├── core/       # Main library — token processing, transforms, builders, renderers
-│   └── cli/        # CLI wrapper around the core library
+│   └── core/       # Main library and CLI — token processing, transforms, builders, renderers
 ├── examples/       # Example projects demonstrating various use cases
 ├── .changeset/     # Changeset configuration for versioning
 └── .github/        # CI workflows, issue and PR templates
 ```
 
-- **`packages/core`** is the primary package published as `dispersa` on npm.
-- **`packages/cli`** is published as `dispersa-cli` and provides the `dispersa` binary.
+- **`packages/core`** is published as `dispersa` on npm. It includes the library API and the CLI (`src/cli/`).
 - **`examples/`** contains standalone projects that consume the core library.
 
 ## Development Workflow
@@ -77,7 +75,6 @@ You can run commands in a specific package using pnpm filters:
 pnpm --filter dispersa test          # Run core tests only
 pnpm --filter dispersa test:unit     # Run unit tests only
 pnpm --filter dispersa test:coverage # Run tests with coverage
-pnpm --filter dispersa-cli build     # Build the CLI only
 ```
 
 ## Testing
@@ -120,7 +117,7 @@ pnpm changeset
 
 You will be prompted to:
 
-1. Select which packages are affected (`dispersa`, `dispersa-cli`, or both).
+1. Select which packages are affected (`dispersa`).
 2. Choose a semver bump type (`patch`, `minor`, or `major`).
 3. Write a short summary of the change.
 
