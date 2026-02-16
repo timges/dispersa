@@ -1,6 +1,6 @@
 {
   "name": "dispersa-split-by-type",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Example: split CSS output by token category (colors, spacings, typography)",
   "type": "module",
   "scripts": {
