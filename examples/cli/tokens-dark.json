@@ -1,6 +1,0 @@
-{
-  "color.background": { "colorSpace": "srgb", "components": [0.1, 0.1, 0.1] },
-  "color.primary": { "colorSpace": "srgb", "components": [0, 0.4, 1] },
-  "spacing.md": { "value": 16, "unit": "px" },
-  "spacing.sm": { "value": 8, "unit": "px" }
-}

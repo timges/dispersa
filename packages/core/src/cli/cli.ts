@@ -180,10 +180,7 @@ function normalizeConfigPaths(config: CliConfig, configDir: string): CliConfig {
       ? resolveIfRelative(config.resolver, configDir)
       : config.resolver
   const buildPath = resolveIfRelative(config.buildPath, configDir)
-  const outputs = (config.outputs ?? []).map((output) => ({
-    ...output,
-    file: resolveOutputFile(output.file, configDir),
-  }))
+  const outputs = config.outputs ?? []
 
   return {
     ...config,
@@ -198,16 +195,6 @@ function resolveIfRelative(value: string | undefined, baseDir: string): string |
     return value
   }
   return isAbsolute(value) ? value : resolve(baseDir, value)
-}
-
-function resolveOutputFile(
-  file: string | ((inputs: Record<string, string>) => string) | undefined,
-  baseDir: string,
-): string | ((inputs: Record<string, string>) => string) | undefined {
-  if (!file || typeof file === 'function') {
-    return file
-  }
-  return isAbsolute(file) ? file : resolve(baseDir, file)
 }
 
 async function fileExists(path: string): Promise<boolean> {

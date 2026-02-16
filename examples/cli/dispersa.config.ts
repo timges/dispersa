@@ -1,8 +1,8 @@
-// @ts-nocheck
-import { css, json } from 'dispersa'
-import { nameKebabCase } from 'dispersa/transforms'
+import { css } from 'dispersa'
+import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { defineConfig } from 'dispersa/config'
 
-export default {
+export default defineConfig({
   resolver: './tokens.resolver.json',
   buildPath: './dist',
   outputs: [
@@ -10,9 +10,16 @@ export default {
       name: 'css',
       file: 'tokens.css',
       preset: 'bundle',
-      selector: ':root',
-      transforms: [nameKebabCase()],
+      preserveReferences: true,
+      transforms: [nameKebabCase(), colorToHex()],
     }),
-    json({ name: 'json', file: 'tokens-{theme}.json', preset: 'standalone', structure: 'flat' }),
+    css({
+      name: 'css',
+      file: 'tokens-mod.css',
+      preset: 'standalone',
+      selector: () => '[data-theme="bla"]',
+      preserveReferences: true,
+      transforms: [nameKebabCase(), colorToHex()],
+    }),
   ],
-}
+})
