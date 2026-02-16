@@ -152,10 +152,10 @@ async function formatModifierOverride(
  * gray.25 which has a different value in dark mode).
  */
 function filterTokensByValueChange(
-  currentTokens: Record<string, { $value: unknown }>,
-  baseTokens: Record<string, { $value: unknown }>,
-): typeof currentTokens {
-  const changed: typeof currentTokens = {}
+  currentTokens: ResolvedTokens,
+  baseTokens: ResolvedTokens,
+): ResolvedTokens {
+  const changed: ResolvedTokens = {}
 
   for (const [name, token] of Object.entries(currentTokens)) {
     const baseToken = baseTokens[name]
