@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timges/dispersa.git",
+    "url": "git+https://github.com/dispersa-core/dispersa.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/timges/dispersa",
+  "homepage": "https://dispersa.dev",
   "bugs": {
-    "url": "https://github.com/timges/dispersa/issues"
+    "url": "https://github.com/dispersa-core/dispersa/issues"
   },
   "keywords": [
     "design-tokens",
