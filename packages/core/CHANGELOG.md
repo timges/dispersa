@@ -1,5 +1,12 @@
 # dispersa
 
+## 0.3.0
+
+### Minor Changes
+
+- [`ad99ecd`](https://github.com/dispersa-core/dispersa/commit/ad99ecdf436eeafe24da56adb3ec1ff17b1b2027) Thanks [@timges](https://github.com/timges)! - - improve stability of inbuilt css output renderer
+  - improve create script scaffold example
+
 ## 0.2.0
 
 ### Minor Changes

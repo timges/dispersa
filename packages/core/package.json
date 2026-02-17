@@ -1,6 +1,6 @@
 {
   "name": "dispersa",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Core library for processing DTCG design tokens",
   "author": "Tim Gesemann",
   "license": "MIT",
