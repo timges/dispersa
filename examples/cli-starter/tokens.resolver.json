@@ -1,0 +1,47 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/resolver.json",
+  "name": "CLI Starter - Dispersa",
+  "version": "2025.10",
+  "description": "Design tokens with colors, typography, spacing, effects, and light/dark themes",
+  "sets": {
+    "colors": {
+      "description": "Color palette and semantic colors",
+      "sources": [
+        { "$ref": "./tokens/base/colors.json" },
+        { "$ref": "./tokens/semantic/colors.json" }
+      ]
+    },
+    "typography": {
+      "description": "Font families, sizes, weights, and line heights",
+      "sources": [
+        { "$ref": "./tokens/base/typography.json" },
+        { "$ref": "./tokens/semantic/typography.json" }
+      ]
+    },
+    "spacing": {
+      "description": "Spacing scale",
+      "sources": [{ "$ref": "./tokens/base/spacing.json" }]
+    },
+    "effects": {
+      "description": "Shadows and effects",
+      "sources": [{ "$ref": "./tokens/base/effects.json" }]
+    }
+  },
+  "modifiers": {
+    "theme": {
+      "description": "Theme variations",
+      "default": "light",
+      "contexts": {
+        "light": [{ "$ref": "./tokens/themes/light.json" }],
+        "dark": [{ "$ref": "./tokens/themes/dark.json" }]
+      }
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/colors" },
+    { "$ref": "#/sets/typography" },
+    { "$ref": "#/sets/spacing" },
+    { "$ref": "#/sets/effects" },
+    { "$ref": "#/modifiers/theme" }
+  ]
+}

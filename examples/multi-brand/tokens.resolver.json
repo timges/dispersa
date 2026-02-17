@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.designtokens.org/schemas/resolver.json",
-  "name": "Enterprise Example - Multi-Brand, Multi-Platform Design System",
+  "name": "Multi-Brand Example - Multi-Platform Design System",
   "version": "2025.10",
   "description": "Enterprise-scale design system demonstrating comprehensive DTCG 2025.10 features with 5-dimensional token variation (brand × platform × density × theme × accessibility)",
   "sets": {

@@ -1,0 +1,83 @@
+{
+  "$description": "Typography foundations - font families, weights, sizes, and line heights",
+  "font": {
+    "family": {
+      "$description": "Font stacks",
+      "sans": {
+        "$type": "fontFamily",
+        "$value": ["Inter", "system-ui", "sans-serif"],
+        "$description": "Default sans-serif font stack"
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": ["JetBrains Mono", "Fira Code", "monospace"],
+        "$description": "Monospace font stack for code"
+      }
+    },
+    "weight": {
+      "$description": "Font weight scale",
+      "regular": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700
+      }
+    },
+    "size": {
+      "$description": "Type scale",
+      "xs": {
+        "$type": "dimension",
+        "$value": { "value": 0.75, "unit": "rem" }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": { "value": 0.875, "unit": "rem" }
+      },
+      "base": {
+        "$type": "dimension",
+        "$value": { "value": 1, "unit": "rem" }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": { "value": 1.125, "unit": "rem" }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.25, "unit": "rem" }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.5, "unit": "rem" }
+      },
+      "3xl": {
+        "$type": "dimension",
+        "$value": { "value": 2, "unit": "rem" }
+      }
+    },
+    "lineHeight": {
+      "$description": "Line height multipliers",
+      "tight": {
+        "$type": "number",
+        "$value": 1.25
+      },
+      "normal": {
+        "$type": "number",
+        "$value": 1.5
+      },
+      "relaxed": {
+        "$type": "number",
+        "$value": 1.75
+      }
+    }
+  }
+}

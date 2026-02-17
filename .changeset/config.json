@@ -7,5 +7,17 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "@dispersa/docs",
+    "dispersa-examples-tests",
+    "dispersa-example-atlassian-semantic",
+    "dispersa-cli-example",
+    "dispersa-custom-plugins-example",
+    "dispersa-in-memory-example",
+    "dispersa-complex-example",
+    "dispersa-basic-example",
+    "dispersa-multi-platform",
+    "dispersa-split-by-type",
+    "dispersa-hello-world"
+  ]
 }

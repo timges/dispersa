@@ -1,0 +1,38 @@
+{
+  "$description": "Semantic typography aliases - references to base typography tokens",
+  "typography": {
+    "heading": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.3xl}",
+        "fontWeight": "{font.weight.bold}",
+        "letterSpacing": { "value": -0.02, "unit": "rem" },
+        "lineHeight": "{font.lineHeight.tight}"
+      },
+      "$description": "Large heading style"
+    },
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.base}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": { "value": 0, "unit": "rem" },
+        "lineHeight": "{font.lineHeight.normal}"
+      },
+      "$description": "Default body text style"
+    },
+    "caption": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.sm}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": { "value": 0, "unit": "rem" },
+        "lineHeight": "{font.lineHeight.normal}"
+      },
+      "$description": "Small caption or helper text"
+    }
+  }
+}

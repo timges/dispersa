@@ -1,0 +1,32 @@
+{
+  "$description": "Dark theme overrides",
+  "color": {
+    "semantic": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.base.gray-100}",
+        "$description": "Light text on dark background"
+      },
+      "text-muted": {
+        "$type": "color",
+        "$value": "{color.base.gray-500}",
+        "$description": "Muted text on dark background"
+      },
+      "background": {
+        "$type": "color",
+        "$value": "{color.base.gray-900}",
+        "$description": "Dark page background"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{color.base.gray-700}",
+        "$description": "Dark surface for cards"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.base.gray-700}",
+        "$description": "Dark border color"
+      }
+    }
+  }
+}

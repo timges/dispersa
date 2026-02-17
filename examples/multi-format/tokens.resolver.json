@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.designtokens.org/schemas/resolver.json",
-  "name": "Advanced Example - Multi-Platform Design System",
+  "name": "Multi-Format Example - Design System",
   "version": "2025.10",
   "description": "Advanced design tokens with multi-platform delivery, multiple themes, and component tokens",
   "sets": {

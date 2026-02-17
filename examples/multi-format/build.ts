@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 /**
- * Advanced Example - Multi-format output with themes, platforms,
+ * Multi-Format Example - Multi-format output with themes, platforms,
  * density modifiers, and a custom renderer.
  */
 

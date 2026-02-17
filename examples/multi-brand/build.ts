@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 /**
- * Enterprise Example - Multi-format output with brands, themes,
+ * Multi-Brand Example - Multi-format output with brands, themes,
  * platforms, density, and accessibility modifiers.
  */
 

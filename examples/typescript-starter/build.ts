@@ -1,16 +1,17 @@
 #!/usr/bin/env tsx
 
 /**
- * Basic Example - Dispersa
+ * TypeScript Starter - Dispersa
  *
- * Demonstrates a simple token structure with:
- * - Base tokens (foundational values)
- * - Alias tokens (semantic references)
+ * Demonstrates a token structure with:
+ * - Base tokens split by domain (colors, typography, spacing, effects)
+ * - Semantic aliases referencing base tokens
  * - Theme modifiers (light/dark)
+ * - Bundle output (single file) and modifier output (per-theme folders)
  */
 
 import { Dispersa, css } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToRem, fontWeightToNumber, nameKebabCase } from 'dispersa/transforms'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -25,19 +26,19 @@ const dispersa = new Dispersa({
 const result = await dispersa.build({
   outputs: [
     css({
-      name: 'css',
+      name: 'css-bundle',
       file: 'tokens.css',
       preset: 'bundle',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
     css({
-      name: 'css',
-      file: 'tokens-mod.css',
-      preset: 'standalone',
-      selector: () => '[data-theme="bla"]',
+      name: 'css-themes',
+      file: '{theme}/tokens.css',
+      preset: 'modifier',
+      selector: ':root',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
   ],
 })

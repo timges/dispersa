@@ -118,11 +118,11 @@ for (const output of result.outputs) {
 }
 ```
 
-> For file-based tokens, define JSON files and reference them with `$ref` in your resolver document. See the [`basic` example](./examples/basic/) for a complete setup.
+> For file-based tokens, define JSON files and reference them with `$ref` in your resolver document. See the [`typescript-starter` example](./examples/typescript-starter/) for a complete setup.
 
 ## Output formats
 
-Dispersa ships four builder functions. Each returns an `OutputConfig` that can be passed to `build()`.
+Dispersa ships five builder functions. Each returns an `OutputConfig` that can be passed to `build()`.
 
 ### `css(config)`
 
@@ -139,6 +139,7 @@ Renders CSS custom properties.
 | `minify`             | `boolean`                                | `false`    | Minify output                                |
 | `transforms`         | `Transform[]`                            | --         | Per-output transforms                        |
 | `filters`            | `Filter[]`                               | --         | Per-output filters                           |
+| `hooks`              | `LifecycleHooks`                         | --         | Per-output lifecycle hooks                   |
 
 ### `json(config)`
 
@@ -154,6 +155,7 @@ Renders JSON output.
 | `minify`          | `boolean`                  | --             | Minify output                                |
 | `transforms`      | `Transform[]`              | --             | Per-output transforms                        |
 | `filters`         | `Filter[]`                 | --             | Per-output filters                           |
+| `hooks`           | `LifecycleHooks`           | --             | Per-output lifecycle hooks                   |
 
 ### `js(config)`
 
@@ -170,6 +172,25 @@ Renders JavaScript/TypeScript modules.
 | `minify`         | `boolean`                  | --             | Minify output                                |
 | `transforms`     | `Transform[]`              | --             | Per-output transforms                        |
 | `filters`        | `Filter[]`                 | --             | Per-output filters                           |
+| `hooks`          | `LifecycleHooks`           | --             | Per-output lifecycle hooks                   |
+
+### `tailwind(config)`
+
+Renders Tailwind CSS v4 `@theme` blocks.
+
+| Option          | Type                           | Default    | Description                                  |
+| --------------- | ------------------------------ | ---------- | -------------------------------------------- |
+| `name`          | `string`                       | --         | Unique output identifier                     |
+| `file`          | `string \| function`           | --         | Output path (supports `{modifier}` patterns) |
+| `preset`        | `'bundle' \| 'standalone'`     | `'bundle'` | Output preset                                |
+| `includeImport` | `boolean`                      | --         | Include `@import "tailwindcss"` directive    |
+| `namespace`     | `string`                       | --         | Prefix for CSS variable names                |
+| `selector`      | `string \| SelectorFunction`   | `':root'`  | CSS selector                                 |
+| `mediaQuery`    | `string \| MediaQueryFunction` | --         | Media query wrapper                          |
+| `minify`        | `boolean`                      | `false`    | Minify output                                |
+| `transforms`    | `Transform[]`                  | --         | Per-output transforms                        |
+| `filters`       | `Filter[]`                     | --         | Per-output filters                           |
+| `hooks`         | `LifecycleHooks`               | --         | Per-output lifecycle hooks                   |
 
 ### Experimental: native platform outputs
 
@@ -743,15 +764,16 @@ const dispersa = new Dispersa(options?: DispersaOptions)
 
 ### Subpath exports
 
-| Export                   | Description                                                      |
-| ------------------------ | ---------------------------------------------------------------- |
-| `dispersa`               | `Dispersa` class, builder functions (`css`, `json`, `js`), types |
-| `dispersa/transforms`    | Built-in transform factories                                     |
-| `dispersa/filters`       | Built-in filter factories                                        |
-| `dispersa/builders`      | Output builder functions                                         |
-| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper        |
-| `dispersa/preprocessors` | Preprocessor type                                                |
-| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)     |
+| Export                   | Description                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `dispersa`               | `Dispersa` class, builder functions (`css`, `json`, `js`, `tailwind`), types |
+| `dispersa/transforms`    | Built-in transform factories                                                 |
+| `dispersa/filters`       | Built-in filter factories                                                    |
+| `dispersa/builders`      | Output builder functions                                                     |
+| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper                    |
+| `dispersa/preprocessors` | Preprocessor type                                                            |
+| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)                 |
+| `dispersa/config`        | `defineConfig` helper for CLI config files                                   |
 
 Everything outside these entry points is internal and not a stable API contract.
 
@@ -774,13 +796,17 @@ Resolver -> Preprocessors -> $ref resolution -> Parse/flatten -> Alias resolutio
 
 See [`examples/`](./examples/) for complete working projects. Suggested learning path:
 
-| Example                                        | Focus                                         |
-| ---------------------------------------------- | --------------------------------------------- |
-| [`basic`](./examples/basic/)                   | Minimal setup with light/dark themes          |
-| [`no-filesystem`](./examples/no-filesystem/)   | In-memory mode with inline tokens             |
-| [`custom-plugins`](./examples/custom-plugins/) | Custom transforms, filters, and renderers     |
-| [`advanced`](./examples/advanced/)             | Multi-modifier system with all output formats |
-| [`enterprise`](./examples/enterprise/)         | Multi-brand, multi-platform at scale          |
+| Example                                                | Focus                                                     |
+| ------------------------------------------------------ | --------------------------------------------------------- |
+| [`typescript-starter`](./examples/typescript-starter/) | Programmatic build script with themed CSS                 |
+| [`cli-starter`](./examples/cli-starter/)               | Config-file workflow using the dispersa CLI               |
+| [`in-memory`](./examples/in-memory/)                   | In-memory mode with inline tokens                         |
+| [`custom-plugins`](./examples/custom-plugins/)         | Custom transforms, filters, and renderers                 |
+| [`multi-format`](./examples/multi-format/)             | Multi-modifier system with all output formats             |
+| [`multi-brand`](./examples/multi-brand/)               | Multi-brand, multi-platform at scale                      |
+| [`multi-platform`](./examples/multi-platform/)         | CSS, Tailwind, iOS, and Android from one set              |
+| [`split-by-type`](./examples/split-by-type/)           | Filtered outputs split by token category                  |
+| [`atlassian-semantic`](./examples/atlassian-semantic/) | Semantic tokens with density, motion, and theme modifiers |
 
 ## License
 

@@ -44,10 +44,10 @@ function hashContents(files: Record<string, string>): Record<string, string> {
 }
 
 // Small examples: snapshot full file contents
-const smallExamples = ['basic', 'split-by-type', 'custom-plugins']
+const smallExamples = ['typescript-starter', 'split-by-type', 'custom-plugins']
 
 // Large examples: snapshot file list with content hashes (too many permutations for inline content)
-const largeExamples = ['advanced', 'enterprise', 'atlassian-semantic', 'multi-platform']
+const largeExamples = ['multi-format', 'multi-brand', 'atlassian-semantic', 'multi-platform']
 
 for (const example of smallExamples) {
   describe(example, () => {
@@ -92,9 +92,9 @@ for (const example of largeExamples) {
   })
 }
 
-describe('no-filesystem', () => {
+describe('in-memory', () => {
   it('should produce expected output', () => {
-    const dir = path.join(examplesDir, 'no-filesystem')
+    const dir = path.join(examplesDir, 'in-memory')
     const stdout = execSync('pnpm build', {
       cwd: dir,
       encoding: 'utf-8',
@@ -102,5 +102,24 @@ describe('no-filesystem', () => {
     })
     const normalized = stdout.replace(/^> .+ build .+\n/gm, '')
     expect(normalized).toMatchSnapshot()
+  })
+})
+
+describe('cli-starter', () => {
+  const dir = path.join(examplesDir, 'cli-starter')
+  const outputDir = path.join(dir, 'dist')
+
+  beforeAll(async () => {
+    await rm(outputDir, { recursive: true, force: true })
+    execSync('pnpm build', { cwd: dir, stdio: 'pipe' })
+  })
+
+  afterAll(async () => {
+    await rm(outputDir, { recursive: true, force: true })
+  })
+
+  it('should produce expected output', async () => {
+    const files = sortKeys(await readOutputFiles(outputDir))
+    expect(files).toMatchSnapshot()
   })
 })
