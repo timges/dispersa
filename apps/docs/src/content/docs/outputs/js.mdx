@@ -20,10 +20,10 @@ import { js } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | 'bundle' \| 'standalone' | 'standalone' | Output preset |
-| structure | 'flat' \| 'nested' | — | Token structure |
-| moduleName | string | — | Module name for exports |
+| structure | 'flat' \| 'nested' | 'nested' | Token structure |
+| moduleName | string | 'tokens' | Module name for exports |
 | generateHelper | boolean | — | Generate token lookup helper |
 | minify | boolean | — | Minify output |
 | transforms | Transform[] | — | Per-output transforms |
@@ -82,7 +82,7 @@ export const spacing = {
 
 ## Token Lookup Helper
 
-When `generateHelper` is true (bundle mode), a `getToken()` lookup function is added:
+When `generateHelper` is true (bundle mode), a `getTokens()` lookup function is added:
 
 ```typescript
 js({
@@ -96,7 +96,7 @@ js({
 })
 ```
 
-The helper allows looking up tokens by path string (e.g., `getToken('color.brand.primary')`).
+The helper returns the resolved token set for a given modifier combination (e.g., `getTokens({ theme: 'dark' })`).
 
 ## Type Generation
 

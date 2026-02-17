@@ -6,379 +6,456 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ReactNode } from 'react'
-import { useCallback, useRef, useState } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
+import { useCallback, useState } from 'react'
 
-const ANNOTATIONS: Record<string, string> = {
-  $type: "Defines the token's type. Can be set on a group to apply to all children.",
-  $value: "The token's value. Format varies by type (color object, dimension object, etc.).",
-  $description: 'Human-readable description. Appears in docs and generated code comments.',
+/* ------------------------------------------------------------------ */
+/*  Data model                                                        */
+/* ------------------------------------------------------------------ */
+
+type ColorValue = {
+  colorSpace: string
+  components: number[]
+  alpha?: number
+}
+
+type TokenExample = {
+  path: string[]
+  groupType: string
+  type: string
+  value: ColorValue
+  description: string
+  deprecated: string | boolean
+  extensions: Record<string, unknown>
+}
+
+/* ------------------------------------------------------------------ */
+/*  Token example                                                     */
+/* ------------------------------------------------------------------ */
+
+const TOKEN: TokenExample = {
+  path: ['color', 'brand', 'primary'],
+  groupType: 'color',
+  type: 'color',
+  value: { colorSpace: 'srgb', components: [0.2, 0.4, 0.9] },
+  description: 'Primary brand color used for CTAs and links',
+  deprecated: 'Use color.brand.blue instead',
+  extensions: { 'com.figma': { styleId: 'S:abc123' } },
+}
+
+/* ------------------------------------------------------------------ */
+/*  Property annotations                                              */
+/* ------------------------------------------------------------------ */
+
+const PROPERTY_INFO: Record<string, string> = {
+  $type: 'Defines the token type. Can be set on a group so all children inherit it.',
+  $value: 'The token value. Format depends on the type (color object, dimension, etc.).',
+  $description: 'Human-readable documentation. Appears in generated code comments.',
   $deprecated: 'Marks the token as deprecated. Can be a boolean or a message string.',
-  __group__: 'Group name. Nests tokens and defines the dot-path hierarchy.',
-  colorSpace: 'CSS Color 4 color space (srgb, display-p3, oklch, etc.).',
-  components: 'Color channel values, typically 0-1 for each channel.',
-  value: 'Numeric value of the dimension.',
-  unit: 'CSS unit (px, rem, em, etc.).',
+  $extensions: 'Vendor-specific metadata. Reserved for tooling, not part of the core spec.',
 }
 
-const TOKEN_EXAMPLES: Record<string, unknown> = {
-  Color: {
-    color: {
-      brand: {
-        $type: 'color',
-        primary: {
-          $value: {
-            colorSpace: 'srgb',
-            components: [0.2, 0.4, 0.9],
-          },
-          $description: 'Primary brand color',
-        },
-      },
-    },
-  },
-  Dimension: {
-    spacing: {
-      $type: 'dimension',
-      medium: {
-        $value: { value: 16, unit: 'px' },
-        $description: 'Default spacing',
-      },
-    },
-  },
-  Shadow: {
-    shadow: {
-      card: {
-        $type: 'shadow',
-        $value: {
-          offsetX: { value: 0, unit: 'px' },
-          offsetY: { value: 2, unit: 'px' },
-          blur: { value: 8, unit: 'px' },
-          spread: { value: 0, unit: 'px' },
-          color: {
-            colorSpace: 'srgb',
-            components: [0, 0, 0],
-            alpha: 0.1,
-          },
-        },
-      },
-    },
-  },
-  Typography: {
-    typography: {
-      heading: {
-        $type: 'typography',
-        $value: {
-          fontFamily: ['Inter', 'sans-serif'],
-          fontSize: { value: 24, unit: 'px' },
-          fontWeight: 700,
-          letterSpacing: { value: 0, unit: 'px' },
-          lineHeight: 1.2,
-        },
-      },
-    },
-  },
-}
+/* ------------------------------------------------------------------ */
+/*  Styles                                                            */
+/* ------------------------------------------------------------------ */
 
-const styles = {
+const s = {
   container: {
-    fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
-    fontSize: 13,
-    lineHeight: 1.6,
-    backgroundColor: '#1e1e2e',
-    borderRadius: 8,
-    border: '1px solid rgba(255, 255, 255, 0.08)',
+    fontFamily: 'var(--sl-font, system-ui)',
+    borderRadius: 10,
+    border: '1px solid var(--sl-color-gray-5, #333)',
     overflow: 'hidden',
     maxWidth: '100%',
-  } as const,
-  toolbar: {
+    background: 'var(--sl-color-gray-6, #1a1a2e)',
+  } satisfies CSSProperties,
+
+  body: {
+    padding: '20px 20px 24px',
+    display: 'grid',
+    gap: 20,
+  } satisfies CSSProperties,
+
+  breadcrumb: {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+    gap: 8,
+    alignItems: 'center',
+  } satisfies CSSProperties,
+
+  breadcrumbPath: {
     display: 'flex',
-    gap: 6,
-    padding: '10px 14px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-    flexWrap: 'wrap' as const,
-  },
-  button: {
-    padding: '6px 14px',
-    borderRadius: 20,
-    border: '1px solid rgba(255, 255, 255, 0.12)',
-    background: 'transparent',
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: 12,
-    fontWeight: 500 as const,
-    cursor: 'pointer',
-    transition: 'all 0.15s ease',
-  } as const,
-  buttonActive: {
-    background: 'rgba(99, 102, 241, 0.25)',
-    borderColor: 'rgba(99, 102, 241, 0.5)',
-    color: '#a5b4fc',
-  } as const,
-  codeBlock: {
-    padding: '16px 18px',
-    overflowX: 'auto' as const,
-    minHeight: 120,
-  } as const,
-  key: { color: '#7dd3fc' },
-  string: { color: '#86efac' },
-  number: { color: '#fdba74' },
-  punctuation: { color: 'rgba(255, 255, 255, 0.4)' },
-  hoverable: {
+    alignItems: 'center',
+    gap: 4,
+    flexWrap: 'wrap',
+  } satisfies CSSProperties,
+
+  breadcrumbSegment: {
+    fontFamily: 'var(--sl-font-mono, monospace)',
+    fontSize: 13,
+    fontWeight: 600,
+    color: 'var(--sl-color-accent-high, #c4b5fd)',
+    padding: '2px 8px',
+    borderRadius: 4,
+    background: 'var(--sl-color-accent-low, rgba(124,58,237,0.1))',
+  } satisfies CSSProperties,
+
+  breadcrumbSep: {
+    color: 'var(--sl-color-gray-3, #666)',
+    fontSize: 11,
+    userSelect: 'none',
+  } satisfies CSSProperties,
+
+  breadcrumbLabel: {
+    fontSize: 11,
+    color: 'var(--sl-color-gray-3, #888)',
+    fontWeight: 500,
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  } satisfies CSSProperties,
+
+  card: {
+    borderRadius: 8,
+    border: '1px solid var(--sl-color-gray-5, #333)',
+    overflow: 'hidden',
+  } satisfies CSSProperties,
+
+  row: (highlighted: boolean): CSSProperties => ({
+    display: 'grid',
+    gridTemplateColumns: '120px 1fr',
+    gap: 0,
+    borderBottom: '1px solid var(--sl-color-gray-5, #2a2a3e)',
+    transition: 'background 0.15s ease',
+    background: highlighted ? 'var(--sl-color-accent-low, rgba(124,58,237,0.08))' : 'transparent',
     cursor: 'default',
-    padding: '0 2px',
-    margin: '0 -2px',
-    borderRadius: 3,
-    transition: 'background-color 0.15s ease',
-  } as const,
-  hoverableHighlight: {
-    backgroundColor: 'rgba(99, 102, 241, 0.15)',
-  } as const,
-  tooltip: {
-    position: 'fixed' as const,
-    zIndex: 9999,
-    maxWidth: 280,
-    padding: '8px 12px',
-    backgroundColor: '#18181b',
-    color: '#fafafa',
+    marginTop: 0,
+  }),
+
+  rowLabel: {
+    padding: '12px 14px',
+    borderRight: '1px solid var(--sl-color-gray-5, #2a2a3e)',
+    display: 'grid',
+    alignContent: 'start',
+    gap: 4,
+  } satisfies CSSProperties,
+
+  rowContent: {
+    padding: '12px 14px',
+    display: 'grid',
+    gap: 6,
+    alignContent: 'start',
+    minWidth: 0,
+  } satisfies CSSProperties,
+
+  propName: {
+    fontFamily: 'var(--sl-font-mono, monospace)',
+    fontSize: 13,
+    fontWeight: 600,
+    color: 'var(--sl-color-accent-high, #c4b5fd)',
+  } satisfies CSSProperties,
+
+  badge: (variant: 'required' | 'inherited' | 'optional'): CSSProperties => {
+    const map: Record<string, { bg: string; fg: string }> = {
+      required: { bg: 'rgba(16, 185, 129, 0.12)', fg: 'rgb(52, 211, 153)' },
+      inherited: { bg: 'rgba(251, 191, 36, 0.12)', fg: 'rgb(251, 191, 36)' },
+      optional: {
+        bg: 'var(--sl-color-gray-5, rgba(255,255,255,0.06))',
+        fg: 'var(--sl-color-gray-3, #888)',
+      },
+    }
+    const c = map[variant] ?? map.optional
+    return {
+      fontSize: 10,
+      fontWeight: 600,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+      padding: '1px 6px',
+      borderRadius: 4,
+      background: c.bg,
+      color: c.fg,
+      justifySelf: 'start',
+    }
+  },
+
+  valueText: {
+    fontFamily: 'var(--sl-font-mono, monospace)',
+    fontSize: 13,
+    color: 'var(--sl-color-white, #e2e8f0)',
+    lineHeight: 1.5,
+    wordBreak: 'break-word',
+    marginTop: 0,
+  } satisfies CSSProperties,
+
+  description: {
     fontSize: 12,
+    color: 'var(--sl-color-gray-3, #888)',
     lineHeight: 1.4,
-    borderRadius: 6,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-    pointerEvents: 'none' as const,
-  } as const,
+  } satisfies CSSProperties,
+
+  inlineCode: {
+    fontFamily: 'var(--sl-font-mono, monospace)',
+    fontSize: 12,
+    color: 'var(--sl-color-gray-2, #aaa)',
+    background: 'var(--sl-color-gray-5, rgba(255,255,255,0.06))',
+    padding: '1px 5px',
+    borderRadius: 3,
+  } satisfies CSSProperties,
+
+  previewRow: {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+    gap: 10,
+    alignItems: 'center',
+  } satisfies CSSProperties,
 }
 
-function HoverSpan({
-  annotationKey,
-  children,
-  onHover,
-}: {
-  annotationKey: string
-  children: ReactNode
-  onHover: (key: string, rect: DOMRect | null) => void
-}) {
-  const [isHovered, setIsHovered] = useState(false)
-  const ref = useRef<HTMLSpanElement>(null)
+// Pre-computed style variants to avoid object creation per render
+const ROW_STYLE = {
+  default: s.row(false),
+  highlighted: s.row(true),
+  defaultLast: { ...s.row(false), borderBottom: 'none' },
+  highlightedLast: { ...s.row(true), borderBottom: 'none' },
+}
 
-  const handleMouseEnter = useCallback(() => {
-    setIsHovered(true)
-    onHover(annotationKey, ref.current?.getBoundingClientRect() ?? null)
-  }, [annotationKey, onHover])
+const BADGE = {
+  required: s.badge('required'),
+  inherited: s.badge('inherited'),
+  optional: s.badge('optional'),
+}
 
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false)
-    onHover('', null)
-  }, [onHover])
+/* ------------------------------------------------------------------ */
+/*  Color preview                                                     */
+/* ------------------------------------------------------------------ */
 
-  const text = ANNOTATIONS[annotationKey]
-  if (!text) {
-    return <>{children}</>
-  }
+function srgbToHex(components: number[], alpha?: number): string {
+  const hex = components
+    .map((c) => {
+      const v = Math.round(Math.max(0, Math.min(1, c)) * 255)
+      return v.toString(16).padStart(2, '0')
+    })
+    .join('')
+  const a =
+    alpha != null && alpha < 1
+      ? Math.round(alpha * 255)
+          .toString(16)
+          .padStart(2, '0')
+      : ''
+  return `#${hex}${a}`
+}
+
+function ColorPreview({ value }: { value: ColorValue }) {
+  const hex = srgbToHex(value.components, value.alpha)
 
   return (
-    <span
-      ref={ref}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        ...styles.hoverable,
-        ...(isHovered ? styles.hoverableHighlight : {}),
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
-function renderJson(
-  obj: unknown,
-  indent: number,
-  onHover: (key: string, rect: DOMRect | null) => void,
-  path: string[] = [],
-): ReactNode[] {
-  const parts: ReactNode[] = []
-  const pad = '  '.repeat(indent)
-  const isInDimensionLike = path.some((p) =>
-    ['$value', 'offsetX', 'offsetY', 'blur', 'spread', 'fontSize'].includes(p),
-  )
-
-  if (obj === null) {
-    return [
-      <span key="null" style={styles.punctuation}>
-        null
-      </span>,
-    ]
-  }
-
-  if (typeof obj === 'boolean') {
-    return [
-      <span key="bool" style={styles.punctuation}>
-        {String(obj)}
-      </span>,
-    ]
-  }
-
-  if (typeof obj === 'number') {
-    return [
-      <span key="num" style={styles.number}>
-        {obj}
-      </span>,
-    ]
-  }
-
-  if (typeof obj === 'string') {
-    return [
-      <span key="str" style={styles.string}>
-        "{obj}"
-      </span>,
-    ]
-  }
-
-  if (Array.isArray(obj)) {
-    parts.push(
-      <span key="arr-open" style={styles.punctuation}>
-        [
-      </span>,
-    )
-    obj.forEach((item, i) => {
-      if (i > 0) {
-        parts.push(
-          <span key={`arr-comma-${i}`} style={styles.punctuation}>
-            ,{' '}
-          </span>,
-        )
-      }
-      parts.push(...renderJson(item, 0, onHover, [...path, String(i)]))
-    })
-    parts.push(
-      <span key="arr-close" style={styles.punctuation}>
-        ]
-      </span>,
-    )
-    return parts
-  }
-
-  if (typeof obj === 'object' && obj !== null) {
-    const entries = Object.entries(obj)
-    parts.push(
-      <span key="obj-open" style={styles.punctuation}>
-        {'{'}
-      </span>,
-    )
-
-    entries.forEach(([key, value], idx) => {
-      const isLast = idx === entries.length - 1
-      const annotationKey = key.startsWith('$')
-        ? key
-        : key === 'colorSpace' || key === 'components' || key === 'unit'
-          ? key
-          : key === 'value' && isInDimensionLike
-            ? 'value'
-            : key.startsWith('$')
-              ? key
-              : '__group__'
-
-      const uniqueKey = [...path, key].join('.')
-      parts.push(
-        <span key={uniqueKey}>
-          {'\n'}
-          {pad}{' '}
-          <HoverSpan annotationKey={annotationKey} onHover={onHover}>
-            <span style={styles.key}>"{key}"</span>
-          </HoverSpan>
-          <span style={styles.punctuation}>: </span>
-          {Array.isArray(value) ||
-          (typeof value === 'object' && value !== null && !(value instanceof Date)) ? (
-            <>
-              {renderJson(value, indent + 1, onHover, [...path, key])}
-              {!isLast && <span style={styles.punctuation}>,</span>}
-            </>
-          ) : (
-            <>
-              {renderJson(value, 0, onHover, [...path, key])}
-              {!isLast && <span style={styles.punctuation}>,</span>}
-            </>
-          )}
-        </span>,
-      )
-    })
-    parts.push(
-      <span key="obj-close">
-        {'\n'}
-        {pad}
-        <span style={styles.punctuation}>{'}'}</span>
-      </span>,
-    )
-    return parts
-  }
-
-  return []
-}
-
-export default function TokenAnatomyExplorer() {
-  const [activeToken, setActiveToken] = useState<string>('Color')
-  const [tooltip, setTooltip] = useState<{
-    text: string
-    x: number
-    y: number
-    anchor: 'top' | 'bottom'
-  } | null>(null)
-
-  const handleHover = useCallback((key: string, rect: DOMRect | null) => {
-    if (!key || !rect) {
-      setTooltip(null)
-      return
-    }
-    const text = ANNOTATIONS[key]
-    if (!text) {
-      setTooltip(null)
-      return
-    }
-    const space = 8
-    const anchor: 'top' | 'bottom' = rect.top < window.innerHeight / 2 ? 'bottom' : 'top'
-    setTooltip({
-      text,
-      x: rect.left + rect.width / 2,
-      y: anchor === 'bottom' ? rect.bottom + space : rect.top - space,
-      anchor,
-    })
-  }, [])
-
-  const data = TOKEN_EXAMPLES[activeToken]
-  const rendered = renderJson(data, 0, handleHover)
-
-  return (
-    <div style={styles.container}>
-      <div style={styles.toolbar}>
-        {(Object.keys(TOKEN_EXAMPLES) as string[]).map((name) => (
-          <button
-            key={name}
-            type="button"
-            onClick={() => setActiveToken(name)}
-            style={{
-              ...styles.button,
-              ...(activeToken === name ? styles.buttonActive : {}),
-            }}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
-      <div style={styles.codeBlock}>
-        <pre style={{ margin: 0, whiteSpace: 'pre' }}>{rendered}</pre>
-      </div>
-      {tooltip && (
+    <div style={{ display: 'grid', gap: 10 }}>
+      <pre
+        style={{
+          ...s.valueText,
+          fontSize: 12,
+          margin: 0,
+          whiteSpace: 'pre-wrap',
+        }}
+      >
+        {JSON.stringify(value, null, 2)}
+      </pre>
+      <div style={s.previewRow}>
         <div
-          role="tooltip"
+          role="img"
+          aria-label={`Color swatch: ${hex}`}
           style={{
-            ...styles.tooltip,
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: `translate(-50%, ${tooltip.anchor === 'bottom' ? '0' : '-100%'})`,
+            width: 28,
+            height: 28,
+            borderRadius: 6,
+            background: hex,
+            border: '1px solid var(--sl-color-gray-5, rgba(255,255,255,0.12))',
+            boxShadow: `0 0 12px ${hex}44`,
           }}
-        >
-          {tooltip.text}
-        </div>
-      )}
+        />
+        <span style={{ ...s.description, fontFamily: 'var(--sl-font-mono, monospace)' }}>
+          {hex}
+        </span>
+      </div>
     </div>
   )
 }
+
+/* ------------------------------------------------------------------ */
+/*  Sub-components                                                    */
+/* ------------------------------------------------------------------ */
+
+function PathBreadcrumb({ path }: { path: string[] }) {
+  return (
+    <nav aria-label="Token path" style={s.breadcrumb}>
+      <span style={s.breadcrumbLabel}>Example Path</span>
+      <div style={s.breadcrumbPath}>
+        {path.map((segment, i) => (
+          <span key={segment} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {i > 0 && <span style={s.breadcrumbSep}>{'>'}</span>}
+            <span style={s.breadcrumbSegment}>{segment}</span>
+          </span>
+        ))}
+        <span style={{ ...s.breadcrumbSep, marginLeft: 4 }}>
+          = <span style={{ ...s.inlineCode, marginLeft: 2 }}>{path.join('.')}</span>
+        </span>
+      </div>
+    </nav>
+  )
+}
+
+function PropertyRow({
+  name,
+  badges,
+  children,
+  description,
+  isLast,
+  highlighted,
+  onHover,
+}: {
+  name: string
+  badges?: ReactNode
+  children: ReactNode
+  description: string
+  isLast?: boolean
+  highlighted: boolean
+  onHover: (name: string | null) => void
+}) {
+  return (
+    <div
+      role="row"
+      tabIndex={0}
+      style={
+        isLast
+          ? highlighted
+            ? ROW_STYLE.highlightedLast
+            : ROW_STYLE.defaultLast
+          : highlighted
+            ? ROW_STYLE.highlighted
+            : ROW_STYLE.default
+      }
+      onMouseEnter={() => onHover(name)}
+      onMouseLeave={() => onHover(null)}
+      onFocus={() => onHover(name)}
+      onBlur={() => onHover(null)}
+    >
+      <div role="cell" style={s.rowLabel}>
+        <span style={s.propName}>{name}</span>
+        {badges}
+      </div>
+      <div role="cell" style={s.rowContent}>
+        {children}
+        <span style={s.description}>{description}</span>
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Main component                                                    */
+/* ------------------------------------------------------------------ */
+
+export default function TokenAnatomyExplorer() {
+  const [hoveredProp, setHoveredProp] = useState<string | null>(null)
+  const handleHover = useCallback((name: string | null) => setHoveredProp(name), [])
+
+  return (
+    <div style={s.container}>
+      <div style={s.body}>
+        <PathBreadcrumb path={TOKEN.path} />
+        <div role="table" aria-label="Token properties" style={s.card}>
+          {PROPERTIES.map((prop, i) => (
+            <PropertyRow
+              key={prop.name}
+              name={prop.name}
+              badges={prop.badges}
+              description={prop.description}
+              isLast={i === PROPERTIES.length - 1}
+              highlighted={hoveredProp === prop.name}
+              onHover={handleHover}
+            >
+              {prop.content}
+            </PropertyRow>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Build the list of property rows for a token                       */
+/* ------------------------------------------------------------------ */
+
+type PropertyDef = {
+  name: string
+  badges?: ReactNode
+  content: ReactNode
+  description: string
+}
+
+function buildPropertyList(token: TokenExample): PropertyDef[] {
+  return [
+    {
+      name: '$type',
+      badges: (
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          <span style={BADGE.required}>required</span>
+          {token.groupType && <span style={BADGE.inherited}>inherited</span>}
+        </div>
+      ),
+      content: <span style={{ ...s.inlineCode, fontSize: 13 }}>{token.type}</span>,
+      description: PROPERTY_INFO.$type,
+    },
+    {
+      name: '$value',
+      badges: <span style={BADGE.required}>required</span>,
+      content: <ColorPreview value={token.value} />,
+      description: PROPERTY_INFO.$value,
+    },
+    {
+      name: '$description',
+      badges: <span style={BADGE.optional}>optional</span>,
+      content: (
+        <span
+          style={{
+            ...s.valueText,
+            fontStyle: 'italic',
+            color: 'var(--sl-color-gray-2, #aaa)',
+          }}
+        >
+          "{token.description}"
+        </span>
+      ),
+      description: PROPERTY_INFO.$description,
+    },
+    {
+      name: '$deprecated',
+      badges: <span style={BADGE.optional}>optional</span>,
+      content: (
+        <span style={s.valueText}>
+          {typeof token.deprecated === 'string'
+            ? `"${token.deprecated}"`
+            : String(token.deprecated)}
+        </span>
+      ),
+      description: PROPERTY_INFO.$deprecated,
+    },
+    {
+      name: '$extensions',
+      badges: <span style={BADGE.optional}>optional</span>,
+      content: (
+        <pre
+          style={{
+            ...s.valueText,
+            fontSize: 12,
+            margin: 0,
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {JSON.stringify(token.extensions, null, 2)}
+        </pre>
+      ),
+      description: PROPERTY_INFO.$extensions,
+    },
+  ]
+}
+
+const PROPERTIES = buildPropertyList(TOKEN)

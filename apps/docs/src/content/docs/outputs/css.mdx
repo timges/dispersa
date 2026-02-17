@@ -20,7 +20,7 @@ import { css } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path (supports `{modifier}` patterns) |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | 'bundle' \| 'standalone' \| 'modifier' | 'bundle' | Output preset |
 | selector | string or SelectorFunction | ':root' | CSS selector |
 | mediaQuery | string or MediaQueryFunction | — | Media query wrapper |
@@ -71,7 +71,7 @@ css({
   name: 'themed',
   file: 'tokens.css',
   preset: 'bundle',
-  selector: (modifierName, context, isBase) => {
+  selector: (modifierName, context, isBase, allModifierInputs) => {
     if (isBase) return ':root'
     return `[data-${modifierName}="${context}"]`
   },
@@ -133,19 +133,27 @@ css({
 })
 ```
 
-## Modifier Preset (Diffs Only)
+## Modifier Preset (Base + Diffs)
 
-The `modifier` preset outputs only the delta for each modifier, not the full token set:
+The `modifier` preset emits a **base file** with all set tokens, plus separate **diff files** for each modifier context containing only the tokens that change:
 
 ```typescript
 css({
   name: 'diffs',
-  file: 'tokens-{modifier}.css',
+  file: '{theme}/tokens.css',
   preset: 'modifier',
   selector: ':root',
   transforms: [nameKebabCase(), colorToHex()],
 })
 ```
+
+Produces:
+
+- `base/tokens.css` — all tokens from the resolver's sets (colors, typography, spacing, etc.)
+- `light/tokens.css` — tokens that change in the light theme
+- `dark/tokens.css` — tokens that change in the dark theme
+
+The base file groups tokens by set with descriptive comments, matching the structure of the bundle preset's base output. If there are no set tokens, the base file is not emitted.
 
 <LinkCard
   title="JSON"

@@ -1,17 +1,29 @@
 // @ts-check
+import node from '@astrojs/node'
 import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
 import { defineConfig } from 'astro/config'
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
+  adapter: cloudflare(),
+  site: "https://dispersa.dev", 
   integrations: [
     starlight({
       title: 'Dispersa',
       logo: {
         src: './public/favicon.png',
       },
-      favicon: './public/favicon.png',
+      favicon: '/favicon.png',
+      head: [
+        { tag: 'meta', attrs: { property: 'og:type', content: 'website' } },
+        { tag: 'meta', attrs: { property: 'og:site_name', content: 'Dispersa' } },
+        { tag: 'meta', attrs: { property: 'og:locale', content: 'en_US' } },
+        { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary' } },
+        { tag: 'meta', attrs: { name: 'theme-color', content: 'hsl(272, 80%, 65%)' } },
+      ],
       customCss: [
         '@fontsource-variable/inter',
         '@fontsource/jetbrains-mono/400.css',

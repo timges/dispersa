@@ -48,7 +48,7 @@ css({
 
 **One file per permutation.** Each file is complete and self-contained.
 
-Use `{modifier}` patterns in the filename:
+Use modifier key placeholders (e.g. `{theme}`) in the filename:
 
 ```typescript
 css({
@@ -62,7 +62,20 @@ Produces: `tokens-light.css`, `tokens-dark.css`, etc.
 
 ## Modifier Preset
 
-**CSS only.** Outputs only tokens that **differ** between the base and each modifier context. Useful for overlay/patch files that layer on top of a base stylesheet.
+**CSS only.** Emits a **base file** with all set tokens, plus separate **diff files** for each modifier context containing only the tokens that change. The base file groups tokens by set with comments, just like the bundle preset.
+
+```typescript
+css({
+  name: 'tokens',
+  file: '{theme}/tokens.css',
+  preset: 'modifier',
+  selector: ':root',
+})
+```
+
+Produces: `base/tokens.css`, `light/tokens.css`, `dark/tokens.css`
+
+The `{modifier}` placeholder is replaced with `base` for the base file and the context value for each modifier file. If there are no set tokens, the base file is not emitted.
 
 **Dynamic selector:** `selector` can be a function:
 
@@ -76,7 +89,7 @@ selector: (modifierName, context, isBase, allModifierInputs) => string
 |--------|-------|---------|----------|
 | bundle | 1 | All permutations | Single-file delivery |
 | standalone | N | One per permutation | Platform-specific builds |
-| modifier | N | Only diffs | Overlay/patch files |
+| modifier | N | Base sets + per-modifier diffs | Overlay/patch files |
 
 ## Dynamic File Patterns
 

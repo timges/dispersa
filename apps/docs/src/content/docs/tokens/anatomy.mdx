@@ -10,7 +10,7 @@ import TokenAnatomyExplorer from '../../../components/TokenAnatomyExplorer'
 
 ## Token Structure
 
-A design token is a JSON object. Spec-defined properties use a dollar prefix (`$`); group and token names defined by you do not.
+A design token is a [JSON object](https://www.designtokens.org/TR/2025.10/format/). Spec-defined properties use a dollar prefix (`$`); group and token names defined by you do not.
 
 <TokenAnatomyExplorer client:visible />
 
@@ -18,7 +18,7 @@ A design token is a JSON object. Spec-defined properties use a dollar prefix (`$
 
 ### `$value` (required unless `$ref` is used)
 
-The token's value. Every token must provide either `$value` (a direct value or curly-brace alias) or `$ref` (a JSON Pointer reference) -- but not both.
+The token's [value](https://www.designtokens.org/TR/2025.10/format/#name-and-value). Every token must provide either `$value` (a direct value or curly-brace alias) or `$ref` (a JSON Pointer reference) -- but not both.
 
 ```json
 {
@@ -47,11 +47,11 @@ The token's value. Every token must provide either `$value` (a direct value or c
 
 ### `$type` (required or inherited)
 
-The token's type. Can be set directly on the token or inherited from a parent group. Every token must have a determinable type -- either its own `$type` property or one inherited from an ancestor group. Valid types: `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier`, `number`, `shadow`, `typography`, `border`, `strokeStyle`, `transition`, `gradient`.
+The token's [type](https://www.designtokens.org/TR/2025.10/format/#type). Can be set directly on the token or inherited from a parent group. Every token must have a determinable type -- either its own `$type` property or one inherited from an ancestor group. Valid types: `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier`, `number`, `shadow`, `typography`, `border`, `strokeStyle`, `transition`, `gradient`.
 
 ### `$description` (optional)
 
-Human-readable documentation for the token.
+Human-readable [description](https://www.designtokens.org/TR/2025.10/format/#description) for the token.
 
 ```json
 {
@@ -72,7 +72,7 @@ Human-readable documentation for the token.
 
 ### `$deprecated` (optional)
 
-Marks a token as deprecated. Use a boolean or a string message.
+Marks a token as [deprecated](https://www.designtokens.org/TR/2025.10/format/#deprecated). Use a boolean or a string message.
 
 ```json
 {
@@ -87,7 +87,7 @@ Marks a token as deprecated. Use a boolean or a string message.
 
 ### `$extensions` (optional)
 
-Vendor-specific metadata. Not part of the core spec but reserved for tooling.
+Vendor-specific [metadata](https://www.designtokens.org/TR/2025.10/format/#extensions) reserved for tooling.
 
 ```json
 {
@@ -106,7 +106,7 @@ Vendor-specific metadata. Not part of the core spec but reserved for tooling.
 
 ## Group Nesting
 
-Tokens can be nested in groups. Group names become part of the token path (e.g. `color.brand.primary`). Groups can set `$type` so all children inherit it.
+Tokens can be nested in [groups](https://www.designtokens.org/TR/2025.10/format/#groups). Group names become part of the token path (e.g. `color.brand.primary`). Groups can set `$type` so all children inherit it.
 
 <Aside type="tip" title="Group-level $type">
 Set `$type` on a group to avoid repeating it on every child token. Child tokens inherit the type unless they override it.
@@ -138,7 +138,7 @@ Here, `color.brand.primary` and `color.brand.secondary` both have type `color` f
 
 ### `$root` (optional)
 
-A root token for a group. The `$root` token provides a base value for the group while allowing nested variants or extensions.
+A [root token](https://www.designtokens.org/TR/2025.10/format/#root-tokens-in-groups) for a group. The `$root` token provides a base value for the group while allowing nested variants or extensions.
 
 ```json
 {
@@ -159,7 +159,7 @@ A root token for a group. The `$root` token provides a base value for the group 
 
 ### `$extends` (optional)
 
-References another group to inherit its tokens and properties. Uses curly-brace or JSON Pointer syntax.
+[Inherits](https://www.designtokens.org/TR/2025.10/format/#extending-groups) tokens and properties from another group. Uses curly-brace or JSON Pointer syntax.
 
 ```json
 {

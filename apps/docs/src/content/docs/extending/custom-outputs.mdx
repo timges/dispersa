@@ -1,19 +1,61 @@
 ---
-title: Custom Renderers
-description: Build custom renderers to output tokens in any format — YAML, SCSS, XML, or your own proprietary format.
+title: Custom Outputs
+description: Build custom outputs to render tokens in any format — YAML, SCSS, XML, or your own proprietary format.
 sidebar:
   order: 4
 ---
 
 import { Aside, LinkCard } from '@astrojs/starlight/components'
 
-## When to Build a Custom Renderer
+## When to Build a Custom Output
 
-Build a custom renderer when your target format is not covered by the built-in ones (CSS, JSON, JS, Tailwind, Swift, Kotlin). Examples: YAML, SCSS variables, Android XML resources, custom config formats.
+Build a custom output when your target format is not covered by the built-in builders (`css`, `json`, `js`, `tailwind`, `ios`, `android`). Examples: YAML, SCSS variables, Android XML resources, custom config formats.
 
-## defineRenderer for Type-Safe Renderers
+A custom output has two parts:
 
-Use `defineRenderer<T>()` to create a renderer with typed options:
+1. **A renderer** — a `format` function that converts tokens into your target format
+2. **An output config** — wires the renderer into the build with a name, file path, transforms, filters, and options
+
+## The Output Config
+
+Every output in `dispersa.build()` is an `OutputConfig` object. Built-in builders like `css()` and `json()` create these for you. For a custom output, you create one directly:
+
+```typescript
+import { Dispersa } from 'dispersa'
+import { nameKebabCase } from 'dispersa/transforms'
+import { byType } from 'dispersa/filters'
+
+const dispersa = new Dispersa({ resolver: './tokens.resolver.json' })
+
+await dispersa.build({
+  outputs: [{
+    name: 'yaml',
+    renderer: yamlRenderer,
+    file: 'tokens.yaml',
+    options: { header: 'Design Tokens' },
+    transforms: [nameKebabCase()],
+    filters: [byType('color')],
+  }],
+})
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| **name** | `string` | Unique identifier for this output |
+| **renderer** | `Renderer` | The renderer that formats tokens (see below) |
+| **file** | `string \| FileFunction` | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
+| **options** | `Record<string, unknown>` | Renderer-specific options passed to `format()` |
+| **transforms** | `Transform[]` | Per-output transforms (run after global transforms) |
+| **filters** | `Filter[]` | Per-output filters (run after global filters) |
+| **hooks** | `LifecycleHooks` | Per-output `onBuildStart` and `onBuildEnd` hooks |
+
+<Aside type="note" title="Renderer + Output = Output">
+A renderer alone does nothing — it must be wired into an output config with at least `name` and `renderer` to participate in a build.
+</Aside>
+
+## Creating a Renderer with defineRenderer
+
+Use `defineRenderer<T>()` to create a type-safe renderer. The generic parameter types the `options` argument:
 
 ```typescript
 import { defineRenderer } from 'dispersa'
@@ -34,7 +76,7 @@ const yamlRenderer = defineRenderer<YamlOptions>({
 })
 ```
 
-## RenderContext Explained
+## RenderContext
 
 Your `format` function receives a `RenderContext`:
 
@@ -50,30 +92,11 @@ Your `format` function receives a `RenderContext`:
 
 `context.meta` provides:
 
-- **dimensions** — Names of modifier dimensions (e.g. `['mode', 'scale']`)
+- **dimensions** — Names of modifier dimensions (e.g. `['theme', 'density']`)
 - **defaults** — Default values per dimension
 - **basePermutation** — The base (unmodified) permutation values
 
 Use `basePermutation` to identify which permutation is the base when working with presets.
-
-## Using a Custom Renderer in a Build
-
-```typescript
-import { Dispersa } from 'dispersa'
-import { nameKebabCase } from 'dispersa/transforms'
-
-const dispersa = new Dispersa({ resolver: './tokens.resolver.json' })
-
-await dispersa.build({
-  outputs: [{
-    name: 'yaml',
-    renderer: yamlRenderer,
-    file: 'tokens.yaml',
-    options: { header: 'Design Tokens' },
-    transforms: [nameKebabCase()],
-  }],
-})
-```
 
 ## Multi-File Output with outputTree()
 
@@ -99,7 +122,7 @@ const multiFileRenderer = defineRenderer({
 
 Each key in the record becomes a file path; each value is the file content.
 
-## Example: SCSS Variables Renderer
+## Example: SCSS Variables
 
 ```typescript
 const scssRenderer = defineRenderer({
@@ -111,9 +134,19 @@ const scssRenderer = defineRenderer({
     return lines + '\n'
   },
 })
+
+// Wire into a build
+await dispersa.build({
+  outputs: [{
+    name: 'scss',
+    renderer: scssRenderer,
+    file: 'variables.scss',
+    transforms: [nameKebabCase()],
+  }],
+})
 ```
 
-## Example: Android XML Resources Renderer
+## Example: Android XML Resources
 
 ```typescript
 const androidXmlRenderer = defineRenderer({

@@ -59,7 +59,7 @@ css({
   name: 'themed',
   file: 'tokens.css',
   preset: 'bundle',
-  selector: (modifierName, context, isBase) => {
+  selector: (modifierName, context, isBase, allModifierInputs) => {
     if (isBase) return ':root'
     return `[data-${modifierName}="${context}"]`
   },
@@ -83,7 +83,7 @@ css({
   name: 'auto-theme',
   file: 'tokens.css',
   preset: 'bundle',
-  mediaQuery: (modifierName, context, isBase) => {
+  mediaQuery: (modifierName, context, isBase, allModifierInputs) => {
     if (modifierName === 'theme' && context === 'dark') {
       return '(prefers-color-scheme: dark)'
     }

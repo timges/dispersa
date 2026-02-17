@@ -56,6 +56,13 @@
     hsl(50, 90%, 55%),
     hsl(0, 80%, 60%)
   );
+
+  /* Syntax highlighting — component code blocks */
+  --dispersa-syntax-key: hsl(272, 80%, 82%);
+  --dispersa-syntax-string: hsl(35, 85%, 70%);
+  --dispersa-syntax-number: hsl(175, 60%, 60%);
+  --dispersa-syntax-punct: hsl(260, 8%, 55%);
+  --dispersa-syntax-bg: color-mix(in srgb, var(--sl-color-black) 30%, transparent);
 }
 
 /* ----------------------------------------------------------
@@ -88,6 +95,13 @@
   --sl-shadow-lg: 0px 20px 12px hsla(260, 20%, 50%, 0.03),
     0px 10px 6px hsla(260, 20%, 50%, 0.06),
     0px 4px 4px hsla(260, 20%, 50%, 0.12);
+
+  /* Syntax highlighting — light mode overrides */
+  --dispersa-syntax-key: hsl(272, 60%, 40%);
+  --dispersa-syntax-string: hsl(25, 65%, 38%);
+  --dispersa-syntax-number: hsl(175, 50%, 30%);
+  --dispersa-syntax-punct: hsl(260, 8%, 42%);
+  --dispersa-syntax-bg: color-mix(in srgb, var(--sl-color-black) 6%, transparent);
 }
 
 /* ----------------------------------------------------------

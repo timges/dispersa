@@ -20,10 +20,10 @@ import { tailwind } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | 'bundle' \| 'standalone' | 'bundle' | Output preset |
 | includeImport | boolean | true | Add `@import "tailwindcss"` |
-| namespace | string | — | Theme namespace for `@theme namespace(...)` |
+| namespace | string | '' | Theme namespace for `@theme namespace(...)` |
 | selector | string or SelectorFunction | — | CSS selector for theme variants |
 | mediaQuery | string or MediaQueryFunction | — | Media query wrapper |
 | minify | boolean | false | Minify output |
@@ -108,7 +108,7 @@ tailwind({
   name: 'themed',
   file: 'theme.css',
   preset: 'bundle',
-  selector: (modifierName, context, isBase) => {
+  selector: (modifierName, context, isBase, allModifierInputs) => {
     if (isBase) return ':root'
     return `[data-${modifierName}="${context}"]`
   },

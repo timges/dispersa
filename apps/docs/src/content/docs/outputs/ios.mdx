@@ -27,11 +27,11 @@ import { ios } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | 'standalone' | 'standalone' | Output preset |
 | accessLevel | 'public' \| 'internal' | 'public' | Swift access level |
 | structure | 'enum' \| 'grouped' | 'enum' | Code structure |
-| enumName | string | — | Custom enum name (enum mode) |
+| enumName | string | 'DesignTokens' | Custom enum name (enum mode) |
 | extensionNamespace | string | 'DesignTokens' | Namespace enum name (grouped mode) |
 | colorSpace | 'sRGB' \| 'displayP3' | 'sRGB' | Color space for `Color()` |
 | swiftVersion | '5.9' \| '6.0' | '5.9' | Swift version target |

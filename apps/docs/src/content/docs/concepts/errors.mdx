@@ -55,15 +55,15 @@ type BuildError = {
 
 | Code | Description |
 |------|-------------|
-| TOKEN_REFERENCE | Unresolved alias `{token.name}` |
-| CIRCULAR_REFERENCE | Circular alias chain |
+| TOKEN_REFERENCE | Unresolved [alias](https://www.designtokens.org/TR/2025.10/format/#aliases-references) `{token.name}` |
+| CIRCULAR_REFERENCE | [Circular alias chain](https://www.designtokens.org/TR/2025.10/format/#circular-reference-detection) |
 | VALIDATION | Schema or structural validation failure |
-| COLOR_PARSE | Invalid color value |
-| DIMENSION_FORMAT | Invalid dimension value |
+| COLOR_PARSE | Invalid [color value](https://www.designtokens.org/TR/2025.10/color/#color-type) |
+| DIMENSION_FORMAT | Invalid [dimension value](https://www.designtokens.org/TR/2025.10/format/#dimension) |
 | FILE_OPERATION | File read/write failure |
 | CONFIGURATION | Invalid config |
 | BASE_PERMUTATION | Missing base permutation for bundle mode |
-| MODIFIER | Invalid modifier input or context |
+| MODIFIER | Invalid [modifier](https://www.designtokens.org/TR/2025.10/resolver/#modifiers) input or context |
 | UNKNOWN | Unexpected error |
 
 ## Suggestions
@@ -98,6 +98,32 @@ if (!result.success) {
 }
 ```
 
+## Error Classes (for buildOrThrow)
+
+When using `buildOrThrow()`, Dispersa throws typed error classes from `dispersa/errors`. You can catch specific error types for programmatic handling:
+
+```typescript
+import { TokenReferenceError, CircularReferenceError } from 'dispersa/errors'
+
+try {
+  await dispersa.buildOrThrow({ outputs: [...] })
+} catch (error) {
+  if (error instanceof TokenReferenceError) {
+    console.log('Missing token:', error.referenceName)
+    console.log('Suggestions:', error.suggestions)
+  } else if (error instanceof CircularReferenceError) {
+    console.log('Circular chain:', error.referencePath)
+  }
+}
+```
+
+Available error classes: `DispersaError` (base), `TokenReferenceError`, `CircularReferenceError`, `ValidationError`, `ColorParseError`, `DimensionFormatError`, `FileOperationError`, `ConfigurationError`, `BasePermutationError`, `ModifierError`.
+
+<LinkCard
+  title="Subpath Exports"
+  description="All available imports including dispersa/errors."
+  href="/reference/exports/"
+/>
 <LinkCard
   title="Output Formats — CSS"
   description="Generate CSS custom properties from your tokens."

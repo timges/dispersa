@@ -5,21 +5,18 @@ sidebar:
   order: 3
 ---
 
-import { LinkCard, Tabs, TabItem } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
 import TokenTypeGallery from '../../../components/TokenTypeGallery'
 
-DTCG token types fall into two categories: **primitive types** (single values) and **composite types** (structured objects combining primitives).
+DTCG token types fall into two categories: **primitive types** (single values) and **composite types** (structured objects combining primitives). [Color](https://www.designtokens.org/TR/2025.10/color/) tokens have their own spec module; all other types live in the [format module](https://www.designtokens.org/TR/2025.10/format/).
 
 <TokenTypeGallery client:visible />
-
-<Tabs>
-  <TabItem label="Primitive Types" value="primitive">
 
 ## Primitive Types
 
 ### color
 
-A color value in a given color space. Component ranges depend on the color space (e.g. sRGB uses 0--1 per channel; HSL uses 0--360 for hue and 0--100 for saturation/lightness).
+A [color value](https://www.designtokens.org/TR/2025.10/color/#color-type) in a given color space. Component ranges depend on the color space (e.g. sRGB uses 0--1 per channel; HSL uses 0--360 for hue and 0--100 for saturation/lightness).
 
 ```json
 {
@@ -36,7 +33,7 @@ Supported color spaces: `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophot
 
 ### dimension
 
-A numeric value with a unit. Supports `px` and `rem`.
+A [numeric value with a unit](https://www.designtokens.org/TR/2025.10/format/#dimension). Supports `px` and `rem`.
 
 ```json
 {
@@ -50,7 +47,7 @@ A numeric value with a unit. Supports `px` and `rem`.
 
 ### fontFamily
 
-A font family name or fallback stack.
+A [font family](https://www.designtokens.org/TR/2025.10/format/#font-family) name or fallback stack.
 
 ```json
 {
@@ -61,7 +58,7 @@ A font family name or fallback stack.
 
 ### fontWeight
 
-Font weight as a number (1--1000) or named string (e.g. `thin`, `normal`, `bold`, `extra-bold`).
+[Font weight](https://www.designtokens.org/TR/2025.10/format/#font-weight) as a number (1--1000) or named string (e.g. `thin`, `normal`, `bold`, `extra-bold`).
 
 ```json
 {
@@ -72,7 +69,7 @@ Font weight as a number (1--1000) or named string (e.g. `thin`, `normal`, `bold`
 
 ### duration
 
-Time duration in milliseconds or seconds.
+A time [duration](https://www.designtokens.org/TR/2025.10/format/#duration) in milliseconds or seconds.
 
 ```json
 {
@@ -86,7 +83,7 @@ Time duration in milliseconds or seconds.
 
 ### cubicBezier
 
-A cubic Bézier curve defined by four control points.
+A [cubic Bezier curve](https://www.designtokens.org/TR/2025.10/format/#cubic-bezier) defined by four control points.
 
 ```json
 {
@@ -97,7 +94,7 @@ A cubic Bézier curve defined by four control points.
 
 ### number
 
-A plain numeric value without units.
+A plain [numeric value](https://www.designtokens.org/TR/2025.10/format/#number) without units.
 
 ```json
 {
@@ -106,14 +103,11 @@ A plain numeric value without units.
 }
 ```
 
-  </TabItem>
-  <TabItem label="Composite Types" value="composite">
-
 ## Composite Types
 
 ### shadow
 
-A box shadow. Use an array for multiple shadows. The optional `inset` property (default `false`) controls whether the shadow renders inside the element as an inner shadow.
+A box [shadow](https://www.designtokens.org/TR/2025.10/format/#shadow). Use an array for multiple shadows. The optional `inset` property (default `false`) controls whether the shadow renders inside the element as an inner shadow.
 
 ```json
 {
@@ -135,7 +129,7 @@ A box shadow. Use an array for multiple shadows. The optional `inset` property (
 
 ### typography
 
-A combination of font properties.
+A combination of [font properties](https://www.designtokens.org/TR/2025.10/format/#typography).
 
 ```json
 {
@@ -152,7 +146,7 @@ A combination of font properties.
 
 ### border
 
-Border color, width, and style.
+[Border](https://www.designtokens.org/TR/2025.10/format/#border) color, width, and style.
 
 ```json
 {
@@ -170,7 +164,7 @@ Border color, width, and style.
 
 ### strokeStyle
 
-Stroke configuration for vectors. Can be a string or an object with `dashArray` and `lineCap`.
+[Stroke](https://www.designtokens.org/TR/2025.10/format/#stroke-style) configuration for vectors. Can be a string or an object with `dashArray` and `lineCap`.
 
 ```json
 {
@@ -187,7 +181,7 @@ Stroke configuration for vectors. Can be a string or an object with `dashArray` 
 
 ### transition
 
-Animation transition properties.
+Animation [transition](https://www.designtokens.org/TR/2025.10/format/#transition) properties.
 
 ```json
 {
@@ -202,7 +196,7 @@ Animation transition properties.
 
 ### gradient
 
-A gradient defined by color stops.
+A [gradient](https://www.designtokens.org/TR/2025.10/format/#gradient) defined by color stops.
 
 ```json
 {
@@ -219,9 +213,6 @@ A gradient defined by color stops.
   ]
 }
 ```
-
-  </TabItem>
-</Tabs>
 
 <LinkCard
   title="References and Aliases"

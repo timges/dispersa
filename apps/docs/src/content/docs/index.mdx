@@ -15,12 +15,13 @@ hero:
 ---
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components'
+import PipelineVisualizer from '../../components/PipelineVisualizer'
 
 ## Why Dispersa?
 
 <CardGrid>
   <Card title="DTCG 2025.10" icon="approve-check">
-    Full support for the stable Design Tokens specification -- resolver documents, sets, modifiers, and all token types.
+    Full support for the stable [Design Tokens specification](https://www.designtokens.org/TR/2025.10/) -- resolver documents, sets, modifiers, and all token types.
   </Card>
   <Card title="6 Output Formats" icon="document">
     CSS custom properties, JSON, JS/TS modules, Tailwind CSS v4, Swift/SwiftUI, and Kotlin/Jetpack Compose -- all built in.
@@ -38,8 +39,9 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components'
 Dispersa processes tokens through a pipeline:
 
 ```
-Resolve → Preprocess → Parse → Filter → Transform → Render
+Resolve → Preprocess → Parse → Global Filter → Global Transform → Filter → Transform → Render
 ```
+<PipelineVisualizer client:visible />
 
 Define your tokens in DTCG format, configure a resolver document with sets and modifiers, then build output for every platform from a single source of truth.
 
@@ -81,10 +83,5 @@ await dispersa.build({
     title="Output Formats"
     description="CSS, JSON, JS, Tailwind, iOS, and Android -- all from one source."
     href="/outputs/css/"
-  />
-  <LinkCard
-    title="Token Playground"
-    description="See how tokens transform into CSS, JSON, Swift, and Kotlin output."
-    href="/playground/"
   />
 </CardGrid>

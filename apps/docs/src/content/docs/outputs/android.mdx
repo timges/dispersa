@@ -27,10 +27,10 @@ import { android } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | `'standalone' \| 'bundle'` | `'standalone'` | Output preset |
 | packageName | string | — | Kotlin package name (required) |
-| objectName | string | — | Top-level object name |
+| objectName | string | 'DesignTokens' | Top-level object name |
 | structure | `'nested' \| 'flat'` | `'nested'` | Token structure in output |
 | colorFormat | `'argb_hex' \| 'argb_float' \| 'argb8' \| 'argb_floats'` | `'argb_hex'` | Color format (`argb8` and `argb_floats` are aliases) |
 | colorSpace | `'sRGB' \| 'displayP3'` | `'sRGB'` | Target color space |

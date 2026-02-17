@@ -66,17 +66,17 @@ for (const output of result.outputs) {
 
 ## Token Resolution Without Rendering
 
-Use `resolveTokens()` to resolve tokens for a single permutation without rendering:
+Use `resolveTokens()` to resolve tokens for a single permutation without rendering. Pass the same inline resolver used in the constructor:
 
 ```typescript
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json', { theme: 'light' })
+const tokens = await dispersa.resolveTokens(resolver, { theme: 'light' })
 // Use tokens for validation, transformation, or custom rendering
 ```
 
 Use `resolveAllPermutations()` to get all permutations at once:
 
 ```typescript
-const allPermutations = await dispersa.resolveAllPermutations('./tokens.resolver.json')
+const allPermutations = await dispersa.resolveAllPermutations(resolver)
 // allPermutations is an array of { tokens, modifierInputs } for each modifier combination
 ```
 

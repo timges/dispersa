@@ -24,7 +24,7 @@ All builders accept these options (from `OutputConfig`):
 | Option | Type | Description |
 |--------|------|-------------|
 | name | `string` | Unique output identifier |
-| file | `string \| FileFunction` | Output path; supports `{modifier}` placeholders or function |
+| file | `string \| FileFunction` | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
 | transforms | `Transform[]` | Per-output transforms |
 | filters | `Filter[]` | Per-output filters |
 | hooks | `LifecycleHooks` | Per-output lifecycle hooks |
@@ -36,10 +36,10 @@ All builders accept these options (from `OutputConfig`):
 Generates CSS custom properties.
 
 ```typescript
-css(config: CssOutputConfig): OutputConfig
+css(config: CssBuilderConfig): OutputConfig
 ```
 
-### CssOutputConfig (extends OutputConfig)
+### CssBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
@@ -66,15 +66,15 @@ css({
 Generates JSON token files.
 
 ```typescript
-json(config: JsonOutputConfig): OutputConfig
+json(config: JsonBuilderConfig): OutputConfig
 ```
 
-### JsonOutputConfig (extends OutputConfig)
+### JsonBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | preset | `'bundle' \| 'standalone'` | `'standalone'` | Output preset |
-| structure | `'flat' \| 'nested'` | `'flat'` | Token structure |
+| structure | `'flat' \| 'nested'` | `'nested'` | Token structure |
 | includeMetadata | `boolean` | `false` | Include `$type`, `$description`, etc. |
 | minify | `boolean` | `false` | Minify output |
 
@@ -94,17 +94,17 @@ json({
 Generates JavaScript/TypeScript module exporting tokens.
 
 ```typescript
-js(config: JsOutputConfig): OutputConfig
+js(config: JsBuilderConfig): OutputConfig
 ```
 
-### JsOutputConfig (extends OutputConfig)
+### JsBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | preset | `'bundle' \| 'standalone'` | `'standalone'` | Output preset |
-| structure | `'flat' \| 'nested'` | `'flat'` | Token structure |
-| moduleName | `string` | — | Export name |
-| generateHelper | `boolean` | `false` | Generate `getToken(path)` helper |
+| structure | `'flat' \| 'nested'` | `'nested'` | Token structure |
+| moduleName | `string` | `'tokens'` | Export name |
+| generateHelper | `boolean` | `false` | Generate `getTokens(modifiers)` helper |
 | minify | `boolean` | `false` | Minify output |
 
 ```typescript
@@ -123,16 +123,16 @@ js({
 Generates Tailwind CSS theme configuration.
 
 ```typescript
-tailwind(config: TailwindOutputConfig): OutputConfig
+tailwind(config: TailwindBuilderConfig): OutputConfig
 ```
 
-### TailwindOutputConfig (extends OutputConfig)
+### TailwindBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | preset | `'bundle' \| 'standalone'` | `'bundle'` | Output preset |
 | includeImport | `boolean` | `true` | Prepend `@import "tailwindcss"` |
-| namespace | `string` | — | Theme namespace for `@theme namespace(...)` |
+| namespace | `string` | `''` | Theme namespace for `@theme namespace(...)` |
 | selector | `string \| SelectorFunction` | — | CSS selector for theme variants |
 | mediaQuery | `string \| MediaQueryFunction` | — | Media query wrapper |
 | minify | `boolean` | `false` | Minify output |
@@ -157,17 +157,17 @@ The iOS builder is experimental. Options and generated output may change.
 </Aside>
 
 ```typescript
-ios(config: IosOutputConfig): OutputConfig
+ios(config: IosBuilderConfig): OutputConfig
 ```
 
-### IosOutputConfig (extends OutputConfig)
+### IosBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | preset | `'standalone'` | `'standalone'` | Output preset |
 | accessLevel | `'public' \| 'internal'` | `'public'` | Swift access modifier |
 | structure | `'enum' \| 'grouped'` | `'enum'` | Code structure |
-| enumName | `string` | — | Custom enum name (enum mode) |
+| enumName | `string` | `'DesignTokens'` | Custom enum name (enum mode) |
 | extensionNamespace | `string` | `'DesignTokens'` | Namespace enum name (grouped mode) |
 | colorSpace | `'sRGB' \| 'displayP3'` | `'sRGB'` | Color space |
 | swiftVersion | `'5.9' \| '6.0'` | `'5.9'` | Swift language version |
@@ -194,16 +194,16 @@ The Android builder is experimental. Options and generated output may change.
 </Aside>
 
 ```typescript
-android(config: AndroidOutputConfig): OutputConfig
+android(config: AndroidBuilderConfig): OutputConfig
 ```
 
-### AndroidOutputConfig (extends OutputConfig)
+### AndroidBuilderConfig (extends OutputConfig)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | preset | `'standalone' \| 'bundle'` | `'standalone'` | Output preset |
 | packageName | `string` | — | Kotlin package name (required) |
-| objectName | `string` | — | Object/class name |
+| objectName | `string` | `'DesignTokens'` | Object/class name |
 | structure | `'nested' \| 'flat'` | `'nested'` | Token structure in output |
 | colorFormat | `'argb_hex' \| 'argb_float' \| 'argb8' \| 'argb_floats'` | `'argb_hex'` | Color format (`argb8` and `argb_floats` are aliases) |
 | colorSpace | `'sRGB' \| 'displayP3'` | `'sRGB'` | Target color space |
@@ -234,4 +234,9 @@ Presets control how permutations map to files. `bundle` = one file per output; `
   title="Transforms Reference"
   description="Transform token values and names."
   href="/reference/transforms/"
+/>
+<LinkCard
+  title="Filters Reference"
+  description="Filter tokens by type, path, or custom criteria."
+  href="/reference/filters/"
 />

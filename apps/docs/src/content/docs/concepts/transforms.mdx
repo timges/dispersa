@@ -14,7 +14,7 @@ Transforms mutate token **values**, **names**, or both. They run after filters, 
 ## The Transform Interface
 
 ```typescript
-interface Transform {
+type Transform = {
   matcher?: (token: ResolvedToken) => boolean
   transform: (token: ResolvedToken) => ResolvedToken
 }
@@ -31,6 +31,8 @@ import { colorToHex, nameKebabCase, dimensionToRem } from 'dispersa/transforms'
 
 ## Color Transforms
 
+Color transforms convert the [color object](https://www.designtokens.org/TR/2025.10/color/) (`colorSpace` + `components`) into platform-specific strings.
+
 | Transform | Input | Output |
 |-----------|-------|--------|
 | colorToHex() | `{ colorSpace: 'srgb', components: [0, 0.4, 0.8] }` | `#0066cc` |
@@ -41,7 +43,7 @@ import { colorToHex, nameKebabCase, dimensionToRem } from 'dispersa/transforms'
 | colorToLch() | same | `lch(...)` |
 | colorToLab() | same | `lab(...)` |
 | colorToHwb() | same | `hwb(...)` |
-| colorToColorFunction | same | color function string |
+| colorToColorFunction() | same | color function string |
 
 ## Dimension Transforms
 
@@ -61,16 +63,16 @@ import { colorToHex, nameKebabCase, dimensionToRem } from 'dispersa/transforms'
 | nameSnakeCase() | `color.brand.primary` | `color_brand_primary` |
 | nameConstantCase() | `color.brand.primary` | `COLOR_BRAND_PRIMARY` |
 | nameCssVar() | `color.brand.primary` | `--color-brand-primary` |
-| namePrefix('ds') | `color-brand-primary` | `ds-color-brand-primary` |
-| nameSuffix('token') | `color-brand-primary` | `color-brand-primary-token` |
+| namePrefix('ds-') | `color-brand-primary` | `ds-color-brand-primary` |
+| nameSuffix('-token') | `color-brand-primary` | `color-brand-primary-token` |
 
 ## Other Transforms
 
 | Transform | Input | Output |
 |-----------|-------|--------|
 | fontWeightToNumber() | `"bold"` | `700` |
-| durationToMs() | `{ value: 200, unit: 'ms' }` | `"200ms"` |
-| durationToSeconds() | `{ value: 200, unit: 'ms' }` | `"0.2s"` |
+| durationToMs() | `{ value: 0.2, unit: 's' }` | `{ value: 200, unit: 'ms' }` |
+| durationToSeconds() | `{ value: 200, unit: 'ms' }` | `{ value: 0.2, unit: 's' }` |
 
 ## Global vs. Per-Output Transforms
 

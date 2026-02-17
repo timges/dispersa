@@ -7,7 +7,7 @@ sidebar:
 
 import { Aside, LinkCard } from '@astrojs/starlight/components'
 
-If you ran `pnpm create dispersa` and chose the **Basic** template, you already have a working project. Let's explore what you got and run the build.
+If you ran `pnpm create dispersa` and chose the **TypeScript Starter** template, you already have a working project. Let's explore what you got and run the build.
 
 <Aside type="tip" title="Manual setup?">
   If you added Dispersa to an existing project instead, follow along -- the same files and concepts
@@ -21,8 +21,14 @@ The scaffold creates this structure:
 ```
 my-dispersa-project/
 ├── tokens/
-│   ├── base.json              # Foundational values (colors, spacing)
-│   ├── alias.json             # Semantic references to base tokens
+│   ├── base/
+│   │   ├── colors.json        # Foundational color palette
+│   │   ├── spacing.json       # Spacing scale
+│   │   ├── typography.json    # Font families, sizes, weights
+│   │   └── effects.json       # Shadows and effects
+│   ├── semantic/
+│   │   ├── colors.json        # Semantic aliases referencing base tokens
+│   │   └── typography.json    # Semantic typography aliases
 │   └── themes/
 │       ├── light.json         # Light theme overrides
 │       └── dark.json          # Dark theme overrides
@@ -34,7 +40,7 @@ my-dispersa-project/
 
 ### Token files
 
-**`tokens/base.json`** defines your foundational values:
+**`tokens/base/colors.json`** defines your foundational color palette:
 
 ```json
 {
@@ -47,18 +53,22 @@ my-dispersa-project/
       "white": {
         "$type": "color",
         "$value": { "colorSpace": "srgb", "components": [1, 1, 1] }
+      },
+      "gray-900": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.1, 0.11, 0.12] }
       }
     }
   }
 }
 ```
 
-**`tokens/alias.json`** creates semantic names that reference the base tokens:
+**`tokens/semantic/colors.json`** creates purpose-driven names that reference the base tokens:
 
 ```json
 {
   "color": {
-    "alias": {
+    "semantic": {
       "primary": {
         "$type": "color",
         "$value": "{color.base.blue}"
@@ -66,6 +76,10 @@ my-dispersa-project/
       "background": {
         "$type": "color",
         "$value": "{color.base.white}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.base.gray-900}"
       }
     }
   }
@@ -80,8 +94,11 @@ my-dispersa-project/
 {
   "version": "2025.10",
   "sets": {
-    "core": {
-      "sources": [{ "$ref": "./tokens/base.json" }, { "$ref": "./tokens/alias.json" }]
+    "colors": {
+      "sources": [
+        { "$ref": "./tokens/base/colors.json" },
+        { "$ref": "./tokens/semantic/colors.json" }
+      ]
     }
   },
   "modifiers": {
@@ -93,13 +110,17 @@ my-dispersa-project/
       }
     }
   },
-  "resolutionOrder": [{ "$ref": "#/sets/core" }, { "$ref": "#/modifiers/theme" }]
+  "resolutionOrder": [{ "$ref": "#/sets/colors" }, { "$ref": "#/modifiers/theme" }]
 }
 ```
 
 ### Build script
 
 **`build.ts`** creates a `Dispersa` instance, points it at the resolver, and defines CSS output with transforms:
+
+<Aside type="note" title="Simplified for this walkthrough">
+The actual TypeScript Starter scaffold includes additional transforms (`dimensionToRem`, `fontWeightToNumber`) and a second CSS output using the `modifier` preset for per-theme files. Below is a simplified version to focus on the core concepts.
+</Aside>
 
 ```typescript
 import { Dispersa, css } from 'dispersa'
@@ -116,6 +137,7 @@ const result = await dispersa.build({
       name: 'css',
       file: 'tokens.css',
       preset: 'bundle',
+      preserveReferences: true,
       transforms: [nameKebabCase(), colorToHex()],
     }),
   ],
@@ -141,30 +163,27 @@ Open `output/tokens.css`. You should see your base tokens and theme overrides re
 ```css
 :root {
   --color-base-blue: #0066cc;
-  --color-base-gray: #6b757d;
   --color-base-white: #ffffff;
-  --color-base-black: #000000;
-  --color-alias-primary: var(--color-base-blue);
-  --color-alias-text: var(--color-base-black);
-  --color-alias-background: var(--color-base-white);
-  --spacing-base-1: 4px;
-  --spacing-base-2: 8px;
+  --color-base-gray-900: #1a1c1f;
+  --color-semantic-primary: var(--color-base-blue);
+  --color-semantic-background: var(--color-base-white);
+  --color-semantic-text: var(--color-base-gray-900);
   /* ... */
 }
 
 [data-theme='dark'] {
-  --color-alias-background: var(--color-base-black);
-  --color-alias-text: var(--color-base-white);
+  --color-semantic-background: var(--color-base-gray-900);
+  --color-semantic-text: var(--color-base-white);
 }
 ```
 
-The `bundle` preset puts the base values in `:root` and the dark theme overrides in a `[data-theme="dark"]` selector -- all in a single file.
+Because `preserveReferences` is `true`, semantic tokens emit `var()` references to their base tokens instead of inlining the resolved hex value. The `bundle` preset puts the base values in `:root` and the dark theme overrides in a `[data-theme="dark"]` selector -- all in a single file.
 
 ## Next: customize
 
 From here you can:
 
-- **Edit tokens** -- add new values to `tokens/base.json` or create new token files and reference them in the resolver
+- **Edit tokens** -- add new values to `tokens/base/colors.json` or create new token files and reference them in the resolver
 - **Add transforms** -- e.g. `dimensionToPx()` or `colorToRgb()` from `dispersa/transforms`
 - **Add outputs** -- e.g. `json()` or `js()` alongside `css()`
 - **Switch to the CLI** -- replace `build.ts` with a `dispersa.config.ts` and run `dispersa build`

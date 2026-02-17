@@ -20,9 +20,9 @@ import { json } from 'dispersa'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | name | string | — | Unique output identifier |
-| file | string or function | — | Output path |
+| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
 | preset | 'bundle' \| 'standalone' | 'standalone' | Output preset |
-| structure | 'flat' \| 'nested' | — | Token structure |
+| structure | 'flat' \| 'nested' | 'nested' | Token structure |
 | includeMetadata | boolean | — | Include `$type`, `$description` |
 | minify | boolean | — | Minify output |
 | transforms | Transform[] | — | Per-output transforms |

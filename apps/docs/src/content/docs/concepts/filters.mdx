@@ -14,7 +14,7 @@ Filters **include or exclude** tokens from an output. A token is included only w
 ## The Filter Interface
 
 ```typescript
-interface Filter {
+type Filter = {
   filter: (token: ResolvedToken) => boolean
 }
 ```
@@ -59,7 +59,7 @@ This output includes only `color` tokens, transforms names to kebab-case, and co
 - **Per-output** — Filters in `OutputConfig` further reduce tokens for that output only.
 
 <Aside type="tip" title="Filter on original data">
-Filters run before transforms. Filter on original token data, not transformed values.
+Within each scope, filters run before transforms. Global filters see unmodified tokens; per-output filters run after global transforms but before per-output transforms. In practice this rarely matters because `byPath` uses `token.path` (unaffected by name transforms), but keep it in mind if your global transforms modify `$value` or `$type`.
 </Aside>
 
 <LinkCard

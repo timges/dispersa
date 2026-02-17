@@ -155,7 +155,7 @@ filters: [
 ```
 
 <Aside type="tip" title="Filter before transform">
-Filters run before transforms. Filter on original token data (path, $type, alias status), not transformed values.
+Within each scope, filters run before transforms. Per-output filters see tokens after global transforms have been applied, but before per-output transforms. Built-in filters like `byPath` use `token.path` which is unaffected by name transforms.
 </Aside>
 
 <LinkCard

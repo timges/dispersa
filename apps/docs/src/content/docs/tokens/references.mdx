@@ -15,7 +15,7 @@ References let you avoid duplication and build layered token systems: base token
 
 ### Syntax
 
-Aliases use the `{token.path}` pattern. The referenced token's value fully replaces the alias.
+[Aliases](https://www.designtokens.org/TR/2025.10/format/#aliases-references) use the `{token.path}` pattern. The referenced token's value fully replaces the alias.
 
 ```json
 {
@@ -92,10 +92,12 @@ Aliases can reference other tokens inside composite values. The reference is res
 **Resolved output** (conceptually): all three -- `color.semantic.primary`, `color.button.background`, and `color.base.blue-600` -- resolve to `{ colorSpace: "srgb", components: [0, 0.4, 0.8] }`.
 
 <Aside type="tip" title="Circular References">
-Dispersa detects and reports circular reference chains. If Token A references Token B, and Token B references Token A (directly or transitively), the build will fail with a clear error.
+Dispersa detects and reports circular reference chains as [required by the spec](https://www.designtokens.org/TR/2025.10/format/#aliases-references). If Token A references Token B, and Token B references Token A (directly or transitively), the build will fail with a clear error.
 </Aside>
 
 ## JSON Pointer References (`$ref`)
+
+[JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901) references use the [`$ref` property](https://www.designtokens.org/tr/2025.10/format/#references-and-json-pointer-integration) to point to tokens within the same file or in external files.
 
 ### Syntax
 

@@ -13,7 +13,7 @@ Smaller files, better caching, and the ability to import only what you need. Spl
 
 ## Using byType() Filter
 
-Filter tokens by type and write each type to its own file:
+Filter tokens by type and write each type to its own file. Each `byType()` filter targets a single token type:
 
 ```typescript
 import { byType } from 'dispersa/filters'
@@ -35,20 +35,15 @@ await dispersa.build({
       filters: [byType('dimension')],
       transforms: [nameKebabCase(), dimensionToPx()],
     }),
-    css({
-      name: 'typography',
-      file: 'typography.css',
-      preset: 'bundle',
-      filters: [byType('fontFamily'), byType('fontWeight')],
-      transforms: [nameKebabCase()],
-    }),
   ],
 })
 ```
 
-## OR Logic: Multiple Types in One Output
+## Multiple Types in One Output
 
-The above typography example has a problem. Multiple filters use **AND** logic — a token must pass every filter. For "fontFamily OR fontWeight OR typography" you need a custom filter:
+To include multiple token types in a single output (e.g. all typography-related tokens), you need **OR** logic. Since multiple filters are AND-combined (a token must pass every filter), you cannot use `[byType('fontFamily'), byType('fontWeight')]` -- no token can be both types simultaneously.
+
+Instead, create a custom filter with OR logic:
 
 ```typescript
 import type { Filter } from 'dispersa/filters'

@@ -6,11 +6,10 @@ sidebar:
 ---
 
 import { Aside, LinkCard } from '@astrojs/starlight/components'
-import ResolverVisualizer from '../../../components/ResolverVisualizer'
 
 ## What Is the Resolver?
 
-The **Resolver** is a DTCG 2025.10 document that defines how tokens are assembled. It specifies which token files load, in what order, and how themes, platforms, or densities overlay them. Dispersa consumes resolver documents to produce the final token set.
+The **Resolver** is a [DTCG 2025.10](https://www.designtokens.org/TR/2025.10/resolver/) document that specifies how tokens are assembled. It defines which token files load, in what order, and how themes, platforms, or densities overlay them. Dispersa consumes resolver documents to produce the final token set.
 
 ## Document Structure
 
@@ -26,7 +25,7 @@ Then add `sets`, `modifiers`, and `resolutionOrder`.
 
 ## Sets
 
-**Sets** are named groups of token sources. Each set has a `sources` array pointing to token files or inline token objects. Sets are the base building blocks.
+[**Sets**](https://www.designtokens.org/TR/2025.10/resolver/#sets) are named groups of token sources. Each set has a `sources` array pointing to token files or inline token objects. Sets are the base building blocks.
 
 ```json
 {
@@ -43,7 +42,7 @@ Then add `sets`, `modifiers`, and `resolutionOrder`.
 
 ## Modifiers
 
-**Modifiers** define contextual variations: themes, platforms, densities. Each modifier has `contexts` mapping context names to token sources, and an optional `default`.
+[**Modifiers**](https://www.designtokens.org/TR/2025.10/resolver/#modifiers) define contextual variations: themes, platforms, densities. Each modifier has `contexts` mapping context names to token sources, and an optional `default`.
 
 ```json
 {
@@ -61,7 +60,7 @@ Then add `sets`, `modifiers`, and `resolutionOrder`.
 
 ## Resolution Order
 
-`resolutionOrder` defines the merge order. Sets are merged first, then modifiers overlay. Use `$ref` to point to sets and modifiers defined above.
+[`resolutionOrder`](https://www.designtokens.org/TR/2025.10/resolver/#resolution-order) defines the merge order. Sets are merged first, then modifiers overlay. Use `$ref` to point to sets and modifiers defined above.
 
 ```json
 {
@@ -74,7 +73,7 @@ Then add `sets`, `modifiers`, and `resolutionOrder`.
 
 ## Permutations
 
-The resolver computes the **cross-product** of all modifier contexts. With 2 themes and 2 densities, you get 4 permutations:
+The resolver computes the **cross-product** of all modifier contexts (see [permutations](https://www.designtokens.org/TR/2025.10/resolver/#terminology)). With 2 themes and 2 densities, you get 4 permutations:
 
 - `light` + `compact`
 - `light` + `comfortable`
@@ -121,12 +120,6 @@ Base tokens are shared. Only the differences (theme colors, density spacing) liv
 ```
 
 This resolver loads core tokens, then overlays light or dark theme tokens based on the selected context.
-
-## Interactive Example
-
-Toggle modifier contexts below to see how sets and modifiers combine to produce the final token set:
-
-<ResolverVisualizer client:visible />
 
 <LinkCard
   title="Getting Started — Installation"

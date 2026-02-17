@@ -19,9 +19,27 @@ This page documents the key TypeScript types used across the Dispersa API. Impor
 type DispersaOptions = {
   resolver?: string | ResolverDocument
   buildPath?: string
-  validation?: { mode?: 'error' | 'warn' | 'off' }
+  validation?: ValidationOptions
 }
 ```
+
+### ValidationOptions
+
+```typescript
+type ValidationOptions = {
+  mode?: ValidationMode
+}
+```
+
+### ValidationMode
+
+```typescript
+type ValidationMode = 'error' | 'warn' | 'off'
+```
+
+- `'error'` (default) -- throw on validation failures
+- `'warn'` -- log warnings via `console.warn` but continue processing
+- `'off'` -- skip validation entirely
 
 ### BuildConfig
 
@@ -95,18 +113,23 @@ type ErrorCode =
 
 ```typescript
 type ResolvedToken = {
-  $type: TokenType
-  $value: unknown
+  $type?: TokenType
+  $value?: TokenValue | TokenValueReference
+  $ref?: string
   $description?: string
   $deprecated?: boolean | string
   $extensions?: Record<string, unknown>
   name: string
   path: string[]
-  originalValue: unknown
+  originalValue: TokenValue
 }
 ```
 
+`TokenValue` is `string | number | boolean | Record<string, unknown> | unknown[]`. `TokenValueReference` is `string | { $ref: string }`. In practice, resolved tokens always have `$type` and `$value` set after resolution, but the type reflects that they originate from `Token` where these are optional.
+
 ### TokenType
+
+Union of all DTCG [token types](https://www.designtokens.org/TR/2025.10/format/) (including [color](https://www.designtokens.org/TR/2025.10/color/)).
 
 ```typescript
 type TokenType =
@@ -131,6 +154,128 @@ type TokenType =
 type ModifierInputs = Record<string, string>
 ```
 
+### Token Value Types
+
+Typed shapes for the `$value` property of each token type. Useful when building custom transforms or renderers.
+
+```typescript
+type ColorValueObject = {
+  colorSpace: ColorSpace
+  components: [ColorComponent, ColorComponent, ColorComponent]
+  alpha?: number
+  hex?: string
+}
+
+type DimensionValue = { value: number; unit: 'px' | 'rem' }
+
+type DurationValue = { value: number; unit: 'ms' | 's' }
+
+type ShadowValueObject = {
+  color: ColorValue
+  offsetX: DimensionValue
+  offsetY: DimensionValue
+  blur: DimensionValue
+  spread: DimensionValue
+  inset?: boolean
+}
+
+type TypographyValue = {
+  fontFamily: FontFamilyValue
+  fontSize: DimensionValue
+  fontWeight: FontWeightValue
+  letterSpacing: DimensionValue
+  lineHeight: number
+}
+
+type BorderValue = {
+  color: ColorValue
+  width: DimensionValue
+  style: StrokeStyleValue
+}
+
+type TransitionValue = {
+  duration: DurationValue
+  delay: DurationValue
+  timingFunction: CubicBezierValue
+}
+
+type GradientValue = GradientStop[]
+// where GradientStop = { color: ColorValue; position: number }
+```
+
+### DesignTokenValue
+
+Union of all known DTCG token value types. Provides narrower typing than `TokenValue` for consumers who want better autocomplete.
+
+```typescript
+type DesignTokenValue =
+  | ColorValueObject
+  | DimensionValue
+  | DurationValue
+  | CubicBezierValue
+  | ShadowValueObject
+  | ShadowValueObject[]
+  | TypographyValue
+  | BorderValue
+  | StrokeStyleValueObject
+  | StrokeStyleValue
+  | TransitionValue
+  | GradientValue
+  | FontFamilyValue
+  | FontWeightValue
+  | number
+```
+
+### Narrowed Token Types
+
+For convenience, Dispersa exports narrowed token types that pair `ResolvedToken` with a specific `$type`:
+
+```typescript
+type ColorToken = ResolvedToken & { $type: 'color' }
+type DimensionToken = ResolvedToken & { $type: 'dimension' }
+type ShadowToken = ResolvedToken & { $type: 'shadow' }
+type DurationToken = ResolvedToken & { $type: 'duration' }
+type TypographyToken = ResolvedToken & { $type: 'typography' }
+type BorderToken = ResolvedToken & { $type: 'border' }
+type TransitionToken = ResolvedToken & { $type: 'transition' }
+type GradientToken = ResolvedToken & { $type: 'gradient' }
+```
+
+### Type Guards
+
+Use type guard functions to narrow a `ResolvedToken` to a specific token type. All type guards are available from the main `dispersa` entry point.
+
+```typescript
+import { isColorToken, isDimensionToken } from 'dispersa'
+```
+
+| Guard | Narrows to |
+|-------|------------|
+| isColorToken(token) | `ColorToken` (`$type: 'color'`) |
+| isDimensionToken(token) | `DimensionToken` (`$type: 'dimension'`) |
+| isShadowToken(token) | `ShadowToken` (`$type: 'shadow'`) |
+| isTypographyToken(token) | `TypographyToken` (`$type: 'typography'`) |
+| isBorderToken(token) | `BorderToken` (`$type: 'border'`) |
+| isDurationToken(token) | `DurationToken` (`$type: 'duration'`) |
+| isTransitionToken(token) | `TransitionToken` (`$type: 'transition'`) |
+| isGradientToken(token) | `GradientToken` (`$type: 'gradient'`) |
+
+```typescript
+import type { ResolvedToken } from 'dispersa'
+import { isColorToken, isDimensionToken } from 'dispersa'
+
+function processToken(token: ResolvedToken) {
+  if (isColorToken(token)) {
+    // token.$value narrowed to color value
+    console.log(token.$type) // 'color'
+  }
+  if (isDimensionToken(token)) {
+    // token.$value narrowed to dimension value
+    console.log(token.$type) // 'dimension'
+  }
+}
+```
+
 ---
 
 ## Config Types
@@ -138,13 +283,13 @@ type ModifierInputs = Record<string, string>
 ### OutputConfig
 
 ```typescript
-type OutputConfig = {
+type OutputConfig<TOptions extends FormatOptions = FormatOptions> = {
   name: string
-  renderer: Renderer
+  renderer: Renderer<TOptions>
   file?: string | FileFunction
   transforms?: Transform[]
   filters?: Filter[]
-  options?: Record<string, unknown>
+  options?: TOptions
   hooks?: LifecycleHooks
 }
 ```
@@ -173,17 +318,24 @@ type FileFunction = (modifierInputs: ModifierInputs) => string
 
 ### Renderer
 
-Renderer is the type returned by `defineRenderer()`.
+```typescript
+type Renderer<TOptions extends FormatOptions = FormatOptions> = {
+  preset?: string
+  format: (
+    context: RenderContext<TOptions>,
+    options?: TOptions,
+  ) => RenderOutput | Promise<RenderOutput>
+}
+```
+
+The generic `TOptions` flows through from `defineRenderer<T>()`, giving you typed `options` in both the renderer and its `RenderContext`.
 
 ### RenderContext
 
 ```typescript
-type RenderContext = {
-  permutations: {
-    tokens: Record<string, ResolvedToken>
-    modifierInputs: ModifierInputs
-  }[]
-  output: OutputConfig
+type RenderContext<TOptions extends FormatOptions = FormatOptions> = {
+  permutations: PermutationData[]
+  output: OutputConfig<TOptions>
   resolver: ResolverDocument
   meta: RenderMeta
   buildPath?: string
@@ -200,7 +352,11 @@ type RenderMeta = {
 }
 ```
 
-### SelectorFunction / MediaQueryFunction
+- **dimensions** -- Modifier dimension keys from the resolver (e.g. `['theme', 'density']`)
+- **defaults** -- Default context value per dimension (e.g. `{ theme: 'light', density: 'comfortable' }`)
+- **basePermutation** -- The modifier inputs that identify the base (unmodified) permutation
+
+### SelectorFunction
 
 ```typescript
 type SelectorFunction = (
@@ -211,11 +367,83 @@ type SelectorFunction = (
 ) => string
 ```
 
+### MediaQueryFunction
+
+```typescript
+type MediaQueryFunction = (
+  modifierName: string,
+  context: string,
+  isBase: boolean,
+  allModifierInputs: Record<string, string>,
+) => string
+```
+
+`MediaQueryFunction` has the same signature as `SelectorFunction`. Return a media query string (e.g. `'(prefers-color-scheme: dark)'`) or an empty string for no media query.
+
+### PermutationData
+
+```typescript
+type PermutationData = {
+  tokens: ResolvedTokens
+  modifierInputs: ModifierInputs
+}
+```
+
+One entry per permutation in `RenderContext.permutations`.
+
+### RenderOutput
+
+```typescript
+type RenderOutput = string | OutputTree
+```
+
+The return type of a renderer's `format` function. Return a `string` for single-file output or an `OutputTree` (via `outputTree()`) for multi-file output.
+
+### FormatOptions
+
+```typescript
+type FormatOptions = Record<string, unknown>
+```
+
+Base type for renderer-specific options. Each built-in renderer defines a narrower options type (e.g. `CssRendererOptions`).
+
+---
+
+## Builder Config Types
+
+Builder config types combine the common builder options with renderer-specific options. Use these when typing variables passed to builder functions.
+
+```typescript
+type CssBuilderConfig = BuilderConfigBase & CssRendererOptions
+type JsonBuilderConfig = BuilderConfigBase & JsonRendererOptions
+type JsBuilderConfig = BuilderConfigBase & JsModuleRendererOptions
+type TailwindBuilderConfig = BuilderConfigBase & TailwindRendererOptions
+type IosBuilderConfig = BuilderConfigBase & IosRendererOptions
+type AndroidBuilderConfig = BuilderConfigBase & AndroidRendererOptions
+```
+
+All builder configs share these base options:
+
+```typescript
+// BuilderConfigBase (shared by all builders)
+{
+  name: string
+  file?: string | FileFunction
+  transforms?: Transform[]
+  filters?: Filter[]
+  hooks?: LifecycleHooks
+}
+```
+
+See [Builder Functions](/reference/builders/) for the renderer-specific options each builder adds.
+
 ---
 
 ## Resolver Types
 
 ### ResolverDocument
+
+The [resolver document](https://www.designtokens.org/TR/2025.10/resolver/) structure.
 
 ```typescript
 type ResolverDocument = {
@@ -257,10 +485,12 @@ type Filter = {
 type Preprocessor = {
   name: string
   preprocess: (
-    rawTokens: Record<string, unknown>,
-  ) => Record<string, unknown> | Promise<Record<string, unknown>>
+    rawTokens: InternalTokenDocument,
+  ) => InternalTokenDocument | Promise<InternalTokenDocument>
 }
 ```
+
+`InternalTokenDocument` is a `Record<string, InternalTokenNode>` representing the raw DTCG token tree before parsing and resolution.
 
 ---
 
