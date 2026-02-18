@@ -148,48 +148,45 @@ export class ResolverParser {
    * - References MUST NOT point to resolutionOrder array items
    */
   private validateReferencePointers(resolver: ResolverDocument, contextMsg: string): void {
-    // Check sets
     if (resolver.sets) {
       for (const [setName, set] of Object.entries(resolver.sets)) {
         this.validateSourceReferences(set.sources, `set "${setName}"`, contextMsg)
       }
     }
 
-    // Check modifiers
-    if (resolver.modifiers) {
-      for (const [modifierName, modifier] of Object.entries(resolver.modifiers)) {
-        for (const [contextName, sources] of Object.entries(modifier.contexts)) {
-          this.validateSourceReferences(
-            sources,
-            `modifier "${modifierName}" context "${contextName}"`,
-            contextMsg,
-          )
-        }
+    if (!resolver.modifiers) {
+      return
+    }
+
+    for (const [modifierName, modifier] of Object.entries(resolver.modifiers)) {
+      for (const [contextName, sources] of Object.entries(modifier.contexts)) {
+        this.validateSourceReferences(
+          sources,
+          `modifier "${modifierName}" context "${contextName}"`,
+          contextMsg,
+        )
       }
     }
   }
 
-  /**
-   * Validate source references in an array
-   */
   private validateSourceReferences(sources: unknown[], location: string, contextMsg: string): void {
     for (const source of sources) {
-      if (typeof source === 'object' && source !== null && '$ref' in source) {
-        const ref = (source as { $ref: string }).$ref
+      if (typeof source !== 'object' || source === null || !('$ref' in source)) {
+        continue
+      }
 
-        // MUST NOT reference modifiers from sets/modifiers
-        if (ref.startsWith('#/modifiers/')) {
-          this.handleValidationIssue(
-            `Invalid reference in ${location}: "${ref}". Sets and modifier contexts MUST NOT reference modifiers${contextMsg}`,
-          )
-        }
+      const ref = (source as { $ref: string }).$ref
 
-        // MUST NOT reference resolutionOrder items
-        if (ref.startsWith('#/resolutionOrder/')) {
-          this.handleValidationIssue(
-            `Invalid reference in ${location}: "${ref}". References MUST NOT point to resolutionOrder array items${contextMsg}`,
-          )
-        }
+      if (ref.startsWith('#/modifiers/')) {
+        this.handleValidationIssue(
+          `Invalid reference in ${location}: "${ref}". Sets and modifier contexts MUST NOT reference modifiers${contextMsg}`,
+        )
+      }
+
+      if (ref.startsWith('#/resolutionOrder/')) {
+        this.handleValidationIssue(
+          `Invalid reference in ${location}: "${ref}". References MUST NOT point to resolutionOrder array items${contextMsg}`,
+        )
       }
     }
   }

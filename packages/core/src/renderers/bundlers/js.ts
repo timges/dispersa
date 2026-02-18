@@ -19,6 +19,25 @@ import type { BundleDataItem } from './types'
 import type { BundleMetadata } from './utils'
 import { buildMetadata, normalizeModifierInputs, stripInternalMetadata } from './utils'
 
+type StringTrackingState = {
+  inString: boolean
+  stringChar: string
+  escaped: boolean
+}
+
+function updateStringTracking(state: StringTrackingState, char: string): void {
+  if (!state.escaped && (char === '"' || char === "'" || char === '`')) {
+    if (!state.inString) {
+      state.inString = true
+      state.stringChar = char
+    } else if (char === state.stringChar) {
+      state.inString = false
+      state.stringChar = ''
+    }
+  }
+  state.escaped = !state.escaped && char === '\\'
+}
+
 /**
  * Extract object literal from formatted JS module using balanced brace matching
  * More robust than regex for handling nested objects/arrays
@@ -29,44 +48,28 @@ function extractObjectFromJsModule(formattedJs: string): string {
     return '{}'
   }
 
-  const startIndex = assignmentMatch.index + assignmentMatch[0].length - 1 // Include the opening brace
+  const startIndex = assignmentMatch.index + assignmentMatch[0].length - 1
+  const state: StringTrackingState = { inString: false, stringChar: '', escaped: false }
   let braceCount = 0
-  let inString = false
-  let stringChar = ''
-  let escaped = false
 
   for (let i = startIndex; i < formattedJs.length; i++) {
-    const char = formattedJs[i]
+    const char = formattedJs[i]!
+    updateStringTracking(state, char)
 
-    // Handle string literals (ignore braces inside strings)
-    if (!escaped && (char === '"' || char === "'" || char === '`')) {
-      if (!inString) {
-        inString = true
-        stringChar = char
-      } else if (char === stringChar) {
-        inString = false
-        stringChar = ''
-      }
+    if (state.inString) {
+      continue
     }
 
-    // Track escape sequences
-    escaped = !escaped && char === '\\'
-
-    // Count braces when not in a string
-    if (!inString) {
-      if (char === '{') {
-        braceCount++
-      } else if (char === '}') {
-        braceCount--
-        if (braceCount === 0) {
-          // Found the matching closing brace
-          return formattedJs.substring(startIndex, i + 1)
-        }
+    if (char === '{') {
+      braceCount++
+    } else if (char === '}') {
+      braceCount--
+      if (braceCount === 0) {
+        return formattedJs.substring(startIndex, i + 1)
       }
     }
   }
 
-  // Fallback if no matching brace found
   return '{}'
 }
 

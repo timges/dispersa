@@ -355,21 +355,18 @@ export class ResolutionEngine {
     const result = { ...target }
 
     for (const [key, value] of Object.entries(source)) {
-      if (
-        typeof value === 'object' &&
-        value !== null &&
-        !Array.isArray(value) &&
-        !('$value' in value)
-      ) {
-        // Recursively merge groups
-        result[key] = this.mergeTokens(
-          ((result[key] as InternalTokenDocument | undefined) ?? {}) as InternalTokenDocument,
-          value as InternalTokenDocument,
-        )
-      } else {
-        // Override token values
+      const isGroup =
+        typeof value === 'object' && value !== null && !Array.isArray(value) && !('$value' in value)
+
+      if (!isGroup) {
         result[key] = value
+        continue
       }
+
+      result[key] = this.mergeTokens(
+        ((result[key] as InternalTokenDocument | undefined) ?? {}) as InternalTokenDocument,
+        value as InternalTokenDocument,
+      )
     }
 
     return result

@@ -165,8 +165,6 @@ export class IosRenderer implements Renderer<IosRendererOptions> {
     const access = options.accessLevel
     const groups = groupTokensByType(tokens, SWIFT_TYPE_GROUP_MAP)
     const imports = this.collectImports(tokens)
-    const i1 = indentStr(options.indent, 1)
-    const i2 = indentStr(options.indent, 2)
     const staticPrefix = this.staticLetPrefix(options)
     const frozen = this.frozenPrefix(options)
     const lines: string[] = []
@@ -178,41 +176,67 @@ export class IosRenderer implements Renderer<IosRendererOptions> {
     }
 
     lines.push(...this.buildStructDefinitions(tokens, access, options))
-
-    if (options.structure === 'grouped') {
-      const namespace = options.extensionNamespace
-      lines.push('')
-      lines.push(`${frozen}${access} enum ${namespace} {}`)
-      lines.push('')
-
-      for (const group of groups) {
-        lines.push(`${access} extension ${namespace} {`)
-        lines.push(`${i1}${frozen}enum ${group.name} {`)
-        this.pushTokenDeclarations(lines, group.tokens, options, access, i2, staticPrefix)
-        lines.push(`${i1}}`)
-        lines.push('}')
-        lines.push('')
-      }
-    } else {
-      lines.push('')
-      lines.push(`${frozen}${access} enum ${options.enumName} {`)
-
-      for (const group of groups) {
-        lines.push(`${i1}${frozen}${access} enum ${group.name} {`)
-        this.pushTokenDeclarations(lines, group.tokens, options, access, i2, staticPrefix)
-        lines.push(`${i1}}`)
-        lines.push('')
-      }
-
-      lines.push('}')
-    }
-
+    this.pushTokenLayout(lines, groups, options, access, staticPrefix, frozen)
     lines.push(...this.buildViewExtensions(tokens, access, options))
     if (options.structure !== 'grouped') {
       lines.push('')
     }
 
     return lines.join('\n')
+  }
+
+  private pushTokenLayout(
+    lines: string[],
+    groups: Array<{ name: string; tokens: ResolvedToken[] }>,
+    options: Required<IosRendererOptions>,
+    access: string,
+    staticPrefix: string,
+    frozen: string,
+  ): void {
+    const i1 = indentStr(options.indent, 1)
+    const i2 = indentStr(options.indent, 2)
+
+    if (options.structure === 'grouped') {
+      this.pushGroupedLayout(lines, groups, options, access, i1, i2, staticPrefix, frozen)
+      return
+    }
+
+    lines.push('')
+    lines.push(`${frozen}${access} enum ${options.enumName} {`)
+
+    for (const group of groups) {
+      lines.push(`${i1}${frozen}${access} enum ${group.name} {`)
+      this.pushTokenDeclarations(lines, group.tokens, options, access, i2, staticPrefix)
+      lines.push(`${i1}}`)
+      lines.push('')
+    }
+
+    lines.push('}')
+  }
+
+  private pushGroupedLayout(
+    lines: string[],
+    groups: Array<{ name: string; tokens: ResolvedToken[] }>,
+    options: Required<IosRendererOptions>,
+    access: string,
+    i1: string,
+    i2: string,
+    staticPrefix: string,
+    frozen: string,
+  ): void {
+    const namespace = options.extensionNamespace
+    lines.push('')
+    lines.push(`${frozen}${access} enum ${namespace} {}`)
+    lines.push('')
+
+    for (const group of groups) {
+      lines.push(`${access} extension ${namespace} {`)
+      lines.push(`${i1}${frozen}enum ${group.name} {`)
+      this.pushTokenDeclarations(lines, group.tokens, options, access, i2, staticPrefix)
+      lines.push(`${i1}}`)
+      lines.push('}')
+      lines.push('')
+    }
   }
 
   private pushTokenDeclarations(
@@ -279,64 +303,49 @@ export class IosRenderer implements Renderer<IosRendererOptions> {
   }
 
   private formatSwiftValue(token: ResolvedToken, options: Required<IosRendererOptions>): string {
-    const value = token.$value
+    const { $type, $value: value } = token
 
-    if (token.$type === 'color') {
-      return this.formatColorValue(value, options)
+    switch ($type) {
+      case 'color':
+        return this.formatColorValue(value, options)
+      case 'dimension':
+        return this.formatDimensionValue(value)
+      case 'fontFamily':
+        return this.formatFontFamilyValue(value)
+      case 'fontWeight':
+        return this.formatFontWeightValue(value)
+      case 'duration':
+        return this.formatDurationValue(value)
+      case 'shadow':
+        return this.formatShadowValue(value, options)
+      case 'typography':
+        return this.formatTypographyValue(value)
+      case 'border':
+        return this.formatBorderValue(value, options)
+      case 'gradient':
+        return this.formatGradientValue(value, options)
+      case 'number':
+        return String(value)
+      case 'cubicBezier':
+        if (Array.isArray(value) && value.length === 4) {
+          return `UnitCurve.bezier(startControlPoint: UnitPoint(x: ${value[0]}, y: ${value[1]}), endControlPoint: UnitPoint(x: ${value[2]}, y: ${value[3]}))`
+        }
+        break
     }
 
-    if (token.$type === 'dimension') {
-      return this.formatDimensionValue(value)
-    }
+    return this.formatSwiftPrimitive(value)
+  }
 
-    if (token.$type === 'fontFamily') {
-      return this.formatFontFamilyValue(value)
-    }
-
-    if (token.$type === 'fontWeight') {
-      return this.formatFontWeightValue(value)
-    }
-
-    if (token.$type === 'duration') {
-      return this.formatDurationValue(value)
-    }
-
-    if (token.$type === 'shadow') {
-      return this.formatShadowValue(value, options)
-    }
-
-    if (token.$type === 'typography') {
-      return this.formatTypographyValue(value)
-    }
-
-    if (token.$type === 'border') {
-      return this.formatBorderValue(value, options)
-    }
-
-    if (token.$type === 'gradient') {
-      return this.formatGradientValue(value, options)
-    }
-
-    if (token.$type === 'number') {
-      return String(value)
-    }
-
-    if (token.$type === 'cubicBezier' && Array.isArray(value) && value.length === 4) {
-      return `UnitCurve.bezier(startControlPoint: UnitPoint(x: ${value[0]}, y: ${value[1]}), endControlPoint: UnitPoint(x: ${value[2]}, y: ${value[3]}))`
-    }
-
+  private formatSwiftPrimitive(value: unknown): string {
     if (typeof value === 'string') {
       return `"${this.escapeSwiftString(value)}"`
     }
-
     if (typeof value === 'number') {
       return String(value)
     }
-
     if (typeof value === 'boolean') {
       return value ? 'true' : 'false'
     }
-
     return `"${this.escapeSwiftString(String(value))}"`
   }
 

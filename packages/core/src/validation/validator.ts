@@ -105,8 +105,8 @@ export class SchemaValidator {
    * })
    * ```
    */
-  registerSchema(name: string, schema: object): void {
-    const validate = this.ajv.compile(schema as Record<string, unknown>)
+  registerSchema(name: string, schema: Record<PropertyKey, unknown>): void {
+    const validate = this.ajv.compile(schema)
     this.validators.set(name, validate)
   }
 
@@ -223,39 +223,34 @@ export class SchemaValidator {
     const hasValue = isTokenLike(obj)
 
     if (hasValue) {
-      // Looks like a token - validate as token
       const tokenErrors = this.validateToken(obj)
       if (tokenErrors.length === 0) {
         return { type: 'token', errors: [] }
       }
-      // Failed as token, but it clearly has $value/$ref, so it's an invalid token
       return {
         type: 'invalid',
         errors: tokenErrors,
         message: 'Object has $value/$ref but failed token validation',
       }
-    } else {
-      // Looks like a group - validate as group
-      const groupErrors = this.validateGroup(obj)
-      if (groupErrors.length === 0) {
-        return { type: 'group', errors: [] }
-      }
+    }
 
-      // Failed as group - could it be a malformed token?
-      const tokenErrors = this.validateToken(obj)
-      if (tokenErrors.length === 0) {
-        return { type: 'token', errors: [] }
-      }
+    const groupErrors = this.validateGroup(obj)
+    if (groupErrors.length === 0) {
+      return { type: 'group', errors: [] }
+    }
 
-      // Failed both - return better error
-      return {
-        type: 'invalid',
-        errors: groupErrors.length < tokenErrors.length ? groupErrors : tokenErrors,
-        message:
-          groupErrors.length < tokenErrors.length
-            ? 'Object appears to be a group but failed validation'
-            : 'Object appears to be a token but failed validation',
-      }
+    const tokenErrors = this.validateToken(obj)
+    if (tokenErrors.length === 0) {
+      return { type: 'token', errors: [] }
+    }
+
+    return {
+      type: 'invalid',
+      errors: groupErrors.length < tokenErrors.length ? groupErrors : tokenErrors,
+      message:
+        groupErrors.length < tokenErrors.length
+          ? 'Object appears to be a group but failed validation'
+          : 'Object appears to be a token but failed validation',
     }
   }
 

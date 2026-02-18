@@ -108,15 +108,16 @@ export class TypeGenerator {
 
     if (names.length === 0) {
       lines.push(`export type ${typeName} = never`)
-    } else {
-      lines.push(`export type ${typeName} =`)
-      for (let i = 0; i < names.length; i++) {
-        const name = names[i]
-        if (name == null) {
-          continue
-        }
-        lines.push(`  | "${name}"`)
+      return lines
+    }
+
+    lines.push(`export type ${typeName} =`)
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i]
+      if (name == null) {
+        continue
       }
+      lines.push(`  | "${name}"`)
     }
 
     return lines
@@ -154,15 +155,14 @@ export class TypeGenerator {
     const lines: string[] = []
     const structure = this.buildNestedStructure(tokens)
 
-    if (options.exportType === 'type') {
-      lines.push(`export type ${options.moduleName} = {`)
-      this.addStructureProperties(lines, structure, 1)
-      lines.push('}')
-    } else {
-      lines.push(`export interface ${options.moduleName} {`)
-      this.addStructureProperties(lines, structure, 1)
-      lines.push('}')
-    }
+    const opener =
+      options.exportType === 'type'
+        ? `export type ${options.moduleName} = {`
+        : `export interface ${options.moduleName} {`
+
+    lines.push(opener)
+    this.addStructureProperties(lines, structure, 1)
+    lines.push('}')
 
     return lines
   }

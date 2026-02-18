@@ -9,7 +9,7 @@ import {
   resolveFileName,
   stripInternalMetadata,
 } from '@renderers/bundlers/utils'
-import { getSortedTokenEntries } from '@shared/utils/token-utils'
+import { buildNestedTokenObject, getSortedTokenEntries } from '@shared/utils/token-utils'
 import type { ResolvedTokens } from '@tokens/types'
 import prettier from 'prettier'
 
@@ -114,50 +114,21 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
     return lines
   }
 
-  /**
-   * Convert tokens to plain object with flat or nested structure
-   */
   private tokensToPlainObject(
     tokens: ResolvedTokens,
     structure: 'flat' | 'nested',
   ): Record<string, unknown> {
-    const result: Record<string, unknown> = {}
-
-    if (structure === 'flat') {
-      // Flat structure: { "token.name": "value" }
-      for (const [name, token] of getSortedTokenEntries(tokens)) {
-        result[name] = token.$value
-      }
-    } else {
-      // Nested structure: { "token": { "name": "value" } }
-      for (const [, token] of getSortedTokenEntries(tokens)) {
-        const parts = token.path
-        let current = result
-
-        for (let i = 0; i < parts.length - 1; i++) {
-          const part = parts[i]
-          if (part == null) {
-            continue
-          }
-          if (!(part in current)) {
-            current[part] = {}
-          }
-          current = current[part] as Record<string, unknown>
-        }
-
-        const lastPart = parts[parts.length - 1]
-        if (lastPart != null) {
-          current[lastPart] = token.$value
-        }
-      }
+    if (structure === 'nested') {
+      return buildNestedTokenObject(tokens, (token) => token.$value)
     }
 
+    const result: Record<string, unknown> = {}
+    for (const [name, token] of getSortedTokenEntries(tokens)) {
+      result[name] = token.$value
+    }
     return result
   }
 
-  /**
-   * Add object properties to lines
-   */
   private addObjectProperties(lines: string[], obj: Record<string, unknown>, indent: number): void {
     const indentStr = '  '.repeat(indent)
     const entries = Object.entries(obj).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
@@ -169,15 +140,18 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
       }
       const [key, value] = entry
       const isLast = i === entries.length - 1
+      const isNestedObject = typeof value === 'object' && value !== null && !Array.isArray(value)
 
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        lines.push(`${indentStr}${this.quoteKey(key)}: {`)
-        this.addObjectProperties(lines, value as Record<string, unknown>, indent + 1)
-        lines.push(`${indentStr}}${isLast ? '' : ','}`)
-      } else {
-        const valueStr = JSON.stringify(value)
-        lines.push(`${indentStr}${this.quoteKey(key)}: ${valueStr}${isLast ? '' : ','}`)
+      if (!isNestedObject) {
+        lines.push(
+          `${indentStr}${this.quoteKey(key)}: ${JSON.stringify(value)}${isLast ? '' : ','}`,
+        )
+        continue
       }
+
+      lines.push(`${indentStr}${this.quoteKey(key)}: {`)
+      this.addObjectProperties(lines, value as Record<string, unknown>, indent + 1)
+      lines.push(`${indentStr}}${isLast ? '' : ','}`)
     }
   }
 

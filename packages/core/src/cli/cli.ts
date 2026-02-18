@@ -46,32 +46,13 @@ export async function runCli(args: string[], options: RunOptions = {}): Promise<
     return 1
   }
 
-  const configPath = getArgValue(args, '--config')
   const verbose = hasFlag(args, '--verbose') || hasFlag(args, '-v')
-  const resolvedPath = await resolveConfigPath(configPath, cwd)
-  if (resolvedPath === undefined) {
-    io.stderr(
-      `No config found. Expected one of: ${defaultConfigNames.join(', ')} ` +
-        'or pass --config <path>.',
-    )
+  const loaded = await resolveAndLoadConfig(args, cwd, io, verbose)
+  if (!loaded) {
     return 1
   }
 
-  if (verbose) {
-    io.stdout(`Config: ${resolvedPath}`)
-  }
-
-  let config: CliConfig
-  try {
-    config = await loadConfig(resolvedPath, cwd)
-  } catch (error) {
-    io.stderr(`Failed to load config: ${resolvedPath}`)
-    io.stderr(`- ${error instanceof Error ? error.message : String(error)}`)
-    return 1
-  }
-
-  const configDir = dirname(resolvedPath)
-  const normalizedConfig = normalizeConfigPaths(config, configDir)
+  const normalizedConfig = normalizeConfigPaths(loaded.config, loaded.configDir)
   const { validation, resolver, buildPath, ...buildConfig } = normalizedConfig
 
   if (verbose) {
@@ -87,6 +68,45 @@ export async function runCli(args: string[], options: RunOptions = {}): Promise<
   const result = await dispersa.build(buildConfig as BuildConfig)
   const elapsed = Date.now() - startTime
 
+  return reportBuildResult(result, verbose, elapsed, io)
+}
+
+async function resolveAndLoadConfig(
+  args: string[],
+  cwd: string,
+  io: CliIO,
+  verbose: boolean,
+): Promise<{ config: CliConfig; configDir: string } | undefined> {
+  const configPath = getArgValue(args, '--config')
+  const resolvedPath = await resolveConfigPath(configPath, cwd)
+  if (resolvedPath === undefined) {
+    io.stderr(
+      `No config found. Expected one of: ${defaultConfigNames.join(', ')} ` +
+        'or pass --config <path>.',
+    )
+    return undefined
+  }
+
+  if (verbose) {
+    io.stdout(`Config: ${resolvedPath}`)
+  }
+
+  try {
+    const config = await loadConfig(resolvedPath, cwd)
+    return { config, configDir: dirname(resolvedPath) }
+  } catch (error) {
+    io.stderr(`Failed to load config: ${resolvedPath}`)
+    io.stderr(`- ${error instanceof Error ? error.message : String(error)}`)
+    return undefined
+  }
+}
+
+function reportBuildResult(
+  result: Awaited<ReturnType<Dispersa['build']>>,
+  verbose: boolean,
+  elapsed: number,
+  io: CliIO,
+): number {
   if (!result.success) {
     io.stderr('Build failed.')
     for (const error of result.errors ?? []) {

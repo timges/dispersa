@@ -38,15 +38,13 @@ export function formatDeprecationMessage(
   const deprecationMsg = typeof token.$deprecated === 'string' ? token.$deprecated : ''
 
   if (format === 'comment') {
-    // CSS comment format: "DEPRECATED: message" or just "DEPRECATED"
     const msg = deprecationMsg ? ` ${deprecationMsg}` : ''
     return `DEPRECATED${msg}`
-  } else {
-    // Bracket format: "[DEPRECATED: message]" or "[DEPRECATED]"
-    const msg = deprecationMsg ? `: ${deprecationMsg}` : ''
-    const prefix = `[DEPRECATED${msg}]`
-    return description ? `${prefix} ${description}` : prefix
   }
+
+  const msg = deprecationMsg ? `: ${deprecationMsg}` : ''
+  const prefix = `[DEPRECATED${msg}]`
+  return description ? `${prefix} ${description}` : prefix
 }
 
 /**
@@ -70,6 +68,47 @@ export function getSortedTokenEntries(
   tokens: ResolvedTokens,
 ): Array<[name: string, token: ResolvedToken]> {
   return Object.entries(tokens).sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+}
+
+/**
+ * Build a nested object from resolved tokens using their path hierarchy.
+ *
+ * Shared between JSON and JS renderers that need to convert flat tokens
+ * into nested structures matching the original token group hierarchy.
+ *
+ * @param tokens - Flat resolved tokens map
+ * @param extractValue - Callback to extract the leaf value from each token
+ * @returns Nested object mirroring the token path structure
+ */
+export function buildNestedTokenObject(
+  tokens: ResolvedTokens,
+  extractValue: (token: ResolvedToken) => unknown,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {}
+  for (const [, token] of getSortedTokenEntries(tokens)) {
+    setNestedValue(result, token.path, extractValue(token))
+  }
+  return result
+}
+
+function setNestedValue(root: Record<string, unknown>, path: string[], value: unknown): void {
+  let current = root
+
+  for (let i = 0; i < path.length - 1; i++) {
+    const part = path[i]
+    if (part == null) {
+      continue
+    }
+    if (!(part in current)) {
+      current[part] = {}
+    }
+    current = current[part] as Record<string, unknown>
+  }
+
+  const lastPart = path[path.length - 1]
+  if (lastPart != null) {
+    current[lastPart] = value
+  }
 }
 
 /**

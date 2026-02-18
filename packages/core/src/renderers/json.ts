@@ -9,7 +9,7 @@ import {
   resolveFileName,
   stripInternalMetadata,
 } from '@renderers/bundlers/utils'
-import { getSortedTokenEntries } from '@shared/utils/token-utils'
+import { buildNestedTokenObject, getSortedTokenEntries } from '@shared/utils/token-utils'
 import type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 import prettier from 'prettier'
 
@@ -117,64 +117,12 @@ export class JsonRenderer implements Renderer<JsonRendererOptions> {
     return result
   }
 
-  /**
-   * Nest tokens by path (values only)
-   */
   private nestValues(tokens: ResolvedTokens): Record<string, unknown> {
-    const result: Record<string, unknown> = {}
-
-    for (const [, token] of getSortedTokenEntries(tokens)) {
-      const parts = token.path
-      let current = result
-
-      for (let i = 0; i < parts.length - 1; i++) {
-        const part = parts[i]
-        if (part === null || part === undefined) {
-          continue
-        }
-        if (!(part in current)) {
-          current[part] = {}
-        }
-        current = current[part] as Record<string, unknown>
-      }
-
-      const lastPart = parts[parts.length - 1]
-      if (lastPart !== null && lastPart !== undefined) {
-        current[lastPart] = token.$value
-      }
-    }
-
-    return result
+    return buildNestedTokenObject(tokens, (token) => token.$value)
   }
 
-  /**
-   * Nest tokens by path (with metadata)
-   */
   private nestTokens(tokens: ResolvedTokens): Record<string, unknown> {
-    const result: Record<string, unknown> = {}
-
-    for (const [, token] of getSortedTokenEntries(tokens)) {
-      const parts = token.path
-      let current = result
-
-      for (let i = 0; i < parts.length - 1; i++) {
-        const part = parts[i]
-        if (part === null || part === undefined) {
-          continue
-        }
-        if (!(part in current)) {
-          current[part] = {}
-        }
-        current = current[part] as Record<string, unknown>
-      }
-
-      const lastPart = parts[parts.length - 1]
-      if (lastPart !== null && lastPart !== undefined) {
-        current[lastPart] = this.serializeToken(token)
-      }
-    }
-
-    return result
+    return buildNestedTokenObject(tokens, (token) => this.serializeToken(token))
   }
 
   private serializeToken(token: ResolvedToken): Record<string, unknown> {

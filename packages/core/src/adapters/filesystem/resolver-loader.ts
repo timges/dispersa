@@ -71,18 +71,15 @@ export class ResolverLoader {
     resolverDoc: ResolverDocument
     baseDir: string
   }> {
-    if (typeof resolver === 'string') {
-      // File-based: load from filesystem
-      const absolutePath = path.resolve(this.options.baseDir, resolver)
-      const resolverDoc = await this.parser.parseFile(absolutePath)
-      const baseDir = path.dirname(absolutePath)
-      return { resolverDoc, baseDir }
-    } else {
-      // In-memory: validate the inline object
+    if (typeof resolver !== 'string') {
       const resolverDoc = this.parser.parseInline(resolver)
-      // Use configured base directory for any file references
       return { resolverDoc, baseDir: this.options.baseDir }
     }
+
+    const absolutePath = path.resolve(this.options.baseDir, resolver)
+    const resolverDoc = await this.parser.parseFile(absolutePath)
+    const baseDir = path.dirname(absolutePath)
+    return { resolverDoc, baseDir }
   }
 
   /**

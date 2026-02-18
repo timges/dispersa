@@ -827,27 +827,56 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
       return undefined
     }
 
+    const { selector, mediaQuery } = this.resolveBaseModifierContext(context, options)
+    const content = await this.formatSetBlocksCss(
+      setBlocks,
+      basePermutation.tokens,
+      selector,
+      mediaQuery,
+      options,
+    )
+
+    const fileName = context.output.file
+      ? resolveBaseFileName(context.output.file, context.meta.defaults)
+      : `${context.output.name}-base.css`
+
+    return { fileName, content }
+  }
+
+  private resolveBaseModifierContext(
+    context: RenderContext,
+    options: CssRendererOptions,
+  ): { selector: string; mediaQuery: string } {
     const modifiers = context.resolver.modifiers!
     const firstModifierName = Object.keys(modifiers)[0] ?? ''
     const firstModifierContext = context.meta.defaults[firstModifierName] ?? ''
     const baseModifierInputs = { ...context.meta.defaults }
 
-    const selector = resolveSelector(
-      options.selector,
-      firstModifierName,
-      firstModifierContext,
-      true,
-      baseModifierInputs,
-    )
-    const mediaQuery = resolveMediaQuery(
-      options.mediaQuery,
-      firstModifierName,
-      firstModifierContext,
-      true,
-      baseModifierInputs,
-    )
+    return {
+      selector: resolveSelector(
+        options.selector,
+        firstModifierName,
+        firstModifierContext,
+        true,
+        baseModifierInputs,
+      ),
+      mediaQuery: resolveMediaQuery(
+        options.mediaQuery,
+        firstModifierName,
+        firstModifierContext,
+        true,
+        baseModifierInputs,
+      ),
+    }
+  }
 
-    const referenceTokens = basePermutation.tokens
+  private async formatSetBlocksCss(
+    setBlocks: ReturnType<typeof buildSetLayerBlocks>,
+    referenceTokens: ResolvedTokens,
+    selector: string,
+    mediaQuery: string,
+    options: CssRendererOptions,
+  ): Promise<string> {
     const cssBlocks: string[] = []
     for (const block of setBlocks) {
       const cleanTokens = stripInternalMetadata(block.tokens)
@@ -863,14 +892,7 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
         : `/* ${block.key} */`
       cssBlocks.push(`${header}\n${css}`)
     }
-
-    const content = cssBlocks.join('\n')
-
-    const fileName = context.output.file
-      ? resolveBaseFileName(context.output.file, context.meta.defaults)
-      : `${context.output.name}-base.css`
-
-    return { fileName, content }
+    return cssBlocks.join('\n')
   }
 
   private collectTokensForModifierContext(

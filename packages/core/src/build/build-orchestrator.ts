@@ -83,35 +83,29 @@ export class BuildOrchestrator {
       await config.hooks.onBuildStart({ config, resolver })
     }
 
-    let permutations: PermutationData[]
-    
-    // Check if we should use explicit permutations or auto-discover
-    // Note: Resolver errors (file not found, invalid config) will throw and bubble up
-    if (config.permutations && config.permutations.length > 0) {
-      // Explicit permutations: resolve each one with global transforms/filters
-      permutations = await Promise.all(
-        config.permutations.map(async (modifierInputs) => {
-          const { tokens, modifierInputs: resolvedInputs } = await this.pipeline.resolve(
-            resolver,
-            modifierInputs,
-            config.transforms,
-            config.preprocessors,
-            config.filters,
-          )
-          return { tokens, modifierInputs: resolvedInputs }
-        })
-      )
-    } else {
-      // Auto-discover all permutations with global transforms/filters
-      permutations = await this.pipeline.resolveAllPermutations(
+    if (!config.permutations || config.permutations.length === 0) {
+      const permutations = await this.pipeline.resolveAllPermutations(
         resolver,
         config.transforms,
         config.preprocessors,
         config.filters,
       )
+      return this.executeBuild(buildPath, config, permutations, resolver)
     }
-    
-    // Execute build - errors during build execution (renderers, transforms) are caught here
+
+    const permutations = await Promise.all(
+      config.permutations.map(async (modifierInputs) => {
+        const { tokens, modifierInputs: resolvedInputs } = await this.pipeline.resolve(
+          resolver,
+          modifierInputs,
+          config.transforms,
+          config.preprocessors,
+          config.filters,
+        )
+        return { tokens, modifierInputs: resolvedInputs }
+      }),
+    )
+
     return this.executeBuild(buildPath, config, permutations, resolver)
   }
 
@@ -139,60 +133,18 @@ export class BuildOrchestrator {
     permutations: PermutationData[],
     resolver: string | ResolverDocument,
   ): Promise<BuildResult> {
-    const outputs: BuildResult['outputs'] = []
-    const errors: BuildResult['errors'] = []
-
     try {
       const resolverDoc = await resolveResolverDocument(resolver)
       const metadata = buildMetadata(resolverDoc)
-      const basePermutation = metadata.defaults
 
-      // Process all outputs in parallel -- each output is independent
-      // (own renderer, own filters/transforms, own file paths)
       const settled = await Promise.allSettled(
-        config.outputs.map(async (output) => {
-          // Fire per-output onBuildStart hook
-          if (output.hooks?.onBuildStart) {
-            await output.hooks.onBuildStart({ config, resolver })
-          }
-
-          try {
-            const results = await this.processOutput(output, permutations, resolverDoc, metadata, basePermutation, buildPath)
-
-            // Fire per-output onBuildEnd hook
-            if (output.hooks?.onBuildEnd) {
-              await output.hooks.onBuildEnd({ success: true, outputs: results })
-            }
-
-            return results
-          } catch (error) {
-            // Fire per-output onBuildEnd hook even on failure
-            if (output.hooks?.onBuildEnd) {
-              await output.hooks.onBuildEnd({ success: false, outputs: [], errors: [toBuildError(error, output.name)] })
-            }
-
-            throw error
-          }
-        }),
+        config.outputs.map((output) =>
+          this.buildSingleOutput(output, permutations, resolverDoc, metadata, buildPath, config, resolver),
+        ),
       )
 
-      // Collect results and errors from settled promises
-      for (let i = 0; i < settled.length; i++) {
-        const outcome = settled[i]!
-        if (outcome.status === 'fulfilled') {
-          outputs.push(...outcome.value)
-        } else {
-          errors.push(toBuildError(outcome.reason, config.outputs[i]!.name))
-        }
-      }
+      const result = this.collectSettledResults(settled, config)
 
-      const result: BuildResult = {
-        success: errors.length === 0,
-        outputs,
-        errors: errors.length > 0 ? errors : undefined,
-      }
-
-      // Fire global onBuildEnd hook after all outputs have been processed
       if (config.hooks?.onBuildEnd) {
         await config.hooks.onBuildEnd(result)
       }
@@ -205,12 +157,64 @@ export class BuildOrchestrator {
         errors: [toBuildError(error)],
       }
 
-      // Fire global onBuildEnd hook even on top-level failure
       if (config.hooks?.onBuildEnd) {
         await config.hooks.onBuildEnd(result)
       }
 
       return result
+    }
+  }
+
+  private async buildSingleOutput(
+    output: BuildConfig['outputs'][number],
+    permutations: PermutationData[],
+    resolverDoc: ResolverDocument,
+    metadata: ReturnType<typeof buildMetadata>,
+    buildPath: string,
+    config: BuildConfig,
+    resolver: string | ResolverDocument,
+  ): Promise<BuildResult['outputs']> {
+    if (output.hooks?.onBuildStart) {
+      await output.hooks.onBuildStart({ config, resolver })
+    }
+
+    try {
+      const results = await this.processOutput(output, permutations, resolverDoc, metadata, metadata.defaults, buildPath)
+
+      if (output.hooks?.onBuildEnd) {
+        await output.hooks.onBuildEnd({ success: true, outputs: results })
+      }
+
+      return results
+    } catch (error) {
+      if (output.hooks?.onBuildEnd) {
+        await output.hooks.onBuildEnd({ success: false, outputs: [], errors: [toBuildError(error, output.name)] })
+      }
+
+      throw error
+    }
+  }
+
+  private collectSettledResults(
+    settled: PromiseSettledResult<BuildResult['outputs']>[],
+    config: BuildConfig,
+  ): BuildResult {
+    const outputs: BuildResult['outputs'] = []
+    const errors: BuildResult['errors'] = []
+
+    for (let i = 0; i < settled.length; i++) {
+      const outcome = settled[i]!
+      if (outcome.status === 'fulfilled') {
+        outputs.push(...outcome.value)
+      } else {
+        errors.push(toBuildError(outcome.reason, config.outputs[i]!.name))
+      }
+    }
+
+    return {
+      success: errors.length === 0,
+      outputs,
+      errors: errors.length > 0 ? errors : undefined,
     }
   }
 
