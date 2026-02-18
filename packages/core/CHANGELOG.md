@@ -1,5 +1,12 @@
 # dispersa
 
+## 0.4.0
+
+### Minor Changes
+
+- [`81faacd`](https://github.com/dispersa-core/dispersa/commit/81faacdfdd26a7b112cf2880cb673364b7527b37) Thanks [@timges](https://github.com/timges)! - - implement `$root` stripping in token pipeline for clean DTCG group default values in output
+  - replace semantic token layer with alias tokens across example starters
+
 ## 0.3.1
 
 ### Patch Changes
