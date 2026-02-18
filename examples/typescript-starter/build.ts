@@ -11,7 +11,7 @@
  */
 
 import { Dispersa, css } from 'dispersa'
-import { colorToHex, dimensionToRem, fontWeightToNumber, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToRem, fontWeightToNumber } from 'dispersa/transforms'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -30,7 +30,7 @@ const result = await dispersa.build({
       file: 'tokens.css',
       preset: 'bundle',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
+      transforms: [colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
     css({
       name: 'css-themes',
@@ -38,7 +38,7 @@ const result = await dispersa.build({
       preset: 'modifier',
       selector: ':root',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
+      transforms: [colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
   ],
 })

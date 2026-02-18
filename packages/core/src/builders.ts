@@ -13,6 +13,7 @@
 
 import type { FileFunction, LifecycleHooks, OutputConfig } from '@config/index'
 import type { Filter } from '@processing/filters/types'
+import { nameKebabCase } from '@processing/transforms/built-in/name-transforms'
 import type { Transform } from '@processing/transforms/types'
 import { androidRenderer } from '@renderers/android'
 import { cssRenderer } from '@renderers/css'
@@ -83,14 +84,15 @@ export type CssBuilderConfig = BuilderConfigBase & CssRendererOptions
  * @example Basic CSS bundle with transforms
  * ```typescript
  * import { css } from 'dispersa'
- * import { nameKebabCase } from 'dispersa/transforms'
+ * import { colorToHex } from 'dispersa/transforms'
  *
+ * // nameKebabCase() is applied automatically before your transforms
  * const config = css({
  *   name: 'css',
  *   file: 'tokens.css',
  *   preset: 'bundle',
  *   selector: ':root',
- *   transforms: [nameKebabCase()]
+ *   transforms: [colorToHex()]
  * })
  * ```
  *
@@ -138,7 +140,7 @@ export function css(config: CssBuilderConfig): OutputConfig<CssRendererOptions> 
     file,
     renderer: cssRenderer(),
     options: { preset, ...rendererOptions },
-    transforms,
+    transforms: [nameKebabCase(), ...(transforms ?? [])],
     filters,
     hooks,
   }

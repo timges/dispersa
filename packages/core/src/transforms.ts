@@ -55,7 +55,6 @@ export {
 export {
   nameCamelCase,
   nameConstantCase,
-  nameCssVar,
   nameKebabCase,
   namePascalCase,
   namePrefix,

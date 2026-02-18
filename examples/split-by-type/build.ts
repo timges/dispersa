@@ -15,7 +15,7 @@
 
 import { Dispersa, css } from 'dispersa'
 import { byPath, byType } from 'dispersa/filters'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -36,7 +36,7 @@ const result = await dispersa.build({
       preset: 'bundle',
       filters: [byType('color')],
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
 
     // Spacings: byPath() needed because "dimension" is shared with font sizes
@@ -45,7 +45,6 @@ const result = await dispersa.build({
       file: 'css/spacings.css',
       preset: 'bundle',
       filters: [byPath(/^spacing/)],
-      transforms: [nameKebabCase()],
     }),
 
     // Typography: byPath() groups fontFamily, fontWeight, and font-size dimensions
@@ -54,7 +53,6 @@ const result = await dispersa.build({
       file: 'css/typography.css',
       preset: 'bundle',
       filters: [byPath(/^font/)],
-      transforms: [nameKebabCase()],
     }),
   ],
 })

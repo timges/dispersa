@@ -9,7 +9,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Dispersa, css, js, json } from 'dispersa'
-import { nameCamelCase, nameKebabCase } from 'dispersa/transforms'
+import { nameCamelCase } from 'dispersa/transforms'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -39,7 +39,6 @@ const result = await dispersa.build({
       name: 'css',
       file: 'css/tokens.css',
       preset: 'bundle',
-      transforms: [nameKebabCase()],
     }),
     js({
       name: 'js-standalone',

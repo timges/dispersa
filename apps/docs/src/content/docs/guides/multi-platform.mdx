@@ -50,7 +50,7 @@ Configure four outputs so web gets CSS + Tailwind, iOS gets Swift, and Android g
 
 ```typescript
 import { Dispersa, css, tailwind, ios, android } from 'dispersa'
-import { colorToHex, dimensionToPx, nameKebabCase, nameCamelCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToPx, nameKebabCase } from 'dispersa/transforms'
 
 const dispersa = new Dispersa({
   resolver: './tokens.resolver.json',
@@ -64,7 +64,7 @@ await dispersa.build({
       file: 'web/tokens.css',
       preset: 'bundle',
       selector: (mod, ctx, isBase) => isBase ? ':root' : `[data-${mod}="${ctx}"]`,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToPx()],
+      transforms: [colorToHex(), dimensionToPx()],
     }),
     tailwind({
       name: 'web-tailwind',

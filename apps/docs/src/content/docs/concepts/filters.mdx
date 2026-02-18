@@ -41,13 +41,13 @@ import { byType, byPath, isAlias, isBase } from 'dispersa/filters'
 ```typescript
 import { css } from 'dispersa'
 import { byType, isAlias } from 'dispersa/filters'
-import { nameKebabCase, colorToHex } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 css({
   name: 'colors',
   file: 'colors.css',
   filters: [byType('color')],
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 ```
 

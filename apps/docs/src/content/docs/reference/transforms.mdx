@@ -84,17 +84,15 @@ Transform token paths/names. Input: the current `token.name` (dot-path by defaul
 | nameConstantCase() | `nameConstantCase` | `color.action.brand` | `COLOR_ACTION_BRAND` |
 | namePrefix(prefix) | `namePrefix` | `color.action.brand` + `'ds.'` | `ds.color.action.brand` |
 | nameSuffix(suffix) | `nameSuffix` | `color.action.brand` + `'.token'` | `color.action.brand.token` |
-| nameCssVar() | `nameCssVar` | `color.action.brand` | `--color-action-brand` |
 
 <Aside type="note" title="Transform order matters">
 `namePrefix` and `nameSuffix` operate on the current `token.name`. If you apply `nameKebabCase()` before `namePrefix('ds-')`, the input will already be kebab-case (e.g. `ds-color-action-brand`). Order your transforms accordingly.
 </Aside>
 
 ```typescript
-import { nameKebabCase, nameCssVar, namePrefix } from 'dispersa/transforms'
+import { nameKebabCase, namePrefix } from 'dispersa/transforms'
 
 transforms: [nameKebabCase()]
-transforms: [nameCssVar()]
 transforms: [namePrefix('ds-')]
 transforms: [nameSuffix('-token')]
 ```

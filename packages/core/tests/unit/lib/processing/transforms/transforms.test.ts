@@ -9,7 +9,6 @@ import {
   dimensionToUnitless,
   nameCamelCase,
   nameConstantCase,
-  nameCssVar,
   nameKebabCase,
   namePascalCase,
   nameSnakeCase,
@@ -390,26 +389,6 @@ describe('Transform Integration Tests', () => {
       const result = transform.transform(token)
 
       expect(result.$value).toBe('16px')
-    })
-
-    it('should generate CSS var names without prefix', () => {
-      const transform = nameCssVar()
-      const redColorValue: ColorValueObject = {
-        colorSpace: 'srgb',
-        components: [1, 0, 0],
-      }
-
-      const token: ResolvedToken = {
-        $type: 'color',
-        $value: redColorValue,
-        path: ['color', 'primary'],
-        name: 'color.primary',
-        originalValue: redColorValue,
-      }
-
-      const result = transform.transform(token) as ResolvedToken & { name: string }
-
-      expect(result.name).toBe('--color-primary')
     })
   })
 })

@@ -397,7 +397,6 @@ it('applies transforms during build', async () => {
         file: 'tokens.css',
         preset: 'standalone',
         selector: ':root',
-        transforms: [nameKebabCase()],
       }),
     ],
   })

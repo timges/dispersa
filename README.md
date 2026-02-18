@@ -40,7 +40,7 @@ Define tokens inline and build CSS -- no files needed:
 ```typescript
 import type { ResolverDocument } from 'dispersa'
 import { Dispersa, css } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
   version: '2025.10',
@@ -108,7 +108,7 @@ const result = await dispersa.build({
       name: 'css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
   ],
 })
@@ -275,7 +275,6 @@ Import from `dispersa/transforms`. All transforms are factory functions that ret
 | `nameSnakeCase()`    | `color_brand_primary`       |
 | `namePascalCase()`   | `ColorBrandPrimary`         |
 | `nameConstantCase()` | `COLOR_BRAND_PRIMARY`       |
-| `nameCssVar()`       | `--color-brand-primary`     |
 | `namePrefix(prefix)` | `ds-color-brand-primary`    |
 | `nameSuffix(suffix)` | `color-brand-primary-token` |
 
@@ -306,7 +305,7 @@ css({
   file: 'colors.css',
   preset: 'bundle',
   filters: [byType('color')],
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 
 css({
@@ -314,7 +313,7 @@ css({
   file: 'semantic.css',
   preset: 'modifier',
   filters: [isAlias()],
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 ```
 
@@ -570,7 +569,7 @@ Dispersa can run entirely without the filesystem. Pass a `ResolverDocument` obje
 ```typescript
 import type { ResolverDocument } from 'dispersa'
 import { Dispersa, css } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
   version: '2025.10',
@@ -599,7 +598,7 @@ const result = await dispersa.build({
       name: 'css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
   ],
 })
@@ -710,7 +709,7 @@ The CLI auto-discovers config files named `dispersa.config.(ts|js|mts|mjs|cts|cj
 // dispersa.config.ts
 import { defineConfig } from 'dispersa/config'
 import { css, json } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 export default defineConfig({
   resolver: './tokens.resolver.json',
@@ -721,7 +720,7 @@ export default defineConfig({
       file: 'tokens.css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
     json({
       name: 'json',

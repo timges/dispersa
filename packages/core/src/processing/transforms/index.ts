@@ -23,7 +23,6 @@ export {
   fontWeightToNumber,
   nameCamelCase,
   nameConstantCase,
-  nameCssVar,
   nameKebabCase,
   namePascalCase,
   namePrefix,

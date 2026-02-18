@@ -27,7 +27,6 @@ export {
   nameConstantCase,
   namePrefix,
   nameSuffix,
-  nameCssVar,
 } from './name-transforms'
 
 // Other transforms

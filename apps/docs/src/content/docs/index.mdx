@@ -33,7 +33,7 @@ import HeroDemo from '../../components/HeroDemo'
 
    ```typescript
    import { Dispersa, css } from 'dispersa'
-   import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+   import { colorToHex } from 'dispersa/transforms'
 
    const dispersa = new Dispersa({
      resolver: './tokens.resolver.json',
@@ -46,7 +46,7 @@ import HeroDemo from '../../components/HeroDemo'
        file: 'tokens.css',
        preset: 'bundle',
        preserveReferences: true,
-       transforms: [nameKebabCase(), colorToHex()],
+       transforms: [colorToHex()],
      })],
    })
    ```

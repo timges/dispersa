@@ -10,12 +10,7 @@ import { fileURLToPath } from 'node:url'
 
 import { type RenderContext, type Renderer, Dispersa, css, js, json } from 'dispersa'
 import { isAlias } from 'dispersa/filters'
-import {
-  colorToColorFunction,
-  dimensionToPx,
-  nameCamelCase,
-  nameKebabCase,
-} from 'dispersa/transforms'
+import { colorToColorFunction, dimensionToPx, nameCamelCase } from 'dispersa/transforms'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -63,7 +58,7 @@ const result = await dispersa.build({
       preset: 'bundle',
       selector: modifierSelector,
       preserveReferences: true,
-      transforms: [nameKebabCase(), dimensionToPx(), colorToColorFunction()],
+      transforms: [dimensionToPx(), colorToColorFunction()],
     }),
     css({
       name: 'css-standalone',
@@ -72,7 +67,7 @@ const result = await dispersa.build({
       selector: modifierSelector,
       filters: [isAlias()],
       preserveReferences: false,
-      transforms: [nameKebabCase(), dimensionToPx(), colorToColorFunction()],
+      transforms: [dimensionToPx(), colorToColorFunction()],
     }),
     json({
       name: 'json',

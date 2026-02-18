@@ -298,7 +298,7 @@ describe('In-Memory API E2E Tests', () => {
       expect(cssOutput).toBeDefined()
       expect(cssOutput!.path).toBe('css-base.css')
       expect(cssOutput!.content).toContain(':root {')
-      expect(cssOutput!.content).toContain('--color.primary:')
+      expect(cssOutput!.content).toContain('--color-primary:')
 
       expect(jsonOutput).toBeDefined()
       expect(jsonOutput!.path).toBe('json-base.json')

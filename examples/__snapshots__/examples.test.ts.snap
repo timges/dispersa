@@ -969,10 +969,10 @@ exports[`multi-format > should produce expected file structure and content 1`] =
 
 exports[`multi-platform > should produce expected file structure and content 1`] = `
 {
-  "android/DesignTokens-dark.kt": "9e2d69cb29de3485",
-  "android/DesignTokens-light.kt": "74c977de5f17dc3e",
-  "ios/DesignTokens-dark.swift": "ccf2e7500a5e9ecd",
-  "ios/DesignTokens-light.swift": "69505313e17d4459",
+  "android/DesignTokens-dark.kt": "875c9bfc1ed3d0f1",
+  "android/DesignTokens-light.kt": "a254f65d210c7a1d",
+  "ios/DesignTokens-dark.swift": "70b9df100227eb85",
+  "ios/DesignTokens-light.swift": "a89cb28fce0651e2",
   "tailwind/theme.css": "2eff5a1ac0851f9f",
   "web/tokens.css": "d29f987436db1377",
 }

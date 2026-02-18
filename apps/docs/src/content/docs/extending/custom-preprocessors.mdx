@@ -128,7 +128,7 @@ Pass preprocessors in the build config:
 await dispersa.build({
   preprocessors: [stripMetadata, normalizeColors],
   outputs: [
-    css({ name: 'css', file: 'tokens.css', transforms: [nameKebabCase(), colorToHex()] }),
+    css({ name: 'css', file: 'tokens.css', transforms: [colorToHex()] }),
   ],
 })
 ```

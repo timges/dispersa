@@ -111,7 +111,7 @@ describe('Complete Build Workflow E2E Tests', () => {
 
       const cssContent = result.outputs[0].content
       expect(cssContent).toContain(':root {')
-      expect(cssContent).toContain('--color.primitive.red:')
+      expect(cssContent).toContain('--color-primitive-red:')
     })
 
     it('should build JSON output', async () => {

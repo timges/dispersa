@@ -430,7 +430,7 @@ The `dispersa.config.ts` file defines what outputs you want:
 
 ```typescript
 import { css, json } from 'dispersa'
-import { colorToHex, dimensionToRem, fontWeightToNumber, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToRem, fontWeightToNumber } from 'dispersa/transforms'
 import { defineConfig } from 'dispersa/config'
 
 export default defineConfig({
@@ -442,7 +442,7 @@ export default defineConfig({
       file: 'tokens.css',
       preset: 'bundle',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
+      transforms: [colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
     json({
       name: 'json-tokens',
@@ -456,7 +456,7 @@ export default defineConfig({
 
 Each output specifies:
 
-- **Transforms** -- how to convert token names and values. `nameKebabCase()` turns `color.text.default` into `color-text-default`. `colorToHex()` converts the DTCG sRGB color object to `#0066cc`. `dimensionToRem()` turns pixel dimensions into rem values.
+- **Transforms** -- how to convert token names and values. The CSS builder automatically applies `nameKebabCase()` to turn `color.text.default` into `color-text-default`. `colorToHex()` converts the DTCG sRGB color object to `#0066cc`. `dimensionToRem()` turns pixel dimensions into rem values.
 - **Preset** -- how to handle modifier permutations. `bundle` puts everything in a single file. `standalone` generates one file per permutation (one per theme, in our case).
 - **`preserveReferences`** -- when `true`, alias tokens emit `var(--other-token)` instead of the resolved value. This is exactly what you want for CSS.
 

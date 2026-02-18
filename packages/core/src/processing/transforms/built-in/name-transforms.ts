@@ -123,21 +123,3 @@ export function nameSuffix(suffix: string): Transform {
     },
   }
 }
-
-/**
- * Convert token name to CSS custom property format (--name)
- */
-export function nameCssVar(): Transform {
-  return {
-    transform: (token: ResolvedToken) => {
-      const kebabName = token.path
-        .map((part) => part.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase())
-        .join('-')
-
-      return {
-        ...token,
-        name: `--${kebabName}`,
-      }
-    },
-  }
-}

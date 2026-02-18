@@ -7,7 +7,7 @@
 
 import type { ResolverDocument } from 'dispersa'
 import { Dispersa, css, js, json } from 'dispersa'
-import { colorToHex, dimensionToRem, nameCamelCase, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToRem, nameCamelCase } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
   version: '2025.10',
@@ -89,7 +89,7 @@ const result = await dispersa.build({
       name: 'css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem()],
+      transforms: [colorToHex(), dimensionToRem()],
     }),
     json({
       name: 'json',

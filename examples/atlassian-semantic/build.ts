@@ -4,7 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Dispersa, css, js, json } from 'dispersa'
-import { nameCamelCase, nameKebabCase } from 'dispersa/transforms'
+import { nameCamelCase } from 'dispersa/transforms'
 import fs from 'fs-extra'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -27,7 +27,6 @@ async function buildAll() {
         file: 'css/tokens.css',
         preset: 'bundle',
         preserveReferences: true,
-        transforms: [nameKebabCase()],
       }),
       json({
         name: 'json',

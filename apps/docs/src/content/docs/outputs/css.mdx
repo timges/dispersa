@@ -26,14 +26,14 @@ import { css } from 'dispersa'
 | mediaQuery | string or MediaQueryFunction | — | Media query wrapper |
 | preserveReferences | boolean | false | Emit `var()` for aliases |
 | minify | boolean | false | Minify output |
-| transforms | Transform[] | — | Per-output transforms |
+| transforms | Transform[] | — | Per-output transforms (`nameKebabCase()` is always applied first) |
 | filters | Filter[] | — | Per-output filters |
 
 ## Basic Example
 
 ```typescript
 import { Dispersa, css } from 'dispersa'
-import { nameKebabCase, colorToHex, dimensionToPx } from 'dispersa/transforms'
+import { colorToHex, dimensionToPx } from 'dispersa/transforms'
 
 const dispersa = new Dispersa({
   resolver: './tokens.resolver.json',
@@ -47,7 +47,7 @@ await dispersa.build({
       file: 'tokens.css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex(), dimensionToPx()],
+      transforms: [colorToHex(), dimensionToPx()],
     }),
   ],
 })
@@ -75,7 +75,7 @@ css({
     if (isBase) return ':root'
     return `[data-${modifierName}="${context}"]`
   },
-  transforms: [nameKebabCase(), colorToHex(), dimensionToPx()],
+  transforms: [colorToHex(), dimensionToPx()],
 })
 ```
 
@@ -100,7 +100,6 @@ css({
   name: 'refs',
   file: 'tokens.css',
   preserveReferences: true,
-  transforms: [nameKebabCase()],
 })
 ```
 
@@ -116,7 +115,7 @@ css({
   file: 'tokens.css',
   mediaQuery: '(prefers-color-scheme: dark)',
   selector: ':root',
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 ```
 
@@ -129,7 +128,7 @@ css({
   name: 'themes',
   file: 'tokens-{theme}.css',
   preset: 'standalone',
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 ```
 
@@ -143,7 +142,7 @@ css({
   file: '{theme}/tokens.css',
   preset: 'modifier',
   selector: ':root',
-  transforms: [nameKebabCase(), colorToHex()],
+  transforms: [colorToHex()],
 })
 ```
 

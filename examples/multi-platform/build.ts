@@ -34,7 +34,7 @@ const result = await dispersa.build({
       file: 'web/tokens.css',
       preset: 'bundle',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToPx()],
+      transforms: [colorToHex(), dimensionToPx()],
     }),
 
     // Tailwind v4 — @theme block with CSS custom properties + dark mode overrides

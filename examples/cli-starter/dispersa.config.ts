@@ -1,5 +1,5 @@
 import { css } from 'dispersa'
-import { colorToHex, dimensionToRem, fontWeightToNumber, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex, dimensionToRem, fontWeightToNumber } from 'dispersa/transforms'
 import { defineConfig } from 'dispersa/config'
 
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
       file: 'tokens.css',
       preset: 'bundle',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
+      transforms: [colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
     css({
       name: 'css-themes',
@@ -19,7 +19,7 @@ export default defineConfig({
       preset: 'modifier',
       selector: ':root',
       preserveReferences: true,
-      transforms: [nameKebabCase(), colorToHex(), dimensionToRem(), fontWeightToNumber()],
+      transforms: [colorToHex(), dimensionToRem(), fontWeightToNumber()],
     }),
   ],
 })

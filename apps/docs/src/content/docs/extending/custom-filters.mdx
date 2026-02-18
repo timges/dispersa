@@ -81,13 +81,13 @@ await dispersa.build({
       name: 'colors',
       filters: [byType('color')],    // per-output: further narrow
       file: 'colors.css',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
     css({
       name: 'spacing',
       filters: [byType('dimension'), byPath('spacing.gap')],
       file: 'spacing.css',
-      transforms: [nameKebabCase(), dimensionToRem()],
+      transforms: [dimensionToRem()],
     }),
   ],
 })

@@ -21,7 +21,7 @@ Instead of a path to a resolver file, pass a `ResolverDocument` object:
 ```typescript
 import type { ResolverDocument } from 'dispersa'
 import { Dispersa, css } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
   version: '2025.10',
@@ -54,7 +54,7 @@ const result = await dispersa.build({
       name: 'css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
   ],
 })

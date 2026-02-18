@@ -26,7 +26,7 @@ The CLI looks for a config file named `dispersa.config.ts` (or `.js`, `.mts`, `.
 ```typescript
 import { defineConfig } from 'dispersa/config'
 import { css, json } from 'dispersa'
-import { colorToHex, nameKebabCase } from 'dispersa/transforms'
+import { colorToHex } from 'dispersa/transforms'
 
 export default defineConfig({
   resolver: './tokens.resolver.json',
@@ -37,7 +37,7 @@ export default defineConfig({
       file: 'tokens.css',
       preset: 'bundle',
       selector: ':root',
-      transforms: [nameKebabCase(), colorToHex()],
+      transforms: [colorToHex()],
     }),
     json({
       name: 'json',
