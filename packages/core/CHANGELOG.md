@@ -1,5 +1,11 @@
 # dispersa
 
+## 0.4.2
+
+### Patch Changes
+
+- - refactor and cleanup - update stale readmes
+
 ## 0.4.1
 
 ### Patch Changes
