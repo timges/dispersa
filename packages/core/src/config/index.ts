@@ -63,6 +63,14 @@ export type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 export type { ValidationOptions } from '@shared/types/validation'
 
 /**
+ * Function that generates an output file path based on modifier inputs.
+ *
+ * Used as the `file` property on `OutputConfig` and builder configs when
+ * the file name needs to vary per permutation.
+ */
+export type FileFunction = (modifierInputs: ModifierInputs) => string
+
+/**
  * Output configuration for a single build target
  *
  * Defines how tokens should be formatted and output for a specific target
@@ -172,7 +180,7 @@ export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
    * }
    * ```
    */
-  file?: string | ((modifierInputs: ModifierInputs) => string)
+  file?: string | FileFunction
 
   /**
    * Renderer-specific options passed to the formatter.

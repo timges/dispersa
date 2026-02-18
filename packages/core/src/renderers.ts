@@ -19,6 +19,7 @@
 export type {
   AndroidRendererOptions,
   BuildError,
+  BuildOutput,
   BuildResult,
   CssRendererOptions,
   ErrorCode,

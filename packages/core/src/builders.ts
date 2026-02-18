@@ -11,7 +11,7 @@
  * with flattened options for better DX and discoverability.
  */
 
-import type { LifecycleHooks, OutputConfig } from '@config/index'
+import type { FileFunction, LifecycleHooks, OutputConfig } from '@config/index'
 import type { Filter } from '@processing/processors/filters/types'
 import type { Transform } from '@processing/processors/transforms/types'
 import { androidRenderer } from '@renderers/android'
@@ -28,7 +28,6 @@ import type {
   JsonRendererOptions,
   TailwindRendererOptions,
 } from '@renderers/types'
-import type { ModifierInputs } from '@resolution/resolution.types'
 
 // ============================================================================
 // BASE BUILDER CONFIGURATION
@@ -42,7 +41,7 @@ type BuilderConfigBase = {
   name: string
 
   /** Output file path (string, pattern with {placeholders}, or function) - optional for in-memory mode */
-  file?: string | ((modifierInputs: ModifierInputs) => string)
+  file?: string | FileFunction
 
   /** Array of transform functions to apply */
   transforms?: Transform[]

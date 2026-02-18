@@ -11,6 +11,7 @@ export { androidRenderer } from './android'
 export { outputTree, isOutputTree } from './output-tree'
 
 export type {
+  BuildOutput,
   BuildResult,
   CssRendererOptions,
   FormatOptions,

@@ -19,7 +19,7 @@ Dispersa exposes a main entry point and several subpath exports. Use subpaths to
 | `dispersa/builders` | css, json, js, tailwind, ios, android + builder config types | Output configuration only |
 | `dispersa/renderers` | defineRenderer, outputTree, isOutputTree + all renderer/build types | Custom renderers |
 | `dispersa/preprocessors` | Preprocessor type | Custom preprocessors |
-| `dispersa/errors` | All 10 error classes | Error handling |
+| `dispersa/errors` | All 8 error classes | Error handling |
 | `dispersa/config` | defineConfig, CliConfig | CLI config files |
 | `dispersa/cli` | CLI entry point | Internal CLI runner |
 
@@ -29,7 +29,7 @@ Dispersa exposes a main entry point and several subpath exports. Use subpaths to
 
 **Values:** `Dispersa`, `css`, `json`, `js`, `tailwind`, `ios`, `android`, `defineRenderer`, `outputTree`, `isOutputTree`, type guards (`isColorToken`, `isDimensionToken`, `isShadowToken`, `isTypographyToken`, `isBorderToken`, `isDurationToken`, `isTransitionToken`, `isGradientToken`), error classes
 
-**Types:** `OutputConfig`, `BuildConfig`, `BuildResult`, `BuildOutput`, `BuildError`, `ErrorCode`, `LifecycleHooks`, `DispersaOptions`, `ValidationOptions`, `ValidationMode`, `ResolvedToken`, `ResolvedTokens`, `TokenType`, `ModifierInputs`, `ResolverDocument`, `Transform`, `Filter`, `Preprocessor`, `Renderer`, `RenderContext`, `RenderMeta`, `PermutationData`, `RenderOutput`, `FormatOptions`, `OutputTree`, `SelectorFunction`, `MediaQueryFunction`, `DesignTokenValue`, `ColorToken`, `DimensionToken`, `ShadowToken`, `DurationToken`, `TypographyToken`, `BorderToken`, `TransitionToken`, `GradientToken`, `ColorValueObject`, `ColorValue`, `ColorSpace`, `ColorComponent`, `DimensionValue`, `DurationValue`, `ShadowValueObject`, `TypographyValue`, `BorderValue`, `TransitionValue`, `GradientValue`, `GradientStop`, `FontFamilyValue`, `FontWeightValue`, `CubicBezierValue`, `StrokeStyleValue`, `TokenValue`, `TokenValueReference`, renderer options types, builder config types
+**Types:** `OutputConfig`, `BuildConfig`, `BuildResult`, `BuildOutput`, `BuildError`, `ErrorCode`, `FileFunction`, `LifecycleHooks`, `DispersaOptions`, `ValidationOptions`, `ValidationMode`, `ResolvedToken`, `ResolvedTokens`, `TokenType`, `ModifierInputs`, `ResolverDocument`, `Transform`, `Filter`, `Preprocessor`, `Renderer`, `RenderContext`, `RenderMeta`, `PermutationData`, `RenderOutput`, `FormatOptions`, `OutputTree`, `SelectorFunction`, `MediaQueryFunction`, `DesignTokenValue`, `ColorToken`, `DimensionToken`, `ShadowToken`, `DurationToken`, `TypographyToken`, `BorderToken`, `TransitionToken`, `GradientToken`, `ColorValueObject`, `ColorValue`, `ColorSpace`, `ColorComponent`, `DimensionValue`, `DurationValue`, `ShadowValueObject`, `TypographyValue`, `BorderValue`, `TransitionValue`, `GradientValue`, `GradientStop`, `FontFamilyValue`, `FontWeightValue`, `CubicBezierValue`, `StrokeStyleValue`, `StrokeStyleValueObject`, `TokenValue`, `TokenValueReference`, renderer options types, builder config types
 
 ```typescript
 import { Dispersa, css, json, defineRenderer } from 'dispersa'

@@ -23,6 +23,7 @@ export { Dispersa } from './dispersa'
 export type {
   OutputConfig,
   BuildConfig,
+  FileFunction,
   LifecycleHooks,
   DispersaOptions,
   ValidationOptions,
