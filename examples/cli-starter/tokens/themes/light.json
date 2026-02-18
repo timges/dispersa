@@ -1,31 +1,40 @@
 {
   "$description": "Light theme overrides",
   "color": {
-    "semantic": {
-      "text": {
-        "$type": "color",
-        "$value": "{color.base.gray-900}",
+    "text": {
+      "$type": "color",
+      "default": {
+        "$value": "{color.palette.gray-900}",
         "$description": "Dark text on light background"
       },
-      "text-muted": {
-        "$type": "color",
-        "$value": "{color.base.gray-500}",
-        "$description": "Muted text on light background"
-      },
-      "background": {
-        "$type": "color",
-        "$value": "{color.base.white}",
+      "muted": {
+        "$root": {
+          "$value": "{color.palette.gray-500}",
+          "$description": "Muted text on light background"
+        }
+      }
+    },
+    "background": {
+      "$type": "color",
+      "default": {
+        "$value": "{color.palette.white}",
         "$description": "Light page background"
-      },
-      "surface": {
-        "$type": "color",
-        "$value": "{color.base.gray-100}",
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "default": {
+        "$value": "{color.palette.gray-100}",
         "$description": "Light surface for cards"
-      },
-      "border": {
-        "$type": "color",
-        "$value": "{color.base.gray-300}",
-        "$description": "Light border color"
+      }
+    },
+    "border": {
+      "$type": "color",
+      "default": {
+        "$root": {
+          "$value": "{color.palette.gray-300}",
+          "$description": "Light border color"
+        }
       }
     }
   }

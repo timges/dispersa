@@ -5,26 +5,29 @@
   "description": "Design tokens with colors, typography, spacing, effects, and light/dark themes",
   "sets": {
     "colors": {
-      "description": "Color palette and semantic colors",
-      "sources": [
-        { "$ref": "./tokens/base/colors.json" },
-        { "$ref": "./tokens/semantic/colors.json" }
-      ]
+      "description": "Color palette and alias colors",
+      "sources": [{ "$ref": "./tokens/base/colors.json" }, { "$ref": "./tokens/alias/colors.json" }]
     },
     "typography": {
       "description": "Font families, sizes, weights, and line heights",
       "sources": [
         { "$ref": "./tokens/base/typography.json" },
-        { "$ref": "./tokens/semantic/typography.json" }
+        { "$ref": "./tokens/alias/typography.json" }
       ]
     },
     "spacing": {
-      "description": "Spacing scale",
-      "sources": [{ "$ref": "./tokens/base/spacing.json" }]
+      "description": "Spacing scale and alias spacing",
+      "sources": [
+        { "$ref": "./tokens/base/spacing.json" },
+        { "$ref": "./tokens/alias/spacing.json" }
+      ]
     },
     "effects": {
-      "description": "Shadows and effects",
-      "sources": [{ "$ref": "./tokens/base/effects.json" }]
+      "description": "Shadows and elevation",
+      "sources": [
+        { "$ref": "./tokens/base/effects.json" },
+        { "$ref": "./tokens/alias/effects.json" }
+      ]
     }
   },
   "modifiers": {

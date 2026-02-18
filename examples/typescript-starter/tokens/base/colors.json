@@ -1,94 +1,106 @@
 {
-  "$description": "Base color palette",
+  "$description": "Base color palette — raw values referenced by semantic tokens",
   "color": {
-    "base": {
-      "$description": "Foundational color values",
-      "blue": {
+    "palette": {
+      "$description": "Foundational color swatches",
+      "blue-500": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0, 0.4, 0.8]
-        },
-        "$description": "Primary brand blue"
+        "$value": { "colorSpace": "srgb", "components": [0, 0.4, 0.8] },
+        "$description": "Primary blue"
       },
-      "green": {
+      "blue-600": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.13, 0.68, 0.3]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0, 0.33, 0.67] },
+        "$description": "Darker blue for hover states"
+      },
+      "blue-700": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0, 0.27, 0.55] },
+        "$description": "Deep blue for strong/active states"
+      },
+      "blue-100": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.87, 0.93, 1] },
+        "$description": "Light blue for subtle backgrounds"
+      },
+      "green-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.13, 0.68, 0.3] },
         "$description": "Success green"
       },
-      "red": {
+      "green-100": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.86, 0.15, 0.15]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.85, 0.96, 0.88] },
+        "$description": "Light green for subtle backgrounds"
+      },
+      "red-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.86, 0.15, 0.15] },
         "$description": "Error red"
       },
-      "orange": {
+      "red-400": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.93, 0.58, 0.1]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.94, 0.44, 0.44] },
+        "$description": "Lighter red for muted danger text"
+      },
+      "red-600": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.72, 0.11, 0.11] },
+        "$description": "Darker red for hover states"
+      },
+      "red-100": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [1, 0.9, 0.9] },
+        "$description": "Light red for subtle backgrounds"
+      },
+      "orange-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.93, 0.58, 0.1] },
         "$description": "Warning orange"
+      },
+      "orange-100": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [1, 0.95, 0.85] },
+        "$description": "Light orange for subtle backgrounds"
       },
       "gray-100": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.96, 0.96, 0.97]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.96, 0.96, 0.97] },
         "$description": "Lightest gray"
       },
       "gray-300": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.84, 0.85, 0.86]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.84, 0.85, 0.86] },
         "$description": "Light gray"
+      },
+      "gray-400": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.63, 0.65, 0.67] },
+        "$description": "Medium-light gray"
       },
       "gray-500": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.42, 0.46, 0.49]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.42, 0.46, 0.49] },
         "$description": "Mid gray"
       },
       "gray-700": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.22, 0.24, 0.27]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.22, 0.24, 0.27] },
         "$description": "Dark gray"
       },
       "gray-900": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0.1, 0.11, 0.12]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0.1, 0.11, 0.12] },
         "$description": "Darkest gray"
       },
       "white": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [1, 1, 1]
-        },
+        "$value": { "colorSpace": "srgb", "components": [1, 1, 1] },
         "$description": "Pure white"
       },
       "black": {
         "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [0, 0, 0]
-        },
+        "$value": { "colorSpace": "srgb", "components": [0, 0, 0] },
         "$description": "Pure black"
       }
     }

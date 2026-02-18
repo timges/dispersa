@@ -1,51 +1,41 @@
 {
-  "$description": "Shadow and effect tokens",
+  "$description": "Shadow primitives — raw values referenced by semantic elevation tokens",
   "shadow": {
-    "$description": "Elevation shadows",
-    "sm": {
-      "$type": "shadow",
-      "$value": {
-        "color": {
-          "colorSpace": "srgb",
-          "components": [0, 0, 0],
-          "alpha": 0.05
+    "raw": {
+      "$description": "Elevation shadows",
+      "sm": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.05 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 1, "unit": "px" },
+          "blur": { "value": 2, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
         },
-        "offsetX": { "value": 0, "unit": "px" },
-        "offsetY": { "value": 1, "unit": "px" },
-        "blur": { "value": 2, "unit": "px" },
-        "spread": { "value": 0, "unit": "px" }
+        "$description": "Subtle shadow for cards and inputs"
       },
-      "$description": "Subtle shadow for cards and inputs"
-    },
-    "md": {
-      "$type": "shadow",
-      "$value": {
-        "color": {
-          "colorSpace": "srgb",
-          "components": [0, 0, 0],
-          "alpha": 0.1
+      "md": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.1 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 4, "unit": "px" },
+          "blur": { "value": 6, "unit": "px" },
+          "spread": { "value": -1, "unit": "px" }
         },
-        "offsetX": { "value": 0, "unit": "px" },
-        "offsetY": { "value": 4, "unit": "px" },
-        "blur": { "value": 6, "unit": "px" },
-        "spread": { "value": -1, "unit": "px" }
+        "$description": "Medium shadow for dropdowns and popovers"
       },
-      "$description": "Medium shadow for dropdowns and popovers"
-    },
-    "lg": {
-      "$type": "shadow",
-      "$value": {
-        "color": {
-          "colorSpace": "srgb",
-          "components": [0, 0, 0],
-          "alpha": 0.1
+      "lg": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.1 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 10, "unit": "px" },
+          "blur": { "value": 15, "unit": "px" },
+          "spread": { "value": -3, "unit": "px" }
         },
-        "offsetX": { "value": 0, "unit": "px" },
-        "offsetY": { "value": 10, "unit": "px" },
-        "blur": { "value": 15, "unit": "px" },
-        "spread": { "value": -3, "unit": "px" }
-      },
-      "$description": "Large shadow for modals and dialogs"
+        "$description": "Large shadow for modals and dialogs"
+      }
     }
   }
 }
