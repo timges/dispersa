@@ -65,7 +65,7 @@ Benchmark tests for critical performance paths.
 
 - Token resolution: < 200ms for 1000 tokens
 - Transforms: < 50ms for 1000 transformations
-- Formatters: < 200ms for 1000 tokens
+- Renderers: < 200ms for 1000 tokens
 - Enterprise scale: < 1s for 5000 tokens
 
 **Run**: `pnpm test:performance`

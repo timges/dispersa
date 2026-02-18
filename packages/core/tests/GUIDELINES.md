@@ -388,22 +388,19 @@ Test complete build workflows with real file operations:
 
 ```typescript
 it('applies transforms during build', async () => {
-  const config: BuildConfig = {
+  const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
-      {
+    outputs: [
+      css({
         name: 'css',
-        formatter: cssStandaloneFormatter,
-        transforms: [nameKebabCase],
-        outputPath: 'tokens.css',
-        options: { selector: ':root' },
-      },
+        file: 'tokens.css',
+        preset: 'standalone',
+        selector: ':root',
+        transforms: [nameKebabCase()],
+      }),
     ],
-    permutations: [{ theme: 'light' }],
-  }
-
-  const result = await dispersa.build(config)
+  })
 
   expect(result.success).toBe(true)
   expect(result.outputs[0]!.content).toContain('--color-')
@@ -468,15 +465,14 @@ it('generates separate files in standalone mode', async () => {
   const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
-      {
+    outputs: [
+      css({
         name: 'css',
-        formatter: cssStandaloneFormatter, // Standalone
-        outputPath: 'tokens.css',
-        options: { selector: ':root' },
-      },
+        file: 'tokens-{theme}.css',
+        preset: 'standalone',
+        selector: ':root',
+      }),
     ],
-    permutations: [{ theme: 'light' }, { theme: 'dark' }],
   })
 
   expect(result.outputs.length).toBe(2) // One per permutation
@@ -486,15 +482,16 @@ it('generates single file in bundle mode', async () => {
   const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
-      {
+    outputs: [
+      css({
         name: 'css',
-        formatter: cssBundleFormatter, // Bundle
-        outputPath: 'tokens.css',
-        options: ({ context }) => ({
-          selector: context === 'light' ? ':root' : `[data-theme="${context}"]`,
-        }),
-      },
+        file: 'tokens.css',
+        preset: 'bundle',
+        selector: (modifierName, context, isBase) => {
+          if (isBase) return ':root'
+          return `[data-${modifierName}="${context}"]`
+        },
+      }),
     ],
   })
 
@@ -504,33 +501,37 @@ it('generates single file in bundle mode', async () => {
 })
 ```
 
-### Dynamic Options Test Pattern
+### Lifecycle Hooks Test Pattern
 
-Test dynamic option functions receive correct context:
+Test lifecycle hooks receive correct context:
 
 ```typescript
-it('passes modifier context to options function', async () => {
-  const capturedContexts: string[] = []
+it('fires hooks in correct order', async () => {
+  const events: string[] = []
 
   const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
-      {
+    outputs: [
+      css({
         name: 'css',
-        formatter: cssStandaloneFormatter,
-        outputPath: 'tokens.css',
-        options: ({ modifier, context, defaultContext }) => {
-          capturedContexts.push(context)
-          return { selector: ':root' }
+        file: 'tokens.css',
+        preset: 'bundle',
+        selector: ':root',
+        hooks: {
+          onBuildStart: () => events.push('output-start'),
+          onBuildEnd: () => events.push('output-end'),
         },
-      },
+      }),
     ],
+    hooks: {
+      onBuildStart: () => events.push('global-start'),
+      onBuildEnd: () => events.push('global-end'),
+    },
   })
 
   expect(result.success).toBe(true)
-  expect(capturedContexts).toContain('light')
-  expect(capturedContexts).toContain('dark')
+  expect(events).toEqual(['global-start', 'output-start', 'output-end', 'global-end'])
 })
 ```
 
@@ -539,31 +540,28 @@ it('passes modifier context to options function', async () => {
 Test both error detection and recovery:
 
 ```typescript
-it('handles invalid formatter gracefully', async () => {
-  const brokenFormatter = {
-    name: 'broken',
+it('handles invalid renderer gracefully', async () => {
+  const brokenRenderer = defineRenderer({
     format: () => {
-      throw new Error('Formatter error')
+      throw new Error('Renderer error')
     },
-  }
+  })
 
   const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
+    outputs: [
       {
         name: 'broken',
-        formatter: brokenFormatter as any,
-        outputPath: 'tokens.txt',
-        options: {},
+        renderer: brokenRenderer,
+        file: 'tokens.txt',
       },
     ],
-    permutations: [{ theme: 'light' }],
   })
 
   expect(result.success).toBe(false)
   expect(result.errors).toBeDefined()
-  expect(result.errors![0]!.message).toContain('Formatter error')
+  expect(result.errors![0]!.message).toContain('Renderer error')
 })
 ```
 

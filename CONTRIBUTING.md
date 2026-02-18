@@ -194,7 +194,7 @@ The sections below cover conventions that tooling alone cannot enforce.
 - Re-export public API through barrel files (`index.ts`).
 - Use classes for stateful services and builders (e.g. `AliasResolver`, `CssBundler`).
 - Use pure functions for stateless logic (transforms, converters, utilities).
-- Internal imports use path aliases (`@lib/*`, `@shared/*`, `@builders/*`, etc.).
+- Internal imports use path aliases (`@processing/*`, `@shared/*`, `@renderers/*`, `@config/*`, etc.).
 
 ### Error Handling
 

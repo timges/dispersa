@@ -9,25 +9,34 @@ integration/
 ├── build/           # Build process integration tests
 │   ├── build-basic.test.ts              # Basic build operations
 │   ├── build-transforms.test.ts         # Transform integration
-│   ├── build-multiplatform.test.ts      # Multi-platform builds
+│   ├── build-multioutput.test.ts        # Multi-output builds
 │   ├── build-permutations.test.ts       # Permutation generation
 │   ├── build-output-modes.test.ts       # Output mode variations
-│   └── build-error-handling.test.ts     # Error handling in builds
+│   ├── build-error-handling.test.ts     # Error handling in builds
+│   ├── build-root-tokens.test.ts        # Root token handling
+│   └── lifecycle-hooks.test.ts          # Lifecycle hook integration
+├── cli/             # CLI integration tests
+│   └── cli-build.test.ts               # CLI build command
 ├── output/          # Output generation tests
 │   ├── output-standalone.test.ts        # Standalone output mode
 │   ├── output-bundle.test.ts            # Bundle output mode
-│   └── output-dynamic-options.test.ts   # Dynamic options functions
+│   ├── output-determinism.test.ts       # Output determinism verification
+│   └── css-function-selectors.test.ts   # CSS function-based selectors
 ├── resolution/      # Token resolution tests
 │   ├── resolution-engine.test.ts        # Resolution engine integration
+│   ├── resolution-ordering.test.ts      # Resolution order behavior
+│   ├── in-memory-ref-basedir.test.ts    # In-memory $ref base directory
+│   ├── pipeline-ref-resolution.test.ts  # Pipeline $ref resolution
 │   ├── array-aliasing.test.ts           # Array aliasing in composites
 │   └── property-level-references.test.ts # Property-level references
-└── dtcg/           # DTCG specification compliance
-    ├── dtcg-compliance.test.ts          # Core DTCG compliance
-    ├── color-spec-compliance.test.ts    # Color space compliance
-    ├── composite-tokens.test.ts         # Composite token handling
-    ├── group-features.test.ts           # Group features ($root, $extends)
-    ├── group-schema-validation.test.ts  # Group schema validation
-    └── unsupported-types.test.ts        # Unsupported type handling
+├── dtcg/           # DTCG specification compliance
+│   ├── dtcg-compliance.test.ts          # Core DTCG compliance
+│   ├── color-spec-compliance.test.ts    # Color space compliance
+│   ├── composite-tokens.test.ts         # Composite token handling
+│   ├── group-features.test.ts           # Group features ($root, $extends)
+│   ├── group-schema-validation.test.ts  # Group schema validation
+│   └── unsupported-types.test.ts        # Unsupported type handling
+└── resolver.test.ts # Resolver loading and parsing
 ```
 
 ## Test Categories
@@ -37,11 +46,12 @@ integration/
 Test the complete build pipeline including:
 
 - Basic build operations (resolve, resolveAll, build)
-- Transform application (global and platform-specific)
-- Multi-platform simultaneous builds
+- Transform application (global and per-output)
+- Multi-output simultaneous builds
 - Permutation generation and iteration
 - Output mode handling (standalone vs bundle)
 - Error handling and recovery
+- Lifecycle hook execution
 
 **Key Features:**
 
@@ -55,14 +65,14 @@ Test output file generation:
 
 - Standalone mode (one file per permutation)
 - Bundle mode (single file with all permutations)
-- Dynamic options functions with modifier context
-- File naming conventions
+- Output determinism across builds
+- CSS function-based selectors and media queries
 
 **Key Features:**
 
 - Verifies correct file structure and content
-- Tests dynamic option function invocation
-- Validates bundling behavior across formatters
+- Tests dynamic selector and media query functions
+- Validates bundling behavior across renderers
 
 ### Resolution Tests (`resolution/`)
 
@@ -171,22 +181,19 @@ describe('My Integration Test', () => {
 
 ```typescript
 it('builds with custom transform', async () => {
-  const config: BuildConfig = {
+  const result = await dispersa.build({
     resolver: resolverPath,
     buildPath: testBuildPath,
-    platforms: [
-      {
+    outputs: [
+      css({
         name: 'css',
-        formatter: cssStandaloneFormatter,
+        file: 'tokens.css',
+        preset: 'standalone',
+        selector: ':root',
         transforms: [myTransform],
-        outputPath: 'tokens.css',
-        options: { selector: ':root' },
-      },
+      }),
     ],
-    permutations: [{ theme: 'light' }],
-  }
-
-  const result = await dispersa.build(config)
+  })
 
   expect(result.success).toBe(true)
   expect(result.outputs[0]!.content).toContain('expected-output')
