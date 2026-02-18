@@ -28,38 +28,90 @@ exports[`atlassian-semantic > should produce expected file structure and content
 exports[`cli-starter > should produce expected output 1`] = `
 {
   "base/tokens.css": "/* Set: colors */
-/* Color palette and semantic colors */
+/* Color palette and alias colors */
 :root {
-  /* Pure black */
-  --color-base-black: #000000;
-  /* Primary brand blue */
-  --color-base-blue: #0066cc;
-  /* Lightest gray */
-  --color-base-gray-100: #f5f5f7;
-  /* Light gray */
-  --color-base-gray-300: #d6d9db;
-  /* Mid gray */
-  --color-base-gray-500: #6b757d;
-  /* Dark gray */
-  --color-base-gray-700: #383d45;
-  /* Darkest gray */
-  --color-base-gray-900: #1a1c1f;
-  /* Success green */
-  --color-base-green: #21ad4d;
-  /* Warning orange */
-  --color-base-orange: #ed941a;
-  /* Error red */
-  --color-base-red: #db2626;
-  /* Pure white */
-  --color-base-white: #ffffff;
-  /* Error and destructive states */
-  --color-semantic-error: var(--color-base-red);
   /* Primary action color */
-  --color-semantic-primary: var(--color-base-blue);
-  /* Success and positive states */
-  --color-semantic-success: var(--color-base-green);
-  /* Warning and caution states */
-  --color-semantic-warning: var(--color-base-orange);
+  --color-action-brand: var(--color-palette-blue-500);
+  /* Primary action hover */
+  --color-action-brand-hover: var(--color-palette-blue-600);
+  /* Strong/high-contrast action color */
+  --color-action-brand-strong: var(--color-palette-blue-600);
+  /* Strong action pressed */
+  --color-action-brand-strong-active: var(--color-palette-blue-700);
+  /* Destructive action color */
+  --color-action-danger: var(--color-palette-red-500);
+  /* Destructive action hover */
+  --color-action-danger-hover: var(--color-palette-red-600);
+  /* Subtle brand background */
+  --color-background-brand-subtle: var(--color-palette-blue-100);
+  /* Subtle danger background */
+  --color-background-danger-subtle: var(--color-palette-red-100);
+  /* Subtle success background */
+  --color-background-success-subtle: var(--color-palette-green-100);
+  /* Subtle warning background */
+  --color-background-warning-subtle: var(--color-palette-orange-100);
+  /* Focused border color */
+  --color-border-default-focus: var(--color-palette-blue-500);
+  /* Subtle/muted border color */
+  --color-border-muted: var(--color-palette-gray-100);
+  /* Success icon color */
+  --color-icon-success: var(--color-palette-green-500);
+  /* Warning icon color */
+  --color-icon-warning: var(--color-palette-orange-500);
+  /* Modal/dialog overlay */
+  --color-overlay-default: #00000080;
+  /* Pure black */
+  --color-palette-black: #000000;
+  /* Light blue for subtle backgrounds */
+  --color-palette-blue-100: #deedff;
+  /* Primary blue */
+  --color-palette-blue-500: #0066cc;
+  /* Darker blue for hover states */
+  --color-palette-blue-600: #0054ab;
+  /* Deep blue for strong/active states */
+  --color-palette-blue-700: #00458c;
+  /* Lightest gray */
+  --color-palette-gray-100: #f5f5f7;
+  /* Light gray */
+  --color-palette-gray-300: #d6d9db;
+  /* Medium-light gray */
+  --color-palette-gray-400: #a1a6ab;
+  /* Mid gray */
+  --color-palette-gray-500: #6b757d;
+  /* Dark gray */
+  --color-palette-gray-700: #383d45;
+  /* Darkest gray */
+  --color-palette-gray-900: #1a1c1f;
+  /* Light green for subtle backgrounds */
+  --color-palette-green-100: #d9f5e0;
+  /* Success green */
+  --color-palette-green-500: #21ad4d;
+  /* Light orange for subtle backgrounds */
+  --color-palette-orange-100: #fff2d9;
+  /* Warning orange */
+  --color-palette-orange-500: #ed941a;
+  /* Light red for subtle backgrounds */
+  --color-palette-red-100: #ffe6e6;
+  /* Lighter red for muted danger text */
+  --color-palette-red-400: #f07070;
+  /* Error red */
+  --color-palette-red-500: #db2626;
+  /* Darker red for hover states */
+  --color-palette-red-600: #b81c1c;
+  /* Pure white */
+  --color-palette-white: #ffffff;
+  /* Brand-colored text */
+  --color-text-brand: var(--color-palette-blue-500);
+  /* Danger/error text color */
+  --color-text-danger: var(--color-palette-red-500);
+  /* Subdued danger text color */
+  --color-text-danger-muted: var(--color-palette-red-400);
+  /* Text on dark backgrounds */
+  --color-text-inverse: var(--color-palette-white);
+  /* Disabled text color */
+  --color-text-muted-disabled: var(--color-palette-gray-300);
+  /* Success text color */
+  --color-text-success: var(--color-palette-green-500);
 }
 
 /* Set: typography */
@@ -83,133 +135,218 @@ exports[`cli-starter > should produce expected output 1`] = `
   --font-weight-medium: 500;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
-  /* Default body text style */
-  --typography-body-fontFamily-0: Inter;
-  --typography-body-fontFamily-1: system-ui;
-  --typography-body-fontFamily-2: sans-serif;
-  --typography-body-fontSize: var(--font-size-base);
-  --typography-body-fontWeight: var(--font-weight-regular);
-  --typography-body-letterSpacing: 0rem;
-  --typography-body-lineHeight: var(--font-line-height-normal);
-  /* Small caption or helper text */
-  --typography-caption-fontFamily-0: Inter;
-  --typography-caption-fontFamily-1: system-ui;
-  --typography-caption-fontFamily-2: sans-serif;
-  --typography-caption-fontSize: var(--font-size-sm);
-  --typography-caption-fontWeight: var(--font-weight-regular);
-  --typography-caption-letterSpacing: 0rem;
-  --typography-caption-lineHeight: var(--font-line-height-normal);
-  /* Large heading style */
-  --typography-heading-fontFamily-0: Inter;
-  --typography-heading-fontFamily-1: system-ui;
-  --typography-heading-fontFamily-2: sans-serif;
-  --typography-heading-fontSize: var(--font-size-3xl);
-  --typography-heading-fontWeight: var(--font-weight-bold);
-  --typography-heading-letterSpacing: -0.02rem;
-  --typography-heading-lineHeight: var(--font-line-height-tight);
+  /* Default body text */
+  --typography-body-md-fontFamily-0: Inter;
+  --typography-body-md-fontFamily-1: system-ui;
+  --typography-body-md-fontFamily-2: sans-serif;
+  --typography-body-md-fontSize: var(--font-size-base);
+  --typography-body-md-fontWeight: var(--font-weight-regular);
+  --typography-body-md-letterSpacing: 0rem;
+  --typography-body-md-lineHeight: var(--font-line-height-normal);
+  /* Small body text / captions */
+  --typography-body-sm-fontFamily-0: Inter;
+  --typography-body-sm-fontFamily-1: system-ui;
+  --typography-body-sm-fontFamily-2: sans-serif;
+  --typography-body-sm-fontSize: var(--font-size-sm);
+  --typography-body-sm-fontWeight: var(--font-weight-regular);
+  --typography-body-sm-letterSpacing: 0rem;
+  --typography-body-sm-lineHeight: var(--font-line-height-normal);
+  /* Large heading (h1) */
+  --typography-heading-lg-fontFamily-0: Inter;
+  --typography-heading-lg-fontFamily-1: system-ui;
+  --typography-heading-lg-fontFamily-2: sans-serif;
+  --typography-heading-lg-fontSize: var(--font-size-3xl);
+  --typography-heading-lg-fontWeight: var(--font-weight-bold);
+  --typography-heading-lg-letterSpacing: -0.02rem;
+  --typography-heading-lg-lineHeight: var(--font-line-height-tight);
+  /* Medium heading (h2) */
+  --typography-heading-md-fontFamily-0: Inter;
+  --typography-heading-md-fontFamily-1: system-ui;
+  --typography-heading-md-fontFamily-2: sans-serif;
+  --typography-heading-md-fontSize: var(--font-size-2xl);
+  --typography-heading-md-fontWeight: var(--font-weight-semibold);
+  --typography-heading-md-letterSpacing: -0.01rem;
+  --typography-heading-md-lineHeight: var(--font-line-height-tight);
+  /* Small heading (h3) */
+  --typography-heading-sm-fontFamily-0: Inter;
+  --typography-heading-sm-fontFamily-1: system-ui;
+  --typography-heading-sm-fontFamily-2: sans-serif;
+  --typography-heading-sm-fontSize: var(--font-size-xl);
+  --typography-heading-sm-fontWeight: var(--font-weight-semibold);
+  --typography-heading-sm-letterSpacing: 0rem;
+  --typography-heading-sm-lineHeight: var(--font-line-height-tight);
 }
 
 /* Set: spacing */
-/* Spacing scale */
+/* Spacing scale and alias spacing */
 :root {
-  --spacing-1: 0.25rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
+  --spacing-gap-lg: var(--spacing-scale-lg);
+  --spacing-gap-md: var(--spacing-scale-md);
+  --spacing-gap-sm: var(--spacing-scale-sm);
+  --spacing-gap-xl: var(--spacing-scale-xl);
+  --spacing-gap-xs: var(--spacing-scale-xs);
+  --spacing-inset-lg: var(--spacing-scale-lg);
+  --spacing-inset-md: var(--spacing-scale-md);
+  --spacing-inset-sm: var(--spacing-scale-sm);
+  --spacing-inset-xl: var(--spacing-scale-xl);
+  --spacing-inset-xs: var(--spacing-scale-xs);
+  --spacing-scale-2xl: 3rem;
+  --spacing-scale-lg: 1.5rem;
+  --spacing-scale-md: 1rem;
+  --spacing-scale-sm: 0.5rem;
+  --spacing-scale-xl: 2rem;
+  --spacing-scale-xs: 0.25rem;
 }
 
 /* Set: effects */
-/* Shadows and effects */
+/* Shadows and elevation */
 :root {
+  /* High elevation (modals, dialogs) */
+  --shadow-elevation-lg: var(--shadow-raw-lg);
+  /* Medium elevation (dropdowns, popovers) */
+  --shadow-elevation-md: var(--shadow-raw-md);
+  /* Low elevation (cards, inputs) */
+  --shadow-elevation-sm: var(--shadow-raw-sm);
   /* Large shadow for modals and dialogs */
-  --shadow-lg: var(--shadow-lg-offsetX) var(--shadow-lg-offsetY)
-    var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-lg-color);
-  --shadow-lg-color: #0000001a;
-  --shadow-lg-offsetX: 0px;
-  --shadow-lg-offsetY: 10px;
-  --shadow-lg-blur: 15px;
-  --shadow-lg-spread: -3px;
+  --shadow-raw-lg: var(--shadow-raw-lg-offsetX) var(--shadow-raw-lg-offsetY)
+    var(--shadow-raw-lg-blur) var(--shadow-raw-lg-spread)
+    var(--shadow-raw-lg-color);
+  --shadow-raw-lg-color: #0000001a;
+  --shadow-raw-lg-offsetX: 0px;
+  --shadow-raw-lg-offsetY: 10px;
+  --shadow-raw-lg-blur: 15px;
+  --shadow-raw-lg-spread: -3px;
   /* Medium shadow for dropdowns and popovers */
-  --shadow-md: var(--shadow-md-offsetX) var(--shadow-md-offsetY)
-    var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-md-color);
-  --shadow-md-color: #0000001a;
-  --shadow-md-offsetX: 0px;
-  --shadow-md-offsetY: 4px;
-  --shadow-md-blur: 6px;
-  --shadow-md-spread: -1px;
+  --shadow-raw-md: var(--shadow-raw-md-offsetX) var(--shadow-raw-md-offsetY)
+    var(--shadow-raw-md-blur) var(--shadow-raw-md-spread)
+    var(--shadow-raw-md-color);
+  --shadow-raw-md-color: #0000001a;
+  --shadow-raw-md-offsetX: 0px;
+  --shadow-raw-md-offsetY: 4px;
+  --shadow-raw-md-blur: 6px;
+  --shadow-raw-md-spread: -1px;
   /* Subtle shadow for cards and inputs */
-  --shadow-sm: var(--shadow-sm-offsetX) var(--shadow-sm-offsetY)
-    var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-sm-color);
-  --shadow-sm-color: #0000000d;
-  --shadow-sm-offsetX: 0px;
-  --shadow-sm-offsetY: 1px;
-  --shadow-sm-blur: 2px;
-  --shadow-sm-spread: 0px;
+  --shadow-raw-sm: var(--shadow-raw-sm-offsetX) var(--shadow-raw-sm-offsetY)
+    var(--shadow-raw-sm-blur) var(--shadow-raw-sm-spread)
+    var(--shadow-raw-sm-color);
+  --shadow-raw-sm-color: #0000000d;
+  --shadow-raw-sm-offsetX: 0px;
+  --shadow-raw-sm-offsetY: 1px;
+  --shadow-raw-sm-blur: 2px;
+  --shadow-raw-sm-spread: 0px;
 }
 ",
   "dark/tokens.css": ":root {
   /* Dark page background */
-  --color-semantic-background: var(--color-base-gray-900);
+  --color-background-default: var(--color-palette-gray-900);
   /* Dark border color */
-  --color-semantic-border: var(--color-base-gray-700);
+  --color-border-default: var(--color-palette-gray-700);
   /* Dark surface for cards */
-  --color-semantic-surface: var(--color-base-gray-700);
+  --color-surface-default: var(--color-palette-gray-700);
   /* Light text on dark background */
-  --color-semantic-text: var(--color-base-gray-100);
+  --color-text-default: var(--color-palette-gray-100);
   /* Muted text on dark background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-400);
 }
 ",
   "light/tokens.css": ":root {
   /* Light page background */
-  --color-semantic-background: var(--color-base-white);
+  --color-background-default: var(--color-palette-white);
   /* Light border color */
-  --color-semantic-border: var(--color-base-gray-300);
+  --color-border-default: var(--color-palette-gray-300);
   /* Light surface for cards */
-  --color-semantic-surface: var(--color-base-gray-100);
+  --color-surface-default: var(--color-palette-gray-100);
   /* Dark text on light background */
-  --color-semantic-text: var(--color-base-gray-900);
+  --color-text-default: var(--color-palette-gray-900);
   /* Muted text on light background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-500);
 }
 ",
   "tokens.css": "/* Set: colors */
-/* Color palette and semantic colors */
+/* Color palette and alias colors */
 :root {
-  /* Pure black */
-  --color-base-black: #000000;
-  /* Primary brand blue */
-  --color-base-blue: #0066cc;
-  /* Lightest gray */
-  --color-base-gray-100: #f5f5f7;
-  /* Light gray */
-  --color-base-gray-300: #d6d9db;
-  /* Mid gray */
-  --color-base-gray-500: #6b757d;
-  /* Dark gray */
-  --color-base-gray-700: #383d45;
-  /* Darkest gray */
-  --color-base-gray-900: #1a1c1f;
-  /* Success green */
-  --color-base-green: #21ad4d;
-  /* Warning orange */
-  --color-base-orange: #ed941a;
-  /* Error red */
-  --color-base-red: #db2626;
-  /* Pure white */
-  --color-base-white: #ffffff;
-  /* Error and destructive states */
-  --color-semantic-error: var(--color-base-red);
   /* Primary action color */
-  --color-semantic-primary: var(--color-base-blue);
-  /* Success and positive states */
-  --color-semantic-success: var(--color-base-green);
-  /* Warning and caution states */
-  --color-semantic-warning: var(--color-base-orange);
+  --color-action-brand: var(--color-palette-blue-500);
+  /* Primary action hover */
+  --color-action-brand-hover: var(--color-palette-blue-600);
+  /* Strong/high-contrast action color */
+  --color-action-brand-strong: var(--color-palette-blue-600);
+  /* Strong action pressed */
+  --color-action-brand-strong-active: var(--color-palette-blue-700);
+  /* Destructive action color */
+  --color-action-danger: var(--color-palette-red-500);
+  /* Destructive action hover */
+  --color-action-danger-hover: var(--color-palette-red-600);
+  /* Subtle brand background */
+  --color-background-brand-subtle: var(--color-palette-blue-100);
+  /* Subtle danger background */
+  --color-background-danger-subtle: var(--color-palette-red-100);
+  /* Subtle success background */
+  --color-background-success-subtle: var(--color-palette-green-100);
+  /* Subtle warning background */
+  --color-background-warning-subtle: var(--color-palette-orange-100);
+  /* Focused border color */
+  --color-border-default-focus: var(--color-palette-blue-500);
+  /* Subtle/muted border color */
+  --color-border-muted: var(--color-palette-gray-100);
+  /* Success icon color */
+  --color-icon-success: var(--color-palette-green-500);
+  /* Warning icon color */
+  --color-icon-warning: var(--color-palette-orange-500);
+  /* Modal/dialog overlay */
+  --color-overlay-default: #00000080;
+  /* Pure black */
+  --color-palette-black: #000000;
+  /* Light blue for subtle backgrounds */
+  --color-palette-blue-100: #deedff;
+  /* Primary blue */
+  --color-palette-blue-500: #0066cc;
+  /* Darker blue for hover states */
+  --color-palette-blue-600: #0054ab;
+  /* Deep blue for strong/active states */
+  --color-palette-blue-700: #00458c;
+  /* Lightest gray */
+  --color-palette-gray-100: #f5f5f7;
+  /* Light gray */
+  --color-palette-gray-300: #d6d9db;
+  /* Medium-light gray */
+  --color-palette-gray-400: #a1a6ab;
+  /* Mid gray */
+  --color-palette-gray-500: #6b757d;
+  /* Dark gray */
+  --color-palette-gray-700: #383d45;
+  /* Darkest gray */
+  --color-palette-gray-900: #1a1c1f;
+  /* Light green for subtle backgrounds */
+  --color-palette-green-100: #d9f5e0;
+  /* Success green */
+  --color-palette-green-500: #21ad4d;
+  /* Light orange for subtle backgrounds */
+  --color-palette-orange-100: #fff2d9;
+  /* Warning orange */
+  --color-palette-orange-500: #ed941a;
+  /* Light red for subtle backgrounds */
+  --color-palette-red-100: #ffe6e6;
+  /* Lighter red for muted danger text */
+  --color-palette-red-400: #f07070;
+  /* Error red */
+  --color-palette-red-500: #db2626;
+  /* Darker red for hover states */
+  --color-palette-red-600: #b81c1c;
+  /* Pure white */
+  --color-palette-white: #ffffff;
+  /* Brand-colored text */
+  --color-text-brand: var(--color-palette-blue-500);
+  /* Danger/error text color */
+  --color-text-danger: var(--color-palette-red-500);
+  /* Subdued danger text color */
+  --color-text-danger-muted: var(--color-palette-red-400);
+  /* Text on dark backgrounds */
+  --color-text-inverse: var(--color-palette-white);
+  /* Disabled text color */
+  --color-text-muted-disabled: var(--color-palette-gray-300);
+  /* Success text color */
+  --color-text-success: var(--color-palette-green-500);
 }
 
 
@@ -234,74 +371,107 @@ exports[`cli-starter > should produce expected output 1`] = `
   --font-weight-medium: 500;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
-  /* Default body text style */
-  --typography-body-fontFamily-0: Inter;
-  --typography-body-fontFamily-1: system-ui;
-  --typography-body-fontFamily-2: sans-serif;
-  --typography-body-fontSize: var(--font-size-base);
-  --typography-body-fontWeight: var(--font-weight-regular);
-  --typography-body-letterSpacing: 0rem;
-  --typography-body-lineHeight: var(--font-line-height-normal);
-  /* Small caption or helper text */
-  --typography-caption-fontFamily-0: Inter;
-  --typography-caption-fontFamily-1: system-ui;
-  --typography-caption-fontFamily-2: sans-serif;
-  --typography-caption-fontSize: var(--font-size-sm);
-  --typography-caption-fontWeight: var(--font-weight-regular);
-  --typography-caption-letterSpacing: 0rem;
-  --typography-caption-lineHeight: var(--font-line-height-normal);
-  /* Large heading style */
-  --typography-heading-fontFamily-0: Inter;
-  --typography-heading-fontFamily-1: system-ui;
-  --typography-heading-fontFamily-2: sans-serif;
-  --typography-heading-fontSize: var(--font-size-3xl);
-  --typography-heading-fontWeight: var(--font-weight-bold);
-  --typography-heading-letterSpacing: -0.02rem;
-  --typography-heading-lineHeight: var(--font-line-height-tight);
+  /* Default body text */
+  --typography-body-md-fontFamily-0: Inter;
+  --typography-body-md-fontFamily-1: system-ui;
+  --typography-body-md-fontFamily-2: sans-serif;
+  --typography-body-md-fontSize: var(--font-size-base);
+  --typography-body-md-fontWeight: var(--font-weight-regular);
+  --typography-body-md-letterSpacing: 0rem;
+  --typography-body-md-lineHeight: var(--font-line-height-normal);
+  /* Small body text / captions */
+  --typography-body-sm-fontFamily-0: Inter;
+  --typography-body-sm-fontFamily-1: system-ui;
+  --typography-body-sm-fontFamily-2: sans-serif;
+  --typography-body-sm-fontSize: var(--font-size-sm);
+  --typography-body-sm-fontWeight: var(--font-weight-regular);
+  --typography-body-sm-letterSpacing: 0rem;
+  --typography-body-sm-lineHeight: var(--font-line-height-normal);
+  /* Large heading (h1) */
+  --typography-heading-lg-fontFamily-0: Inter;
+  --typography-heading-lg-fontFamily-1: system-ui;
+  --typography-heading-lg-fontFamily-2: sans-serif;
+  --typography-heading-lg-fontSize: var(--font-size-3xl);
+  --typography-heading-lg-fontWeight: var(--font-weight-bold);
+  --typography-heading-lg-letterSpacing: -0.02rem;
+  --typography-heading-lg-lineHeight: var(--font-line-height-tight);
+  /* Medium heading (h2) */
+  --typography-heading-md-fontFamily-0: Inter;
+  --typography-heading-md-fontFamily-1: system-ui;
+  --typography-heading-md-fontFamily-2: sans-serif;
+  --typography-heading-md-fontSize: var(--font-size-2xl);
+  --typography-heading-md-fontWeight: var(--font-weight-semibold);
+  --typography-heading-md-letterSpacing: -0.01rem;
+  --typography-heading-md-lineHeight: var(--font-line-height-tight);
+  /* Small heading (h3) */
+  --typography-heading-sm-fontFamily-0: Inter;
+  --typography-heading-sm-fontFamily-1: system-ui;
+  --typography-heading-sm-fontFamily-2: sans-serif;
+  --typography-heading-sm-fontSize: var(--font-size-xl);
+  --typography-heading-sm-fontWeight: var(--font-weight-semibold);
+  --typography-heading-sm-letterSpacing: 0rem;
+  --typography-heading-sm-lineHeight: var(--font-line-height-tight);
 }
 
 
 /* Set: spacing */
-/* Spacing scale */
+/* Spacing scale and alias spacing */
 :root {
-  --spacing-1: 0.25rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
+  --spacing-gap-lg: var(--spacing-scale-lg);
+  --spacing-gap-md: var(--spacing-scale-md);
+  --spacing-gap-sm: var(--spacing-scale-sm);
+  --spacing-gap-xl: var(--spacing-scale-xl);
+  --spacing-gap-xs: var(--spacing-scale-xs);
+  --spacing-inset-lg: var(--spacing-scale-lg);
+  --spacing-inset-md: var(--spacing-scale-md);
+  --spacing-inset-sm: var(--spacing-scale-sm);
+  --spacing-inset-xl: var(--spacing-scale-xl);
+  --spacing-inset-xs: var(--spacing-scale-xs);
+  --spacing-scale-2xl: 3rem;
+  --spacing-scale-lg: 1.5rem;
+  --spacing-scale-md: 1rem;
+  --spacing-scale-sm: 0.5rem;
+  --spacing-scale-xl: 2rem;
+  --spacing-scale-xs: 0.25rem;
 }
 
 
 /* Set: effects */
-/* Shadows and effects */
+/* Shadows and elevation */
 :root {
+  /* High elevation (modals, dialogs) */
+  --shadow-elevation-lg: var(--shadow-raw-lg);
+  /* Medium elevation (dropdowns, popovers) */
+  --shadow-elevation-md: var(--shadow-raw-md);
+  /* Low elevation (cards, inputs) */
+  --shadow-elevation-sm: var(--shadow-raw-sm);
   /* Large shadow for modals and dialogs */
-  --shadow-lg: var(--shadow-lg-offsetX) var(--shadow-lg-offsetY)
-    var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-lg-color);
-  --shadow-lg-color: #0000001a;
-  --shadow-lg-offsetX: 0px;
-  --shadow-lg-offsetY: 10px;
-  --shadow-lg-blur: 15px;
-  --shadow-lg-spread: -3px;
+  --shadow-raw-lg: var(--shadow-raw-lg-offsetX) var(--shadow-raw-lg-offsetY)
+    var(--shadow-raw-lg-blur) var(--shadow-raw-lg-spread)
+    var(--shadow-raw-lg-color);
+  --shadow-raw-lg-color: #0000001a;
+  --shadow-raw-lg-offsetX: 0px;
+  --shadow-raw-lg-offsetY: 10px;
+  --shadow-raw-lg-blur: 15px;
+  --shadow-raw-lg-spread: -3px;
   /* Medium shadow for dropdowns and popovers */
-  --shadow-md: var(--shadow-md-offsetX) var(--shadow-md-offsetY)
-    var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-md-color);
-  --shadow-md-color: #0000001a;
-  --shadow-md-offsetX: 0px;
-  --shadow-md-offsetY: 4px;
-  --shadow-md-blur: 6px;
-  --shadow-md-spread: -1px;
+  --shadow-raw-md: var(--shadow-raw-md-offsetX) var(--shadow-raw-md-offsetY)
+    var(--shadow-raw-md-blur) var(--shadow-raw-md-spread)
+    var(--shadow-raw-md-color);
+  --shadow-raw-md-color: #0000001a;
+  --shadow-raw-md-offsetX: 0px;
+  --shadow-raw-md-offsetY: 4px;
+  --shadow-raw-md-blur: 6px;
+  --shadow-raw-md-spread: -1px;
   /* Subtle shadow for cards and inputs */
-  --shadow-sm: var(--shadow-sm-offsetX) var(--shadow-sm-offsetY)
-    var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-sm-color);
-  --shadow-sm-color: #0000000d;
-  --shadow-sm-offsetX: 0px;
-  --shadow-sm-offsetY: 1px;
-  --shadow-sm-blur: 2px;
-  --shadow-sm-spread: 0px;
+  --shadow-raw-sm: var(--shadow-raw-sm-offsetX) var(--shadow-raw-sm-offsetY)
+    var(--shadow-raw-sm-blur) var(--shadow-raw-sm-spread)
+    var(--shadow-raw-sm-color);
+  --shadow-raw-sm-color: #0000000d;
+  --shadow-raw-sm-offsetX: 0px;
+  --shadow-raw-sm-offsetY: 1px;
+  --shadow-raw-sm-blur: 2px;
+  --shadow-raw-sm-spread: 0px;
 }
 
 
@@ -309,30 +479,30 @@ exports[`cli-starter > should produce expected output 1`] = `
 /* Theme variations */
 :root {
   /* Light page background */
-  --color-semantic-background: var(--color-base-white);
+  --color-background-default: var(--color-palette-white);
   /* Light border color */
-  --color-semantic-border: var(--color-base-gray-300);
+  --color-border-default: var(--color-palette-gray-300);
   /* Light surface for cards */
-  --color-semantic-surface: var(--color-base-gray-100);
+  --color-surface-default: var(--color-palette-gray-100);
   /* Dark text on light background */
-  --color-semantic-text: var(--color-base-gray-900);
+  --color-text-default: var(--color-palette-gray-900);
   /* Muted text on light background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-500);
 }
 
 
 /* Modifier: theme=dark */
 [data-theme="dark"] {
   /* Dark page background */
-  --color-semantic-background: var(--color-base-gray-900);
+  --color-background-default: var(--color-palette-gray-900);
   /* Dark border color */
-  --color-semantic-border: var(--color-base-gray-700);
+  --color-border-default: var(--color-palette-gray-700);
   /* Dark surface for cards */
-  --color-semantic-surface: var(--color-base-gray-700);
+  --color-surface-default: var(--color-palette-gray-700);
   /* Light text on dark background */
-  --color-semantic-text: var(--color-base-gray-100);
+  --color-text-default: var(--color-palette-gray-100);
   /* Muted text on dark background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-400);
 }
 ",
 }
@@ -962,38 +1132,90 @@ exports[`split-by-type > should produce expected output 1`] = `
 exports[`typescript-starter > should produce expected output 1`] = `
 {
   "base/tokens.css": "/* Set: colors */
-/* Color palette and semantic colors */
+/* Color palette and alias colors */
 :root {
-  /* Pure black */
-  --color-base-black: #000000;
-  /* Primary brand blue */
-  --color-base-blue: #0066cc;
-  /* Lightest gray */
-  --color-base-gray-100: #f5f5f7;
-  /* Light gray */
-  --color-base-gray-300: #d6d9db;
-  /* Mid gray */
-  --color-base-gray-500: #6b757d;
-  /* Dark gray */
-  --color-base-gray-700: #383d45;
-  /* Darkest gray */
-  --color-base-gray-900: #1a1c1f;
-  /* Success green */
-  --color-base-green: #21ad4d;
-  /* Warning orange */
-  --color-base-orange: #ed941a;
-  /* Error red */
-  --color-base-red: #db2626;
-  /* Pure white */
-  --color-base-white: #ffffff;
-  /* Error and destructive states */
-  --color-semantic-error: var(--color-base-red);
   /* Primary action color */
-  --color-semantic-primary: var(--color-base-blue);
-  /* Success and positive states */
-  --color-semantic-success: var(--color-base-green);
-  /* Warning and caution states */
-  --color-semantic-warning: var(--color-base-orange);
+  --color-action-brand: var(--color-palette-blue-500);
+  /* Primary action hover */
+  --color-action-brand-hover: var(--color-palette-blue-600);
+  /* Strong/high-contrast action color */
+  --color-action-brand-strong: var(--color-palette-blue-600);
+  /* Strong action pressed */
+  --color-action-brand-strong-active: var(--color-palette-blue-600);
+  /* Destructive action color */
+  --color-action-danger: var(--color-palette-red-500);
+  /* Destructive action hover */
+  --color-action-danger-hover: var(--color-palette-red-600);
+  /* Subtle brand background */
+  --color-background-brand-subtle: var(--color-palette-blue-100);
+  /* Subtle danger background */
+  --color-background-danger-subtle: var(--color-palette-red-100);
+  /* Subtle success background */
+  --color-background-success-subtle: var(--color-palette-green-100);
+  /* Subtle warning background */
+  --color-background-warning-subtle: var(--color-palette-orange-100);
+  /* Focused border color */
+  --color-border-default-focus: var(--color-palette-blue-500);
+  /* Subtle/muted border color */
+  --color-border-muted: var(--color-palette-gray-100);
+  /* Success icon color */
+  --color-icon-success: var(--color-palette-green-500);
+  /* Warning icon color */
+  --color-icon-warning: var(--color-palette-orange-500);
+  /* Modal/dialog overlay */
+  --color-overlay-default: #00000080;
+  /* Pure black */
+  --color-palette-black: #000000;
+  /* Light blue for subtle backgrounds */
+  --color-palette-blue-100: #deedff;
+  /* Primary blue */
+  --color-palette-blue-500: #0066cc;
+  /* Darker blue for hover states */
+  --color-palette-blue-600: #0054ab;
+  /* Deep blue for strong/active states */
+  --color-palette-blue-700: #00458c;
+  /* Lightest gray */
+  --color-palette-gray-100: #f5f5f7;
+  /* Light gray */
+  --color-palette-gray-300: #d6d9db;
+  /* Medium-light gray */
+  --color-palette-gray-400: #a1a6ab;
+  /* Mid gray */
+  --color-palette-gray-500: #6b757d;
+  /* Dark gray */
+  --color-palette-gray-700: #383d45;
+  /* Darkest gray */
+  --color-palette-gray-900: #1a1c1f;
+  /* Light green for subtle backgrounds */
+  --color-palette-green-100: #d9f5e0;
+  /* Success green */
+  --color-palette-green-500: #21ad4d;
+  /* Light orange for subtle backgrounds */
+  --color-palette-orange-100: #fff2d9;
+  /* Warning orange */
+  --color-palette-orange-500: #ed941a;
+  /* Light red for subtle backgrounds */
+  --color-palette-red-100: #ffe6e6;
+  /* Lighter red for muted danger text */
+  --color-palette-red-400: #f07070;
+  /* Error red */
+  --color-palette-red-500: #db2626;
+  /* Darker red for hover states */
+  --color-palette-red-600: #b81c1c;
+  /* Pure white */
+  --color-palette-white: #ffffff;
+  /* Brand-colored text */
+  --color-text-brand: var(--color-palette-blue-500);
+  /* Danger/error text color */
+  --color-text-danger: var(--color-palette-red-500);
+  /* Subdued danger text color */
+  --color-text-danger-muted: var(--color-palette-red-600);
+  /* Text on dark backgrounds */
+  --color-text-inverse: var(--color-palette-white);
+  /* Disabled text color */
+  --color-text-muted-disabled: var(--color-palette-gray-300);
+  /* Success text color */
+  --color-text-success: var(--color-palette-green-500);
 }
 
 /* Set: typography */
@@ -1017,133 +1239,218 @@ exports[`typescript-starter > should produce expected output 1`] = `
   --font-weight-medium: 500;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
-  /* Default body text style */
-  --typography-body-fontFamily-0: Inter;
-  --typography-body-fontFamily-1: system-ui;
-  --typography-body-fontFamily-2: sans-serif;
-  --typography-body-fontSize: var(--font-size-base);
-  --typography-body-fontWeight: var(--font-weight-regular);
-  --typography-body-letterSpacing: 0rem;
-  --typography-body-lineHeight: var(--font-line-height-normal);
-  /* Small caption or helper text */
-  --typography-caption-fontFamily-0: Inter;
-  --typography-caption-fontFamily-1: system-ui;
-  --typography-caption-fontFamily-2: sans-serif;
-  --typography-caption-fontSize: var(--font-size-sm);
-  --typography-caption-fontWeight: var(--font-weight-regular);
-  --typography-caption-letterSpacing: 0rem;
-  --typography-caption-lineHeight: var(--font-line-height-normal);
-  /* Large heading style */
-  --typography-heading-fontFamily-0: Inter;
-  --typography-heading-fontFamily-1: system-ui;
-  --typography-heading-fontFamily-2: sans-serif;
-  --typography-heading-fontSize: var(--font-size-3xl);
-  --typography-heading-fontWeight: var(--font-weight-bold);
-  --typography-heading-letterSpacing: -0.02rem;
-  --typography-heading-lineHeight: var(--font-line-height-tight);
+  /* Default body text */
+  --typography-body-md-fontFamily-0: Inter;
+  --typography-body-md-fontFamily-1: system-ui;
+  --typography-body-md-fontFamily-2: sans-serif;
+  --typography-body-md-fontSize: var(--font-size-base);
+  --typography-body-md-fontWeight: var(--font-weight-regular);
+  --typography-body-md-letterSpacing: 0rem;
+  --typography-body-md-lineHeight: var(--font-line-height-normal);
+  /* Small body text / captions */
+  --typography-body-sm-fontFamily-0: Inter;
+  --typography-body-sm-fontFamily-1: system-ui;
+  --typography-body-sm-fontFamily-2: sans-serif;
+  --typography-body-sm-fontSize: var(--font-size-sm);
+  --typography-body-sm-fontWeight: var(--font-weight-regular);
+  --typography-body-sm-letterSpacing: 0rem;
+  --typography-body-sm-lineHeight: var(--font-line-height-normal);
+  /* Large heading (h1) */
+  --typography-heading-lg-fontFamily-0: Inter;
+  --typography-heading-lg-fontFamily-1: system-ui;
+  --typography-heading-lg-fontFamily-2: sans-serif;
+  --typography-heading-lg-fontSize: var(--font-size-3xl);
+  --typography-heading-lg-fontWeight: var(--font-weight-bold);
+  --typography-heading-lg-letterSpacing: -0.02rem;
+  --typography-heading-lg-lineHeight: var(--font-line-height-tight);
+  /* Medium heading (h2) */
+  --typography-heading-md-fontFamily-0: Inter;
+  --typography-heading-md-fontFamily-1: system-ui;
+  --typography-heading-md-fontFamily-2: sans-serif;
+  --typography-heading-md-fontSize: var(--font-size-2xl);
+  --typography-heading-md-fontWeight: var(--font-weight-semibold);
+  --typography-heading-md-letterSpacing: -0.01rem;
+  --typography-heading-md-lineHeight: var(--font-line-height-tight);
+  /* Small heading (h3) */
+  --typography-heading-sm-fontFamily-0: Inter;
+  --typography-heading-sm-fontFamily-1: system-ui;
+  --typography-heading-sm-fontFamily-2: sans-serif;
+  --typography-heading-sm-fontSize: var(--font-size-xl);
+  --typography-heading-sm-fontWeight: var(--font-weight-semibold);
+  --typography-heading-sm-letterSpacing: 0rem;
+  --typography-heading-sm-lineHeight: var(--font-line-height-tight);
 }
 
 /* Set: spacing */
-/* Spacing scale */
+/* Spacing scale and alias spacing */
 :root {
-  --spacing-1: 0.25rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
+  --spacing-gap-lg: var(--spacing-scale-lg);
+  --spacing-gap-md: var(--spacing-scale-md);
+  --spacing-gap-sm: var(--spacing-scale-sm);
+  --spacing-gap-xl: var(--spacing-scale-xl);
+  --spacing-gap-xs: var(--spacing-scale-xs);
+  --spacing-inset-lg: var(--spacing-scale-lg);
+  --spacing-inset-md: var(--spacing-scale-md);
+  --spacing-inset-sm: var(--spacing-scale-sm);
+  --spacing-inset-xl: var(--spacing-scale-xl);
+  --spacing-inset-xs: var(--spacing-scale-xs);
+  --spacing-scale-2xl: 3rem;
+  --spacing-scale-lg: 1.5rem;
+  --spacing-scale-md: 1rem;
+  --spacing-scale-sm: 0.5rem;
+  --spacing-scale-xl: 2rem;
+  --spacing-scale-xs: 0.25rem;
 }
 
 /* Set: effects */
-/* Shadows and effects */
+/* Shadows and elevation */
 :root {
+  /* High elevation (modals, dialogs) */
+  --shadow-elevation-lg: var(--shadow-raw-lg);
+  /* Medium elevation (dropdowns, popovers) */
+  --shadow-elevation-md: var(--shadow-raw-md);
+  /* Low elevation (cards, inputs) */
+  --shadow-elevation-sm: var(--shadow-raw-sm);
   /* Large shadow for modals and dialogs */
-  --shadow-lg: var(--shadow-lg-offsetX) var(--shadow-lg-offsetY)
-    var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-lg-color);
-  --shadow-lg-color: #0000001a;
-  --shadow-lg-offsetX: 0px;
-  --shadow-lg-offsetY: 10px;
-  --shadow-lg-blur: 15px;
-  --shadow-lg-spread: -3px;
+  --shadow-raw-lg: var(--shadow-raw-lg-offsetX) var(--shadow-raw-lg-offsetY)
+    var(--shadow-raw-lg-blur) var(--shadow-raw-lg-spread)
+    var(--shadow-raw-lg-color);
+  --shadow-raw-lg-color: #0000001a;
+  --shadow-raw-lg-offsetX: 0px;
+  --shadow-raw-lg-offsetY: 10px;
+  --shadow-raw-lg-blur: 15px;
+  --shadow-raw-lg-spread: -3px;
   /* Medium shadow for dropdowns and popovers */
-  --shadow-md: var(--shadow-md-offsetX) var(--shadow-md-offsetY)
-    var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-md-color);
-  --shadow-md-color: #0000001a;
-  --shadow-md-offsetX: 0px;
-  --shadow-md-offsetY: 4px;
-  --shadow-md-blur: 6px;
-  --shadow-md-spread: -1px;
+  --shadow-raw-md: var(--shadow-raw-md-offsetX) var(--shadow-raw-md-offsetY)
+    var(--shadow-raw-md-blur) var(--shadow-raw-md-spread)
+    var(--shadow-raw-md-color);
+  --shadow-raw-md-color: #0000001a;
+  --shadow-raw-md-offsetX: 0px;
+  --shadow-raw-md-offsetY: 4px;
+  --shadow-raw-md-blur: 6px;
+  --shadow-raw-md-spread: -1px;
   /* Subtle shadow for cards and inputs */
-  --shadow-sm: var(--shadow-sm-offsetX) var(--shadow-sm-offsetY)
-    var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-sm-color);
-  --shadow-sm-color: #0000000d;
-  --shadow-sm-offsetX: 0px;
-  --shadow-sm-offsetY: 1px;
-  --shadow-sm-blur: 2px;
-  --shadow-sm-spread: 0px;
+  --shadow-raw-sm: var(--shadow-raw-sm-offsetX) var(--shadow-raw-sm-offsetY)
+    var(--shadow-raw-sm-blur) var(--shadow-raw-sm-spread)
+    var(--shadow-raw-sm-color);
+  --shadow-raw-sm-color: #0000000d;
+  --shadow-raw-sm-offsetX: 0px;
+  --shadow-raw-sm-offsetY: 1px;
+  --shadow-raw-sm-blur: 2px;
+  --shadow-raw-sm-spread: 0px;
 }
 ",
   "dark/tokens.css": ":root {
   /* Dark page background */
-  --color-semantic-background: var(--color-base-gray-900);
+  --color-background-default: var(--color-palette-gray-900);
   /* Dark border color */
-  --color-semantic-border: var(--color-base-gray-700);
+  --color-border-default: var(--color-palette-gray-700);
   /* Dark surface for cards */
-  --color-semantic-surface: var(--color-base-gray-700);
+  --color-surface-default: var(--color-palette-gray-700);
   /* Light text on dark background */
-  --color-semantic-text: var(--color-base-gray-100);
+  --color-text-default: var(--color-palette-gray-100);
   /* Muted text on dark background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-400);
 }
 ",
   "light/tokens.css": ":root {
   /* Light page background */
-  --color-semantic-background: var(--color-base-white);
+  --color-background-default: var(--color-palette-white);
   /* Light border color */
-  --color-semantic-border: var(--color-base-gray-300);
+  --color-border-default: var(--color-palette-gray-300);
   /* Light surface for cards */
-  --color-semantic-surface: var(--color-base-gray-100);
+  --color-surface-default: var(--color-palette-gray-100);
   /* Dark text on light background */
-  --color-semantic-text: var(--color-base-gray-900);
+  --color-text-default: var(--color-palette-gray-900);
   /* Muted text on light background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-500);
 }
 ",
   "tokens.css": "/* Set: colors */
-/* Color palette and semantic colors */
+/* Color palette and alias colors */
 :root {
-  /* Pure black */
-  --color-base-black: #000000;
-  /* Primary brand blue */
-  --color-base-blue: #0066cc;
-  /* Lightest gray */
-  --color-base-gray-100: #f5f5f7;
-  /* Light gray */
-  --color-base-gray-300: #d6d9db;
-  /* Mid gray */
-  --color-base-gray-500: #6b757d;
-  /* Dark gray */
-  --color-base-gray-700: #383d45;
-  /* Darkest gray */
-  --color-base-gray-900: #1a1c1f;
-  /* Success green */
-  --color-base-green: #21ad4d;
-  /* Warning orange */
-  --color-base-orange: #ed941a;
-  /* Error red */
-  --color-base-red: #db2626;
-  /* Pure white */
-  --color-base-white: #ffffff;
-  /* Error and destructive states */
-  --color-semantic-error: var(--color-base-red);
   /* Primary action color */
-  --color-semantic-primary: var(--color-base-blue);
-  /* Success and positive states */
-  --color-semantic-success: var(--color-base-green);
-  /* Warning and caution states */
-  --color-semantic-warning: var(--color-base-orange);
+  --color-action-brand: var(--color-palette-blue-500);
+  /* Primary action hover */
+  --color-action-brand-hover: var(--color-palette-blue-600);
+  /* Strong/high-contrast action color */
+  --color-action-brand-strong: var(--color-palette-blue-600);
+  /* Strong action pressed */
+  --color-action-brand-strong-active: var(--color-palette-blue-600);
+  /* Destructive action color */
+  --color-action-danger: var(--color-palette-red-500);
+  /* Destructive action hover */
+  --color-action-danger-hover: var(--color-palette-red-600);
+  /* Subtle brand background */
+  --color-background-brand-subtle: var(--color-palette-blue-100);
+  /* Subtle danger background */
+  --color-background-danger-subtle: var(--color-palette-red-100);
+  /* Subtle success background */
+  --color-background-success-subtle: var(--color-palette-green-100);
+  /* Subtle warning background */
+  --color-background-warning-subtle: var(--color-palette-orange-100);
+  /* Focused border color */
+  --color-border-default-focus: var(--color-palette-blue-500);
+  /* Subtle/muted border color */
+  --color-border-muted: var(--color-palette-gray-100);
+  /* Success icon color */
+  --color-icon-success: var(--color-palette-green-500);
+  /* Warning icon color */
+  --color-icon-warning: var(--color-palette-orange-500);
+  /* Modal/dialog overlay */
+  --color-overlay-default: #00000080;
+  /* Pure black */
+  --color-palette-black: #000000;
+  /* Light blue for subtle backgrounds */
+  --color-palette-blue-100: #deedff;
+  /* Primary blue */
+  --color-palette-blue-500: #0066cc;
+  /* Darker blue for hover states */
+  --color-palette-blue-600: #0054ab;
+  /* Deep blue for strong/active states */
+  --color-palette-blue-700: #00458c;
+  /* Lightest gray */
+  --color-palette-gray-100: #f5f5f7;
+  /* Light gray */
+  --color-palette-gray-300: #d6d9db;
+  /* Medium-light gray */
+  --color-palette-gray-400: #a1a6ab;
+  /* Mid gray */
+  --color-palette-gray-500: #6b757d;
+  /* Dark gray */
+  --color-palette-gray-700: #383d45;
+  /* Darkest gray */
+  --color-palette-gray-900: #1a1c1f;
+  /* Light green for subtle backgrounds */
+  --color-palette-green-100: #d9f5e0;
+  /* Success green */
+  --color-palette-green-500: #21ad4d;
+  /* Light orange for subtle backgrounds */
+  --color-palette-orange-100: #fff2d9;
+  /* Warning orange */
+  --color-palette-orange-500: #ed941a;
+  /* Light red for subtle backgrounds */
+  --color-palette-red-100: #ffe6e6;
+  /* Lighter red for muted danger text */
+  --color-palette-red-400: #f07070;
+  /* Error red */
+  --color-palette-red-500: #db2626;
+  /* Darker red for hover states */
+  --color-palette-red-600: #b81c1c;
+  /* Pure white */
+  --color-palette-white: #ffffff;
+  /* Brand-colored text */
+  --color-text-brand: var(--color-palette-blue-500);
+  /* Danger/error text color */
+  --color-text-danger: var(--color-palette-red-500);
+  /* Subdued danger text color */
+  --color-text-danger-muted: var(--color-palette-red-600);
+  /* Text on dark backgrounds */
+  --color-text-inverse: var(--color-palette-white);
+  /* Disabled text color */
+  --color-text-muted-disabled: var(--color-palette-gray-300);
+  /* Success text color */
+  --color-text-success: var(--color-palette-green-500);
 }
 
 
@@ -1168,74 +1475,107 @@ exports[`typescript-starter > should produce expected output 1`] = `
   --font-weight-medium: 500;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
-  /* Default body text style */
-  --typography-body-fontFamily-0: Inter;
-  --typography-body-fontFamily-1: system-ui;
-  --typography-body-fontFamily-2: sans-serif;
-  --typography-body-fontSize: var(--font-size-base);
-  --typography-body-fontWeight: var(--font-weight-regular);
-  --typography-body-letterSpacing: 0rem;
-  --typography-body-lineHeight: var(--font-line-height-normal);
-  /* Small caption or helper text */
-  --typography-caption-fontFamily-0: Inter;
-  --typography-caption-fontFamily-1: system-ui;
-  --typography-caption-fontFamily-2: sans-serif;
-  --typography-caption-fontSize: var(--font-size-sm);
-  --typography-caption-fontWeight: var(--font-weight-regular);
-  --typography-caption-letterSpacing: 0rem;
-  --typography-caption-lineHeight: var(--font-line-height-normal);
-  /* Large heading style */
-  --typography-heading-fontFamily-0: Inter;
-  --typography-heading-fontFamily-1: system-ui;
-  --typography-heading-fontFamily-2: sans-serif;
-  --typography-heading-fontSize: var(--font-size-3xl);
-  --typography-heading-fontWeight: var(--font-weight-bold);
-  --typography-heading-letterSpacing: -0.02rem;
-  --typography-heading-lineHeight: var(--font-line-height-tight);
+  /* Default body text */
+  --typography-body-md-fontFamily-0: Inter;
+  --typography-body-md-fontFamily-1: system-ui;
+  --typography-body-md-fontFamily-2: sans-serif;
+  --typography-body-md-fontSize: var(--font-size-base);
+  --typography-body-md-fontWeight: var(--font-weight-regular);
+  --typography-body-md-letterSpacing: 0rem;
+  --typography-body-md-lineHeight: var(--font-line-height-normal);
+  /* Small body text / captions */
+  --typography-body-sm-fontFamily-0: Inter;
+  --typography-body-sm-fontFamily-1: system-ui;
+  --typography-body-sm-fontFamily-2: sans-serif;
+  --typography-body-sm-fontSize: var(--font-size-sm);
+  --typography-body-sm-fontWeight: var(--font-weight-regular);
+  --typography-body-sm-letterSpacing: 0rem;
+  --typography-body-sm-lineHeight: var(--font-line-height-normal);
+  /* Large heading (h1) */
+  --typography-heading-lg-fontFamily-0: Inter;
+  --typography-heading-lg-fontFamily-1: system-ui;
+  --typography-heading-lg-fontFamily-2: sans-serif;
+  --typography-heading-lg-fontSize: var(--font-size-3xl);
+  --typography-heading-lg-fontWeight: var(--font-weight-bold);
+  --typography-heading-lg-letterSpacing: -0.02rem;
+  --typography-heading-lg-lineHeight: var(--font-line-height-tight);
+  /* Medium heading (h2) */
+  --typography-heading-md-fontFamily-0: Inter;
+  --typography-heading-md-fontFamily-1: system-ui;
+  --typography-heading-md-fontFamily-2: sans-serif;
+  --typography-heading-md-fontSize: var(--font-size-2xl);
+  --typography-heading-md-fontWeight: var(--font-weight-semibold);
+  --typography-heading-md-letterSpacing: -0.01rem;
+  --typography-heading-md-lineHeight: var(--font-line-height-tight);
+  /* Small heading (h3) */
+  --typography-heading-sm-fontFamily-0: Inter;
+  --typography-heading-sm-fontFamily-1: system-ui;
+  --typography-heading-sm-fontFamily-2: sans-serif;
+  --typography-heading-sm-fontSize: var(--font-size-xl);
+  --typography-heading-sm-fontWeight: var(--font-weight-semibold);
+  --typography-heading-sm-letterSpacing: 0rem;
+  --typography-heading-sm-lineHeight: var(--font-line-height-tight);
 }
 
 
 /* Set: spacing */
-/* Spacing scale */
+/* Spacing scale and alias spacing */
 :root {
-  --spacing-1: 0.25rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
+  --spacing-gap-lg: var(--spacing-scale-lg);
+  --spacing-gap-md: var(--spacing-scale-md);
+  --spacing-gap-sm: var(--spacing-scale-sm);
+  --spacing-gap-xl: var(--spacing-scale-xl);
+  --spacing-gap-xs: var(--spacing-scale-xs);
+  --spacing-inset-lg: var(--spacing-scale-lg);
+  --spacing-inset-md: var(--spacing-scale-md);
+  --spacing-inset-sm: var(--spacing-scale-sm);
+  --spacing-inset-xl: var(--spacing-scale-xl);
+  --spacing-inset-xs: var(--spacing-scale-xs);
+  --spacing-scale-2xl: 3rem;
+  --spacing-scale-lg: 1.5rem;
+  --spacing-scale-md: 1rem;
+  --spacing-scale-sm: 0.5rem;
+  --spacing-scale-xl: 2rem;
+  --spacing-scale-xs: 0.25rem;
 }
 
 
 /* Set: effects */
-/* Shadows and effects */
+/* Shadows and elevation */
 :root {
+  /* High elevation (modals, dialogs) */
+  --shadow-elevation-lg: var(--shadow-raw-lg);
+  /* Medium elevation (dropdowns, popovers) */
+  --shadow-elevation-md: var(--shadow-raw-md);
+  /* Low elevation (cards, inputs) */
+  --shadow-elevation-sm: var(--shadow-raw-sm);
   /* Large shadow for modals and dialogs */
-  --shadow-lg: var(--shadow-lg-offsetX) var(--shadow-lg-offsetY)
-    var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-lg-color);
-  --shadow-lg-color: #0000001a;
-  --shadow-lg-offsetX: 0px;
-  --shadow-lg-offsetY: 10px;
-  --shadow-lg-blur: 15px;
-  --shadow-lg-spread: -3px;
+  --shadow-raw-lg: var(--shadow-raw-lg-offsetX) var(--shadow-raw-lg-offsetY)
+    var(--shadow-raw-lg-blur) var(--shadow-raw-lg-spread)
+    var(--shadow-raw-lg-color);
+  --shadow-raw-lg-color: #0000001a;
+  --shadow-raw-lg-offsetX: 0px;
+  --shadow-raw-lg-offsetY: 10px;
+  --shadow-raw-lg-blur: 15px;
+  --shadow-raw-lg-spread: -3px;
   /* Medium shadow for dropdowns and popovers */
-  --shadow-md: var(--shadow-md-offsetX) var(--shadow-md-offsetY)
-    var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-md-color);
-  --shadow-md-color: #0000001a;
-  --shadow-md-offsetX: 0px;
-  --shadow-md-offsetY: 4px;
-  --shadow-md-blur: 6px;
-  --shadow-md-spread: -1px;
+  --shadow-raw-md: var(--shadow-raw-md-offsetX) var(--shadow-raw-md-offsetY)
+    var(--shadow-raw-md-blur) var(--shadow-raw-md-spread)
+    var(--shadow-raw-md-color);
+  --shadow-raw-md-color: #0000001a;
+  --shadow-raw-md-offsetX: 0px;
+  --shadow-raw-md-offsetY: 4px;
+  --shadow-raw-md-blur: 6px;
+  --shadow-raw-md-spread: -1px;
   /* Subtle shadow for cards and inputs */
-  --shadow-sm: var(--shadow-sm-offsetX) var(--shadow-sm-offsetY)
-    var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-sm-color);
-  --shadow-sm-color: #0000000d;
-  --shadow-sm-offsetX: 0px;
-  --shadow-sm-offsetY: 1px;
-  --shadow-sm-blur: 2px;
-  --shadow-sm-spread: 0px;
+  --shadow-raw-sm: var(--shadow-raw-sm-offsetX) var(--shadow-raw-sm-offsetY)
+    var(--shadow-raw-sm-blur) var(--shadow-raw-sm-spread)
+    var(--shadow-raw-sm-color);
+  --shadow-raw-sm-color: #0000000d;
+  --shadow-raw-sm-offsetX: 0px;
+  --shadow-raw-sm-offsetY: 1px;
+  --shadow-raw-sm-blur: 2px;
+  --shadow-raw-sm-spread: 0px;
 }
 
 
@@ -1243,30 +1583,30 @@ exports[`typescript-starter > should produce expected output 1`] = `
 /* Theme variations */
 :root {
   /* Light page background */
-  --color-semantic-background: var(--color-base-white);
+  --color-background-default: var(--color-palette-white);
   /* Light border color */
-  --color-semantic-border: var(--color-base-gray-300);
+  --color-border-default: var(--color-palette-gray-300);
   /* Light surface for cards */
-  --color-semantic-surface: var(--color-base-gray-100);
+  --color-surface-default: var(--color-palette-gray-100);
   /* Dark text on light background */
-  --color-semantic-text: var(--color-base-gray-900);
+  --color-text-default: var(--color-palette-gray-900);
   /* Muted text on light background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-500);
 }
 
 
 /* Modifier: theme=dark */
 [data-theme="dark"] {
   /* Dark page background */
-  --color-semantic-background: var(--color-base-gray-900);
+  --color-background-default: var(--color-palette-gray-900);
   /* Dark border color */
-  --color-semantic-border: var(--color-base-gray-700);
+  --color-border-default: var(--color-palette-gray-700);
   /* Dark surface for cards */
-  --color-semantic-surface: var(--color-base-gray-700);
+  --color-surface-default: var(--color-palette-gray-700);
   /* Light text on dark background */
-  --color-semantic-text: var(--color-base-gray-100);
+  --color-text-default: var(--color-palette-gray-100);
   /* Muted text on dark background */
-  --color-semantic-text-muted: var(--color-base-gray-500);
+  --color-text-muted: var(--color-palette-gray-400);
 }
 ",
 }
