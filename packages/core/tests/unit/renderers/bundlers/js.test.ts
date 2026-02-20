@@ -22,7 +22,7 @@ describe('JavaScript Module Bundler', () => {
 
   const mockTokens: ResolvedTokens = {
     'color.red': {
-      $value: '#ff0000',
+      $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
       $type: 'color',
       path: ['color', 'red'],
       name: 'color.red',

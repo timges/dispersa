@@ -12,19 +12,25 @@ describe('GroupExtensionResolver', () => {
     it('returns tokens at root level unchanged', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
-        'color-primary': { $value: '#0066cc', $type: 'color' },
+        'color-primary': {
+          $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+          $type: 'color',
+        },
       }
 
       const result = resolver.resolveExtensions(collection)
-      expect(result['color-primary']).toEqual({ $value: '#0066cc', $type: 'color' })
+      expect(result['color-primary']).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
     })
 
     it('returns groups without $extends unchanged', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         colors: {
-          primary: { $value: '#0066cc', $type: 'color' },
-          secondary: { $value: '#003366', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
+          secondary: { $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] }, $type: 'color' },
         },
       }
 
@@ -36,12 +42,12 @@ describe('GroupExtensionResolver', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          primary: { $value: '#0066cc', $type: 'color' },
-          secondary: { $value: '#003366', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
+          secondary: { $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] }, $type: 'color' },
         },
         derived: {
           $extends: '{base}',
-          tertiary: { $value: '#006633', $type: 'color' },
+          tertiary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.2] }, $type: 'color' },
         },
       }
 
@@ -49,41 +55,56 @@ describe('GroupExtensionResolver', () => {
       const derived = result.derived as Record<string, any>
 
       // Should have inherited tokens
-      expect(derived.primary).toEqual({ $value: '#0066cc', $type: 'color' })
-      expect(derived.secondary).toEqual({ $value: '#003366', $type: 'color' })
+      expect(derived.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
+      expect(derived.secondary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] },
+        $type: 'color',
+      })
       // Plus local tokens
-      expect(derived.tertiary).toEqual({ $value: '#006633', $type: 'color' })
+      expect(derived.tertiary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.2] },
+        $type: 'color',
+      })
     })
 
     it('resolves $extends with JSON Pointer syntax', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          primary: { $value: '#0066cc', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
         },
         derived: {
           $extends: '#/base',
-          extra: { $value: '#ff0000', $type: 'color' },
+          extra: { $value: { colorSpace: 'srgb', components: [1, 0, 0] }, $type: 'color' },
         },
       }
 
       const result = resolver.resolveExtensions(collection)
       const derived = result.derived as Record<string, any>
 
-      expect(derived.primary).toEqual({ $value: '#0066cc', $type: 'color' })
-      expect(derived.extra).toEqual({ $value: '#ff0000', $type: 'color' })
+      expect(derived.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
+      expect(derived.extra).toEqual({
+        $value: { colorSpace: 'srgb', components: [1, 0, 0] },
+        $type: 'color',
+      })
     })
 
     it('local tokens override inherited tokens at same path', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          primary: { $value: '#0066cc', $type: 'color' },
-          secondary: { $value: '#003366', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
+          secondary: { $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] }, $type: 'color' },
         },
         derived: {
           $extends: '{base}',
-          primary: { $value: '#ff0000', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [1, 0, 0] }, $type: 'color' },
         },
       }
 
@@ -91,9 +112,15 @@ describe('GroupExtensionResolver', () => {
       const derived = result.derived as Record<string, any>
 
       // Local overrides inherited
-      expect(derived.primary).toEqual({ $value: '#ff0000', $type: 'color' })
+      expect(derived.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [1, 0, 0] },
+        $type: 'color',
+      })
       // Inherited preserved
-      expect(derived.secondary).toEqual({ $value: '#003366', $type: 'color' })
+      expect(derived.secondary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] },
+        $type: 'color',
+      })
     })
 
     it('deep merges nested groups', () => {
@@ -101,15 +128,18 @@ describe('GroupExtensionResolver', () => {
       const collection: TokenCollection = {
         base: {
           buttons: {
-            primary: { $value: '#0066cc', $type: 'color' },
-            secondary: { $value: '#003366', $type: 'color' },
+            primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
+            secondary: {
+              $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] },
+              $type: 'color',
+            },
           },
         },
         derived: {
           $extends: '{base}',
           buttons: {
-            primary: { $value: '#ff0000', $type: 'color' },
-            tertiary: { $value: '#00ff00', $type: 'color' },
+            primary: { $value: { colorSpace: 'srgb', components: [1, 0, 0] }, $type: 'color' },
+            tertiary: { $value: { colorSpace: 'srgb', components: [0, 1, 0] }, $type: 'color' },
           },
         },
       }
@@ -117,9 +147,18 @@ describe('GroupExtensionResolver', () => {
       const result = resolver.resolveExtensions(collection)
       const buttons = (result.derived as any).buttons
 
-      expect(buttons.primary).toEqual({ $value: '#ff0000', $type: 'color' })
-      expect(buttons.secondary).toEqual({ $value: '#003366', $type: 'color' })
-      expect(buttons.tertiary).toEqual({ $value: '#00ff00', $type: 'color' })
+      expect(buttons.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [1, 0, 0] },
+        $type: 'color',
+      })
+      expect(buttons.secondary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] },
+        $type: 'color',
+      })
+      expect(buttons.tertiary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 1, 0] },
+        $type: 'color',
+      })
     })
 
     it('resolves multi-level inheritance (chain)', () => {
@@ -150,15 +189,15 @@ describe('GroupExtensionResolver', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          shared: { $value: '#000', $type: 'color' },
+          shared: { $value: { colorSpace: 'srgb', components: [0, 0, 0] }, $type: 'color' },
         },
         derivedA: {
           $extends: '{base}',
-          onlyA: { $value: '#aaa', $type: 'color' },
+          onlyA: { $value: { colorSpace: 'srgb', components: [0.67, 0.67, 0.67] }, $type: 'color' },
         },
         derivedB: {
           $extends: '{base}',
-          onlyB: { $value: '#bbb', $type: 'color' },
+          onlyB: { $value: { colorSpace: 'srgb', components: [0.73, 0.73, 0.73] }, $type: 'color' },
         },
       }
 
@@ -166,12 +205,24 @@ describe('GroupExtensionResolver', () => {
       const derivedA = result.derivedA as Record<string, any>
       const derivedB = result.derivedB as Record<string, any>
 
-      expect(derivedA.shared).toEqual({ $value: '#000', $type: 'color' })
-      expect(derivedA.onlyA).toEqual({ $value: '#aaa', $type: 'color' })
+      expect(derivedA.shared).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
+        $type: 'color',
+      })
+      expect(derivedA.onlyA).toEqual({
+        $value: { colorSpace: 'srgb', components: [0.67, 0.67, 0.67] },
+        $type: 'color',
+      })
       expect(derivedA.onlyB).toBeUndefined()
 
-      expect(derivedB.shared).toEqual({ $value: '#000', $type: 'color' })
-      expect(derivedB.onlyB).toEqual({ $value: '#bbb', $type: 'color' })
+      expect(derivedB.shared).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
+        $type: 'color',
+      })
+      expect(derivedB.onlyB).toEqual({
+        $value: { colorSpace: 'srgb', components: [0.73, 0.73, 0.73] },
+        $type: 'color',
+      })
       expect(derivedB.onlyA).toBeUndefined()
     })
 
@@ -180,7 +231,7 @@ describe('GroupExtensionResolver', () => {
       const collection: TokenCollection = {
         base: {
           $description: 'Base group',
-          primary: { $value: '#0066cc', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
         },
         derived: {
           $extends: '{base}',
@@ -194,14 +245,17 @@ describe('GroupExtensionResolver', () => {
       // Local $description overrides inherited
       expect(derived.$description).toBe('Derived group')
       // Inherited tokens preserved
-      expect(derived.primary).toEqual({ $value: '#0066cc', $type: 'color' })
+      expect(derived.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
     })
 
     it('strips $extends from the output', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          primary: { $value: '#0066cc', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
         },
         derived: {
           $extends: '{base}',
@@ -263,7 +317,7 @@ describe('GroupExtensionResolver', () => {
     it('throws when target is a token instead of a group', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
-        token: { $value: '#000', $type: 'color' },
+        token: { $value: { colorSpace: 'srgb', components: [0, 0, 0] }, $type: 'color' },
         derived: {
           $extends: '{token}',
         },
@@ -289,12 +343,12 @@ describe('GroupExtensionResolver', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         shared: {
-          bg: { $value: '#fff', $type: 'color' },
+          bg: { $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] }, $type: 'color' },
         },
         component: {
           button: {
             $extends: '{shared}',
-            fg: { $value: '#000', $type: 'color' },
+            fg: { $value: { colorSpace: 'srgb', components: [0, 0, 0] }, $type: 'color' },
           },
         },
       }
@@ -302,8 +356,14 @@ describe('GroupExtensionResolver', () => {
       const result = resolver.resolveExtensions(collection)
       const button = (result.component as any).button
 
-      expect(button.bg).toEqual({ $value: '#fff', $type: 'color' })
-      expect(button.fg).toEqual({ $value: '#000', $type: 'color' })
+      expect(button.bg).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+        $type: 'color',
+      })
+      expect(button.fg).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
+        $type: 'color',
+      })
     })
 
     it('resolves $extends referencing nested groups', () => {
@@ -311,20 +371,26 @@ describe('GroupExtensionResolver', () => {
       const collection: TokenCollection = {
         theme: {
           colors: {
-            primary: { $value: '#0066cc', $type: 'color' },
+            primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
           },
         },
         overrides: {
           $extends: '{theme.colors}',
-          secondary: { $value: '#003366', $type: 'color' },
+          secondary: { $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] }, $type: 'color' },
         },
       }
 
       const result = resolver.resolveExtensions(collection)
       const overrides = result.overrides as Record<string, any>
 
-      expect(overrides.primary).toEqual({ $value: '#0066cc', $type: 'color' })
-      expect(overrides.secondary).toEqual({ $value: '#003366', $type: 'color' })
+      expect(overrides.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
+      expect(overrides.secondary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.2, 0.4] },
+        $type: 'color',
+      })
     })
   })
 
@@ -339,7 +405,7 @@ describe('GroupExtensionResolver', () => {
       const resolver = createResolver()
       const collection: TokenCollection = {
         base: {
-          primary: { $value: '#0066cc', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
         },
         copy: {
           $extends: '{base}',
@@ -349,7 +415,10 @@ describe('GroupExtensionResolver', () => {
       const result = resolver.resolveExtensions(collection)
       const copy = result.copy as Record<string, any>
 
-      expect(copy.primary).toEqual({ $value: '#0066cc', $type: 'color' })
+      expect(copy.primary).toEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
     })
 
     it('handles deeply nested path in findGroup', () => {

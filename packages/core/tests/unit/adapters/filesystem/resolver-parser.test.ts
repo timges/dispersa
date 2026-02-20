@@ -28,7 +28,16 @@ describe('ResolverParser', () => {
     version: '2025.10',
     sets: {
       base: {
-        sources: [{ color: { primary: { $value: '#ff0000', $type: 'color' } } }],
+        sources: [
+          {
+            color: {
+              primary: {
+                $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                $type: 'color',
+              },
+            },
+          },
+        ],
       },
     },
     resolutionOrder: [{ $ref: '#/sets/base' }],
@@ -245,7 +254,16 @@ describe('ResolverParser', () => {
       const validDoc: ResolverDocument = {
         version: '2025.10',
         sets: {
-          base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] },
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
           semantic: { sources: [{ $ref: '#/sets/base' }] },
         },
         resolutionOrder: [{ $ref: '#/sets/semantic' }],
@@ -259,7 +277,18 @@ describe('ResolverParser', () => {
     it('should reject modifiers with 0 contexts', () => {
       const invalidDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: {},
@@ -275,7 +304,18 @@ describe('ResolverParser', () => {
     it('should reject modifiers with only 1 context', () => {
       const invalidDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: { light: [] },
@@ -291,7 +331,18 @@ describe('ResolverParser', () => {
     it('should accept modifiers with 2+ contexts', () => {
       const validDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: { light: [], dark: [] },
@@ -307,7 +358,18 @@ describe('ResolverParser', () => {
     it('should reject invalid default context', () => {
       const invalidDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: { light: [], dark: [] },
@@ -323,7 +385,18 @@ describe('ResolverParser', () => {
     it('should allow valid default context', () => {
       const validDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: { light: [], dark: [] },
@@ -339,7 +412,18 @@ describe('ResolverParser', () => {
     it('should allow modifiers without default', () => {
       const validDoc: ResolverDocument = {
         version: '2025.10',
-        sets: { base: { sources: [{ color: { $value: '#fff', $type: 'color' } }] } },
+        sets: {
+          base: {
+            sources: [
+              {
+                color: {
+                  $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                  $type: 'color',
+                },
+              },
+            ],
+          },
+        },
         modifiers: {
           theme: {
             contexts: { light: [], dark: [] },

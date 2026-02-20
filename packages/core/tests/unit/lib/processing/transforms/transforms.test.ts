@@ -324,7 +324,10 @@ describe('Transform Integration Tests', () => {
       const customHex: Transform = {
         name: 'color:hex',
         matcher: (token) => token.$type === 'color',
-        transform: (token) => ({ ...token, $value: '#CUSTOM' }),
+        transform: (token) => ({
+          ...token,
+          $value: { colorSpace: 'srgb', components: [1, 0.5, 0] },
+        }),
       }
 
       const transform = customHex
@@ -337,7 +340,7 @@ describe('Transform Integration Tests', () => {
       }
 
       const result = transform.transform(token)
-      expect(result.$value).toBe('#CUSTOM')
+      expect(result.$value).toStrictEqual({ colorSpace: 'srgb', components: [1, 0.5, 0] })
     })
   })
 

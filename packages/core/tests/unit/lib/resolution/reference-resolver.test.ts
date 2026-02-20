@@ -70,12 +70,15 @@ describe('ReferenceResolver', () => {
       const resolver = new ReferenceResolver(fixturesDir)
       const document = {
         colors: {
-          primary: { $value: '#0066cc', $type: 'color' },
+          primary: { $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] }, $type: 'color' },
         },
       }
 
       const result = await resolver.resolve('#/colors/primary', document)
-      expect(result).toEqual({ $value: '#0066cc', $type: 'color' })
+      expect(result).toStrictEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+        $type: 'color',
+      })
     })
 
     it('throws when fragment ref lacks a current document', async () => {
@@ -118,7 +121,7 @@ describe('ReferenceResolver', () => {
     it('merges local properties alongside $ref', async () => {
       const resolver = new ReferenceResolver(fixturesDir)
       const document = {
-        base: { $value: '#000', $type: 'color' },
+        base: { $value: { colorSpace: 'srgb', components: [0, 0, 0] }, $type: 'color' },
       }
 
       const result = await resolver.resolve(
@@ -126,8 +129,8 @@ describe('ReferenceResolver', () => {
         document,
       )
 
-      expect(result).toEqual({
-        $value: '#000',
+      expect(result).toStrictEqual({
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
         $type: 'color',
         $description: 'overridden',
       })
@@ -251,14 +254,14 @@ describe('ReferenceResolver', () => {
       const resolver = new ReferenceResolver(fixturesDir)
       const document = {
         base: {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           $type: 'color',
         },
         alias: { $ref: '#/base' },
       }
 
       const result = (await resolver.resolveDeepTokenDocument(document, document)) as any
-      expect(result.alias.$value).toBe('#ff0000')
+      expect(result.alias.$value).toStrictEqual({ colorSpace: 'srgb', components: [0, 0.27, 0.55] })
       expect(result.alias.$type).toBe('color')
     })
   })
@@ -269,7 +272,7 @@ describe('ReferenceResolver', () => {
         validation: { mode: 'error' },
       })
       const document = {
-        source: { $value: '#ff0000', $type: 'color' },
+        source: { $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] }, $type: 'color' },
         alias: { $ref: '#/source', $type: 'dimension' },
       }
 
@@ -283,13 +286,13 @@ describe('ReferenceResolver', () => {
         validation: { mode: 'warn' },
       })
       const document = {
-        source: { $value: '#ff0000', $type: 'color' },
+        source: { $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] }, $type: 'color' },
         alias: { $ref: '#/source', $type: 'dimension' },
       }
 
       const result = (await resolver.resolveDeepTokenDocument(document, document)) as any
       // Should resolve without throwing, keeping declared type
-      expect(result.alias.$value).toBe('#ff0000')
+      expect(result.alias.$value).toStrictEqual({ colorSpace: 'srgb', components: [0, 0.27, 0.55] })
       expect(result.alias.$type).toBe('dimension')
     })
   })

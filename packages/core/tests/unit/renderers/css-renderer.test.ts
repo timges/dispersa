@@ -389,7 +389,7 @@ describe('CSS Renderer', () => {
     it('should emit a base file with set tokens', async () => {
       const setTokens: ResolvedTokens = {
         'color.base.red': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           $type: 'color',
           name: 'color-base-red',
           path: ['color', 'base', 'red'],
@@ -397,7 +397,7 @@ describe('CSS Renderer', () => {
           _sourceSet: 'colors',
         } as ResolvedToken,
         'spacing.sm': {
-          $value: '0.5rem',
+          $value: { value: 0.5, unit: 'rem' },
           $type: 'dimension',
           name: 'spacing-sm',
           path: ['spacing', 'sm'],
@@ -407,7 +407,7 @@ describe('CSS Renderer', () => {
       }
       const lightModTokens: ResolvedTokens = {
         'color.semantic.bg': {
-          $value: '#ffffff',
+          $value: { colorSpace: 'srgb', components: [1, 1, 1] },
           $type: 'color',
           name: 'color-semantic-bg',
           path: ['color', 'semantic', 'bg'],
@@ -417,7 +417,7 @@ describe('CSS Renderer', () => {
       }
       const darkModTokens: ResolvedTokens = {
         'color.semantic.bg': {
-          $value: '#111111',
+          $value: { colorSpace: 'srgb', components: [0.067, 0.067, 0.067] },
           $type: 'color',
           name: 'color-semantic-bg',
           path: ['color', 'semantic', 'bg'],
@@ -445,7 +445,7 @@ describe('CSS Renderer', () => {
     it('should group base file tokens by set with comments', async () => {
       const setTokens: ResolvedTokens = {
         'color.base.red': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           $type: 'color',
           name: 'color-base-red',
           path: ['color', 'base', 'red'],
@@ -453,7 +453,7 @@ describe('CSS Renderer', () => {
           _sourceSet: 'colors',
         } as ResolvedToken,
         'spacing.sm': {
-          $value: '0.5rem',
+          $value: { value: 0.5, unit: 'rem' },
           $type: 'dimension',
           name: 'spacing-sm',
           path: ['spacing', 'sm'],
@@ -478,7 +478,7 @@ describe('CSS Renderer', () => {
     it('should not emit base file when there are no set tokens', async () => {
       const lightModTokens: ResolvedTokens = {
         'color.semantic.bg': {
-          $value: '#ffffff',
+          $value: { colorSpace: 'srgb', components: [1, 1, 1] },
           $type: 'color',
           name: 'color-semantic-bg',
           path: ['color', 'semantic', 'bg'],
@@ -488,7 +488,7 @@ describe('CSS Renderer', () => {
       }
       const darkModTokens: ResolvedTokens = {
         'color.semantic.bg': {
-          $value: '#111111',
+          $value: { colorSpace: 'srgb', components: [0.067, 0.067, 0.067] },
           $type: 'color',
           name: 'color-semantic-bg',
           path: ['color', 'semantic', 'bg'],
@@ -511,7 +511,7 @@ describe('CSS Renderer', () => {
     it('should use :root selector for base file by default', async () => {
       const setTokens: ResolvedTokens = {
         'color.base.red': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           $type: 'color',
           name: 'color-base-red',
           path: ['color', 'base', 'red'],
@@ -533,7 +533,7 @@ describe('CSS Renderer', () => {
     it('should resolve custom selector function for base file', async () => {
       const setTokens: ResolvedTokens = {
         'color.base.red': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           $type: 'color',
           name: 'color-base-red',
           path: ['color', 'base', 'red'],
@@ -558,7 +558,7 @@ describe('CSS Renderer', () => {
     it('should generate in-memory key when no file pattern is set', async () => {
       const setTokens: ResolvedTokens = {
         'color.base.red': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           $type: 'color',
           name: 'color-base-red',
           path: ['color', 'base', 'red'],
@@ -568,7 +568,7 @@ describe('CSS Renderer', () => {
       }
       const lightModTokens: ResolvedTokens = {
         'color.semantic.bg': {
-          $value: '#ffffff',
+          $value: { colorSpace: 'srgb', components: [1, 1, 1] },
           $type: 'color',
           name: 'color-semantic-bg',
           path: ['color', 'semantic', 'bg'],

@@ -18,17 +18,17 @@ describe('Filter Integration Tests', () => {
       const testTokens = {
         'color.primary': {
           $type: 'color' as const,
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'primary'],
         },
         'spacing.base': {
           $type: 'dimension' as const,
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
           path: ['spacing', 'base'],
         },
         'color.secondary': {
           $type: 'color' as const,
-          $value: '#00ff00',
+          $value: { colorSpace: 'srgb', components: [0, 1, 0] },
           path: ['color', 'secondary'],
         },
       }
@@ -50,7 +50,7 @@ describe('Filter Integration Tests', () => {
 
       const aliasToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         originalValue: '{color.red.500}',
         path: ['color', 'semantic', 'primary'],
         name: 'color.semantic.primary',
@@ -58,7 +58,7 @@ describe('Filter Integration Tests', () => {
 
       const baseToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         originalValue: '#ff0000',
         path: ['color', 'red', '500'],
         name: 'color.red.500',
@@ -66,7 +66,7 @@ describe('Filter Integration Tests', () => {
 
       const tokenWithoutMetadata: ResolvedToken = {
         $type: 'color',
-        $value: '#00ff00',
+        $value: { colorSpace: 'srgb', components: [0, 1, 0] },
         originalValue: '#00ff00',
         path: ['color', 'green', '500'],
         name: 'color.green.500',
@@ -82,7 +82,7 @@ describe('Filter Integration Tests', () => {
 
       const aliasToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         originalValue: '{color.red.500}',
         path: ['color', 'semantic', 'primary'],
         name: 'color.semantic.primary',
@@ -90,7 +90,7 @@ describe('Filter Integration Tests', () => {
 
       const baseToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         originalValue: '#ff0000',
         path: ['color', 'red', '500'],
         name: 'color.red.500',
@@ -98,7 +98,7 @@ describe('Filter Integration Tests', () => {
 
       const tokenWithoutMetadata: ResolvedToken = {
         $type: 'color',
-        $value: '#00ff00',
+        $value: { colorSpace: 'srgb', components: [0, 1, 0] },
         originalValue: '#00ff00',
         path: ['color', 'green', '500'],
         name: 'color.green.500',
@@ -117,28 +117,28 @@ describe('Filter Integration Tests', () => {
       const tokens: ResolvedToken[] = [
         {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           originalValue: '#ff0000',
           path: ['color', 'red', '500'],
           name: 'color.red.500',
         },
         {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           originalValue: '{color.red.500}',
           path: ['color', 'semantic', 'error'],
           name: 'color.semantic.error',
         },
         {
           $type: 'color',
-          $value: '#00ff00',
+          $value: { colorSpace: 'srgb', components: [0, 1, 0] },
           originalValue: '#00ff00',
           path: ['color', 'green', '500'],
           name: 'color.green.500',
         },
         {
           $type: 'color',
-          $value: '#00ff00',
+          $value: { colorSpace: 'srgb', components: [0, 1, 0] },
           originalValue: '{color.green.500}',
           path: ['color', 'semantic', 'success'],
           name: 'color.semantic.success',
@@ -175,7 +175,7 @@ describe('Filter Integration Tests', () => {
 
       const colorToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         path: ['color', 'primary'],
       }
 
@@ -189,13 +189,13 @@ describe('Filter Integration Tests', () => {
 
       const spacingToken: ResolvedToken = {
         $type: 'dimension',
-        $value: '16px',
+        $value: { value: 16, unit: 'px' },
         path: ['spacing', 'base'],
       }
 
       const colorToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         path: ['color', 'primary'],
       }
 
@@ -207,7 +207,7 @@ describe('Filter Integration Tests', () => {
 
       const semanticToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         path: ['color', 'semantic', 'error'],
       }
 
@@ -232,17 +232,17 @@ describe('Filter Integration Tests', () => {
       const tokens: ResolvedToken[] = [
         {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'primary'],
         },
         {
           $type: 'color',
-          $value: '#00ff00',
+          $value: { colorSpace: 'srgb', components: [0, 1, 0] },
           path: ['color', 'secondary'],
         },
         {
           $type: 'dimension',
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
           path: ['spacing', 'primary'],
         },
       ]
@@ -263,7 +263,7 @@ describe('Filter Integration Tests', () => {
 
       const singleSegmentToken: ResolvedToken = {
         $type: 'color',
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         path: ['color'],
       }
 
@@ -279,12 +279,12 @@ describe('Filter Integration Tests', () => {
       const tokens: ResolvedToken[] = [
         {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'primary'],
         },
         {
           $type: 'dimension',
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
           path: ['spacing', 'base'],
         },
       ]

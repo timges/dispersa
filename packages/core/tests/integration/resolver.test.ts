@@ -218,7 +218,16 @@ describe('Resolver Integration Tests', () => {
         version: '2025.10',
         sets: {
           base: {
-            sources: [{ color: { primary: { $value: '#fff', $type: 'color' } } }],
+            sources: [
+              {
+                color: {
+                  primary: {
+                    $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
+                    $type: 'color',
+                  },
+                },
+              },
+            ],
           },
         },
         modifiers: {

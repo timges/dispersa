@@ -2,12 +2,12 @@ import * as path from 'node:path'
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getFixturePath } from '../../../utils/test-helpers'
 import { ResolvedTokens } from '../../../../src'
-import { AliasResolver } from '../../../../src/resolution/alias-resolver'
-import { TokenParser } from '../../../../src/tokens/token-parser'
 import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
 import { ReferenceResolver, ResolutionEngine } from '../../../../src/resolution'
+import { AliasResolver } from '../../../../src/resolution/alias-resolver'
+import { TokenParser } from '../../../../src/tokens/token-parser'
+import { getFixturePath } from '../../../utils/test-helpers'
 
 describe('Alias Resolver Integration Tests', () => {
   let aliasResolver: AliasResolver
@@ -117,7 +117,7 @@ describe('Alias Resolver Integration Tests', () => {
       const tokens: ResolvedTokens = {
         'base.value': {
           $type: 'dimension',
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
           path: ['base', 'value'],
           name: 'base.value',
           originalValue: '16px',
@@ -131,14 +131,14 @@ describe('Alias Resolver Integration Tests', () => {
       }
 
       const resolved = aliasResolver.resolve(tokens)
-      expect(resolved['computed.value'].$value).toBe('The value is 16px')
+      expect(resolved['computed.value'].$value).toBe('The value is {"value":16,"unit":"px"}')
     })
 
     it('should resolve multiple aliases in one string', () => {
       const tokens: ResolvedTokens = {
         'font.size': {
           $type: 'dimension',
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
           path: ['font', 'size'],
           name: 'font.size',
           originalValue: '16px',
@@ -159,7 +159,7 @@ describe('Alias Resolver Integration Tests', () => {
       }
 
       const resolved = aliasResolver.resolve(tokens)
-      expect(resolved.combined.$value).toBe('16px Arial')
+      expect(resolved.combined.$value).toBe('{"value":16,"unit":"px"} Arial')
     })
   })
 
@@ -341,7 +341,7 @@ describe('Alias Resolver Integration Tests', () => {
         },
         c: {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['c'],
           name: 'c',
           originalValue: '#ff0000',
@@ -362,14 +362,14 @@ describe('Alias Resolver Integration Tests', () => {
       const tokens: ResolvedTokens = {
         'color.red': {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'red'],
           name: 'color.red',
           originalValue: '#ff0000',
         },
         'color.blue': {
           $type: 'color',
-          $value: '#0000ff',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'blue'],
           name: 'color.blue',
           originalValue: '#0000ff',
@@ -377,15 +377,21 @@ describe('Alias Resolver Integration Tests', () => {
       }
 
       const resolved = aliasResolver.resolve(tokens)
-      expect(resolved['color.red'].$value).toBe('#ff0000')
-      expect(resolved['color.blue'].$value).toBe('#0000ff')
+      expect(resolved['color.red'].$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
+      expect(resolved['color.blue'].$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
     })
 
     it('should handle mixed aliased and non-aliased values', () => {
       const tokens: ResolvedTokens = {
         base: {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['base'],
           name: 'base',
           originalValue: '#ff0000',
@@ -399,7 +405,7 @@ describe('Alias Resolver Integration Tests', () => {
         },
         direct: {
           $type: 'color',
-          $value: '#0000ff',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['direct'],
           name: 'direct',
           originalValue: '#0000ff',
@@ -407,16 +413,25 @@ describe('Alias Resolver Integration Tests', () => {
       }
 
       const resolved = aliasResolver.resolve(tokens)
-      expect(resolved.base.$value).toBe('#ff0000')
-      expect(resolved.alias.$value).toBe('#ff0000')
-      expect(resolved.direct.$value).toBe('#0000ff')
+      expect(resolved.base.$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
+      expect(resolved.alias.$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
+      expect(resolved.direct.$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
     })
 
     it('should preserve token metadata during resolution', async () => {
       const tokens: ResolvedTokens = {
         base: {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           $description: 'Base color',
           path: ['base'],
           name: 'base',
@@ -434,7 +449,10 @@ describe('Alias Resolver Integration Tests', () => {
 
       const resolved = aliasResolver.resolve(tokens)
       expect(resolved.alias.$description).toBe('Alias to base')
-      expect(resolved.alias.$value).toBe('#ff0000')
+      expect(resolved.alias.$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [0, 0.27, 0.55],
+      })
     })
   })
 })

@@ -127,14 +127,14 @@ describe('Type Generation Integration Tests', () => {
       const specialTokens: ResolvedTokens = {
         'token-with-dash': {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['token-with-dash'],
           name: 'token-with-dash',
           originalValue: '#ff0000',
         },
         token_with_underscore: {
           $type: 'color',
-          $value: '#00ff00',
+          $value: { colorSpace: 'srgb', components: [0, 1, 0] },
           path: ['token_with_underscore'],
           name: 'token_with_underscore',
           originalValue: '#00ff00',
@@ -152,7 +152,7 @@ describe('Type Generation Integration Tests', () => {
       const tokensWithExtensions: ResolvedTokens = {
         'color.custom': {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           path: ['color', 'custom'],
           name: 'color.custom',
           originalValue: '#ff0000',

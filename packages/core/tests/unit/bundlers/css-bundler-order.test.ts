@@ -13,7 +13,7 @@ describe('CSS bundler ordering', () => {
             {
               color: {
                 primary: {
-                  $value: '#000000',
+                  $value: { colorSpace: 'srgb', components: [0, 0, 0] },
                   $type: 'color',
                 },
               },
@@ -40,7 +40,7 @@ describe('CSS bundler ordering', () => {
 
     const baseTokens = {
       'color.primary': {
-        $value: '#000000',
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
         $type: 'color',
         path: ['color', 'primary'],
         name: 'color.primary',
@@ -91,7 +91,7 @@ describe('CSS bundler ordering', () => {
             {
               color: {
                 primary: {
-                  $value: '#000000',
+                  $value: { colorSpace: 'srgb', components: [0, 0, 0] },
                   $type: 'color',
                 },
               },
@@ -119,7 +119,7 @@ describe('CSS bundler ordering', () => {
 
     const baseTokens = {
       'color.primary': {
-        $value: '#000000',
+        $value: { colorSpace: 'srgb', components: [0, 0, 0] },
         $type: 'color',
         path: ['color', 'primary'],
         name: 'color.primary',

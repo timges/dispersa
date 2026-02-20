@@ -63,7 +63,7 @@ describe('Renderer Interface Contract', () => {
       it(`${name} should accept render context`, async () => {
         const testTokens = {
           'test.token': {
-            $value: '#ff0000',
+            $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
             $type: 'color',
             path: ['test', 'token'],
             name: 'test.token',
@@ -112,7 +112,7 @@ describe('Renderer Interface Contract', () => {
       const renderer = cssRenderer()
       const tokens = {
         'test.color': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           $type: 'color',
           path: ['test', 'color'],
           name: 'test.color',
@@ -136,7 +136,7 @@ describe('Renderer Interface Contract', () => {
       const renderer = jsonRenderer()
       const tokens = {
         'test.value': {
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           $type: 'color',
           path: ['test', 'value'],
           name: 'test.value',

@@ -31,7 +31,7 @@ describe('Preprocessor Integration Tests', () => {
         color: {
           primary: {
             $type: 'color',
-            $value: '#ff0000',
+            $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           },
         },
       }
@@ -71,7 +71,7 @@ describe('Preprocessor Integration Tests', () => {
         color: {
           primary: {
             $type: 'color',
-            $value: '#ff0000',
+            $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           },
         },
       }
@@ -81,7 +81,10 @@ describe('Preprocessor Integration Tests', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((processed as any).color.primary.$type).toBe('COLOR')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((processed as any).color.primary.$value).toBe('#FF0000')
+      expect((processed as any).color.primary.$value).toStrictEqual({
+        colorSpace: 'SRGB',
+        components: [0, 0.27, 0.55],
+      })
     })
   })
 
@@ -130,7 +133,7 @@ describe('Preprocessor Integration Tests', () => {
           secondary: undefined,
           tertiary: {
             $type: 'color',
-            $value: '#ff0000',
+            $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           },
         },
       }
@@ -157,7 +160,7 @@ describe('Preprocessor Integration Tests', () => {
         color: {
           primary: {
             $type: 'color',
-            $value: '#ff0000',
+            $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
           },
         },
       }

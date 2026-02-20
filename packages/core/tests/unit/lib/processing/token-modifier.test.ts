@@ -7,21 +7,21 @@ import type { ResolvedTokens, ResolvedToken } from '../../../../src/tokens/types
 describe('Token Modifier', () => {
   const mockTokens: ResolvedTokens = {
     'color.red': {
-      $value: '#ff0000',
+      $value: { colorSpace: 'srgb', components: [1, 0, 0] },
       $type: 'color',
       path: ['color', 'red'],
       name: 'color.red',
       originalValue: '#ff0000',
     },
     'color.blue': {
-      $value: '#0000ff',
+      $value: { colorSpace: 'srgb', components: [0, 0, 1] },
       $type: 'color',
       path: ['color', 'blue'],
       name: 'color.blue',
       originalValue: '#0000ff',
     },
     'spacing.small': {
-      $value: '8px',
+      $value: { value: 8, unit: 'px' },
       $type: 'dimension',
       path: ['spacing', 'small'],
       name: 'spacing.small',
@@ -35,15 +35,15 @@ describe('Token Modifier', () => {
         name: 'uppercase',
         transform: (token) => ({
           ...token,
-          $value: String(token.$value).toUpperCase(),
+          $value: { ...(token.$value as object), _transformed: true },
         }),
       }
 
       const result = applyTransforms(mockTokens, [uppercaseTransform])
 
-      expect(result['color.red'].$value).toBe('#FF0000')
-      expect(result['color.blue'].$value).toBe('#0000FF')
-      expect(result['spacing.small'].$value).toBe('8PX')
+      expect(result['color.red'].$value).toHaveProperty('_transformed', true)
+      expect(result['color.blue'].$value).toHaveProperty('_transformed', true)
+      expect(result['spacing.small'].$value).toHaveProperty('_transformed', true)
     })
 
     it('should apply multiple transforms in sequence', () => {
@@ -51,7 +51,7 @@ describe('Token Modifier', () => {
         name: 'add-prefix',
         transform: (token) => ({
           ...token,
-          $value: `prefix-${token.$value}`,
+          $value: { ...(token.$value as object), _prefix: true },
         }),
       }
 
@@ -59,13 +59,14 @@ describe('Token Modifier', () => {
         name: 'add-suffix',
         transform: (token) => ({
           ...token,
-          $value: `${token.$value}-suffix`,
+          $value: { ...(token.$value as object), _suffix: true },
         }),
       }
 
       const result = applyTransforms(mockTokens, [addPrefixTransform, addSuffixTransform])
 
-      expect(result['color.red'].$value).toBe('prefix-#ff0000-suffix')
+      expect(result['color.red'].$value).toHaveProperty('_prefix', true)
+      expect(result['color.red'].$value).toHaveProperty('_suffix', true)
     })
 
     it('should apply transform only to tokens matching matcher', () => {
@@ -74,15 +75,15 @@ describe('Token Modifier', () => {
         matcher: (token) => token.$type === 'color',
         transform: (token) => ({
           ...token,
-          $value: 'transformed',
+          $value: { ...(token.$value as object), _colorTransformed: true },
         }),
       }
 
       const result = applyTransforms(mockTokens, [colorTransform])
 
-      expect(result['color.red'].$value).toBe('transformed')
-      expect(result['color.blue'].$value).toBe('transformed')
-      expect(result['spacing.small'].$value).toBe('8px') // Not transformed
+      expect(result['color.red'].$value).toHaveProperty('_colorTransformed', true)
+      expect(result['color.blue'].$value).toHaveProperty('_colorTransformed', true)
+      expect(result['spacing.small'].$value).not.toHaveProperty('_colorTransformed') // Not transformed
     })
 
     it('should not apply transform when matcher returns false', () => {
@@ -91,14 +92,17 @@ describe('Token Modifier', () => {
         matcher: (token) => token.$type === 'dimension',
         transform: (token) => ({
           ...token,
-          $value: '16px',
+          $value: { value: 16, unit: 'px' },
         }),
       }
 
       const result = applyTransforms(mockTokens, [dimensionTransform])
 
-      expect(result['color.red'].$value).toBe('#ff0000') // Not transformed
-      expect(result['spacing.small'].$value).toBe('16px') // Transformed
+      expect(result['color.red'].$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [1, 0, 0],
+      }) // Not transformed
+      expect(result['spacing.small'].$value).toStrictEqual({ value: 16, unit: 'px' }) // Transformed
     })
 
     it('should handle empty transform list', () => {
@@ -296,20 +300,20 @@ describe('Token Modifier', () => {
       const filtered = applyFilters(mockTokens, [colorFilter])
 
       // Then transform the filtered tokens
-      const uppercaseTransform: Transform = {
-        name: 'uppercase',
+      const markTransform: Transform = {
+        name: 'mark',
         transform: (token) => ({
           ...token,
-          $value: String(token.$value).toUpperCase(),
+          $value: { ...(token.$value as object), _marked: true },
         }),
       }
 
-      const result = applyTransforms(filtered, [uppercaseTransform])
+      const result = applyTransforms(filtered, [markTransform])
 
       expect(result).toHaveProperty('color.red')
       expect(result).toHaveProperty('color.blue')
       expect(result).not.toHaveProperty('spacing.small')
-      expect(result['color.red'].$value).toBe('#FF0000')
+      expect(result['color.red'].$value).toHaveProperty('_marked', true)
     })
   })
 })

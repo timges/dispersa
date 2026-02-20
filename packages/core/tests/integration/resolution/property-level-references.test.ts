@@ -220,7 +220,7 @@ describe('Property-Level References (JSON Pointer Only)', () => {
       const tokens: ResolvedTokens = {
         'color.primary': {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           path: ['color', 'primary'],
           name: 'color.primary',
           originalValue: '#ff0000',
@@ -237,21 +237,24 @@ describe('Property-Level References (JSON Pointer Only)', () => {
       const resolved = aliasResolver.resolve(tokens)
 
       // Whole token reference works fine
-      expect(resolved['color.secondary'].$value).toBe('#ff0000')
+      expect(resolved['color.secondary'].$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [1, 0, 0],
+      })
     })
 
     it('should treat dotted paths in curly braces as full token names', () => {
       const tokens: ResolvedTokens = {
         brand: {
           $type: 'color',
-          $value: '#0066ff',
+          $value: { colorSpace: 'srgb', components: [0, 0.4, 1] },
           path: ['brand'],
           name: 'brand',
           originalValue: '#0066ff',
         },
         'color.primary.main': {
           $type: 'color',
-          $value: '#ff0000',
+          $value: { colorSpace: 'srgb', components: [1, 0, 0] },
           path: ['color', 'primary', 'main'],
           name: 'color.primary.main',
           originalValue: '#ff0000',
@@ -268,7 +271,10 @@ describe('Property-Level References (JSON Pointer Only)', () => {
       const resolved = aliasResolver.resolve(tokens)
 
       // Should resolve to the token named "color.primary.main", not property access
-      expect(resolved['reference'].$value).toBe('#ff0000')
+      expect(resolved['reference'].$value).toStrictEqual({
+        colorSpace: 'srgb',
+        components: [1, 0, 0],
+      })
     })
   })
 

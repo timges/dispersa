@@ -31,7 +31,7 @@ describe('TypeWriter', () => {
 
     mockTokens = {
       'color.primary': {
-        $value: '#ff0000',
+        $value: { colorSpace: 'srgb', components: [0, 0.27, 0.55] },
         $type: 'color',
         path: ['color', 'primary'],
         name: 'color.primary',
