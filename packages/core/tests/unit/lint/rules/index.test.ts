@@ -17,7 +17,6 @@ import {
   namingConvention,
   noDeprecatedUsage,
   noDuplicateValues,
-  noGoingBack,
   pathSchema,
 } from '../../../../src/lint/rules'
 
@@ -27,13 +26,12 @@ describe('lint/rules', () => {
       expect(dispersaPlugin.meta.name).toBe('dispersa')
     })
 
-    it('should have all 6 built-in rules', () => {
+    it('should have all 5 built-in rules', () => {
       expect(dispersaPlugin.rules).toBeDefined()
       expect(dispersaPlugin.rules['require-description']).toBe(requireDescription)
       expect(dispersaPlugin.rules['naming-convention']).toBe(namingConvention)
       expect(dispersaPlugin.rules['no-deprecated-usage']).toBe(noDeprecatedUsage)
       expect(dispersaPlugin.rules['no-duplicate-values']).toBe(noDuplicateValues)
-      expect(dispersaPlugin.rules['no-going-back']).toBe(noGoingBack)
       expect(dispersaPlugin.rules['path-schema']).toBe(pathSchema)
     })
 
@@ -61,7 +59,7 @@ describe('lint/rules', () => {
 
     it('should set naming-convention with kebab-case options', () => {
       expect(recommendedConfig.rules?.['dispersa/naming-convention']).toEqual([
-        'warn',
+        'error',
         { format: 'kebab-case' },
       ])
     })
@@ -76,9 +74,9 @@ describe('lint/rules', () => {
       expect(strictConfig.plugins?.dispersa).toBe(dispersaPlugin)
     })
 
-    it('should have 5 rules enabled', () => {
+    it('should have 4 rules enabled', () => {
       expect(strictConfig.rules).toBeDefined()
-      expect(Object.keys(strictConfig.rules ?? {})).toHaveLength(5)
+      expect(Object.keys(strictConfig.rules ?? {})).toHaveLength(4)
     })
 
     it('should set all rules to error', () => {
@@ -89,7 +87,6 @@ describe('lint/rules', () => {
       ])
       expect(strictConfig.rules?.['dispersa/no-deprecated-usage']).toBe('error')
       expect(strictConfig.rules?.['dispersa/no-duplicate-values']).toBe('error')
-      expect(strictConfig.rules?.['dispersa/no-going-back']).toBe('error')
     })
   })
 
@@ -131,12 +128,6 @@ describe('lint/rules', () => {
       expect(noDuplicateValues).toBeDefined()
       expect(noDuplicateValues.meta.name).toBe('no-duplicate-values')
       expect(typeof noDuplicateValues.create).toBe('function')
-    })
-
-    it('should export noGoingBack rule', () => {
-      expect(noGoingBack).toBeDefined()
-      expect(noGoingBack.meta.name).toBe('no-going-back')
-      expect(typeof noGoingBack.create).toBe('function')
     })
 
     it('should export pathSchema rule', () => {

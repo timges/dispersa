@@ -136,52 +136,6 @@ rules: {
 
 ---
 
-## no-going-back
-
-Enforces semantic layering - tokens can only reference tokens in the same or lower layers, not higher layers. This prevents semantic tokens from depending on component tokens.
-
-```typescript
-rules: {
-  'dispersa/no-going-back': 'error'
-}
-```
-
-### Default layer hierarchy
-
-By default, checks the second path segment for layer name:
-
-- `base` (rank 0) - Primitive tokens
-- `semantic` (rank 1) - Meaningful tokens
-- `component` (rank 2) - Component-specific tokens
-
-A token in `color.semantic.background` can reference `color.base.red` but not `color.component.button.primary`.
-
-### Options
-
-| Option       | Type                     | Default                                  | Description                            |
-| ------------ | ------------------------ | ---------------------------------------- | -------------------------------------- |
-| `layers`     | `Record<string, number>` | `{ base: 0, semantic: 1, component: 2 }` | Custom layer hierarchy                 |
-| `layerIndex` | `number`                 | `1`                                      | Path segment index for layer (0-based) |
-| `ignore`     | `string[]`               | `[]`                                     | Glob patterns to exclude               |
-
-### Custom layers
-
-```typescript
-rules: {
-  'dispersa/no-going-back': ['error', {
-    layers: {
-      primitive: 0,
-      semantic: 1,
-      component: 2,
-      pattern: 3,
-    },
-    layerIndex: 0,
-  }]
-}
-```
-
----
-
 ## path-schema
 
 Validates token path structure using segment definitions and path patterns. Most powerful for enforcing organizational conventions.

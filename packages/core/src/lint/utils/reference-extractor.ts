@@ -10,7 +10,7 @@
  * @fileoverview Utility for extracting token references from values
  *
  * Used by rules that need to detect references to other tokens,
- * such as no-deprecated-usage and no-going-back.
+ * such as no-deprecated-usage.
  */
 
 const ALIAS_PATTERN = /\{([^}]+)\}/g

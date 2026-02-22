@@ -18,8 +18,6 @@ import type { NoDeprecatedUsageOptions } from './no-deprecated-usage'
 import { noDeprecatedUsage } from './no-deprecated-usage'
 import type { NoDuplicateValuesOptions } from './no-duplicate-values'
 import { noDuplicateValues } from './no-duplicate-values'
-import type { NoGoingBackOptions } from './no-going-back'
-import { noGoingBack } from './no-going-back'
 import type { PathSchemaConfig } from './path-schema'
 import { pathSchema } from './path-schema'
 import type { RequireDescriptionOptions } from './require-description'
@@ -30,7 +28,6 @@ export { requireDescription } from './require-description'
 export { namingConvention } from './naming-convention'
 export { noDeprecatedUsage } from './no-deprecated-usage'
 export { noDuplicateValues } from './no-duplicate-values'
-export { noGoingBack } from './no-going-back'
 export {
   pathSchema,
   type PathSchemaConfig,
@@ -43,7 +40,6 @@ export type { RequireDescriptionOptions } from './require-description'
 export type { NamingConventionOptions } from './naming-convention'
 export type { NoDeprecatedUsageOptions } from './no-deprecated-usage'
 export type { NoDuplicateValuesOptions } from './no-duplicate-values'
-export type { NoGoingBackOptions } from './no-going-back'
 
 /**
  * Builds the dispersa plugin with its predefined configs.
@@ -58,7 +54,6 @@ function buildDispersaPlugin() {
     'naming-convention': namingConvention,
     'no-deprecated-usage': noDeprecatedUsage,
     'no-duplicate-values': noDuplicateValues,
-    'no-going-back': noGoingBack,
     'path-schema': pathSchema,
   }
 
@@ -70,7 +65,6 @@ function buildDispersaPlugin() {
       'dispersa/require-description': 'warn',
       'dispersa/naming-convention': ['error', { format: 'kebab-case' }],
       'dispersa/no-deprecated-usage': 'warn',
-      'dispersa/no-going-back': 'error',
     },
   }
 
@@ -81,7 +75,6 @@ function buildDispersaPlugin() {
       'dispersa/naming-convention': ['error', { format: 'kebab-case' }],
       'dispersa/no-deprecated-usage': 'error',
       'dispersa/no-duplicate-values': 'error',
-      'dispersa/no-going-back': 'error',
     },
   }
 
@@ -143,7 +136,6 @@ declare module '../types' {
     'dispersa/naming-convention': NamingConventionOptions
     'dispersa/no-deprecated-usage': NoDeprecatedUsageOptions
     'dispersa/no-duplicate-values': NoDuplicateValuesOptions
-    'dispersa/no-going-back': NoGoingBackOptions
     'dispersa/path-schema': PathSchemaConfig
   }
 }

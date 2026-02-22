@@ -98,7 +98,6 @@ export {
   namingConvention,
   noDeprecatedUsage,
   noDuplicateValues,
-  noGoingBack,
   pathSchema,
   type PathSchemaConfig,
   type SegmentDefinition,
@@ -108,7 +107,6 @@ export {
   type NamingConventionOptions,
   type NoDeprecatedUsageOptions,
   type NoDuplicateValuesOptions,
-  type NoGoingBackOptions,
 } from './rules'
 
 // Formatters

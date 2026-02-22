@@ -15,7 +15,7 @@ Design tokens are the foundation of your design system. Linting ensures:
 
 - **Consistency** -- Enforce naming conventions across all tokens
 - **Documentation** -- Require descriptions for better discoverability
-- **Maintainability** -- Detect deprecated tokens and prevent layering violations
+- **Maintainability** -- Detect deprecated tokens
 - **Quality** -- Find duplicate values and path structure issues
 
 ## Quick start
@@ -95,7 +95,6 @@ const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
 - `dispersa/require-description`: warn
 - `dispersa/naming-convention`: error (kebab-case)
 - `dispersa/no-deprecated-usage`: warn
-- `dispersa/no-going-back`: error
 
 **Strict:**
 
@@ -103,7 +102,6 @@ const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
 - `dispersa/naming-convention`: error (kebab-case)
 - `dispersa/no-deprecated-usage`: error
 - `dispersa/no-duplicate-values`: error
-- `dispersa/no-going-back`: error
 
 ## Pipeline integration
 
@@ -117,16 +115,15 @@ This means linting operates on fully resolved tokens with all references expande
 
 ## Built-in rules
 
-Dispersa includes six built-in rules:
+Dispersa includes five built-in rules:
 
-| Rule                  | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| `require-description` | Enforce `$description` on tokens                        |
-| `naming-convention`   | Enforce naming format (kebab-case, camelCase, etc.)     |
-| `no-deprecated-usage` | Detect references to `$deprecated` tokens               |
-| `no-duplicate-values` | Find tokens with identical values                       |
-| `no-going-back`       | Enforce semantic layering (base → semantic → component) |
-| `path-schema`         | Validate token path structure with patterns             |
+| Rule                  | Description                                         |
+| --------------------- | --------------------------------------------------- |
+| `require-description` | Enforce `$description` on tokens                    |
+| `naming-convention`   | Enforce naming format (kebab-case, camelCase, etc.) |
+| `no-deprecated-usage` | Detect references to `$deprecated` tokens           |
+| `no-duplicate-values` | Find tokens with identical values                   |
+| `path-schema`         | Validate token path structure with patterns         |
 
 <LinkCard
   title="Lint Rules Reference"

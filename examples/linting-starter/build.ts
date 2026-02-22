@@ -177,7 +177,6 @@ console.log('   - dispersa/require-description: error')
 console.log('   - dispersa/naming-convention: error')
 console.log('   - dispersa/no-deprecated-usage: error')
 console.log('   - dispersa/no-duplicate-values: error')
-console.log('   - dispersa/no-going-back: error')
 console.log('   - dispersa/path-schema: error (component token structure)')
 
 console.log('\n4. Custom plugin configs:')
