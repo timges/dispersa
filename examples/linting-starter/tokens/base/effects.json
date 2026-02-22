@@ -1,0 +1,52 @@
+{
+  "$description": "Effects — shadows and elevation",
+  "shadow": {
+    "raw": {
+      "$description": "Shadow and elevation tokens",
+      "sm": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.05 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 1, "unit": "px" },
+          "blur": { "value": 2, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        },
+        "$description": "Subtle shadow"
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.1 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 4, "unit": "px" },
+          "blur": { "value": 6, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        },
+        "$description": "Medium shadow"
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.15 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 10, "unit": "px" },
+          "blur": { "value": 15, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        },
+        "$description": "Large shadow"
+      },
+      "xl": {
+        "$type": "shadow",
+        "$value": {
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.2 },
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 20, "unit": "px" },
+          "blur": { "value": 25, "unit": "px" },
+          "spread": { "value": 0, "unit": "px" }
+        },
+        "$description": "Extra large shadow"
+      }
+    }
+  }
+}

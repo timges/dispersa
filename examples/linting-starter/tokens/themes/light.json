@@ -1,0 +1,21 @@
+{
+  "$description": "Light theme tokens",
+  "color": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.palette.white}"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "{color.palette.gray100}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.palette.gray900}"
+    },
+    "textMuted": {
+      "$type": "color",
+      "$value": "{color.palette.gray-500}"
+    }
+  }
+}

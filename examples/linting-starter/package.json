@@ -1,0 +1,19 @@
+{
+  "name": "dispersa-linting-starter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comprehensive linting example for Dispersa with custom plugins and rules",
+  "type": "module",
+  "scripts": {
+    "build": "tsx build.ts",
+    "lint": "tsx build.ts --lint-only"
+  },
+  "dependencies": {
+    "dispersa": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

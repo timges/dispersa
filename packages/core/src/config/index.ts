@@ -8,6 +8,7 @@
  * to drive renderers).
  */
 
+import type { LintBuildConfig } from '@lint/types'
 import type { Filter } from '@processing/filters/types'
 import type { Preprocessor } from '@processing/preprocessors/types'
 import type { Transform } from '@processing/transforms/types'
@@ -280,6 +281,9 @@ export type BuildConfig = Omit<
 
   /** Explicit permutations to build (modifier inputs) */
   permutations?: ModifierInputs[]
+
+  /** Linting configuration */
+  lint?: LintBuildConfig
 
   /** Global lifecycle hooks for the build process */
   hooks?: LifecycleHooks

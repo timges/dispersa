@@ -147,4 +147,5 @@ export {
   ConfigurationError,
   BasePermutationError,
   ModifierError,
+  LintError,
 } from '@shared/errors/index'

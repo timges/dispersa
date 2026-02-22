@@ -117,6 +117,16 @@
         "types": "./dist/cli/cli.d.ts",
         "default": "./dist/cli/cli.js"
       }
+    },
+    "./lint": {
+      "import": {
+        "types": "./dist/lint.d.ts",
+        "default": "./dist/lint.js"
+      },
+      "require": {
+        "types": "./dist/lint.d.cts",
+        "default": "./dist/lint.cjs"
+      }
     }
   },
   "files": [

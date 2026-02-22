@@ -1,0 +1,8 @@
+{
+  "spacing": {
+    "md": {
+      "$type": "dimension",
+      "$value": "{spacing.0}"
+    }
+  }
+}

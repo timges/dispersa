@@ -5,6 +5,7 @@
  * This prevents temporal coupling by making the order explicit through types.
  */
 
+import type { LintResult } from '@lint/types'
 import type { ReferenceResolver } from '@resolution/reference-resolver'
 import type { ResolutionEngine } from '@resolution/resolution-engine'
 import type { ModifierInputs, ResolverDocument } from '@resolution/types'
@@ -65,9 +66,16 @@ export type AliasResolvedStage = Omit<FlattenedStage, 'flatTokens'> & {
 }
 
 /**
- * Stage 8: Final tokens (after transforms applied)
+ * Stage 8: Linted tokens (after lint rules applied)
  */
-export type FinalStage = Omit<AliasResolvedStage, 'aliasResolvedTokens'> & {
+export type LintedStage = AliasResolvedStage & {
+  lintResult?: LintResult
+}
+
+/**
+ * Stage 9: Final tokens (after transforms applied)
+ */
+export type FinalStage = Omit<LintedStage, 'aliasResolvedTokens'> & {
   tokens: InternalResolvedTokens
 }
 
@@ -82,4 +90,5 @@ export type PipelineStage =
   | ReferenceResolvedStage
   | FlattenedStage
   | AliasResolvedStage
+  | LintedStage
   | FinalStage

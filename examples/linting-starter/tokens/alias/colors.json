@@ -1,0 +1,62 @@
+{
+  "$description": "Semantic color aliases — referencing base colors",
+  "color": {
+    "brand": {
+      "$description": "Brand colors",
+      "primary": {
+        "$type": "color",
+        "$value": "{color.palette.blue-500}"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.palette.green500}"
+      },
+      "tertiary": {
+        "$type": "color",
+        "$value": "{color.palette.orange500}"
+      }
+    },
+    "semantic": {
+      "$description": "Semantic colors",
+      "success": {
+        "$type": "color",
+        "$value": "{color.palette.green500}"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.palette.orange500}"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{color.palette.red-500}"
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{color.palette.blue-600}"
+      }
+    },
+    "neutral": {
+      "$description": "Neutral colors",
+      "light": {
+        "$type": "color",
+        "$value": "{color.palette.gray100}"
+      },
+      "default": {
+        "$type": "color",
+        "$value": "{color.palette.gray-500}"
+      },
+      "dark": {
+        "$type": "color",
+        "$value": "{color.palette.gray900}"
+      }
+    },
+    "legacy": {
+      "$description": "Legacy colors with deprecated usage",
+      "oldPrimary": {
+        "$type": "color",
+        "$value": "{color.brand.primary}",
+        "$description": "Use color.brand.primary instead"
+      }
+    }
+  }
+}

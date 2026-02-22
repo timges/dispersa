@@ -22,6 +22,8 @@ const pathAliases = {
   '@processing': path.resolve(__dirname, './src/processing'),
   '@resolution': path.resolve(__dirname, './src/resolution'),
   '@validation': path.resolve(__dirname, './src/validation'),
+  '@lint': path.resolve(__dirname, './src/lint'),
+  '@cli': path.resolve(__dirname, './src/cli'),
 }
 
 export default defineConfig([
@@ -34,6 +36,7 @@ export default defineConfig([
       'src/renderers.ts',
       'src/preprocessors.ts',
       'src/errors.ts',
+      'src/lint.ts',
     ],
     format: ['esm', 'cjs'],
     dts: true,

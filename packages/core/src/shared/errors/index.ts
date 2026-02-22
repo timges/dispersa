@@ -141,3 +141,25 @@ export class ModifierError extends DispersaError {
     this.name = 'ModifierError'
   }
 }
+
+/**
+ * Thrown when lint errors are found and failOnError is true
+ *
+ * @param issues - Array of lint issues that caused the error
+ */
+export class LintError extends DispersaError {
+  constructor(
+    public issues: Array<{
+      ruleId: string
+      severity: 'error' | 'warn'
+      message: string
+      tokenName: string
+      tokenPath: string[]
+    }>,
+  ) {
+    const errorCount = issues.filter((i) => i.severity === 'error').length
+    const warningCount = issues.filter((i) => i.severity === 'warn').length
+    super(`Lint failed with ${errorCount} error(s) and ${warningCount} warning(s).`)
+    this.name = 'LintError'
+  }
+}

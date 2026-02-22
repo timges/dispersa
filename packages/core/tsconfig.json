@@ -6,6 +6,7 @@
     "baseUrl": "./src",
     "paths": {
       "dispersa": ["index.ts"],
+      "@cli/*": ["cli/*"],
       "@codegen/*": ["codegen/*"],
       "@tokens/*": ["tokens/*"],
       "@processing/*": ["processing/*"],
@@ -15,7 +16,8 @@
       "@renderers/*": ["renderers/*"],
       "@adapters/*": ["adapters/*"],
       "@shared/*": ["shared/*"],
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@lint/*": ["lint/*"]
     }
   },
   "include": ["src/**/*"],

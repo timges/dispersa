@@ -307,6 +307,49 @@ export const preprocessorPluginSchema = {
 } as const
 
 /**
+ * Lint Configuration Schema
+ *
+ * Validates lint configuration including plugins, rules, and settings.
+ * Plugins can be objects (validated at runtime) or strings (module paths).
+ */
+export const lintConfigSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  properties: {
+    enabled: {
+      type: 'boolean',
+      description: 'Enable linting (default: false, opt-in)',
+    },
+    failOnError: {
+      type: 'boolean',
+      description: 'Fail build on lint errors (default: true)',
+    },
+    plugins: {
+      type: 'object',
+      description: 'Plugins to load (by object or module path string)',
+      additionalProperties: {
+        oneOf: [{ type: 'string' }, { type: 'object' }],
+      },
+    },
+    rules: {
+      type: 'object',
+      description: 'Rule configurations',
+      additionalProperties: {
+        oneOf: [
+          { type: 'string', enum: ['off', 'warn', 'error'] },
+          {
+            type: 'array',
+            minItems: 2,
+            items: [{ type: 'string', enum: ['off', 'warn', 'error'] }, { type: 'object' }],
+          },
+        ],
+      },
+    },
+  },
+  additionalProperties: false,
+} as const
+
+/**
  * Output Configuration Schema
  *
  * Validates output-specific configuration including renderer,
@@ -448,6 +491,10 @@ export const buildConfigSchema = {
       description: 'Global build lifecycle hooks (functions, validated at runtime)',
       additionalProperties: true,
     },
+    lint: {
+      ...lintConfigSchema,
+      description: 'Linting configuration',
+    },
   },
   additionalProperties: false,
 } as const
@@ -515,3 +562,11 @@ export type IosRendererOptionsBase = FromSchema<typeof iosRendererOptionsSchema>
  * Android/Jetpack Compose Renderer Options type generated from androidRendererOptionsSchema
  */
 export type AndroidRendererOptionsBase = FromSchema<typeof androidRendererOptionsSchema>
+
+/**
+ * Lint Config type generated from lintConfigSchema
+ *
+ * Note: This is a base type. The actual LintBuildConfig type in lint/types.ts
+ * extends this with proper LintPlugin typing.
+ */
+export type LintConfigBase = FromSchema<typeof lintConfigSchema>

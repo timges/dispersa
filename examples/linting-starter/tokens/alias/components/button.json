@@ -1,0 +1,68 @@
+{
+  "$description": "Button component tokens — references semantic color aliases",
+  "color": {
+    "button": {
+      "primary": {
+        "background": {
+          "$type": "color",
+          "$root": { "$value": "{color.brand.primary}" },
+          "hover": { "$value": "{color.brand.primary}" }
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.neutral.light}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.brand.primary}"
+        }
+      },
+      "secondary": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.neutral.light}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.brand.primary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.brand.primary}"
+        }
+      },
+      "danger": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.semantic.danger}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.neutral.light}"
+        }
+      }
+    }
+  },
+  "spacing": {
+    "button": {
+      "primary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.md}"
+        }
+      },
+      "secondary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.md}"
+        }
+      },
+      "danger": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.md}"
+        }
+      }
+    }
+  }
+}

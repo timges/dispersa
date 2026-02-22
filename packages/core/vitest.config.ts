@@ -36,6 +36,8 @@ export default defineConfig({
       '@adapters': path.resolve(__dirname, './src/adapters'),
       '@shared': path.resolve(__dirname, './src/shared'),
       '@config': path.resolve(__dirname, './src/config'),
+      '@lint': path.resolve(__dirname, './src/lint'),
+      '@cli': path.resolve(__dirname, './src/cli'),
     },
   },
 })

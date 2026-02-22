@@ -1,12 +1,14 @@
 /**
  * @fileoverview Token resolution pipeline
- * Handles the flow: parse resolver → resolve tokens → preprocess → resolve $ref → flatten → resolve aliases → strip $root → apply transforms
+ * Handles the flow: parse resolver → resolve tokens → preprocess → resolve $ref → flatten → resolve aliases → strip $root → lint → apply filters → apply transforms
  *
  * Pipeline stages are explicitly typed to prevent temporal coupling and ensure
  * operations happen in the correct order.
  */
 
 import { ResolverLoader } from '@adapters/filesystem/resolver-loader'
+import type { LintBuildConfig, LintResult } from '@lint/types'
+import { LintRunner } from '@lint/lint-runner'
 import type { Filter } from '@processing/filters/types'
 import type { Preprocessor } from '@processing/preprocessors/types'
 import type { Transform } from '@processing/transforms/types'
@@ -25,11 +27,13 @@ import type {
   EngineReadyStage,
   FinalStage,
   FlattenedStage,
+  LintedStage,
   LoadedResolverStage,
   PreprocessedStage,
   ReferenceResolvedStage,
   RawTokensStage,
 } from './pipeline-stages'
+import { LintError } from '@shared/errors'
 
 const ROOT_REF_PATTERN = /\.\$root\}/g
 
@@ -70,6 +74,14 @@ function rewriteRootReferences(value: TokenValue): TokenValue {
 
 export type TokenPipelineOptions = {
   validation?: ValidationOptions
+  lint?: LintBuildConfig
+}
+
+export type TokenPipelineResult = {
+  tokens: InternalResolvedTokens
+  resolutionEngine: ResolutionEngine
+  modifierInputs: ModifierInputs
+  lintResult?: LintResult
 }
 
 export class TokenPipeline {
@@ -78,6 +90,8 @@ export class TokenPipeline {
   private resolverLoader: ResolverLoader
   private tokenParser: TokenParser
   private aliasResolver: AliasResolver
+  private lintRunner: LintRunner | null = null
+  private lintConfigCache: LintBuildConfig | null = null
 
   constructor(options: TokenPipelineOptions = {}) {
     this.options = options
@@ -98,8 +112,9 @@ export class TokenPipeline {
    * 6. Parse and flatten token structure
    * 7. Resolve alias references
    * 8. Strip $root from token names/paths (DTCG structural mechanism, transparent in output)
-   * 9. Apply filters (if provided) — runs first to remove tokens before transforms
-   * 10. Apply transforms (if provided) — runs on the already-filtered token set
+   * 9. Run lint rules (if enabled)
+   * 10. Apply filters (if provided) — runs first to remove tokens before transforms
+   * 11. Apply transforms (if provided) — runs on the already-filtered token set
    *
    * Each stage is explicitly typed to ensure correct order and prevent temporal coupling.
    *
@@ -108,7 +123,8 @@ export class TokenPipeline {
    * @param transformList - Optional transforms to apply
    * @param preprocessorList - Optional preprocessors to apply
    * @param filterList - Optional filters to apply before transforms
-   * @returns Final tokens and resolution engine
+   * @param lintConfig - Optional lint configuration for this run
+   * @returns Final tokens, resolution engine, and lint result
    */
   async resolve(
     resolver: string | ResolverDocument,
@@ -116,11 +132,9 @@ export class TokenPipeline {
     transformList?: Transform[],
     preprocessorList?: Preprocessor[],
     filterList?: Filter[],
-  ): Promise<{
-    tokens: InternalResolvedTokens
-    resolutionEngine: ResolutionEngine
-    modifierInputs: ModifierInputs
-  }> {
+    lintConfig?: LintBuildConfig,
+  ): Promise<TokenPipelineResult> {
+    const effectiveLintConfig = lintConfig ?? this.options.lint
     const stage1 = await this.loadResolver(resolver)
     const engine = this.createEngine(stage1)
     const result = await this.runPipelineStages(
@@ -129,17 +143,19 @@ export class TokenPipeline {
       preprocessorList,
       filterList,
       transformList,
+      effectiveLintConfig,
     )
 
     return {
       tokens: result.tokens,
       resolutionEngine: result.resolutionEngine,
       modifierInputs: result.modifierInputs,
+      lintResult: result.lintResult,
     }
   }
 
   /**
-   * Run pipeline stages 3-9 on a pre-created engine
+   * Run pipeline stages 3-11 on a pre-created engine
    *
    * Shared by both `resolve()` (single permutation) and
    * `resolveAllPermutations()` (parallel permutations) to keep the
@@ -151,6 +167,7 @@ export class TokenPipeline {
     preprocessorList?: Preprocessor[],
     filterList?: Filter[],
     transformList?: Transform[],
+    lintConfig?: LintBuildConfig,
   ): Promise<FinalStage> {
     const rawTokens = await this.resolveTokens(engine, modifierInputs)
     const preprocessed = await this.preprocessTokens(rawTokens, preprocessorList)
@@ -158,7 +175,8 @@ export class TokenPipeline {
     const flattened = this.flattenTokens(refResolved)
     const aliasResolved = this.resolveAliases(flattened)
     const rootStripped = this.stripRootTokenNames(aliasResolved)
-    const filtered = this.applyFilterStage(rootStripped, filterList)
+    const linted = await this.runLintStage(rootStripped, lintConfig)
+    const filtered = this.applyFilterStage(linted, filterList)
     return this.applyTransformStage(filtered, transformList)
   }
 
@@ -303,7 +321,63 @@ export class TokenPipeline {
     return { ...stage, aliasResolvedTokens: result }
   }
 
-  private applyFilterStage(stage: AliasResolvedStage, filterList?: Filter[]): AliasResolvedStage {
+  /**
+   * Stage 9: Run lint rules against tokens
+   *
+   * Linting runs after alias resolution and $root stripping but before
+   * filters and transforms. This ensures rules see the full token set
+   * with resolved values.
+   */
+  private async runLintStage(
+    stage: AliasResolvedStage,
+    lintConfig?: LintBuildConfig,
+  ): Promise<LintedStage> {
+    // Linting disabled or not configured
+    if (!lintConfig?.enabled) {
+      return stage
+    }
+
+    // Initialize lint runner if needed
+    if (!this.lintRunner || !this.isLintConfigEqual(this.lintConfigCache, lintConfig)) {
+      this.lintRunner = new LintRunner({
+        plugins: lintConfig.plugins,
+        rules: lintConfig.rules,
+        onWarn: (msg) => this.validationHandler.warn(msg),
+      })
+      this.lintConfigCache = lintConfig
+    }
+
+    // Run lint
+    const lintResult = await this.lintRunner.run(stage.aliasResolvedTokens)
+
+    // Handle errors
+    if (lintResult.errorCount > 0 && lintConfig.failOnError !== false) {
+      throw new LintError(lintResult.issues)
+    }
+
+    // Log warnings
+    for (const issue of lintResult.issues.filter(i => i.severity === 'warn')) {
+      this.validationHandler.warn(
+        `[${issue.ruleId}] ${issue.message} (token: ${issue.tokenName})`,
+      )
+    }
+
+    return { ...stage, lintResult }
+  }
+
+  private isLintConfigEqual(a: LintBuildConfig | null, b: LintBuildConfig | undefined): boolean {
+    if (!a || !b) return false
+    if (a.enabled !== b.enabled) return false
+    if (a.failOnError !== b.failOnError) return false
+    if (a.plugins !== b.plugins) return false
+    if (a.rules !== b.rules) return false
+    return true
+  }
+
+  /**
+   * Stage 10: Apply filters to the linted token set
+   */
+  private applyFilterStage(stage: LintedStage, filterList?: Filter[]): LintedStage {
     let tokens = stage.aliasResolvedTokens
 
     if (filterList !== undefined && filterList.length > 0) {
@@ -314,9 +388,9 @@ export class TokenPipeline {
   }
 
   /**
-   * Stage 9: Apply transforms to the filtered token set
+   * Stage 11: Apply transforms to the filtered token set
    */
-  private applyTransformStage(stage: AliasResolvedStage, transformList?: Transform[]): FinalStage {
+  private applyTransformStage(stage: LintedStage, transformList?: Transform[]): FinalStage {
     let tokens = stage.aliasResolvedTokens
 
     if (transformList !== undefined && transformList.length > 0) {
@@ -357,18 +431,23 @@ export class TokenPipeline {
    * @param transformList - Optional transforms to apply
    * @param preprocessorList - Optional preprocessors to apply
    * @param filterList - Optional filters to apply before transforms
+   * @param lintConfig - Optional lint configuration for this run
    */
   async resolveAllPermutations(
     resolver: string | ResolverDocument,
     transformList?: Transform[],
     preprocessorList?: Preprocessor[],
     filterList?: Filter[],
+    lintConfig?: LintBuildConfig,
   ): Promise<
     {
       tokens: InternalResolvedTokens
       modifierInputs: ModifierInputs
+      lintResult?: LintResult
     }[]
   > {
+    const effectiveLintConfig = lintConfig ?? this.options.lint
+
     // Stage 1: Load resolver once
     const stage1 = await this.loadResolver(resolver)
 
@@ -390,11 +469,13 @@ export class TokenPipeline {
           preprocessorList,
           filterList,
           transformList,
+          effectiveLintConfig,
         )
 
         return {
           tokens: result.tokens,
           modifierInputs: result.modifierInputs,
+          lintResult: result.lintResult,
         }
       }),
     )

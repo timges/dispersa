@@ -1,0 +1,62 @@
+{
+  "$description": "Base color palette — raw values referenced by semantic tokens",
+  "color": {
+    "palette": {
+      "$description": "Foundational color swatches",
+      "blue-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0, 0.4, 0.8] },
+        "$description": "Primary blue"
+      },
+      "blue-600": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0, 0.33, 0.67] },
+        "$description": "Darker blue for hover states"
+      },
+      "blue700": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0, 0.27, 0.55] }
+      },
+      "green500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.13, 0.68, 0.3] }
+      },
+      "red-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.86, 0.15, 0.15] },
+        "$description": "Error red"
+      },
+      "red-600": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.72, 0.11, 0.11] }
+      },
+      "orange500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.93, 0.58, 0.1] }
+      },
+      "gray100": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.96, 0.96, 0.97] }
+      },
+      "gray-500": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.42, 0.46, 0.49] },
+        "$description": "Mid gray"
+      },
+      "gray900": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0.1, 0.11, 0.12] }
+      },
+      "white": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [1, 1, 1] },
+        "$description": "Pure white"
+      },
+      "black": {
+        "$type": "color",
+        "$value": { "colorSpace": "srgb", "components": [0, 0, 0] },
+        "$description": "Pure black"
+      }
+    }
+  }
+}

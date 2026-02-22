@@ -1,0 +1,74 @@
+{
+  "$description": "Typography scale — font families, sizes, weights, and line heights",
+  "typography": {
+    "fontFamily": {
+      "$description": "Font family definitions",
+      "primary": {
+        "$type": "fontFamily",
+        "$value": ["Inter", "system-ui", "sans-serif"]
+      },
+      "monospace": {
+        "$type": "fontFamily",
+        "$value": ["Fira Code", "monospace"]
+      }
+    },
+    "fontSize": {
+      "$description": "Font size scale",
+      "xs": {
+        "$type": "dimension",
+        "$value": { "value": 0.75, "unit": "rem" }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": { "value": 0.875, "unit": "rem" }
+      },
+      "base": {
+        "$type": "dimension",
+        "$value": { "value": 1, "unit": "rem" }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": { "value": 1.125, "unit": "rem" }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.25, "unit": "rem" }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.5, "unit": "rem" }
+      },
+      "3xl": {
+        "$type": "dimension",
+        "$value": { "value": 1.875, "unit": "rem" }
+      },
+      "4xl": {
+        "$type": "dimension",
+        "$value": { "value": 2.25, "unit": "rem" }
+      }
+    },
+    "fontWeight": {
+      "$description": "Font weight scale",
+      "light": {
+        "$type": "fontWeight",
+        "$value": 300
+      },
+      "normal": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700
+      }
+    }
+  }
+}

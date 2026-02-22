@@ -13,9 +13,11 @@ import { BuildOrchestrator } from '@build/build-orchestrator'
 import { OutputProcessor } from '@build/output-processor'
 import { TokenPipeline } from '@build/pipeline/token-pipeline'
 import type { BuildConfig, DispersaOptions } from '@config/index'
+import { LintRunner } from '@lint/lint-runner'
+import type { LintConfig, LintResult } from '@lint/types'
 import type { BuildResult } from '@renderers/types'
 import type { ModifierInputs, ResolverDocument } from '@resolution/types'
-import { ConfigurationError } from '@shared/errors/index'
+import { ConfigurationError, LintError } from '@shared/errors/index'
 import { toBuildError } from '@shared/utils/error-utils'
 import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
 import type { ResolvedTokens } from '@tokens/types'
@@ -361,6 +363,47 @@ export class Dispersa {
   ): Promise<ResolvedTokens> {
     const { tokens } = await this.pipeline.resolve(resolver, modifierInputs)
     return stripInternalTokenMetadata(tokens)
+  }
+
+  /**
+   * Runs linting on resolved tokens without generating output files
+   *
+   * This is a convenience method for running lint checks independently of building.
+   * It resolves tokens and applies lint rules, returning the lint results.
+   *
+   * @param resolver - Resolver configuration (file path or inline object)
+   * @param config - Lint configuration with plugins, rules, and settings
+   * @param modifierInputs - Optional modifier inputs for token resolution
+   * @returns Lint result with issues and counts
+   * @throws {LintError} If lint errors are found and failOnError is true (default)
+   *
+   * @example
+   * ```typescript
+   * import { recommendedConfig } from 'dispersa/lint'
+   *
+   * const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
+   * console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
+   * ```
+   */
+  async lint(
+    resolver: string | ResolverDocument,
+    config: LintConfig,
+    modifierInputs: ModifierInputs = {},
+  ): Promise<LintResult> {
+    const { tokens } = await this.pipeline.resolve(resolver, modifierInputs)
+
+    const runner = new LintRunner({
+      ...config,
+      failOnError: config.failOnError ?? true,
+    })
+
+    const result = await runner.run(tokens)
+
+    if (result.errorCount > 0 && config.failOnError !== false) {
+      throw new LintError(result.issues)
+    }
+
+    return result
   }
 
   /**

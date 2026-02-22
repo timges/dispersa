@@ -89,6 +89,7 @@ export class BuildOrchestrator {
         config.transforms,
         config.preprocessors,
         config.filters,
+        config.lint,
       )
       return this.executeBuild(buildPath, config, permutations, resolver)
     }
@@ -101,6 +102,7 @@ export class BuildOrchestrator {
           config.transforms,
           config.preprocessors,
           config.filters,
+          config.lint,
         )
         return { tokens, modifierInputs: resolvedInputs }
       }),
