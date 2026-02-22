@@ -1,0 +1,288 @@
+---
+title: Lint Rules Reference
+description: Detailed documentation for all built-in lint rules.
+sidebar:
+  order: 11
+---
+
+import { Aside, CardGrid } from '@astrojs/starlight/components'
+
+Dispersa includes six built-in lint rules. Each rule is configurable with options.
+
+## require-description
+
+Requires tokens to have a `$description` field. Descriptions improve token discoverability in design tools and documentation.
+
+```typescript
+rules: {
+  'dispersa/require-description': 'warn'
+}
+```
+
+### Options
+
+| Option      | Type       | Default | Description                |
+| ----------- | ---------- | ------- | -------------------------- |
+| `minLength` | `number`   | `1`     | Minimum description length |
+| `ignore`    | `string[]` | `[]`    | Glob patterns to exclude   |
+
+### Example
+
+```typescript
+rules: {
+  'dispersa/require-description': ['warn', { minLength: 10 }]
+}
+```
+
+---
+
+## naming-convention
+
+Enforces consistent token naming conventions. Checks each path segment individually, allowing tokens like `color.brand.500` where numeric scales are common.
+
+```typescript
+rules: {
+  'dispersa/naming-convention': ['error', { format: 'kebab-case' }]
+}
+```
+
+### Options
+
+| Option                 | Type                                                                               | Default        | Description                                |
+| ---------------------- | ---------------------------------------------------------------------------------- | -------------- | ------------------------------------------ |
+| `format`               | `'kebab-case' \| 'camelCase' \| 'PascalCase' \| 'snake_case' \| 'screaming-snake'` | `'kebab-case'` | Naming format to enforce                   |
+| `ignore`               | `string[]`                                                                         | `[]`           | Glob patterns to exclude                   |
+| `pattern`              | `string`                                                                           | --             | Custom regex pattern (overrides format)    |
+| `allowNumericSegments` | `boolean`                                                                          | `true`         | Allow numeric segments (e.g., `spacing.0`) |
+
+### Formats
+
+| Format            | Example                          |
+| ----------------- | -------------------------------- |
+| `kebab-case`      | `color-brand-primary`, `red-500` |
+| `camelCase`       | `colorBrandPrimary`              |
+| `PascalCase`      | `ColorBrandPrimary`              |
+| `snake_case`      | `color_brand_primary`            |
+| `screaming-snake` | `COLOR_BRAND_PRIMARY`            |
+
+### Custom pattern
+
+```typescript
+rules: {
+  'dispersa/naming-convention': ['error', { pattern: '^[a-z][a-z0-9-]*$' }]
+}
+```
+
+---
+
+## no-deprecated-usage
+
+Warns when tokens reference deprecated tokens (those with `$deprecated`). Helps migrate away from deprecated tokens in your design system.
+
+```typescript
+rules: {
+  'dispersa/no-deprecated-usage': 'warn'
+}
+```
+
+### Options
+
+| Option   | Type       | Default | Description              |
+| -------- | ---------- | ------- | ------------------------ |
+| `ignore` | `string[]` | `[]`    | Glob patterns to exclude |
+
+### Example
+
+```json
+{
+  "color": {
+    "old-primary": {
+      "$type": "color",
+      "$value": "#ff0000",
+      "$deprecated": "Use color.brand.primary instead"
+    }
+  }
+}
+```
+
+A token referencing `{color.old-primary}` will trigger a warning.
+
+---
+
+## no-duplicate-values
+
+Detects tokens with identical values. Consider using aliases instead of duplicate values to maintain a single source of truth.
+
+```typescript
+rules: {
+  'dispersa/no-duplicate-values': 'warn'
+}
+```
+
+### Options
+
+| Option   | Type       | Default | Description                     |
+| -------- | ---------- | ------- | ------------------------------- |
+| `ignore` | `string[]` | `[]`    | Glob patterns to exclude        |
+| `types`  | `string[]` | `[]`    | Only check specific token types |
+
+### Example: Check only colors
+
+```typescript
+rules: {
+  'dispersa/no-duplicate-values': ['warn', { types: ['color'] }]
+}
+```
+
+---
+
+## no-going-back
+
+Enforces semantic layering - tokens can only reference tokens in the same or lower layers, not higher layers. This prevents semantic tokens from depending on component tokens.
+
+```typescript
+rules: {
+  'dispersa/no-going-back': 'error'
+}
+```
+
+### Default layer hierarchy
+
+By default, checks the second path segment for layer name:
+
+- `base` (rank 0) - Primitive tokens
+- `semantic` (rank 1) - Meaningful tokens
+- `component` (rank 2) - Component-specific tokens
+
+A token in `color.semantic.background` can reference `color.base.red` but not `color.component.button.primary`.
+
+### Options
+
+| Option       | Type                     | Default                                  | Description                            |
+| ------------ | ------------------------ | ---------------------------------------- | -------------------------------------- |
+| `layers`     | `Record<string, number>` | `{ base: 0, semantic: 1, component: 2 }` | Custom layer hierarchy                 |
+| `layerIndex` | `number`                 | `1`                                      | Path segment index for layer (0-based) |
+| `ignore`     | `string[]`               | `[]`                                     | Glob patterns to exclude               |
+
+### Custom layers
+
+```typescript
+rules: {
+  'dispersa/no-going-back': ['error', {
+    layers: {
+      primitive: 0,
+      semantic: 1,
+      component: 2,
+      pattern: 3,
+    },
+    layerIndex: 0,
+  }]
+}
+```
+
+---
+
+## path-schema
+
+Validates token path structure using segment definitions and path patterns. Most powerful for enforcing organizational conventions.
+
+```typescript
+rules: {
+  'dispersa/path-schema': ['warn', {
+    segments: {
+      category: { values: ['color', 'spacing'] },
+      component: { values: ['button', 'input'] },
+    },
+    paths: ['{category}.{component}.*'],
+  }]
+}
+```
+
+### Options
+
+| Option        | Type                                | Default | Description                                       |
+| ------------- | ----------------------------------- | ------- | ------------------------------------------------- |
+| `segments`    | `Record<string, SegmentDefinition>` | `{}`    | Named segment definitions                         |
+| `paths`       | `string[]`                          | `[]`    | Valid path patterns with `{segment}` placeholders |
+| `transitions` | `TransitionRule[]`                  | `[]`    | Context-aware segment transition rules            |
+| `strict`      | `boolean`                           | `true`  | If true, only matching paths are allowed          |
+| `ignore`      | `string[]`                          | `[]`    | Glob patterns to exclude                          |
+
+### Segment Definition
+
+```typescript
+{
+  category: {
+    values: ['color', 'spacing', 'typography'],  // or RegExp
+    description: 'Token domain',
+    optional: true,
+  }
+}
+```
+
+### Path Patterns
+
+```typescript
+{
+  paths: [
+    'color.base.{brand}',
+    'color.semantic.{element}.{role}',
+    'color.component.{component}.{state}',
+  ]
+}
+```
+
+Use `{segment}` for named segments and `*` for wildcard segments.
+
+### Transition Rules
+
+Alternative to patterns - define which segments can follow which:
+
+```typescript
+{
+  transitions: [
+    { from: 'color', to: ['base', 'semantic', 'component'] },
+    { from: 'semantic', to: ['text', 'bg', 'border'] },
+    { from: 'semantic', to: 'component', allow: false }, // forbidden
+  ]
+}
+```
+
+### Complete example
+
+```typescript
+const lintRules = {
+  'dispersa/path-schema': [
+    'warn',
+    {
+      segments: {
+        category: {
+          values: ['color', 'spacing', 'typography', 'shadow'],
+        },
+        component: {
+          values: ['button'],
+          description: 'Component name',
+        },
+        variant: {
+          values: ['primary', 'secondary', 'ghost', 'danger'],
+          optional: true,
+        },
+        property: {
+          values: ['background', 'text', 'border', 'padding'],
+        },
+        state: {
+          values: ['hover', 'active', 'focus', 'disabled'],
+          optional: true,
+        },
+      },
+      paths: [
+        '{category}.{component}.{property}',
+        '{category}.{component}.{property}.{state}',
+        '{category}.{component}.{variant}.{property}',
+        '{category}.{component}.{variant}.{property}.{state}',
+      ],
+      strict: true,
+    },
+  ],
+}
+```

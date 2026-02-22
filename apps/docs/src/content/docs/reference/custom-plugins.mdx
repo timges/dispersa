@@ -1,0 +1,342 @@
+---
+title: Custom Lint Plugins
+description: Create custom lint rules and plugins for design token validation.
+sidebar:
+  order: 12
+---
+
+import { Aside, CardGrid } from '@astrojs/starlight/components'
+
+Extend Dispersa's linting system with custom rules and plugins tailored to your design system's needs.
+
+## Creating custom rules
+
+Use `createRule()` to build type-safe lint rules:
+
+```typescript
+import { createRule } from 'dispersa/lint'
+
+const noPrimaryColors = createRule<'NO_PRIMARY'>({
+  meta: {
+    name: 'no-primary-colors',
+    description: 'Disallow "primary" in token names',
+    messages: {
+      NO_PRIMARY: "Token '{{name}}' contains 'primary'. Use semantic names instead.",
+    },
+  },
+  create({ tokens, report }) {
+    for (const token of Object.values(tokens)) {
+      if (token.name.includes('primary')) {
+        report({ token, messageId: 'NO_PRIMARY', data: { name: token.name } })
+      }
+    }
+  },
+})
+```
+
+### Rule structure
+
+| Property         | Type                           | Description                                 |
+| ---------------- | ------------------------------ | ------------------------------------------- |
+| `meta`           | `LintRuleMeta`                 | Rule metadata (name, description, messages) |
+| `defaultOptions` | `Options` (optional)           | Default configuration                       |
+| `create()`       | `(context) => void \| Promise` | Validation logic                            |
+
+### Rule context
+
+The `create()` function receives a context object:
+
+```typescript
+interface LintRuleContext {
+  /** Fully qualified rule ID */
+  id: string
+  /** Merged options (default + user config) */
+  options: Options
+  /** All resolved tokens */
+  tokens: InternalResolvedTokens
+  /** Report a lint issue */
+  report(descriptor: LintReportDescriptor): void
+}
+```
+
+### Options
+
+Rules can accept configurable options:
+
+```typescript
+const requireType = createRule<'MISSING_TYPE'>({
+  meta: {
+    name: 'require-type',
+    description: 'Require $type on all tokens',
+    messages: {
+      MISSING_TYPE: "Token '{{name}}' is missing $type",
+    },
+  },
+  defaultOptions: { types: ['color', 'dimension'] },
+  create({ tokens, options, report }) {
+    const requiredTypes = options.types ?? []
+
+    for (const token of Object.values(tokens)) {
+      if (requiredTypes.includes(token.$type ?? '')) {
+        if (!token.$type) {
+          report({ token, messageId: 'MISSING_TYPE', data: { name: token.name } })
+        }
+      }
+    }
+  },
+})
+```
+
+Use as:
+
+```typescript
+rules: {
+  'custom/require-type': ['error', { types: ['color', 'dimension', 'fontFamily'] }]
+}
+```
+
+### Accessing all tokens
+
+Rules can reference other tokens for complex validation:
+
+```typescript
+const noCyclicAliases = createRule<'CYCLIC'>({
+  meta: {
+    name: 'no-cyclic-aliases',
+    description: 'Detect cyclic alias references',
+    messages: {
+      CYCLIC: "Token '{{name}}' has a cyclic reference",
+    },
+  },
+  create({ tokens, report }) {
+    for (const [name, token] of Object.entries(tokens)) {
+      const visited = new Set<string>()
+      let current = token.originalValue
+
+      while (typeof current === 'string' && current.startsWith('{') && current.endsWith('}')) {
+        const ref = current.slice(1, -1)
+        if (visited.has(ref)) {
+          report({ token, messageId: 'CYCLIC', data: { name } })
+          break
+        }
+        visited.add(ref)
+        current = tokens[ref]?.originalValue
+      }
+    }
+  },
+})
+```
+
+---
+
+## Creating plugins
+
+Plugins bundle multiple rules with shared configuration:
+
+```typescript
+import type { LintPlugin, LintConfig } from 'dispersa/lint'
+import { requireType } from './rules/require-type'
+import { noLegacyPrefix } from './rules/no-legacy-prefix'
+
+const myPlugin: LintPlugin = {
+  meta: {
+    name: 'my-design-system',
+    version: '1.0.0',
+  },
+  rules: {
+    'require-type': requireType,
+    'no-legacy-prefix': noLegacyPrefix,
+  },
+  configs: {
+    recommended: {
+      plugins: { my: myPlugin },
+      rules: {
+        'my/require-type': 'error',
+        'my/no-legacy-prefix': 'warn',
+      },
+    },
+  },
+}
+```
+
+### Plugin structure
+
+```typescript
+ {
+  meta:interface LintPlugin {
+    name: string           // Package name
+    version?: string       // Semantic version
+  }
+  rules: Record<string, LintRule>  // Rules provided
+  configs?: Record<string, LintConfig>  // Predefined configs
+}
+```
+
+---
+
+## Type-safe configuration
+
+Use declaration merging to add type safety for your custom rules:
+
+```typescript
+// In your plugin's types file
+import 'dispersa/lint'
+
+declare module 'dispersa/lint' {
+  interface RulesRegistry {
+    'my-plugin/require-type': { types: string[] }
+    'my-plugin/no-legacy-prefix': { allowedPrefixes: string[] }
+  }
+}
+```
+
+This provides autocomplete when configuring rules:
+
+```typescript
+rules: {
+  'my-plugin/require-type': ['error', { types: ['color'] }]  // autocomplete!
+}
+```
+
+---
+
+## Loading plugins
+
+### Inline plugins
+
+Pass plugins directly in configuration:
+
+```typescript
+const result = await dispersa.lint('./tokens.resolver.json', {
+  plugins: {
+    myPlugin,
+    dispersa: dispersaPlugin,
+  },
+  rules: {
+    'dispersa/require-description': 'warn',
+    'myPlugin/require-type': 'error',
+  },
+})
+```
+
+### Load by name
+
+Use a plugin loader to load from packages:
+
+```typescript
+import { PluginLoader } from 'dispersa/lint'
+
+const loader = new PluginLoader()
+
+const config = await loader.loadConfig({
+  plugins: {
+    a11y: '@dispersa/lint-plugin-a11y',
+  },
+})
+```
+
+The loader can resolve:
+
+- Package names (e.g., `@dispersa/lint-plugin-a11y`)
+- File paths
+- Already-loaded plugin objects
+
+---
+
+## Example: Complete custom plugin
+
+```typescript
+// lint-plugins/my-design-system.ts
+
+import { createRule } from 'dispersa/lint'
+import type { LintPlugin } from 'dispersa/lint'
+
+// Rule 1: Require token type
+const requireType = createRule<'MISSING_TYPE'>({
+  meta: {
+    name: 'require-type',
+    description: 'Require $type on all tokens',
+    messages: {
+      MISSING_TYPE: "Token '{{name}}' is missing $type",
+    },
+  },
+  create({ tokens, report }) {
+    for (const token of Object.values(tokens)) {
+      if (!token.$type) {
+        report({ token, messageId: 'MISSING_TYPE', data: { name: token.name } })
+      }
+    }
+  },
+})
+
+// Rule 2: No legacy prefixes
+const noLegacyPrefix = createRule<'LEGACY_PREFIX'>({
+  meta: {
+    name: 'no-legacy-prefix',
+    description: 'Disallow legacy token prefixes',
+    messages: {
+      LEGACY_PREFIX: "Token '{{name}}' uses legacy prefix '{{prefix}}'",
+    },
+  },
+  defaultOptions: { allowedPrefixes: ['ds-', 'token-'] },
+  create({ tokens, options, report }) {
+    const allowed = options.allowedPrefixes ?? []
+
+    for (const token of Object.values(tokens)) {
+      for (const prefix of allowed) {
+        if (token.name.startsWith(prefix)) {
+          report({
+            token,
+            messageId: 'LEGACY_PREFIX',
+            data: { name: token.name, prefix },
+          })
+        }
+      }
+    }
+  },
+})
+
+// Build the plugin
+export const myDesignSystemPlugin: LintPlugin = {
+  meta: {
+    name: '@myorg/dispersa-lint-plugin',
+    version: '1.0.0',
+  },
+  rules: {
+    'require-type': requireType,
+    'no-legacy-prefix': noLegacyPrefix,
+  },
+  configs: {
+    recommended: {
+      plugins: { myds: myDesignSystemPlugin },
+      rules: {
+        'myds/require-type': 'error',
+        'myds/no-legacy-prefix': 'warn',
+      },
+    },
+  },
+}
+```
+
+Use in your build:
+
+```typescript
+import { Dispersa, css } from 'dispersa'
+import { myDesignSystemPlugin } from './lint-plugins/my-design-system'
+
+const dispersa = new Dispersa({
+  resolver: './tokens.resolver.json',
+})
+
+const result = await dispersa.build({
+  lint: {
+    enabled: true,
+    plugins: { myds: myDesignSystemPlugin },
+    rules: {
+      'myds/require-type': 'error',
+      'myds/no-legacy-prefix': ['warn', { allowedPrefixes: ['ds-', 'design-'] }],
+    },
+  },
+  outputs: [css({ name: 'css', file: 'tokens.css', preset: 'bundle' })],
+})
+```

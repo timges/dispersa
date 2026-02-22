@@ -1,0 +1,184 @@
+---
+title: Linting
+description: Validate design tokens with Dispersa's plugin-based linting system.
+sidebar:
+  order: 10
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components'
+
+Dispersa includes a **plugin-based linting system** to validate design tokens against semantic rules. Linting helps maintain token quality by enforcing naming conventions, requiring descriptions, detecting deprecated usage, and more.
+
+## Why linting?
+
+Design tokens are the foundation of your design system. Linting ensures:
+
+- **Consistency** -- Enforce naming conventions across all tokens
+- **Documentation** -- Require descriptions for better discoverability
+- **Maintainability** -- Detect deprecated tokens and prevent layering violations
+- **Quality** -- Find duplicate values and path structure issues
+
+## Quick start
+
+### Standalone lint
+
+Run linting independently of the build:
+
+```typescript
+import { Dispersa } from 'dispersa'
+import { dispersaPlugin } from 'dispersa/lint'
+
+const dispersa = new Dispersa()
+
+const result = await dispersa.lint('./tokens.resolver.json', {
+  plugins: { dispersa: dispersaPlugin },
+  rules: {
+    'dispersa/require-description': 'warn',
+    'dispersa/naming-convention': ['error', { format: 'kebab-case' }],
+  },
+})
+
+console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
+```
+
+### As part of build
+
+Enable linting in your build configuration:
+
+```typescript
+import { Dispersa, css } from 'dispersa'
+import { dispersaPlugin } from 'dispersa/lint'
+
+const dispersa = new Dispersa({
+  resolver: './tokens.resolver.json',
+  buildPath: './dist',
+})
+
+const result = await dispersa.build({
+  lint: {
+    enabled: true,
+    plugins: { dispersa: dispersaPlugin },
+    rules: {
+      'dispersa/naming-convention': ['error', { format: 'kebab-case' }],
+    },
+  },
+  outputs: [css({ name: 'css', file: 'tokens.css', preset: 'bundle' })],
+})
+```
+
+When `failOnError` is `true` (default), lint errors will cause the build to fail.
+
+## Predefined configurations
+
+Dispersa ships with three predefined lint configurations:
+
+| Config        | Description                               |
+| ------------- | ----------------------------------------- |
+| `minimal`     | Only `no-deprecated-usage` as warning     |
+| `recommended` | Balanced rules for most projects          |
+| `strict`      | All rules enabled as errors (or warnings) |
+
+```typescript
+import { recommendedConfig } from 'dispersa/lint'
+
+const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
+```
+
+### What's included
+
+**Minimal:**
+
+- `dispersa/no-deprecated-usage`: warn
+
+**Recommended:**
+
+- `dispersa/require-description`: warn
+- `dispersa/naming-convention`: error (kebab-case)
+- `dispersa/no-deprecated-usage`: warn
+- `dispersa/no-going-back`: error
+
+**Strict:**
+
+- `dispersa/require-description`: error
+- `dispersa/naming-convention`: error (kebab-case)
+- `dispersa/no-deprecated-usage`: error
+- `dispersa/no-duplicate-values`: error
+- `dispersa/no-going-back`: error
+
+## Pipeline integration
+
+Linting runs in the pipeline after alias resolution but before filters and transforms:
+
+```
+1. Resolve → 2. Preprocess → 3. Parse → ... → 9. Lint → 10. Filter → 11. Transform → 12. Render
+```
+
+This means linting operates on fully resolved tokens with all references expanded.
+
+## Built-in rules
+
+Dispersa includes six built-in rules:
+
+| Rule                  | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| `require-description` | Enforce `$description` on tokens                        |
+| `naming-convention`   | Enforce naming format (kebab-case, camelCase, etc.)     |
+| `no-deprecated-usage` | Detect references to `$deprecated` tokens               |
+| `no-duplicate-values` | Find tokens with identical values                       |
+| `no-going-back`       | Enforce semantic layering (base → semantic → component) |
+| `path-schema`         | Validate token path structure with patterns             |
+
+<LinkCard
+  title="Lint Rules Reference"
+  description="Detailed documentation for all built-in rules."
+  href="/concepts/linting/rules/"
+/>
+
+## Creating custom rules
+
+Extend linting with your own rules and plugins:
+
+```typescript
+import { createRule } from 'dispersa/lint'
+
+const noPrimaryColors = createRule<'NO_PRIMARY'>({
+  meta: {
+    name: 'no-primary-colors',
+    description: 'Disallow "primary" in token names',
+    messages: {
+      NO_PRIMARY: "Token '{{name}}' contains 'primary'",
+    },
+  },
+  create({ tokens, report }) {
+    for (const token of Object.values(tokens)) {
+      if (token.name.includes('primary')) {
+        report({ token, messageId: 'NO_PRIMARY', data: { name: token.name } })
+      }
+    }
+  },
+})
+```
+
+<LinkCard
+  title="Custom Lint Plugins"
+  description="Create reusable plugins with multiple rules."
+  href="/concepts/linting/custom-plugins/"
+/>
+
+## Output formats
+
+Lint results can be formatted in different ways:
+
+```typescript
+import { formatLintJson, formatLintStylish, formatLintCompact } from 'dispersa/lint'
+
+console.log(formatLintStylish(result))
+console.log(formatLintJson(result))
+console.log(formatLintCompact(result))
+```
+
+Available formats:
+
+- `stylish` - Human-readable format (default)
+- `json` - Machine-parseable JSON
+- `compact` - Single-line format for CI systems

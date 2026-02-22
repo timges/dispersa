@@ -8,6 +8,7 @@ A TypeScript build system for processing [DTCG 2025.10](https://www.designtokens
 - **Multiple outputs** -- CSS custom properties, JSON, JS/TS modules
 - **Extensible pipeline** -- custom preprocessors, filters, transforms, and renderers
 - **Schema validation** -- AJV runtime validation with schema-generated TypeScript types
+- **Linting** -- Plugin-based lint rules for design token validation
 - **In-memory mode** -- use without the filesystem for build tools, APIs, and testing
 - **CLI** -- config-first workflow with auto-discovery
 
@@ -16,6 +17,19 @@ A TypeScript build system for processing [DTCG 2025.10](https://www.designtokens
 **Standard DTCG types:** `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier`, `number`
 
 **Composite types:** `shadow`, `typography`, `border`, `strokeStyle`, `transition`, `gradient`
+
+## Linting
+
+Dispersa includes a plugin-based linting system to validate design tokens against semantic rules. Linting can run standalone or as part of the build pipeline.
+
+```typescript
+import { dispersaPlugin, recommendedConfig } from 'dispersa/lint'
+
+const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
+console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
+```
+
+Built-in rules include `require-description`, `naming-convention`, `no-deprecated-usage`, `no-duplicate-values`, `no-going-back`, and `path-schema`. Create custom rules with the `createRule()` factory or build reusable plugins.
 
 ## Getting started
 
@@ -771,6 +785,7 @@ const dispersa = new Dispersa(options?: DispersaOptions)
 | `dispersa/preprocessors` | Preprocessor type                                                            |
 | `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)                 |
 | `dispersa/config`        | `defineConfig` helper for CLI config files                                   |
+| `dispersa/lint`          | Linting system: `LintRunner`, built-in rules, `createRule`, formatters       |
 
 Everything outside these entry points is internal and not a stable API contract.
 
