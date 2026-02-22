@@ -1,26 +1,35 @@
 {
   "$description": "Button component tokens",
-  "button": {
-    "primary": {
-      "background": {
-        "$type": "color",
-        "$value": "{color.alias.primary}",
-        "$description": "Primary button background"
-      },
-      "backgroundHover": {
-        "$type": "color",
-        "$value": "{color.alias.primary-hover}",
-        "$description": "Primary button hover state"
-      },
-      "text": {
-        "$type": "color",
-        "$value": "{color.base.white}",
-        "$description": "Primary button text color"
-      },
-      "padding": {
-        "$type": "dimension",
-        "$value": "{spacing.alias.medium}",
-        "$description": "Button padding"
+  "color": {
+    "button": {
+      "primary": {
+        "background": {
+          "$type": "color",
+          "$root": {
+            "$value": "{color.alias.primary}",
+            "$description": "Primary button background"
+          },
+          "hover": {
+            "$value": "{color.alias.primary-hover}",
+            "$description": "Primary button hover state"
+          }
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.base.white}",
+          "$description": "Primary button text color"
+        }
+      }
+    }
+  },
+  "spacing": {
+    "button": {
+      "primary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.alias.medium}",
+          "$description": "Button padding"
+        }
       }
     }
   }

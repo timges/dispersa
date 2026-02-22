@@ -1,37 +1,47 @@
 {
   "$description": "Card component tokens",
-  "card": {
-    "background": {
-      "$type": "color",
-      "$value": "{color.alias.background.primary}"
-    },
-    "border": {
-      "$type": "color",
-      "$value": "{color.alias.border.subtle}"
-    },
-    "shadow": {
-      "$type": "shadow",
-      "$value": [
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [0, 0, 0],
-            "alpha": 0.1
-          },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 4, "unit": "px" },
-          "blur": { "value": 6, "unit": "px" },
-          "spread": { "value": -1, "unit": "px" }
-        }
-      ]
-    },
-    "padding": {
-      "$type": "dimension",
-      "$value": "{spacing.alias.lg}"
-    },
-    "radius": {
-      "$type": "dimension",
-      "$value": "{border.base.radius.md}"
+  "color": {
+    "card": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.alias.background.primary}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.alias.border.subtle}"
+      }
+    }
+  },
+  "shadow": {
+    "card": {
+      "shadow": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": {
+              "colorSpace": "srgb",
+              "components": [0, 0, 0],
+              "alpha": 0.1
+            },
+            "offsetX": { "value": 0, "unit": "px" },
+            "offsetY": { "value": 4, "unit": "px" },
+            "blur": { "value": 6, "unit": "px" },
+            "spread": { "value": -1, "unit": "px" }
+          }
+        ]
+      }
+    }
+  },
+  "spacing": {
+    "card": {
+      "padding": {
+        "$type": "dimension",
+        "$value": "{spacing.alias.lg}"
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": "{border.base.radius.md}"
+      }
     }
   }
 }

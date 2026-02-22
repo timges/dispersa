@@ -1,44 +1,48 @@
 {
   "$description": "Button component tokens",
-  "button": {
-    "primary": {
-      "background": {
-        "$type": "color",
-        "$value": "{color.alias.interactive.primary}"
+  "color": {
+    "button": {
+      "primary": {
+        "background": {
+          "$type": "color",
+          "$root": { "$value": "{color.alias.interactive.primary}" },
+          "hover": { "$value": "{color.alias.interactive.hover}" },
+          "active": { "$value": "{color.alias.interactive.active}" }
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.alias.text.inverse}"
+        }
       },
-      "backgroundHover": {
-        "$type": "color",
-        "$value": "{color.alias.interactive.hover}"
-      },
-      "backgroundActive": {
-        "$type": "color",
-        "$value": "{color.alias.interactive.active}"
-      },
-      "text": {
-        "$type": "color",
-        "$value": "{color.alias.text.inverse}"
-      },
-      "padding": {
-        "$type": "dimension",
-        "$value": "{spacing.alias.md}"
+      "secondary": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.alias.background.secondary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.alias.border.default}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.alias.text.primary}"
+        }
       }
-    },
-    "secondary": {
-      "background": {
-        "$type": "color",
-        "$value": "{color.alias.background.secondary}"
+    }
+  },
+  "spacing": {
+    "button": {
+      "primary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.alias.md}"
+        }
       },
-      "border": {
-        "$type": "color",
-        "$value": "{color.alias.border.default}"
-      },
-      "text": {
-        "$type": "color",
-        "$value": "{color.alias.text.primary}"
-      },
-      "padding": {
-        "$type": "dimension",
-        "$value": "{spacing.alias.md}"
+      "secondary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.alias.md}"
+        }
       }
     }
   }

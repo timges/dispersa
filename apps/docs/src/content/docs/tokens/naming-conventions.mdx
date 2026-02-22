@@ -1,6 +1,6 @@
 ---
 title: Naming Conventions
-description: A recommended six-layer naming convention for design tokens that keeps paths discoverable, predictable, and self-documenting.
+description: A three-tier naming model for design tokens — base, semantic, and component — each starting with its token category and following tier-specific conventions.
 sidebar:
   order: 6
 ---
@@ -11,9 +11,44 @@ import { Aside, LinkCard } from '@astrojs/starlight/components'
 This naming convention is a recommendation used by the Dispersa starter templates. It is not part of the DTCG specification -- you are free to name tokens however you like. That said, a consistent convention pays off quickly as your token system grows.
 </Aside>
 
-## The Six-Layer Path
+## Token Tiers
 
-Every token path is a subsequence of six ordered layers:
+Tokens are organized into three tiers. Each tier has a distinct purpose, its own naming convention, and a clear dependency direction: higher tiers reference lower tiers, never the reverse. Every tier starts with the token **category** (`color`, `spacing`, `typography`, `shadow`).
+
+| Tier | Purpose | Convention | Example |
+|---|---|---|---|
+| **Base** | Raw values without intent | Descriptive, type-grouped | `color.palette.blue-500` |
+| **Semantic** | Intent-based, themeable | Six-layer path | `color.action.brand.hover` |
+| **Component** | UI-mapped, per-component | Five-layer path | `color.button.primary.background.hover` |
+
+The reference chain flows in one direction:
+
+```
+Component tokens  →  Semantic tokens  →  Base tokens
+```
+
+Component tokens reference semantic tokens. Semantic tokens reference base tokens. This separation means you can re-theme an entire system by swapping semantic values, and every component updates automatically.
+
+<Aside type="tip" title="Start simple">
+Most token systems only need base and semantic tiers. Add component tokens when you find yourself repeatedly mapping the same semantic tokens to the same UI patterns across multiple components or platforms.
+</Aside>
+
+## Base Token Naming
+
+Base tokens are the raw building blocks. They represent values without intent and use neutral, descriptive names grouped under a type-specific namespace:
+
+| Category | Base group | Example tokens |
+|---|---|---|
+| Color | `color.palette` | `color.palette.blue-500`, `color.palette.gray-900`, `color.palette.white` |
+| Spacing | `spacing.scale` | `spacing.scale.xs`, `spacing.scale.sm`, `spacing.scale.md` |
+| Shadow | `shadow.raw` | `shadow.raw.sm`, `shadow.raw.md`, `shadow.raw.lg` |
+| Typography | `font.*` | `font.family.sans`, `font.size.lg`, `font.weight.bold` |
+
+Base tokens sit outside the six-layer semantic convention. Semantic tokens reference them via `{color.palette.blue-500}` style aliases.
+
+## Semantic Tokens: The Six-Layer Path
+
+Every semantic token path is a subsequence of six ordered layers:
 
 ```
 category.concept.sentiment.prominence.state.scale
@@ -30,7 +65,7 @@ category.concept.sentiment.prominence.state.scale
 
 Each layer has its own **distinct vocabulary** -- values never overlap between layers. `muted` is always prominence. `danger` is always sentiment. `hover` is always state. `md` is always scale. This means layers can be omitted when they're not needed, and there's never ambiguity about which layer a segment belongs to.
 
-## Ordering Rule
+### Ordering Rule
 
 Layers can be skipped, but they can never be reordered. Every token path must be a subsequence of the full six-layer order -- broadest classification first, most specific last.
 
@@ -48,7 +83,7 @@ Most tokens use two to four layers:
 | `spacing.gap.md` | category + concept + scale |
 | `typography.heading.lg` | category + concept + scale |
 
-## How Categories Use Layers
+### How Categories Use Layers
 
 Different token categories lean on different subsets:
 
@@ -57,7 +92,7 @@ Different token categories lean on different subsets:
 
 The convention is the same -- each category uses the subset it needs.
 
-## Comprehensive Examples
+### Comprehensive Examples
 
 | Token path | Category | Concept | Sentiment | Prominence | State | Scale |
 |---|---|---|---|---|---|---|
@@ -81,14 +116,14 @@ The convention is the same -- each category uses the subset it needs.
 | `typography.body.sm` | typography | body | -- | -- | -- | sm |
 | `shadow.elevation.md` | shadow | elevation | -- | -- | -- | md |
 
-## Principles
+### Principles
 
 1. **Intent over implementation.** `color.action.brand` instead of `color.blue-500`. When your brand color changes from blue to purple, you rename zero tokens.
 2. **Predictability.** If `color.text.default` exists, a developer can guess that `color.text.muted` and `color.text.subtle` probably do too.
 3. **Orthogonal layers.** Sentiment, prominence, state, and scale answer different questions: "what role?", "how loud?", "what interaction?", and "what size?" Keeping them separate prevents naming collisions and makes the system composable.
 4. **No going back.** Layers always appear in the canonical order. You can skip, but you can't reorder. This keeps every path unambiguous.
 
-## Mapping to DTCG JSON
+### Mapping to DTCG JSON
 
 Each layer becomes a nesting level in the JSON structure:
 
@@ -127,18 +162,93 @@ When a node needs to be both a token and a group (e.g. `color.text.muted` has a 
 
 Dispersa flattens this structure during parsing, so `color.text.muted` and `color.action.brand.hover` are the token paths you see in build output.
 
-## Base Token Naming
+## Component Token Naming
 
-Base tokens sit outside the six-layer convention. They represent raw values without intent and use neutral, descriptive names grouped under a type-specific namespace:
+Component tokens sit above the semantic layer. They map semantic tokens to specific UI components, creating a stable contract between design and implementation. Like the other tiers, they start with the token category. Each component token path is a subsequence of five ordered layers:
 
-| Category | Base group | Example tokens |
+```
+category.component.variant.property.state
+```
+
+| Layer | Purpose | Example values |
 |---|---|---|
-| Color | `color.palette` | `color.palette.blue-500`, `color.palette.gray-900`, `color.palette.white` |
-| Spacing | `spacing.scale` | `spacing.scale.xs`, `spacing.scale.sm`, `spacing.scale.md` |
-| Shadow | `shadow.raw` | `shadow.raw.sm`, `shadow.raw.md`, `shadow.raw.lg` |
-| Typography | `font.*` | `font.family.sans`, `font.size.lg`, `font.weight.bold` |
+| **category** | Token type or domain | `color`, `spacing`, `typography`, `shadow` |
+| **component** | UI component name | `button`, `card`, `input`, `badge`, `tooltip` |
+| **variant** | Optional variant or role | `primary`, `secondary`, `ghost`, `success`, `danger` |
+| **property** | CSS-ish concern | `background`, `text`, `border`, `padding`, `shadow`, `radius`, `gap` |
+| **state** | Optional interaction state | `hover`, `active`, `focus`, `disabled`, `selected` |
 
-Alias tokens (the ones following the six-layer convention) reference these base tokens via `{color.palette.blue-500}` style aliases.
+The same ordering rule applies: layers can be skipped but never reordered. Variant and state are optional; category, component, and property are required.
+
+Semantic concepts (`text`, `background`, `action`, `border`...) and component names (`button`, `card`, `input`, `badge`...) are naturally distinct vocabularies, so there is no ambiguity when both live under the same category namespace like `color.*`.
+
+### Component Token Examples
+
+| Token path | Category | Component | Variant | Property | State |
+|---|---|---|---|---|---|
+| `color.button.primary.background` | color | button | primary | background | -- |
+| `color.button.primary.background.hover` | color | button | primary | background | hover |
+| `color.button.secondary.border` | color | button | secondary | border | -- |
+| `color.button.danger.background` | color | button | danger | background | -- |
+| `color.card.background` | color | card | -- | background | -- |
+| `spacing.card.padding` | spacing | card | -- | padding | -- |
+| `color.input.border` | color | input | -- | border | -- |
+| `color.input.border.focus` | color | input | -- | border | focus |
+| `color.input.danger.border` | color | input | danger | border | -- |
+| `color.badge.success.background` | color | badge | success | background | -- |
+
+### Mapping to DTCG JSON
+
+Component tokens follow the same nesting pattern, with category as the outermost level. A single component's tokens may span multiple categories:
+
+```json
+{
+  "color": {
+    "button": {
+      "primary": {
+        "background": {
+          "$type": "color",
+          "$root": { "$value": "{color.action.brand}" },
+          "hover": { "$value": "{color.action.brand.hover}" },
+          "active": { "$value": "{color.action.brand.active}" }
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.inverse}"
+        }
+      }
+    },
+    "input": {
+      "border": {
+        "$type": "color",
+        "$root": { "$value": "{color.border.default}" },
+        "focus": { "$value": "{color.border.default.focus}" }
+      }
+    }
+  },
+  "spacing": {
+    "button": {
+      "primary": {
+        "padding": {
+          "$type": "dimension",
+          "$value": "{spacing.gap.md}"
+        }
+      }
+    }
+  }
+}
+```
+
+### Reference Chain
+
+Component tokens should reference semantic tokens, not base tokens directly. This keeps the dependency chain clean and ensures theming works end-to-end:
+
+```
+color.button.primary.background  →  {color.action.brand}        (semantic)
+color.action.brand               →  {color.palette.blue-500}     (base)
+```
+
+Skipping the semantic layer (e.g., `color.button.primary.background → {color.palette.blue-500}`) creates a shortcut that bypasses theming -- when the theme changes, that component token won't update.
 
 <LinkCard
   title="References and Aliases"
