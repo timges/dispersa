@@ -37,13 +37,12 @@
   --sl-content-width: 48rem;
 
   /* Shadows — violet-tinted, diffused */
-  --sl-shadow-sm: 0px 1px 2px hsla(272, 40%, 4%, 0.25),
-    0px 1px 1px hsla(272, 40%, 4%, 0.15);
-  --sl-shadow-md: 0px 8px 6px hsla(272, 40%, 4%, 0.08),
-    0px 4px 3px hsla(272, 40%, 4%, 0.12),
+  --sl-shadow-sm: 0px 1px 2px hsla(272, 40%, 4%, 0.25), 0px 1px 1px hsla(272, 40%, 4%, 0.15);
+  --sl-shadow-md:
+    0px 8px 6px hsla(272, 40%, 4%, 0.08), 0px 4px 3px hsla(272, 40%, 4%, 0.12),
     0px 2px 1px hsla(272, 40%, 4%, 0.2);
-  --sl-shadow-lg: 0px 20px 12px hsla(272, 40%, 4%, 0.06),
-    0px 10px 6px hsla(272, 40%, 4%, 0.15),
+  --sl-shadow-lg:
+    0px 20px 12px hsla(272, 40%, 4%, 0.06), 0px 10px 6px hsla(272, 40%, 4%, 0.15),
     0px 4px 4px hsla(272, 40%, 4%, 0.3);
 
   /* Spectral gradient — signature motif */
@@ -87,13 +86,12 @@
   --sl-color-black: hsl(0, 0%, 100%);
 
   /* Shadows — light, mostly neutral */
-  --sl-shadow-sm: 0px 1px 2px hsla(260, 20%, 50%, 0.06),
-    0px 1px 1px hsla(260, 20%, 50%, 0.04);
-  --sl-shadow-md: 0px 8px 6px hsla(260, 20%, 50%, 0.04),
-    0px 4px 3px hsla(260, 20%, 50%, 0.06),
+  --sl-shadow-sm: 0px 1px 2px hsla(260, 20%, 50%, 0.06), 0px 1px 1px hsla(260, 20%, 50%, 0.04);
+  --sl-shadow-md:
+    0px 8px 6px hsla(260, 20%, 50%, 0.04), 0px 4px 3px hsla(260, 20%, 50%, 0.06),
     0px 2px 1px hsla(260, 20%, 50%, 0.08);
-  --sl-shadow-lg: 0px 20px 12px hsla(260, 20%, 50%, 0.03),
-    0px 10px 6px hsla(260, 20%, 50%, 0.06),
+  --sl-shadow-lg:
+    0px 20px 12px hsla(260, 20%, 50%, 0.03), 0px 10px 6px hsla(260, 20%, 50%, 0.06),
     0px 4px 4px hsla(260, 20%, 50%, 0.12);
 
   /* Syntax highlighting — light mode overrides */
@@ -184,83 +182,15 @@ hr {
 }
 
 /* ----------------------------------------------------------
- * 10. Hero demo — spectral arrow
+ * 10. Hero demo — spectral arrow (SVG)
  * ---------------------------------------------------------- */
 
-.dispersa-hero-arrow-h,
-.dispersa-hero-arrow-v {
-  background: linear-gradient(
-    90deg,
-    hsl(272, 80%, 65%),
-    hsl(220, 80%, 60%),
-    hsl(180, 75%, 50%),
-    hsl(140, 70%, 50%),
-    hsl(50, 90%, 55%),
-    hsl(0, 80%, 60%),
-    hsl(272, 80%, 65%)
-  );
-  background-size: 200% 100%;
-  animation: dispersaArrowFlow 3s linear infinite,
-    dispersaArrowGlow 2.5s ease-in-out infinite;
-}
-
-.dispersa-hero-arrow-v {
-  background: linear-gradient(
-    180deg,
-    hsl(272, 80%, 65%),
-    hsl(220, 80%, 60%),
-    hsl(180, 75%, 50%),
-    hsl(140, 70%, 50%),
-    hsl(50, 90%, 55%),
-    hsl(0, 80%, 60%),
-    hsl(272, 80%, 65%)
-  );
-  background-size: 100% 200%;
-  animation: dispersaArrowFlowV 3s linear infinite,
-    dispersaArrowGlow 2.5s ease-in-out infinite;
-}
-
-@keyframes dispersaArrowFlow {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 200% 50%;
-  }
-}
-
-@keyframes dispersaArrowFlowV {
-  from {
-    background-position: 50% 0%;
-  }
-  to {
-    background-position: 50% 200%;
-  }
-}
-
-@keyframes dispersaArrowGlow {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 6px hsla(272, 80%, 65%, 0.4));
-  }
-  50% {
-    filter: drop-shadow(0 0 14px hsla(272, 80%, 65%, 0.8));
-  }
+.dispersa-hero-arrow-path {
+  filter: drop-shadow(0 0 4px hsla(272, 80%, 65%, 0.4));
 }
 
 /* ----------------------------------------------------------
- * 11. Reduced motion — disable non-essential animations
- * ---------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .dispersa-hero-arrow-h,
-  .dispersa-hero-arrow-v {
-    animation: none;
-  }
-}
-
-/* ----------------------------------------------------------
- * 12. Shared focus-visible ring for interactive components
+ * 11. Shared focus-visible ring for interactive components
  * ---------------------------------------------------------- */
 
 .dispersa-focus-ring:focus-visible {

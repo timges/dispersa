@@ -397,6 +397,7 @@ function SpectralArrow({ vertical }: { vertical?: boolean }) {
         fontWeight: 500,
         color: COLORS.muted,
         whiteSpace: 'nowrap' as const,
+        marginBottom: 16,
       }}
     >
       build({'{...}'})
@@ -416,14 +417,23 @@ function SpectralArrow({ vertical }: { vertical?: boolean }) {
         aria-hidden="true"
       >
         {buildLabel}
-        <div
-          className="dispersa-hero-arrow-v"
-          style={{
-            width: 24,
-            height: 56,
-            clipPath: 'polygon(35% 0%, 65% 0%, 65% 70%, 100% 70%, 50% 100%, 0% 70%, 35% 70%)',
-          }}
-        />
+        <svg
+          width={56}
+          height={24}
+          viewBox="0 0 85 15"
+          fill="none"
+          style={{ display: 'block', transform: 'rotate(90deg)' }}
+        >
+          <path
+            className="dispersa-hero-arrow-path"
+            d="M0.158447 9.25C33.7106 -1.9604 52.1387 -2.50431 84.1584 9.25L78.9623 0.25M84.1584 9.25L75.1584 14.4462"
+            stroke="#a855f7"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
       </div>
     )
   }
@@ -442,14 +452,17 @@ function SpectralArrow({ vertical }: { vertical?: boolean }) {
       aria-hidden="true"
     >
       {buildLabel}
-      <div
-        className="dispersa-hero-arrow-h"
-        style={{
-          width: 100,
-          height: 28,
-          clipPath: 'polygon(0% 35%, 75% 35%, 75% 0%, 100% 50%, 75% 100%, 75% 65%, 0% 65%)',
-        }}
-      />
+      <svg width={85} height={15} viewBox="0 0 85 15" fill="none" style={{ display: 'block' }}>
+        <path
+          className="dispersa-hero-arrow-path"
+          d="M0.158447 9.25C33.7106 -1.9604 52.1387 -2.50431 84.1584 9.25L78.9623 0.25M84.1584 9.25L75.1584 14.4462"
+          stroke="#a855f7"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
+      </svg>
     </div>
   )
 }
