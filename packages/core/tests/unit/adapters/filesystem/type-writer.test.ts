@@ -16,9 +16,9 @@ vi.mock('node:fs/promises', () => ({
 
 // Mock TypeGenerator
 vi.mock('../../../../src/codegen/type-generator', () => ({
-  TypeGenerator: vi.fn().mockImplementation(() => ({
-    generate: vi.fn().mockReturnValue('export type Tokens = { color: string }'),
-  })),
+  TypeGenerator: class {
+    generate = vi.fn().mockReturnValue('export type Tokens = { color: string }')
+  },
 }))
 
 describe('TypeWriter', () => {

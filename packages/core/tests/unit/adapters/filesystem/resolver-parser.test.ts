@@ -15,10 +15,10 @@ vi.mock('node:fs/promises', () => ({
 
 // Mock SchemaValidator
 vi.mock('../../../../src/validation/index', () => ({
-  SchemaValidator: vi.fn().mockImplementation(() => ({
-    validateResolver: vi.fn().mockReturnValue([]),
-    getErrorMessage: vi.fn().mockReturnValue('Validation error'),
-  })),
+  SchemaValidator: class {
+    validateResolver = vi.fn().mockReturnValue([])
+    getErrorMessage = vi.fn().mockReturnValue('Validation error')
+  },
 }))
 
 describe('ResolverParser', () => {

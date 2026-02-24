@@ -4,15 +4,22 @@
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ResolverLoader } from '../../../../src/adapters/filesystem/resolver-loader'
-import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
 import type { ResolverDocument } from '../../../../src/resolution/types'
 
-// Mock ResolverParser
-vi.mock('../../../../src/adapters/filesystem/resolver-parser')
+const mockParserInstance = {
+  parseFile: vi.fn(),
+  parseInline: vi.fn(),
+}
+
+vi.mock('../../../../src/adapters/filesystem/resolver-parser', () => ({
+  ResolverParser: class {
+    parseFile = mockParserInstance.parseFile
+    parseInline = mockParserInstance.parseInline
+  },
+}))
 
 describe('ResolverLoader', () => {
   let loader: ResolverLoader
-  let mockParser: any
 
   const mockResolverDoc: ResolverDocument = {
     version: '2025.10',
@@ -35,13 +42,8 @@ describe('ResolverLoader', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-
-    mockParser = {
-      parseFile: vi.fn().mockResolvedValue(mockResolverDoc),
-      parseInline: vi.fn().mockReturnValue(mockResolverDoc),
-    }
-
-    vi.mocked(ResolverParser).mockImplementation(() => mockParser)
+    mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
+    mockParserInstance.parseInline.mockReturnValue(mockResolverDoc)
   })
 
   describe('Constructor', () => {
@@ -62,13 +64,13 @@ describe('ResolverLoader', () => {
     })
 
     it('should load from file path', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       const result = await loader.load('./tokens.resolver.json')
 
       expect(result.resolverDoc).toEqual(mockResolverDoc)
       expect(result.baseDir).toContain('test/base')
-      expect(mockParser.parseFile).toHaveBeenCalled()
+      expect(mockParserInstance.parseFile).toHaveBeenCalled()
     })
 
     it('should load from inline object', async () => {
@@ -76,11 +78,11 @@ describe('ResolverLoader', () => {
 
       expect(result.resolverDoc).toEqual(mockResolverDoc)
       expect(result.baseDir).toBe('/test/base')
-      expect(mockParser.parseInline).toHaveBeenCalledWith(mockResolverDoc)
+      expect(mockParserInstance.parseInline).toHaveBeenCalledWith(mockResolverDoc)
     })
 
     it('should return correct baseDir for file-based resolver', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       const result = await loader.load('/project/tokens/tokens.resolver.json')
 
@@ -96,26 +98,26 @@ describe('ResolverLoader', () => {
     })
 
     it('should handle relative file paths', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       await loader.load('relative/path/resolver.json')
 
-      expect(mockParser.parseFile).toHaveBeenCalled()
-      const callPath = mockParser.parseFile.mock.calls[0][0]
+      expect(mockParserInstance.parseFile).toHaveBeenCalled()
+      const callPath = mockParserInstance.parseFile.mock.calls[0][0]
       expect(callPath).toContain('test/base')
       expect(callPath).toContain('relative/path/resolver.json')
     })
 
     it('should handle absolute file paths', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       await loader.load('/absolute/path/resolver.json')
 
-      expect(mockParser.parseFile).toHaveBeenCalledWith('/absolute/path/resolver.json')
+      expect(mockParserInstance.parseFile).toHaveBeenCalledWith('/absolute/path/resolver.json')
     })
 
     it('should propagate parser errors', async () => {
-      mockParser.parseFile.mockRejectedValue(new Error('Parse error'))
+      mockParserInstance.parseFile.mockRejectedValue(new Error('Parse error'))
 
       await expect(loader.load('./bad.json')).rejects.toThrow('Parse error')
     })
@@ -127,7 +129,7 @@ describe('ResolverLoader', () => {
     })
 
     it('should return only resolver document from file', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       const result = await loader.loadDocument('./tokens.resolver.json')
 
@@ -142,7 +144,7 @@ describe('ResolverLoader', () => {
     })
 
     it('should be a convenience wrapper for load()', async () => {
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       const result1 = await loader.loadDocument('./test.json')
       const result2 = await loader.load('./test.json')
@@ -163,15 +165,15 @@ describe('ResolverLoader', () => {
 
     it('should affect subsequent file loads', async () => {
       loader = new ResolverLoader({ baseDir: '/first' })
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       await loader.load('resolver.json')
-      const firstCall = mockParser.parseFile.mock.calls[0][0]
+      const firstCall = mockParserInstance.parseFile.mock.calls[0][0]
 
       loader.setBaseDir('/second')
 
       await loader.load('resolver.json')
-      const secondCall = mockParser.parseFile.mock.calls[1][0]
+      const secondCall = mockParserInstance.parseFile.mock.calls[1][0]
 
       expect(firstCall).toContain('/first')
       expect(secondCall).toContain('/second')
@@ -181,7 +183,7 @@ describe('ResolverLoader', () => {
   describe('Integration Scenarios', () => {
     it('should handle switching between file and inline modes', async () => {
       loader = new ResolverLoader({ baseDir: '/base' })
-      mockParser.parseFile.mockResolvedValue(mockResolverDoc)
+      mockParserInstance.parseFile.mockResolvedValue(mockResolverDoc)
 
       // File mode
       const fileResult = await loader.load('./file.json')
@@ -194,8 +196,8 @@ describe('ResolverLoader', () => {
 
     it('should handle errors gracefully', async () => {
       loader = new ResolverLoader()
-      mockParser.parseFile.mockRejectedValue(new Error('File not found'))
-      mockParser.parseInline.mockImplementation(() => {
+      mockParserInstance.parseFile.mockRejectedValue(new Error('File not found'))
+      mockParserInstance.parseInline.mockImplementation(() => {
         throw new Error('Validation failed')
       })
 

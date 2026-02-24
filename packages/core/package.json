@@ -147,22 +147,22 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "ajv": "^8.17.1",
+    "ajv": "^8.18.0",
     "ajv-formats": "^3.0.1",
     "change-case": "^5.4.4",
     "culori": "^4.0.2",
-    "fast-glob": "^3.3.2",
+    "fast-glob": "^3.3.3",
     "jiti": "^2.6.1",
     "json-ptr": "^3.1.1",
     "json-schema-to-ts": "^3.1.1",
-    "prettier": "^3.6.2"
+    "prettier": "^3.8.1"
   },
   "devDependencies": {
     "@types/culori": "^4.0.1",
-    "@types/node": "^22.10.2",
-    "@vitest/coverage-v8": "^2.1.9",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "@types/node": "^25.3.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }
