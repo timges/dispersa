@@ -41,13 +41,11 @@ export class PathSchemaMatcher {
   private segments: Record<string, SegmentDefinition>
   private pathPatterns: CompiledPattern[]
   private transitionRules: CompiledTransition[]
-  private strict: boolean
 
   constructor(config: PathSchemaConfig) {
     this.segments = config.segments ?? {}
     this.pathPatterns = this.compilePaths(config.paths ?? [], this.segments)
     this.transitionRules = this.compileTransitions(config.transitions ?? [])
-    this.strict = config.strict ?? true
   }
 
   /**
@@ -56,16 +54,19 @@ export class PathSchemaMatcher {
   validate(token: ResolvedToken): Violation[] {
     const violations: Violation[] = []
     const pathSegments = token.path
+    const hasPaths = this.pathPatterns.length > 0
+    const hasTransitions = this.transitionRules.length > 0
 
     // Check transitions if defined
-    if (this.transitionRules.length > 0) {
-      violations.push(...this.validateTransitions(pathSegments, token.name))
+    if (hasTransitions) {
+      const transitionViolations = this.validateTransitions(pathSegments, token.name)
+      violations.push(...transitionViolations)
     }
 
     // Check against path patterns if defined
-    if (this.pathPatterns.length > 0) {
+    if (hasPaths) {
       const matchesAny = this.pathPatterns.some((p) => this.matchPattern(p, pathSegments))
-      if (!matchesAny && this.strict) {
+      if (!matchesAny) {
         violations.push({
           type: 'INVALID_PATH',
           data: { path: token.name },
@@ -176,54 +177,105 @@ export class PathSchemaMatcher {
   }
 
   /**
-   * Match path segments against a compiled pattern
-   * The pattern may include '.' literals which are the implicit path separators
-   * and '*' wildcards that match any single segment
+   * Match path segments against a compiled pattern using dynamic programming.
+   * Supports optional segments via DP table.
+   *
+   * DP[i][j] = can we match path[0..i) with pattern[0..j)?
    */
   private matchPattern(pattern: CompiledPattern, pathSegments: string[]): boolean {
-    // Count segment placeholders and wildcards (not '.' separators)
-    const segmentCount = pattern.filter((p) => p.type === 'segment' || p.type === 'wildcard').length
-    if (segmentCount !== pathSegments.length) {
-      return false
+    // Extract pattern parts that consume segments (segments + wildcards)
+    const patternParts = pattern.filter((p) => p.type === 'segment' || p.type === 'wildcard')
+    const pathLen = pathSegments.length
+    const patternLen = patternParts.length
+
+    // DP table: dp[i][j] = can we match first i path segments with first j pattern parts?
+    // Initialize with false values
+    const dp: boolean[][] = []
+    for (let i = 0; i <= pathLen; i++) {
+      dp[i] = []
+      for (let j = 0; j <= patternLen; j++) {
+        dp[i]![j] = false
+      }
     }
 
-    let pathIndex = 0
-    for (const part of pattern) {
-      if (part.type === 'literal') {
-        // Literals in patterns represent path separators ('.')
-        // We just validate they're '.' since paths are dot-separated
-        if (part.value !== '.') {
-          return false
+    // Base case: empty path matches empty pattern
+    dp[0]![0] = true
+
+    // Fill DP table
+    for (let i = 0; i <= pathLen; i++) {
+      for (let j = 0; j <= patternLen; j++) {
+        const currentState = dp[i]![j]
+        if (!currentState) {
+          continue
         }
-        continue
+
+        // If we've consumed all path segments, we can still skip remaining optional pattern parts
+        if (i === pathLen) {
+          // Can skip remaining optional pattern parts
+          if (j < patternLen && this.isPartOptional(patternParts[j]!)) {
+            dp[i]![j + 1] = true
+          }
+          continue
+        }
+
+        // If we've consumed all pattern parts, we can only continue if path is also exhausted
+        if (j === patternLen) {
+          if (i === pathLen) {
+            dp[i]![j] = true
+          }
+          continue
+        }
+
+        const part = patternParts[j]!
+
+        // ALWAYS try to match current path segment with current pattern part first
+        if (i < pathLen && this.matchPatternPart(part, pathSegments[i]!)) {
+          dp[i + 1]![j + 1] = true
+        }
+
+        // THEN try skipping current pattern part if it's optional
+        // (this is separate from matching - both can be valid)
+        if (this.isPartOptional(part)) {
+          dp[i]![j + 1] = true
+        }
       }
+    }
 
-      const value = pathSegments[pathIndex]
-      pathIndex++
+    // Path matches if we can reach any state where both path and pattern are consumed
+    return dp[pathLen]![patternLen] ?? false
+  }
 
-      if (value === undefined) {
-        return false
-      }
+  /**
+   * Check if a pattern part is optional based on its segment definition
+   */
+  private isPartOptional(part: { type: string; name?: string }): boolean {
+    if (part.type !== 'segment' || !part.name) {
+      return false // Wildcards are not optional
+    }
+    const segmentDef = this.segments[part.name]
+    return segmentDef?.optional ?? false
+  }
 
-      // Wildcard matches any single segment
-      if (part.type === 'wildcard') {
-        continue
-      }
+  /**
+   * Match a single pattern part against a path segment value
+   */
+  private matchPatternPart(
+    part: { type: string; name?: string; value?: string },
+    value: string,
+  ): boolean {
+    if (part.type === 'wildcard') {
+      return true
+    }
 
-      // At this point, part must be a segment placeholder
-      // Segment placeholder - check if defined and matches
+    if (part.type === 'segment' && part.name) {
       const segment = this.segments[part.name]
       if (!segment) {
-        // Undefined segment - skip validation (acts as wildcard)
-        continue
+        return true
       }
-
-      if (!this.matchesSegmentDefinition(value, segment)) {
-        return false
-      }
+      return this.matchesSegmentDefinition(value, segment)
     }
 
-    return true
+    return false
   }
 
   /**
@@ -232,7 +284,7 @@ export class PathSchemaMatcher {
   private matchesSegmentDefinition(value: string, definition: SegmentDefinition): boolean {
     const { values } = definition
     if (Array.isArray(values)) {
-      return values.includes(value)
+      return values.some((v) => (typeof v === 'string' ? v === value : v.test(value)))
     }
     return values.test(value)
   }

@@ -42,7 +42,6 @@ export const pathSchema = createRule<
     segments: {},
     paths: [],
     transitions: [],
-    strict: true,
   },
   create({ tokens, options, report }) {
     const ignore = options.ignore ?? []

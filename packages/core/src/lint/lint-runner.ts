@@ -20,16 +20,16 @@ import type { InternalResolvedTokens, TokenType } from '@tokens/types'
 
 import { PluginLoader } from './plugin-loader'
 import type {
+  AnyLintRule,
   LintConfig,
   LintIssue,
   LintPlugin,
+  LintReportDescriptor,
   LintResult,
-  AnyLintRule,
+  LintRuleContext,
   ResolvedLintConfig,
   ResolvedRuleConfig,
   RuleConfig,
-  LintRuleContext,
-  LintReportDescriptor,
 } from './types'
 
 export type LintRunnerOptions = LintConfig & {

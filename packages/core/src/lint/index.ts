@@ -83,6 +83,8 @@ export type {
   TypedRulesConfig,
 } from './types'
 
+export type { LintOptions } from '../dispersa'
+
 // Core classes and functions
 export { createRule, type RuleOptions, type RuleMessages } from './create-rule'
 export { LintRunner, type LintRunnerOptions } from './lint-runner'

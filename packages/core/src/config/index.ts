@@ -17,8 +17,8 @@ import type { ModifierInputs, ResolverDocument } from '@resolution/types'
 import type { ValidationOptions } from '@shared/types/validation'
 import type {
   BuildConfigBase,
-  OutputConfigBase,
   DispersaOptionsBase,
+  OutputConfigBase,
 } from '@validation/config-schemas'
 
 // ============================================================================
@@ -219,11 +219,11 @@ export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
  *
  * @example Basic usage with global filters and transforms
  * ```typescript
- * import { Dispersa, css, json } from 'dispersa'
+ * import { build, css, json } from 'dispersa'
  * import { byType } from 'dispersa/filters'
  * import { colorToHex, nameKebabCase } from 'dispersa/transforms'
  *
- * await dispersa.build({
+ * await build({
  *   outputs: [
  *     css({ name: 'css', preset: 'bundle', selector: ':root' }),
  *     json({ name: 'json', preset: 'standalone', structure: 'flat' }),
@@ -239,7 +239,7 @@ export type OutputConfig<TOptions extends FormatOptions = FormatOptions> = Omit<
  * import { byType } from 'dispersa/filters'
  * import { nameKebabCase } from 'dispersa/transforms'
  *
- * await dispersa.build({
+ * await build({
  *   outputs: [
  *     css({
  *       name: 'css',
@@ -266,6 +266,9 @@ export type BuildConfig = Omit<
 
   /** Output directory for generated files */
   buildPath?: string
+
+  /** Validation mode for token resolution */
+  validation?: ValidationOptions
 
   /** Array of output configurations defining target formats */
   outputs: OutputConfig[]

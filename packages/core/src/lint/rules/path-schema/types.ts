@@ -14,8 +14,8 @@
  * Definition of a named path segment
  */
 export type SegmentDefinition = {
-  /** Allowed values (array of strings or regex pattern) */
-  values: string[] | RegExp
+  /** Allowed values (array of strings or regex pattern, or single regex) */
+  values: string[] | RegExp | Array<string | RegExp>
   /** Human-readable description */
   description?: string
   /** Whether this segment is optional */
@@ -87,12 +87,6 @@ export type PathSchemaConfig = {
    * ```
    */
   transitions?: TransitionRule[]
-
-  /**
-   * If true, only paths matching defined patterns/transitions are allowed.
-   * Default: true
-   */
-  strict?: boolean
 
   /**
    * Token name patterns to ignore (glob patterns)

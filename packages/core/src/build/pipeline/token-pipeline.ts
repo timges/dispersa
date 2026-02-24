@@ -7,33 +7,32 @@
  */
 
 import { ResolverLoader } from '@adapters/filesystem/resolver-loader'
-import type { LintBuildConfig, LintResult } from '@lint/types'
 import { LintRunner } from '@lint/lint-runner'
+import type { LintBuildConfig, LintResult } from '@lint/types'
+import { applyFilters, applyTransforms } from '@processing/apply'
 import type { Filter } from '@processing/filters/types'
 import type { Preprocessor } from '@processing/preprocessors/types'
 import type { Transform } from '@processing/transforms/types'
-import type { ModifierInputs, ResolverDocument } from '@resolution/types'
-import type { ValidationOptions } from '@shared/types/validation'
-import { ValidationHandler } from '@shared/utils/validation-handler'
-import { applyFilters, applyTransforms } from '@processing/apply'
 import { AliasResolver } from '@resolution/alias-resolver'
 import { ReferenceResolver } from '@resolution/reference-resolver'
 import { ResolutionEngine } from '@resolution/resolution-engine'
-import { TokenParser } from '@tokens/token-parser'
-import type { InternalResolvedTokens, InternalTokenDocument } from '@tokens/types'
-import type { TokenValue } from '@tokens/types'
-import type {
-  AliasResolvedStage,
-  EngineReadyStage,
-  FinalStage,
-  FlattenedStage,
-  LintedStage,
-  LoadedResolverStage,
-  PreprocessedStage,
-  ReferenceResolvedStage,
-  RawTokensStage,
-} from './pipeline-stages'
+import type { ModifierInputs, ResolverDocument } from '@resolution/types'
 import { LintError } from '@shared/errors'
+import type { ValidationOptions } from '@shared/types/validation'
+import { ValidationHandler } from '@shared/utils/validation-handler'
+import { TokenParser } from '@tokens/token-parser'
+import type { InternalResolvedTokens, InternalTokenDocument, TokenValue } from '@tokens/types'
+import type {
+    AliasResolvedStage,
+    EngineReadyStage,
+    FinalStage,
+    FlattenedStage,
+    LintedStage,
+    LoadedResolverStage,
+    PreprocessedStage,
+    RawTokensStage,
+    ReferenceResolvedStage,
+} from './pipeline-stages'
 
 const ROOT_REF_PATTERN = /\.\$root\}/g
 

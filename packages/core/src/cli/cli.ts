@@ -3,10 +3,12 @@ import { createRequire } from 'node:module'
 import { dirname, isAbsolute, resolve } from 'node:path'
 import process from 'node:process'
 
-import { Dispersa, type BuildConfig } from 'dispersa'
+import type { LintOutputFormat } from '@lint/types'
+import { build, lint, type BuildConfig } from 'dispersa'
 import { createJiti } from 'jiti'
 
 import type { CliConfig } from './config'
+import { formatLintCompact, formatLintJson, formatLintStylish } from './formatters/lint-formatter'
 
 type CliIO = {
   stdout: (message: string) => void
@@ -40,6 +42,10 @@ export async function runCli(args: string[], options: RunOptions = {}): Promise<
     return 0
   }
 
+  if (command === 'lint') {
+    return runLintCommand(args.slice(1), cwd, io)
+  }
+
   if (command !== 'build') {
     io.stderr(`Unknown command: ${command}`)
     printHelp(io)
@@ -64,8 +70,7 @@ export async function runCli(args: string[], options: RunOptions = {}): Promise<
   }
 
   const startTime = Date.now()
-  const dispersa = new Dispersa({ resolver, buildPath, validation })
-  const result = await dispersa.build(buildConfig as BuildConfig)
+  const result = await build({ resolver, buildPath, validation, ...buildConfig } as BuildConfig)
   const elapsed = Date.now() - startTime
 
   return reportBuildResult(result, verbose, elapsed, io)
@@ -102,7 +107,7 @@ async function resolveAndLoadConfig(
 }
 
 function reportBuildResult(
-  result: Awaited<ReturnType<Dispersa['build']>>,
+  result: Awaited<ReturnType<typeof build>>,
   verbose: boolean,
   elapsed: number,
   io: CliIO,
@@ -138,6 +143,68 @@ function reportBuildResult(
   }
 
   return 0
+}
+
+async function runLintCommand(args: string[], cwd: string, io: CliIO): Promise<number> {
+  const verbose = hasFlag(args, '--verbose') || hasFlag(args, '-v')
+  const formatArg = getArgValue(args, '--format')
+  const format: LintOutputFormat =
+    formatArg === 'json' || formatArg === 'compact' ? formatArg : 'stylish'
+
+  const loaded = await resolveAndLoadConfig(args, cwd, io, verbose)
+  if (!loaded) {
+    return 1
+  }
+
+  const normalizedConfig = normalizeConfigPaths(loaded.config, loaded.configDir)
+  const { lint: lintConfig, validation, resolver } = normalizedConfig
+
+  if (!lintConfig) {
+    io.stderr('No lint configuration found in config file.')
+    io.stderr('Add a "lint" property to your dispersa.config.ts')
+    return 1
+  }
+
+  if (!resolver) {
+    io.stderr('No resolver configuration found in config file.')
+    io.stderr('Add a "resolver" property to your dispersa.config.ts')
+    return 1
+  }
+
+  if (verbose) {
+    io.stdout(`Resolver: ${typeof resolver === 'string' ? resolver : '(inline)'}`)
+    io.stdout(`Format: ${format}`)
+  }
+
+  const startTime = Date.now()
+
+  try {
+    const result = await lint({ resolver, ...lintConfig, validation })
+    const elapsed = Date.now() - startTime
+
+    const formatter =
+      format === 'json'
+        ? formatLintJson
+        : format === 'compact'
+          ? formatLintCompact
+          : formatLintStylish
+
+    const output = formatter(result)
+    io.stdout(output)
+
+    if (verbose) {
+      io.stdout(`Duration: ${elapsed}ms`)
+    }
+
+    return result.errorCount > 0 ? 1 : 0
+  } catch (error) {
+    io.stderr('Lint failed.')
+    io.stderr(`- ${error instanceof Error ? error.message : String(error)}`)
+    if (verbose) {
+      io.stderr(`Duration: ${Date.now() - startTime}ms`)
+    }
+    return 1
+  }
 }
 
 function getArgValue(args: string[], flag: string): string | undefined {
@@ -261,9 +328,18 @@ function isPackageResolvable(name: string, cwd: string): boolean {
 }
 
 function printHelp(io: CliIO): void {
-  io.stdout('dispersa build [options]')
+  io.stdout('dispersa <command> [options]')
   io.stdout('')
-  io.stdout('Options:')
-  io.stdout('  --config <path>   Path to dispersa.config.(ts|js|mts|mjs|cts|cjs)')
-  io.stdout('  --verbose, -v     Show detailed build output (timing, error context)')
+  io.stdout('Commands:')
+  io.stdout('  build              Build design tokens')
+  io.stdout('  lint               Lint design tokens without building')
+  io.stdout('')
+  io.stdout('Build Options:')
+  io.stdout('  --config <path>    Path to dispersa.config.(ts|js|mts|mjs|cts|cjs)')
+  io.stdout('  --verbose, -v      Show detailed build output (timing, error context)')
+  io.stdout('')
+  io.stdout('Lint Options:')
+  io.stdout('  --config <path>    Path to dispersa.config.(ts|js|mts|mjs|cts|cjs)')
+  io.stdout('  --format <format>  Output format: stylish (default), json, compact')
+  io.stdout('  --verbose, -v      Show detailed lint output')
 }
