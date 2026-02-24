@@ -32,22 +32,22 @@
   ],
   "author": "",
   "license": "MIT",
-  "packageManager": "pnpm@10.18.0",
+  "packageManager": "pnpm@10.30.2",
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
     "@eslint/js": "^9.39.1",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
-    "eslint": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
-    "prettier": "^3.6.2",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.46.3",
-    "vitest": "^2.1.8"
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
