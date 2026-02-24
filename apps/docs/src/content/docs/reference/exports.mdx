@@ -11,33 +11,33 @@ Dispersa exposes a main entry point and several subpath exports. Use subpaths to
 
 ## Export Summary
 
-| Subpath | Key exports | Typical usage |
-|---------|-------------|---------------|
-| `dispersa` | Dispersa, builders, defineRenderer, outputTree, isOutputTree, type guards, error classes, all public types | Main entry; full builds |
-| `dispersa/transforms` | colorToHex, nameKebabCase, dimensionToRem, etc. (23 factories) + Transform type | Per-output or global transforms |
-| `dispersa/filters` | byType, byPath, isAlias, isBase + Filter type | Token filtering |
-| `dispersa/builders` | css, json, js, tailwind, ios, android + builder config types | Output configuration only |
-| `dispersa/renderers` | defineRenderer, outputTree, isOutputTree + all renderer/build types | Custom renderers |
-| `dispersa/preprocessors` | Preprocessor type | Custom preprocessors |
-| `dispersa/errors` | All 8 error classes | Error handling |
-| `dispersa/config` | defineConfig, CliConfig | CLI config files |
-| `dispersa/cli` | CLI entry point | Internal CLI runner |
+| Subpath                  | Key exports                                                                                                                                | Typical usage                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
+| `dispersa`               | build, css, json, js, tailwind, ios, android, lint, defineRenderer, outputTree, isOutputTree, type guards, error classes, all public types | Main entry; full builds         |
+| `dispersa/transforms`    | colorToHex, nameKebabCase, dimensionToRem, etc. (23 factories) + Transform type                                                            | Per-output or global transforms |
+| `dispersa/filters`       | byType, byPath, isAlias, isBase + Filter type                                                                                              | Token filtering                 |
+| `dispersa/builders`      | css, json, js, tailwind, ios, android + builder config types                                                                               | Output configuration only       |
+| `dispersa/renderers`     | defineRenderer, outputTree, isOutputTree + all renderer/build types                                                                        | Custom renderers                |
+| `dispersa/preprocessors` | Preprocessor type                                                                                                                          | Custom preprocessors            |
+| `dispersa/errors`        | All 8 error classes                                                                                                                        | Error handling                  |
+| `dispersa/config`        | defineConfig, CliConfig                                                                                                                    | CLI config files                |
+| `dispersa/cli`           | CLI entry point                                                                                                                            | Internal CLI runner             |
 
 ---
 
 ## dispersa (main)
 
-**Values:** `Dispersa`, `css`, `json`, `js`, `tailwind`, `ios`, `android`, `defineRenderer`, `outputTree`, `isOutputTree`, type guards (`isColorToken`, `isDimensionToken`, `isShadowToken`, `isTypographyToken`, `isBorderToken`, `isDurationToken`, `isTransitionToken`, `isGradientToken`), error classes
+**Values:** `build`, `buildOrThrow`, `buildPermutation`, `resolveTokens`, `lint`, `resolveAllPermutations`, `generateTypes`, `css`, `json`, `js`, `tailwind`, `ios`, `android`, `defineRenderer`, `outputTree`, `isOutputTree`, type guards (`isColorToken`, `isDimensionToken`, `isShadowToken`, `isTypographyToken`, `isBorderToken`, `isDurationToken`, `isTransitionToken`, `isGradientToken`), error classes
 
 **Types:** `OutputConfig`, `BuildConfig`, `BuildResult`, `BuildOutput`, `BuildError`, `ErrorCode`, `FileFunction`, `LifecycleHooks`, `DispersaOptions`, `ValidationOptions`, `ValidationMode`, `ResolvedToken`, `ResolvedTokens`, `TokenType`, `ModifierInputs`, `ResolverDocument`, `Transform`, `Filter`, `Preprocessor`, `Renderer`, `RenderContext`, `RenderMeta`, `PermutationData`, `RenderOutput`, `FormatOptions`, `OutputTree`, `SelectorFunction`, `MediaQueryFunction`, `DesignTokenValue`, `ColorToken`, `DimensionToken`, `ShadowToken`, `DurationToken`, `TypographyToken`, `BorderToken`, `TransitionToken`, `GradientToken`, `ColorValueObject`, `ColorValue`, `ColorSpace`, `ColorComponent`, `DimensionValue`, `DurationValue`, `ShadowValueObject`, `TypographyValue`, `BorderValue`, `TransitionValue`, `GradientValue`, `GradientStop`, `FontFamilyValue`, `FontWeightValue`, `CubicBezierValue`, `StrokeStyleValue`, `StrokeStyleValueObject`, `TokenValue`, `TokenValueReference`, renderer options types, builder config types
 
 ```typescript
-import { Dispersa, css, json, defineRenderer } from 'dispersa'
+import { build, css, json, defineRenderer } from 'dispersa'
 import { isColorToken, isDimensionToken } from 'dispersa'
 import type { BuildConfig, ResolvedToken, CssBuilderConfig } from 'dispersa'
 ```
 
-Use for full build setups. Includes the Dispersa class, all builders, renderer utilities, [type guard functions](/reference/types/#type-guards), error classes, and all public types.
+Use for full build setups. Includes all build functions, all builders, renderer utilities, [type guard functions](/reference/types/#type-guards), error classes, and all public types.
 
 ---
 
@@ -146,7 +146,8 @@ This is the internal entry point used by the `dispersa` CLI binary. You typicall
 ---
 
 <Aside type="caution" title="Internal APIs">
-Everything outside these subpath exports is internal and not part of the stable public API. Avoid importing from internal paths — they may change without notice.
+  Everything outside these subpath exports is internal and not part of the stable public API. Avoid
+  importing from internal paths — they may change without notice.
 </Aside>
 
 <LinkCard

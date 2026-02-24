@@ -53,20 +53,21 @@ This means validation errors surface as early as possible. A malformed resolver 
 By default, validation failures are errors. You can change this behavior in `DispersaOptions`:
 
 ```typescript
-const dispersa = new Dispersa({
+await build({
   resolver: './tokens.resolver.json',
   validation: { mode: 'error' },
 })
 ```
 
-| Mode | Behavior |
-|------|----------|
+| Mode                | Behavior                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `'error'` (default) | Validation failures become errors. `build()` collects them in `result.errors`; `buildOrThrow()` throws immediately. |
-| `'warn'` | Validation failures are logged via `console.warn`. The build continues. |
-| `'off'` | No schema validation. Structural checks are skipped entirely. |
+| `'warn'`            | Validation failures are logged via `console.warn`. The build continues.                                             |
+| `'off'`             | No schema validation. Structural checks are skipped entirely.                                                       |
 
 <Aside type="caution" title="Turning validation off">
-Disabling validation can be useful during migration from a non-DTCG format, but it means Dispersa won't catch malformed tokens. Prefer `'warn'` over `'off'` when possible.
+  Disabling validation can be useful during migration from a non-DTCG format, but it means Dispersa
+  won't catch malformed tokens. Prefer `'warn'` over `'off'` when possible.
 </Aside>
 
 ## Example Errors

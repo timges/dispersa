@@ -18,39 +18,41 @@ A custom output has two parts:
 
 ## The Output Config
 
-Every output in `dispersa.build()` is an `OutputConfig` object. Built-in builders like `css()` and `json()` create these for you. For a custom output, you create one directly:
+Every output in `build()` is an `OutputConfig` object. Built-in builders like `css()` and `json()` create these for you. For a custom output, you create one directly:
 
 ```typescript
-import { Dispersa } from 'dispersa'
+import { build } from 'dispersa'
 import { nameKebabCase } from 'dispersa/transforms'
 import { byType } from 'dispersa/filters'
 
-const dispersa = new Dispersa({ resolver: './tokens.resolver.json' })
-
-await dispersa.build({
-  outputs: [{
-    name: 'yaml',
-    renderer: yamlRenderer,
-    file: 'tokens.yaml',
-    options: { header: 'Design Tokens' },
-    transforms: [nameKebabCase()],
-    filters: [byType('color')],
-  }],
+await build({
+  resolver: './tokens.resolver.json',
+  outputs: [
+    {
+      name: 'yaml',
+      renderer: yamlRenderer,
+      file: 'tokens.yaml',
+      options: { header: 'Design Tokens' },
+      transforms: [nameKebabCase()],
+      filters: [byType('color')],
+    },
+  ],
 })
 ```
 
-| Property | Type | Description |
-|----------|------|-------------|
-| **name** | `string` | Unique identifier for this output |
-| **renderer** | `Renderer` | The renderer that formats tokens (see below) |
-| **file** | `string \| FileFunction` | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
-| **options** | `Record<string, unknown>` | Renderer-specific options passed to `format()` |
-| **transforms** | `Transform[]` | Per-output transforms (run after global transforms) |
-| **filters** | `Filter[]` | Per-output filters (run after global filters) |
-| **hooks** | `LifecycleHooks` | Per-output `onBuildStart` and `onBuildEnd` hooks |
+| Property       | Type                      | Description                                                                 |
+| -------------- | ------------------------- | --------------------------------------------------------------------------- |
+| **name**       | `string`                  | Unique identifier for this output                                           |
+| **renderer**   | `Renderer`                | The renderer that formats tokens (see below)                                |
+| **file**       | `string \| FileFunction`  | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
+| **options**    | `Record<string, unknown>` | Renderer-specific options passed to `format()`                              |
+| **transforms** | `Transform[]`             | Per-output transforms (run after global transforms)                         |
+| **filters**    | `Filter[]`                | Per-output filters (run after global filters)                               |
+| **hooks**      | `LifecycleHooks`          | Per-output `onBuildStart` and `onBuildEnd` hooks                            |
 
 <Aside type="note" title="Renderer + Output = Output">
-A renderer alone does nothing — it must be wired into an output config with at least `name` and `renderer` to participate in a build.
+  A renderer alone does nothing — it must be wired into an output config with at least `name` and
+  `renderer` to participate in a build.
 </Aside>
 
 ## Creating a Renderer with defineRenderer
@@ -80,13 +82,13 @@ const yamlRenderer = defineRenderer<YamlOptions>({
 
 Your `format` function receives a `RenderContext`:
 
-| Property | Description |
-|----------|-------------|
+| Property         | Description                                                                              |
+| ---------------- | ---------------------------------------------------------------------------------------- |
 | **permutations** | Array of `{ tokens, modifierInputs }` — one entry per permutation (modifier combination) |
-| **output** | The output config (file, name, etc.) |
-| **resolver** | The resolver document |
-| **meta** | `RenderMeta`: dimensions, defaults, basePermutation |
-| **buildPath** | Output directory (when building to disk) |
+| **output**       | The output config (file, name, etc.)                                                     |
+| **resolver**     | The resolver document                                                                    |
+| **meta**         | `RenderMeta`: dimensions, defaults, basePermutation                                      |
+| **buildPath**    | Output directory (when building to disk)                                                 |
 
 ## RenderMeta
 
@@ -136,13 +138,16 @@ const scssRenderer = defineRenderer({
 })
 
 // Wire into a build
-await dispersa.build({
-  outputs: [{
-    name: 'scss',
-    renderer: scssRenderer,
-    file: 'variables.scss',
-    transforms: [nameKebabCase()],
-  }],
+await build({
+  resolver: './tokens.resolver.json',
+  outputs: [
+    {
+      name: 'scss',
+      renderer: scssRenderer,
+      file: 'variables.scss',
+      transforms: [nameKebabCase()],
+    },
+  ],
 })
 ```
 
@@ -164,7 +169,8 @@ const androidXmlRenderer = defineRenderer({
 ```
 
 <Aside type="tip" title="Full access">
-Custom renderers receive the same RenderContext as built-in renderers. You have full access to all token data, modifier information, and build configuration.
+  Custom renderers receive the same RenderContext as built-in renderers. You have full access to all
+  token data, modifier information, and build configuration.
 </Aside>
 
 <LinkCard

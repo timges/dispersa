@@ -16,10 +16,12 @@ Smaller files, better caching, and the ability to import only what you need. Spl
 Filter tokens by type and write each type to its own file. Each `byType()` filter targets a single token type:
 
 ```typescript
+import { build, css } from 'dispersa'
 import { byType } from 'dispersa/filters'
 import { colorToHex, dimensionToPx } from 'dispersa/transforms'
 
-await dispersa.build({
+await build({
+  resolver: './tokens.resolver.json',
   outputs: [
     css({
       name: 'colors',

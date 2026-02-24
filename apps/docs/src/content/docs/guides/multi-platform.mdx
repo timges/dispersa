@@ -37,10 +37,7 @@ Your resolver should define a `theme` modifier for light/dark contexts so each p
       }
     }
   },
-  "resolutionOrder": [
-    { "$ref": "#/sets/base" },
-    { "$ref": "#/modifiers/theme" }
-  ]
+  "resolutionOrder": [{ "$ref": "#/sets/base" }, { "$ref": "#/modifiers/theme" }]
 }
 ```
 
@@ -49,21 +46,18 @@ Your resolver should define a `theme` modifier for light/dark contexts so each p
 Configure four outputs so web gets CSS + Tailwind, iOS gets Swift, and Android gets Kotlin:
 
 ```typescript
-import { Dispersa, css, tailwind, ios, android } from 'dispersa'
-import { colorToHex, dimensionToPx, nameKebabCase } from 'dispersa/transforms'
+import { build, css, tailwind, ios, android } from 'dispersa'
+import { colorToHex, dimensionToPx, nameKebabCase, nameCamelCase } from 'dispersa/transforms'
 
-const dispersa = new Dispersa({
+await build({
   resolver: './tokens.resolver.json',
   buildPath: './dist',
-})
-
-await dispersa.build({
   outputs: [
     css({
       name: 'web-css',
       file: 'web/tokens.css',
       preset: 'bundle',
-      selector: (mod, ctx, isBase) => isBase ? ':root' : `[data-${mod}="${ctx}"]`,
+      selector: (mod, ctx, isBase) => (isBase ? ':root' : `[data-${mod}="${ctx}"]`),
       transforms: [colorToHex(), dimensionToPx()],
     }),
     tailwind({
@@ -93,7 +87,8 @@ await dispersa.build({
 ```
 
 <Aside type="caution" title="iOS and Android are experimental">
-The `ios()` and `android()` output targets are experimental. Their APIs and generated code may change in future releases.
+  The `ios()` and `android()` output targets are experimental. Their APIs and generated code may
+  change in future releases.
 </Aside>
 
 ## What Each Output Looks Like
@@ -106,7 +101,7 @@ The `ios()` and `android()` output targets are experimental. Their APIs and gene
   --spacing-medium: 16px;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-brand-primary: #6699ff;
   --spacing-medium: 16px;
 }
@@ -131,7 +126,8 @@ object DesignTokens {
 ```
 
 <Aside type="note" title="Per-output transforms and filters">
-Each output can have its own transforms and filters. Web outputs typically use kebab-case, native outputs use camelCase.
+  Each output can have its own transforms and filters. Web outputs typically use kebab-case, native
+  outputs use camelCase.
 </Aside>
 
 <LinkCard

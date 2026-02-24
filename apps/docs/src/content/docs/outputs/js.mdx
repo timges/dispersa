@@ -17,25 +17,26 @@ import { js } from 'dispersa'
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| name | string | — | Unique output identifier |
-| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
-| preset | 'bundle' \| 'standalone' | 'standalone' | Output preset |
-| structure | 'flat' \| 'nested' | 'nested' | Token structure |
-| moduleName | string | 'tokens' | Module name for exports |
-| generateHelper | boolean | — | Generate token lookup helper |
-| minify | boolean | — | Minify output |
-| transforms | Transform[] | — | Per-output transforms |
-| filters | Filter[] | — | Per-output filters |
+| Option         | Type                     | Default      | Description                                                      |
+| -------------- | ------------------------ | ------------ | ---------------------------------------------------------------- |
+| name           | string                   | —            | Unique output identifier                                         |
+| file           | string or function       | —            | Output path (supports `{*context*}` interpolation for modifiers) |
+| preset         | 'bundle' \| 'standalone' | 'standalone' | Output preset                                                    |
+| structure      | 'flat' \| 'nested'       | 'nested'     | Token structure                                                  |
+| moduleName     | string                   | 'tokens'     | Module name for exports                                          |
+| generateHelper | boolean                  | —            | Generate token lookup helper                                     |
+| minify         | boolean                  | —            | Minify output                                                    |
+| transforms     | Transform[]              | —            | Per-output transforms                                            |
+| filters        | Filter[]                 | —            | Per-output filters                                               |
 
 ## Basic Flat Output
 
 ```typescript
-import { Dispersa, js } from 'dispersa'
+import { build, js, resolveTokens, generateTypes } from 'dispersa'
 import { nameCamelCase, colorToHex, dimensionToPx } from 'dispersa/transforms'
 
-await dispersa.build({
+await build({
+  resolver: './tokens.resolver.json',
   outputs: [
     js({
       name: 'tokens',
@@ -72,11 +73,11 @@ Output:
 ```javascript
 export const color = {
   brand: {
-    primary: '#0066cc'
-  }
+    primary: '#0066cc',
+  },
 }
 export const spacing = {
-  medium: '16px'
+  medium: '16px',
 }
 ```
 
@@ -103,8 +104,8 @@ The helper returns the resolved token set for a given modifier combination (e.g.
 Generate a TypeScript declaration file for your tokens:
 
 ```typescript
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json')
-await dispersa.generateTypes(tokens, 'tokens.d.ts', { moduleName: 'tokens' })
+const tokens = await resolveTokens('./tokens.resolver.json')
+await generateTypes(tokens, 'tokens.d.ts', { moduleName: 'tokens' })
 ```
 
 <LinkCard

@@ -20,27 +20,27 @@ Instead of a path to a resolver file, pass a `ResolverDocument` object:
 
 ```typescript
 import type { ResolverDocument } from 'dispersa'
-import { Dispersa, css } from 'dispersa'
+import { build, resolveTokens, resolveAllPermutations, css } from 'dispersa'
 import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
   version: '2025.10',
   sets: {
     base: {
-      sources: [{
-        color: {
-          primary: {
-            $type: 'color',
-            $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+      sources: [
+        {
+          color: {
+            primary: {
+              $type: 'color',
+              $value: { colorSpace: 'srgb', components: [0, 0.4, 0.8] },
+            },
           },
         },
-      }],
+      ],
     },
   },
   resolutionOrder: [{ $ref: '#/sets/base' }],
 }
-
-const dispersa = new Dispersa({ resolver })
 ```
 
 ## Omit buildPath — Output Stays in Memory
@@ -48,7 +48,8 @@ const dispersa = new Dispersa({ resolver })
 Do not set `buildPath`. Omit the `file` option on outputs. Generated content is available on `output.content`:
 
 ```typescript
-const result = await dispersa.build({
+const result = await build({
+  resolver,
   outputs: [
     css({
       name: 'css',
@@ -66,17 +67,17 @@ for (const output of result.outputs) {
 
 ## Token Resolution Without Rendering
 
-Use `resolveTokens()` to resolve tokens for a single permutation without rendering. Pass the same inline resolver used in the constructor:
+Use `resolveTokens()` to resolve tokens for a single permutation without rendering:
 
 ```typescript
-const tokens = await dispersa.resolveTokens(resolver, { theme: 'light' })
+const tokens = await resolveTokens(resolver, { theme: 'light' })
 // Use tokens for validation, transformation, or custom rendering
 ```
 
 Use `resolveAllPermutations()` to get all permutations at once:
 
 ```typescript
-const allPermutations = await dispersa.resolveAllPermutations(resolver)
+const allPermutations = await resolveAllPermutations(resolver)
 // allPermutations is an array of { tokens, modifierInputs } for each modifier combination
 ```
 
@@ -85,8 +86,8 @@ const allPermutations = await dispersa.resolveAllPermutations(resolver)
 Write unit tests that verify token output without writing files:
 
 ```typescript
-const dispersa = new Dispersa({ resolver: testResolver })
-const result = await dispersa.build({
+const result = await build({
+  resolver: testResolver,
   outputs: [css({ name: 'css', preset: 'bundle', selector: ':root', transforms: [colorToHex()] })],
 })
 expect(result.outputs[0].content).toContain('--color-primary: #0066cc')

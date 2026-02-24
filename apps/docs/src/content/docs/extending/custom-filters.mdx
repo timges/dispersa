@@ -74,12 +74,17 @@ All filters must pass (AND logic). A token is included only when every filter re
 Use both **global** and **per-output** filters:
 
 ```typescript
-await dispersa.build({
-  filters: [excludeDeprecated],       // global: all outputs
+import { build, css } from 'dispersa'
+import { colorToHex, dimensionToRem } from 'dispersa/transforms'
+import { byType, byPath } from 'dispersa/filters'
+
+await build({
+  resolver: './tokens.resolver.json',
+  filters: [excludeDeprecated], // global: all outputs
   outputs: [
     css({
       name: 'colors',
-      filters: [byType('color')],    // per-output: further narrow
+      filters: [byType('color')], // per-output: further narrow
       file: 'colors.css',
       transforms: [colorToHex()],
     }),
@@ -97,7 +102,7 @@ await dispersa.build({
 - Per-output filters narrow tokens further for that specific output.
 
 <Aside type="tip" title="Filter on original data">
-Filters run before transforms. Filter based on original token data, not transformed values.
+  Filters run before transforms. Filter based on original token data, not transformed values.
 </Aside>
 
 <LinkCard

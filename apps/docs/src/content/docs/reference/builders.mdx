@@ -9,7 +9,7 @@ import { Aside, LinkCard } from '@astrojs/starlight/components'
 
 ## Overview
 
-Builder functions create `OutputConfig` objects used in the `outputs` array of `BuildConfig`. Each builder returns a configured output ready to pass to `dispersa.build()`.
+Builder functions create `OutputConfig` objects used in the `outputs` array of `BuildConfig`. Each builder returns a configured output ready to pass to `build()`.
 
 Import from `dispersa` or `dispersa/builders`:
 
@@ -21,13 +21,13 @@ import { css, json, js, tailwind, ios, android } from 'dispersa'
 
 All builders accept these options (from `OutputConfig`):
 
-| Option | Type | Description |
-|--------|------|-------------|
-| name | `string` | Unique output identifier |
-| file | `string \| FileFunction` | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
-| transforms | `Transform[]` | Per-output transforms |
-| filters | `Filter[]` | Per-output filters |
-| hooks | `LifecycleHooks` | Per-output lifecycle hooks |
+| Option     | Type                     | Description                                                                 |
+| ---------- | ------------------------ | --------------------------------------------------------------------------- |
+| name       | `string`                 | Unique output identifier                                                    |
+| file       | `string \| FileFunction` | Output path; supports modifier key placeholders like `{theme}`, `{density}` |
+| transforms | `Transform[]`            | Per-output transforms                                                       |
+| filters    | `Filter[]`               | Per-output filters                                                          |
+| hooks      | `LifecycleHooks`         | Per-output lifecycle hooks                                                  |
 
 ---
 
@@ -41,13 +41,13 @@ css(config: CssBuilderConfig): OutputConfig
 
 ### CssBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'bundle' \| 'standalone' \| 'modifier'` | `'bundle'` | Output preset |
-| selector | `string \| SelectorFunction` | `':root'` | CSS selector |
-| mediaQuery | `string \| MediaQueryFunction` | — | Media query wrapper |
-| preserveReferences | `boolean` | `false` | Emit `var()` for alias tokens |
-| minify | `boolean` | `false` | Minify output |
+| Option             | Type                                     | Default    | Description                   |
+| ------------------ | ---------------------------------------- | ---------- | ----------------------------- |
+| preset             | `'bundle' \| 'standalone' \| 'modifier'` | `'bundle'` | Output preset                 |
+| selector           | `string \| SelectorFunction`             | `':root'`  | CSS selector                  |
+| mediaQuery         | `string \| MediaQueryFunction`           | —          | Media query wrapper           |
+| preserveReferences | `boolean`                                | `false`    | Emit `var()` for alias tokens |
+| minify             | `boolean`                                | `false`    | Minify output                 |
 
 ```typescript
 css({
@@ -71,12 +71,12 @@ json(config: JsonBuilderConfig): OutputConfig
 
 ### JsonBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'bundle' \| 'standalone'` | `'standalone'` | Output preset |
-| structure | `'flat' \| 'nested'` | `'nested'` | Token structure |
-| includeMetadata | `boolean` | `false` | Include `$type`, `$description`, etc. |
-| minify | `boolean` | `false` | Minify output |
+| Option          | Type                       | Default        | Description                           |
+| --------------- | -------------------------- | -------------- | ------------------------------------- |
+| preset          | `'bundle' \| 'standalone'` | `'standalone'` | Output preset                         |
+| structure       | `'flat' \| 'nested'`       | `'nested'`     | Token structure                       |
+| includeMetadata | `boolean`                  | `false`        | Include `$type`, `$description`, etc. |
+| minify          | `boolean`                  | `false`        | Minify output                         |
 
 ```typescript
 json({
@@ -99,13 +99,13 @@ js(config: JsBuilderConfig): OutputConfig
 
 ### JsBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'bundle' \| 'standalone'` | `'standalone'` | Output preset |
-| structure | `'flat' \| 'nested'` | `'nested'` | Token structure |
-| moduleName | `string` | `'tokens'` | Export name |
-| generateHelper | `boolean` | `false` | Generate `getTokens(modifiers)` helper |
-| minify | `boolean` | `false` | Minify output |
+| Option         | Type                       | Default        | Description                            |
+| -------------- | -------------------------- | -------------- | -------------------------------------- |
+| preset         | `'bundle' \| 'standalone'` | `'standalone'` | Output preset                          |
+| structure      | `'flat' \| 'nested'`       | `'nested'`     | Token structure                        |
+| moduleName     | `string`                   | `'tokens'`     | Export name                            |
+| generateHelper | `boolean`                  | `false`        | Generate `getTokens(modifiers)` helper |
+| minify         | `boolean`                  | `false`        | Minify output                          |
 
 ```typescript
 js({
@@ -128,14 +128,14 @@ tailwind(config: TailwindBuilderConfig): OutputConfig
 
 ### TailwindBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'bundle' \| 'standalone'` | `'bundle'` | Output preset |
-| includeImport | `boolean` | `true` | Prepend `@import "tailwindcss"` |
-| namespace | `string` | `''` | Theme namespace for `@theme namespace(...)` |
-| selector | `string \| SelectorFunction` | — | CSS selector for theme variants |
-| mediaQuery | `string \| MediaQueryFunction` | — | Media query wrapper |
-| minify | `boolean` | `false` | Minify output |
+| Option        | Type                           | Default    | Description                                 |
+| ------------- | ------------------------------ | ---------- | ------------------------------------------- |
+| preset        | `'bundle' \| 'standalone'`     | `'bundle'` | Output preset                               |
+| includeImport | `boolean`                      | `true`     | Prepend `@import "tailwindcss"`             |
+| namespace     | `string`                       | `''`       | Theme namespace for `@theme namespace(...)` |
+| selector      | `string \| SelectorFunction`   | —          | CSS selector for theme variants             |
+| mediaQuery    | `string \| MediaQueryFunction` | —          | Media query wrapper                         |
+| minify        | `boolean`                      | `false`    | Minify output                               |
 
 ```typescript
 tailwind({
@@ -153,7 +153,7 @@ tailwind({
 Generates Swift code for SwiftUI.
 
 <Aside type="caution" title="Experimental">
-The iOS builder is experimental. Options and generated output may change.
+  The iOS builder is experimental. Options and generated output may change.
 </Aside>
 
 ```typescript
@@ -162,17 +162,17 @@ ios(config: IosBuilderConfig): OutputConfig
 
 ### IosBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'standalone'` | `'standalone'` | Output preset |
-| accessLevel | `'public' \| 'internal'` | `'public'` | Swift access modifier |
-| structure | `'enum' \| 'grouped'` | `'enum'` | Code structure |
-| enumName | `string` | `'DesignTokens'` | Custom enum name (enum mode) |
-| extensionNamespace | `string` | `'DesignTokens'` | Namespace enum name (grouped mode) |
-| colorSpace | `'sRGB' \| 'displayP3'` | `'sRGB'` | Color space |
-| swiftVersion | `'5.9' \| '6.0'` | `'5.9'` | Swift language version |
-| frozen | `boolean` | `false` | `@frozen` annotation for ABI stability |
-| indent | `number` | `4` | Spaces per indentation level |
+| Option             | Type                     | Default          | Description                            |
+| ------------------ | ------------------------ | ---------------- | -------------------------------------- |
+| preset             | `'standalone'`           | `'standalone'`   | Output preset                          |
+| accessLevel        | `'public' \| 'internal'` | `'public'`       | Swift access modifier                  |
+| structure          | `'enum' \| 'grouped'`    | `'enum'`         | Code structure                         |
+| enumName           | `string`                 | `'DesignTokens'` | Custom enum name (enum mode)           |
+| extensionNamespace | `string`                 | `'DesignTokens'` | Namespace enum name (grouped mode)     |
+| colorSpace         | `'sRGB' \| 'displayP3'`  | `'sRGB'`         | Color space                            |
+| swiftVersion       | `'5.9' \| '6.0'`         | `'5.9'`          | Swift language version                 |
+| frozen             | `boolean`                | `false`          | `@frozen` annotation for ABI stability |
+| indent             | `number`                 | `4`              | Spaces per indentation level           |
 
 ```typescript
 ios({
@@ -190,7 +190,7 @@ ios({
 Generates Kotlin code for Android.
 
 <Aside type="caution" title="Experimental">
-The Android builder is experimental. Options and generated output may change.
+  The Android builder is experimental. Options and generated output may change.
 </Aside>
 
 ```typescript
@@ -199,16 +199,16 @@ android(config: AndroidBuilderConfig): OutputConfig
 
 ### AndroidBuilderConfig (extends OutputConfig)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| preset | `'standalone' \| 'bundle'` | `'standalone'` | Output preset |
-| packageName | `string` | — | Kotlin package name (required) |
-| objectName | `string` | `'DesignTokens'` | Object/class name |
-| structure | `'nested' \| 'flat'` | `'nested'` | Token structure in output |
-| colorFormat | `'argb_hex' \| 'argb_float' \| 'argb8' \| 'argb_floats'` | `'argb_hex'` | Color format (`argb8` and `argb_floats` are aliases) |
-| colorSpace | `'sRGB' \| 'displayP3'` | `'sRGB'` | Target color space |
-| visibility | `'public' \| 'internal'` | — | Visibility modifier (omitted by default; Kotlin defaults to public) |
-| indent | `number` | `4` | Spaces per indentation level |
+| Option      | Type                                                     | Default          | Description                                                         |
+| ----------- | -------------------------------------------------------- | ---------------- | ------------------------------------------------------------------- |
+| preset      | `'standalone' \| 'bundle'`                               | `'standalone'`   | Output preset                                                       |
+| packageName | `string`                                                 | —                | Kotlin package name (required)                                      |
+| objectName  | `string`                                                 | `'DesignTokens'` | Object/class name                                                   |
+| structure   | `'nested' \| 'flat'`                                     | `'nested'`       | Token structure in output                                           |
+| colorFormat | `'argb_hex' \| 'argb_float' \| 'argb8' \| 'argb_floats'` | `'argb_hex'`     | Color format (`argb8` and `argb_floats` are aliases)                |
+| colorSpace  | `'sRGB' \| 'displayP3'`                                  | `'sRGB'`         | Target color space                                                  |
+| visibility  | `'public' \| 'internal'`                                 | —                | Visibility modifier (omitted by default; Kotlin defaults to public) |
+| indent      | `number`                                                 | `4`              | Spaces per indentation level                                        |
 
 ```typescript
 android({
@@ -222,7 +222,8 @@ android({
 ```
 
 <Aside type="tip" title="Presets">
-Presets control how permutations map to files. `bundle` = one file per output; `standalone` = one file per permutation; `modifier` (CSS only) = files grouped by modifier.
+  Presets control how permutations map to files. `bundle` = one file per output; `standalone` = one
+  file per permutation; `modifier` (CSS only) = files grouped by modifier.
 </Aside>
 
 <LinkCard

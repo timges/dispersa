@@ -16,8 +16,10 @@ Generates `.d.ts` files from resolved token data so you get autocomplete and typ
 Resolve tokens first, then pass them to `generateTypes`:
 
 ```typescript
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json', { theme: 'light' })
-await dispersa.generateTypes(tokens, './dist/tokens.d.ts', {
+import { resolveTokens, generateTypes, build } from 'dispersa'
+
+const tokens = await resolveTokens('./tokens.resolver.json', { theme: 'light' })
+await generateTypes(tokens, './dist/tokens.d.ts', {
   moduleName: 'design-tokens',
 })
 ```
@@ -28,8 +30,8 @@ The generated declaration file enables autocomplete in editors when importing to
 
 ## Options
 
-| Option | Description |
-|--------|-------------|
+| Option       | Description                                                      |
+| ------------ | ---------------------------------------------------------------- |
 | `moduleName` | The module name for the declaration (for `declare module "..."`) |
 
 ## Integrating into the Build Workflow
@@ -39,18 +41,27 @@ The generated declaration file enables autocomplete in editors when importing to
 3. Build outputs (css, json, etc.) as usual
 
 ```typescript
+import { resolveTokens, generateTypes, build } from 'dispersa'
+
 // Resolve first
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json', { theme: 'light' })
+const tokens = await resolveTokens('./tokens.resolver.json', { theme: 'light' })
 
 // Generate types
-await dispersa.generateTypes(tokens, './dist/tokens.d.ts', { moduleName: 'design-tokens' })
+await generateTypes(tokens, './dist/tokens.d.ts', { moduleName: 'design-tokens' })
 
 // Build outputs
-await dispersa.build({ outputs: [/* ... */] })
+await build({
+  resolver: './tokens.resolver.json',
+  buildPath: './dist',
+  outputs: [
+    /* ... */
+  ],
+})
 ```
 
 <Aside type="note" title="Resolved tokens, not raw">
-Type generation uses the resolved tokens, not the raw token files. Run it after resolution to capture all aliases and modifier values.
+  Type generation uses the resolved tokens, not the raw token files. Run it after resolution to
+  capture all aliases and modifier values.
 </Aside>
 
 <LinkCard

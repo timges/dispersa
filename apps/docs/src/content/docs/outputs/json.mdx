@@ -17,24 +17,25 @@ import { json } from 'dispersa'
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| name | string | — | Unique output identifier |
-| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
-| preset | 'bundle' \| 'standalone' | 'standalone' | Output preset |
-| structure | 'flat' \| 'nested' | 'nested' | Token structure |
-| includeMetadata | boolean | — | Include `$type`, `$description` |
-| minify | boolean | — | Minify output |
-| transforms | Transform[] | — | Per-output transforms |
-| filters | Filter[] | — | Per-output filters |
+| Option          | Type                     | Default      | Description                                                      |
+| --------------- | ------------------------ | ------------ | ---------------------------------------------------------------- |
+| name            | string                   | —            | Unique output identifier                                         |
+| file            | string or function       | —            | Output path (supports `{*context*}` interpolation for modifiers) |
+| preset          | 'bundle' \| 'standalone' | 'standalone' | Output preset                                                    |
+| structure       | 'flat' \| 'nested'       | 'nested'     | Token structure                                                  |
+| includeMetadata | boolean                  | —            | Include `$type`, `$description`                                  |
+| minify          | boolean                  | —            | Minify output                                                    |
+| transforms      | Transform[]              | —            | Per-output transforms                                            |
+| filters         | Filter[]                 | —            | Per-output filters                                               |
 
 ## Flat Structure
 
 ```typescript
-import { Dispersa, json } from 'dispersa'
+import { build, json } from 'dispersa'
 import { nameKebabCase, colorToHex, dimensionToPx } from 'dispersa/transforms'
 
-await dispersa.build({
+await build({
+  resolver: './tokens.resolver.json',
   outputs: [
     json({
       name: 'flat',

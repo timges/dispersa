@@ -8,7 +8,8 @@ sidebar:
 import { Aside, LinkCard } from '@astrojs/starlight/components'
 
 <Aside type="note">
-  The CLI ships with the `dispersa` package. See [Installation](/getting-started/installation/) for local, global, and scaffold options.
+  The CLI ships with the `dispersa` package. See [Installation](/getting-started/installation/) for
+  local, global, and scaffold options.
 </Aside>
 
 ## Basic Usage
@@ -56,6 +57,45 @@ To use a config file in a different location:
 ```bash
 dispersa build --config ./my-config.ts
 ```
+
+## Lint Command
+
+Run linting independently of the build:
+
+```bash
+dispersa lint
+```
+
+The lint command requires a `lint` configuration in your config file:
+
+```typescript
+import { defineConfig } from 'dispersa/config'
+import { dispersaPlugin } from 'dispersa/lint'
+
+export default defineConfig({
+  resolver: './tokens.resolver.json',
+  lint: {
+    plugins: { dispersa: dispersaPlugin },
+    rules: {
+      'dispersa/require-description': 'warn',
+    },
+  },
+})
+```
+
+### Lint Options
+
+| Flag                | Description                                           |
+| ------------------- | ----------------------------------------------------- |
+| `--config <path>`   | Path to config file (same as build)                   |
+| `--format <format>` | Output format: `stylish` (default), `json`, `compact` |
+| `--verbose`, `-v`   | Show detailed output                                  |
+
+### Output Formats
+
+- **`stylish`** (default) — Human-readable output with color-coded issues
+- **`json`** — JSON output for CI pipelines
+- **`compact`** — Single-line output with issue counts
 
 ## How It Works
 

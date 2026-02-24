@@ -23,7 +23,8 @@ Use preprocessors to:
 ```typescript
 {
   name: string
-  preprocess: (rawTokens: InternalTokenDocument) => InternalTokenDocument | Promise<InternalTokenDocument>
+  preprocess: (rawTokens: InternalTokenDocument) =>
+    InternalTokenDocument | Promise<InternalTokenDocument>
 }
 ```
 
@@ -96,7 +97,7 @@ const normalizeColors: Preprocessor = {
         if (typeof v === 'string' && v.startsWith('#')) {
           const rgb = hexToRgb(v)
           if (rgb) {
-            (result as Record<string, unknown>)[key] = { ...value as object, $value: rgb }
+            ;(result as Record<string, unknown>)[key] = { ...(value as object), $value: rgb }
           }
         }
       }
@@ -125,18 +126,21 @@ const fetchRemoteTokens: Preprocessor = {
 Pass preprocessors in the build config:
 
 ```typescript
-await dispersa.build({
+import { build, css } from 'dispersa'
+import { colorToHex } from 'dispersa/transforms'
+
+await build({
+  resolver: './tokens.resolver.json',
   preprocessors: [stripMetadata, normalizeColors],
-  outputs: [
-    css({ name: 'css', file: 'tokens.css', transforms: [colorToHex()] }),
-  ],
+  outputs: [css({ name: 'css', file: 'tokens.css', transforms: [colorToHex()] })],
 })
 ```
 
 Preprocessors run in order. The output of one becomes the input of the next.
 
 <Aside type="note" title="Before resolution">
-Preprocessors run on the raw token document before $ref resolution and parsing. They see the unprocessed JSON structure.
+  Preprocessors run on the raw token document before $ref resolution and parsing. They see the
+  unprocessed JSON structure.
 </Aside>
 
 <LinkCard

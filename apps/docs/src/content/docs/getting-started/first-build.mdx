@@ -104,10 +104,7 @@ my-dispersa-project/
   "version": "2025.10",
   "sets": {
     "colors": {
-      "sources": [
-        { "$ref": "./tokens/base/colors.json" },
-        { "$ref": "./tokens/alias/colors.json" }
-      ]
+      "sources": [{ "$ref": "./tokens/base/colors.json" }, { "$ref": "./tokens/alias/colors.json" }]
     },
     "typography": {
       "sources": [
@@ -152,19 +149,18 @@ my-dispersa-project/
 **`build.ts`** creates a `Dispersa` instance, points it at the resolver, and defines CSS output with transforms:
 
 <Aside type="note" title="Simplified for this walkthrough">
-The actual TypeScript Starter scaffold includes additional transforms (`dimensionToRem`, `fontWeightToNumber`) and a second CSS output using the `modifier` preset for per-theme files. Below is a simplified version to focus on the core concepts.
+  The actual TypeScript Starter scaffold includes additional transforms (`dimensionToRem`,
+  `fontWeightToNumber`) and a second CSS output using the `modifier` preset for per-theme files.
+  Below is a simplified version to focus on the core concepts.
 </Aside>
 
 ```typescript
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { colorToHex } from 'dispersa/transforms'
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: './tokens.resolver.json',
   buildPath: './output',
-})
-
-const result = await dispersa.build({
   outputs: [
     css({
       name: 'css',

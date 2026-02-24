@@ -36,7 +36,10 @@ Both sync and async functions are supported.
 ## Example: Logging
 
 ```typescript
-await dispersa.build({
+import { build, css } from 'dispersa'
+
+await build({
+  resolver: './tokens.resolver.json',
   hooks: {
     onBuildStart: ({ config }) => {
       console.log(`Building ${config.outputs.length} output(s)...`)
@@ -64,14 +67,14 @@ await dispersa.build({
 
 ## Use Cases
 
-| Use case | Hook | Level |
-|----------|------|-------|
-| Build timing | onBuildStart / onBuildEnd | Global |
-| File size reporting | onBuildEnd | Per-output |
-| CI notifications (Slack, etc.) | onBuildEnd | Global |
-| Run Prettier on output | onBuildEnd | Per-output |
-| Validation before build | onBuildStart | Global |
-| Per-output debugging | onBuildStart / onBuildEnd | Per-output |
+| Use case                       | Hook                      | Level      |
+| ------------------------------ | ------------------------- | ---------- |
+| Build timing                   | onBuildStart / onBuildEnd | Global     |
+| File size reporting            | onBuildEnd                | Per-output |
+| CI notifications (Slack, etc.) | onBuildEnd                | Global     |
+| Run Prettier on output         | onBuildEnd                | Per-output |
+| Validation before build        | onBuildStart              | Global     |
+| Per-output debugging           | onBuildStart / onBuildEnd | Per-output |
 
 Example: running Prettier on generated CSS:
 

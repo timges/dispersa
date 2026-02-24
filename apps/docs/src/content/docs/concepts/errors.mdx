@@ -53,16 +53,16 @@ type BuildError = {
 
 ## Error Codes
 
-| Code | Description |
-|------|-------------|
-| TOKEN_REFERENCE | Unresolved [alias](https://www.designtokens.org/TR/2025.10/format/#aliases-references) `{token.name}` |
-| CIRCULAR_REFERENCE | [Circular alias chain](https://www.designtokens.org/TR/2025.10/format/#circular-reference-detection) |
-| VALIDATION | Schema or structural validation failure |
-| FILE_OPERATION | File read/write failure |
-| CONFIGURATION | Invalid config |
-| BASE_PERMUTATION | Missing base permutation for bundle mode |
-| MODIFIER | Invalid [modifier](https://www.designtokens.org/TR/2025.10/resolver/#modifiers) input or context |
-| UNKNOWN | Unexpected error |
+| Code               | Description                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------- |
+| TOKEN_REFERENCE    | Unresolved [alias](https://www.designtokens.org/TR/2025.10/format/#aliases-references) `{token.name}` |
+| CIRCULAR_REFERENCE | [Circular alias chain](https://www.designtokens.org/TR/2025.10/format/#circular-reference-detection)  |
+| VALIDATION         | Schema or structural validation failure                                                               |
+| FILE_OPERATION     | File read/write failure                                                                               |
+| CONFIGURATION      | Invalid config                                                                                        |
+| BASE_PERMUTATION   | Missing base permutation for bundle mode                                                              |
+| MODIFIER           | Invalid [modifier](https://www.designtokens.org/TR/2025.10/resolver/#modifiers) input or context      |
+| UNKNOWN            | Unexpected error                                                                                      |
 
 ## Suggestions
 
@@ -81,7 +81,9 @@ Dispersa validates tokens and resolver documents against the official DTCG 2025.
 ## Checking for Errors
 
 ```typescript
-const result = await dispersa.build({ outputs: [...] })
+import { build, buildOrThrow } from 'dispersa'
+
+const result = await build({ resolver: './tokens.resolver.json', outputs: [...] })
 if (!result.success) {
   for (const error of result.errors ?? []) {
     console.error(`[${error.code}] ${error.message}`)
@@ -100,7 +102,7 @@ When using `buildOrThrow()`, Dispersa throws typed error classes from `dispersa/
 import { TokenReferenceError, CircularReferenceError } from 'dispersa/errors'
 
 try {
-  await dispersa.buildOrThrow({ outputs: [...] })
+  await buildOrThrow({ resolver: './tokens.resolver.json', outputs: [...] })
 } catch (error) {
   if (error instanceof TokenReferenceError) {
     console.log('Missing token:', error.referenceName)

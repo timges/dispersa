@@ -25,12 +25,11 @@ Design tokens are the foundation of your design system. Linting ensures:
 Run linting independently of the build:
 
 ```typescript
-import { Dispersa } from 'dispersa'
+import { lint } from 'dispersa'
 import { dispersaPlugin } from 'dispersa/lint'
 
-const dispersa = new Dispersa()
-
-const result = await dispersa.lint('./tokens.resolver.json', {
+const result = await lint({
+  resolver: './tokens.resolver.json',
   plugins: { dispersa: dispersaPlugin },
   rules: {
     'dispersa/require-description': 'warn',
@@ -46,15 +45,12 @@ console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`
 Enable linting in your build configuration:
 
 ```typescript
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { dispersaPlugin } from 'dispersa/lint'
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: './tokens.resolver.json',
   buildPath: './dist',
-})
-
-const result = await dispersa.build({
   lint: {
     enabled: true,
     plugins: { dispersa: dispersaPlugin },
@@ -79,9 +75,13 @@ Dispersa ships with three predefined lint configurations:
 | `strict`      | All rules enabled as errors (or warnings) |
 
 ```typescript
+import { lint } from 'dispersa'
 import { recommendedConfig } from 'dispersa/lint'
 
-const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
+const result = await lint({
+  resolver: './tokens.resolver.json',
+  ...recommendedConfig,
+})
 ```
 
 ### What's included

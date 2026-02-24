@@ -207,7 +207,10 @@ rules: {
 Pass plugins directly in configuration:
 
 ```typescript
-const result = await dispersa.lint('./tokens.resolver.json', {
+import { lint } from 'dispersa'
+
+const result = await lint({
+  resolver: './tokens.resolver.json',
   plugins: {
     myPlugin,
     dispersa: dispersaPlugin,
@@ -321,14 +324,11 @@ export const myDesignSystemPlugin: LintPlugin = {
 Use in your build:
 
 ```typescript
-import { Dispersa, css } from 'dispersa'
+import { css, build } from 'dispersa'
 import { myDesignSystemPlugin } from './lint-plugins/my-design-system'
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: './tokens.resolver.json',
-})
-
-const result = await dispersa.build({
   lint: {
     enabled: true,
     plugins: { myds: myDesignSystemPlugin },

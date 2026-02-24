@@ -49,6 +49,14 @@ const SHARED_STAGES: StageData[] = [
     output: 'Flat map of resolved tokens',
   },
   {
+    id: 'lint',
+    name: 'Lint',
+    description:
+      'Runs lint rules on the resolved tokens to check for issues like naming conventions, missing descriptions, deprecated usage, or custom rules from plugins. Linting is optional and configured via the lint option in BuildConfig. Results are included in build output when linting is enabled.',
+    input: 'Resolved tokens',
+    output: 'Tokens with lint results',
+  },
+  {
     id: 'global-filter',
     name: 'Global Filter',
     description:
@@ -103,10 +111,10 @@ const OUTPUT_TARGETS: OutputTarget[] = [
 ]
 
 /*
- * Animation segment mapping (segs 0–15):
+ * Animation segment mapping (segs 0–17):
  *  0 Resolve  1 conn  2 Preprocess  3 conn  4 Parse  5 conn
- *  6 G.Filter  7 conn  8 G.Transform  9 conn→branch
- *  10 branch(vert+horiz)  11 Filter  12 conn  13 Transform  14 conn  15 Render
+ *  6 Lint     7 conn  8 G.Filter    9 conn  10 G.Transform 11 conn→branch
+ *  12 branch(vert+horiz)  13 Filter  14 conn  15 Transform  16 conn  17 Render
  *
  * Stacked layout reuses the same segment timing with vertical
  * variants (cfv{seg}) for the connectors between shared stages.
@@ -122,8 +130,8 @@ const SMALL_THRESHOLD = 500
 
 function buildFlowCSS(): string {
   const rules: string[] = []
-  const stepSegs = [0, 2, 4, 6, 8, 11, 13, 15]
-  const connSegs = [1, 3, 5, 7, 9, 12, 14]
+  const stepSegs = [0, 2, 4, 6, 8, 10, 13, 15, 17]
+  const connSegs = [1, 3, 5, 7, 9, 11, 12, 14, 16]
 
   for (const seg of stepSegs) {
     const s = seg * SEG_PCT

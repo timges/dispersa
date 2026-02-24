@@ -8,18 +8,20 @@ sidebar:
 import { Aside, LinkCard } from '@astrojs/starlight/components'
 
 <Aside type="note" title="Convention, not spec">
-This naming convention is a recommendation used by the Dispersa starter templates. It is not part of the DTCG specification -- you are free to name tokens however you like. That said, a consistent convention pays off quickly as your token system grows.
+  This naming convention is a recommendation used by the Dispersa starter templates. It is not part
+  of the DTCG specification -- you are free to name tokens however you like. That said, a consistent
+  convention pays off quickly as your token system grows.
 </Aside>
 
 ## Token Tiers
 
-Tokens are organized into three tiers. Each tier has a distinct purpose, its own naming convention, and a clear dependency direction: higher tiers reference lower tiers, never the reverse. Every tier starts with the token **category** (`color`, `spacing`, `typography`, `shadow`).
+Tokens are organized into three tiers. Each tier has a distinct purpose, its own naming convention, and a clear dependency direction: higher tiers reference lower tiers, never the reverse. Every tier starts with the token **category** (`color`, `spacing`, `radius`, `opacity`, `typography`, `shadow`, `duration`, `zindex`, `...`).
 
-| Tier | Purpose | Convention | Example |
-|---|---|---|---|
-| **Base** | Raw values without intent | Descriptive, type-grouped | `color.palette.blue-500` |
-| **Semantic** | Intent-based, themeable | Six-layer path | `color.action.brand.hover` |
-| **Component** | UI-mapped, per-component | Five-layer path | `color.button.primary.background.hover` |
+| Tier          | Purpose                   | Convention                | Example                                 |
+| ------------- | ------------------------- | ------------------------- | --------------------------------------- |
+| **Base**      | Raw values without intent | Descriptive, type-grouped | `color.palette.blue-500`                |
+| **Semantic**  | Intent-based, themeable   | Six-layer path            | `color.action.brand.hover`              |
+| **Component** | UI-mapped, per-component  | Five-layer path           | `color.button.primary.background.hover` |
 
 The reference chain flows in one direction:
 
@@ -27,22 +29,28 @@ The reference chain flows in one direction:
 Component tokens  →  Semantic tokens  →  Base tokens
 ```
 
-Component tokens reference semantic tokens. Semantic tokens reference base tokens. This separation means you can re-theme an entire system by swapping semantic values, and every component updates automatically.
-
 <Aside type="tip" title="Start simple">
-Most token systems only need base and semantic tiers. Add component tokens when you find yourself repeatedly mapping the same semantic tokens to the same UI patterns across multiple components or platforms.
+  Most token systems only need base and semantic tiers. Add component tokens when you find yourself
+  needing to have design tokens that are _only_ used by a single component. Component tokens are
+  optional -- you can have a robust system with just base and semantic.
 </Aside>
 
 ## Base Token Naming
 
 Base tokens are the raw building blocks. They represent values without intent and use neutral, descriptive names grouped under a type-specific namespace:
 
-| Category | Base group | Example tokens |
-|---|---|---|
-| Color | `color.palette` | `color.palette.blue-500`, `color.palette.gray-900`, `color.palette.white` |
-| Spacing | `spacing.scale` | `spacing.scale.xs`, `spacing.scale.sm`, `spacing.scale.md` |
-| Shadow | `shadow.raw` | `shadow.raw.sm`, `shadow.raw.md`, `shadow.raw.lg` |
-| Typography | `font.*` | `font.family.sans`, `font.size.lg`, `font.weight.bold` |
+| Category   | Base group       | Example tokens                                                                 |
+| ---------- | ---------------- | ------------------------------------------------------------------------------ |
+| Color      | `color.palette`  | `color.palette.blue-500`, `color.palette.gray-900`, `color.palette.white`      |
+| Spacing    | `spacing.scale`  | `spacing.scale.xs`, `spacing.scale.sm`, `spacing.scale.md`                     |
+| Radius     | `radius.scale`   | `radius.scale.none`, `radius.scale.sm`, `radius.scale.md`, `radius.scale.full` |
+| Opacity    | `opacity.scale`  | `opacity.scale.0`, `opacity.scale.50`, `opacity.scale.100`                     |
+| Shadow     | `shadow.raw`     | `shadow.raw.sm`, `shadow.raw.md`, `shadow.raw.lg`                              |
+| Typography | `font.*`         | `font.family.sans`, `font.size.lg`, `font.weight.bold`                         |
+| Duration   | `duration.scale` | `duration.scale.fast`, `duration.scale.normal`, `duration.scale.slow`          |
+| Z-Index    | `zindex.scale`   | `zindex.scale.dropdown`, `zindex.scale.modal`, `zindex.scale.toast`            |
+
+(And more — common categories include `breakpoints`, `easing`, `motion`, `sizing` depending on your system.)
 
 Base tokens sit outside the six-layer semantic convention. Semantic tokens reference them via `{color.palette.blue-500}` style aliases.
 
@@ -54,14 +62,14 @@ Every semantic token path is a subsequence of six ordered layers:
 category.concept.sentiment.prominence.state.scale
 ```
 
-| Layer | Purpose | Example values |
-|---|---|---|
-| **category** | Token type or domain | `color`, `spacing`, `typography`, `shadow` |
-| **concept** | What it's used for | `text`, `background`, `surface`, `action`, `border`, `icon`, `overlay`, `gap`, `inset`, `heading`, `body`, `elevation` |
-| **sentiment** | Semantic intent or role | `neutral`, `brand`, `danger`, `success`, `warning`, `info` |
-| **prominence** | Visual weight or emphasis | `default`, `muted`, `subtle`, `strong`, `inverse` |
-| **state** | Interaction state | `hover`, `active`, `focus`, `disabled`, `selected` |
-| **scale** | Size or intensity step | `xs`, `sm`, `md`, `lg`, `xl`, `2xl` |
+| Layer          | Purpose                   | Example values                                                                                                         |
+| -------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **category**   | Token type or domain      | `color`, `spacing`, `typography`, `shadow`                                                                             |
+| **concept**    | What it's used for        | `text`, `background`, `surface`, `action`, `border`, `icon`, `overlay`, `gap`, `inset`, `heading`, `body`, `elevation` |
+| **sentiment**  | Semantic intent or role   | `neutral`, `brand`, `danger`, `success`, `warning`, `info`                                                             |
+| **prominence** | Visual weight or emphasis | `muted`, `subtle`, `strong`, `inverse`                                                                                 |
+| **state**      | Interaction state         | `hover`, `active`, `focus`, `disabled`, `selected`                                                                     |
+| **scale**      | Size or intensity step    | `xs`, `sm`, `md`, `lg`, `xl`, `2xl`                                                                                    |
 
 Each layer has its own **distinct vocabulary** -- values never overlap between layers. `muted` is always prominence. `danger` is always sentiment. `hover` is always state. `md` is always scale. This means layers can be omitted when they're not needed, and there's never ambiguity about which layer a segment belongs to.
 
@@ -73,15 +81,16 @@ Layers can be skipped, but they can never be reordered. Every token path must be
 
 Most tokens use two to four layers:
 
-| Token path | Layers used |
-|---|---|
-| `color.text.default` | category + concept + prominence |
-| `color.text.danger` | category + concept + sentiment |
-| `color.text.muted.disabled` | category + concept + prominence + state |
+| Token path                       | Layers used                                 |
+| -------------------------------- | ------------------------------------------- |
+| `color.text`                     | category + concept                          |
+| `color.text.muted`               | category + concept + prominence             |
+| `color.text.danger`              | category + concept + sentiment              |
+| `color.text.muted.disabled`      | category + concept + prominence + state     |
 | `color.background.danger.subtle` | category + concept + sentiment + prominence |
-| `color.action.brand.hover` | category + concept + sentiment + state |
-| `spacing.gap.md` | category + concept + scale |
-| `typography.heading.lg` | category + concept + scale |
+| `color.action.brand.hover`       | category + concept + sentiment + state      |
+| `spacing.gap.md`                 | category + concept + scale                  |
+| `typography.heading.lg`          | category + concept + scale                  |
 
 ### How Categories Use Layers
 
@@ -94,32 +103,32 @@ The convention is the same -- each category uses the subset it needs.
 
 ### Comprehensive Examples
 
-| Token path | Category | Concept | Sentiment | Prominence | State | Scale |
-|---|---|---|---|---|---|---|
-| `color.text.default` | color | text | -- | default | -- | -- |
-| `color.text.muted` | color | text | -- | muted | -- | -- |
-| `color.text.danger` | color | text | danger | -- | -- | -- |
-| `color.text.danger.muted` | color | text | danger | muted | -- | -- |
-| `color.text.muted.disabled` | color | text | -- | muted | disabled | -- |
-| `color.background.default` | color | background | -- | default | -- | -- |
-| `color.background.danger.subtle` | color | background | danger | subtle | -- | -- |
-| `color.surface.default` | color | surface | -- | default | -- | -- |
-| `color.action.brand` | color | action | brand | -- | -- | -- |
-| `color.action.brand.hover` | color | action | brand | -- | hover | -- |
-| `color.action.danger.strong.active` | color | action | danger | strong | active | -- |
-| `color.border.default` | color | border | -- | default | -- | -- |
-| `color.border.default.focus` | color | border | -- | default | focus | -- |
-| `color.icon.success` | color | icon | success | -- | -- | -- |
-| `spacing.gap.md` | spacing | gap | -- | -- | -- | md |
-| `spacing.inset.lg` | spacing | inset | -- | -- | -- | lg |
-| `typography.heading.lg` | typography | heading | -- | -- | -- | lg |
-| `typography.body.sm` | typography | body | -- | -- | -- | sm |
-| `shadow.elevation.md` | shadow | elevation | -- | -- | -- | md |
+| Token path                          | Category   | Concept    | Sentiment | Prominence | State    | Scale |
+| ----------------------------------- | ---------- | ---------- | --------- | ---------- | -------- | ----- |
+| `color.text`                        | color      | text       | --        | --         | --       | --    |
+| `color.text.muted`                  | color      | text       | --        | muted      | --       | --    |
+| `color.text.danger`                 | color      | text       | danger    | --         | --       | --    |
+| `color.text.danger.muted`           | color      | text       | danger    | muted      | --       | --    |
+| `color.text.muted.disabled`         | color      | text       | --        | muted      | disabled | --    |
+| `color.background`                  | color      | background | --        | --         | --       | --    |
+| `color.background.danger.subtle`    | color      | background | danger    | subtle     | --       | --    |
+| `color.surface`                     | color      | surface    | --        | --         | --       | --    |
+| `color.action.brand`                | color      | action     | brand     | --         | --       | --    |
+| `color.action.brand.hover`          | color      | action     | brand     | --         | hover    | --    |
+| `color.action.danger.strong.active` | color      | action     | danger    | strong     | active   | --    |
+| `color.border`                      | color      | border     | --        | --         | --       | --    |
+| `color.border.focus`                | color      | border     | --        | --         | focus    | --    |
+| `color.icon.success`                | color      | icon       | success   | --         | --       | --    |
+| `spacing.gap.md`                    | spacing    | gap        | --        | --         | --       | md    |
+| `spacing.inset.lg`                  | spacing    | inset      | --        | --         | --       | lg    |
+| `typography.heading.lg`             | typography | heading    | --        | --         | --       | lg    |
+| `typography.body.sm`                | typography | body       | --        | --         | --       | sm    |
+| `shadow.elevation.md`               | shadow     | elevation  | --        | --         | --       | md    |
 
 ### Principles
 
 1. **Intent over implementation.** `color.action.brand` instead of `color.blue-500`. When your brand color changes from blue to purple, you rename zero tokens.
-2. **Predictability.** If `color.text.default` exists, a developer can guess that `color.text.muted` and `color.text.subtle` probably do too.
+2. **Predictability.** If `color.text` exists, a developer can guess that `color.text.muted` and `color.text.subtle` probably do too.
 3. **Orthogonal layers.** Sentiment, prominence, state, and scale answer different questions: "what role?", "how loud?", "what interaction?", and "what size?" Keeping them separate prevents naming collisions and makes the system composable.
 4. **No going back.** Layers always appear in the canonical order. You can skip, but you can't reorder. This keeps every path unambiguous.
 
@@ -132,7 +141,7 @@ Each layer becomes a nesting level in the JSON structure:
   "color": {
     "text": {
       "$type": "color",
-      "default": { "$value": "{color.palette.gray-900}" },
+      "$root": { "$value": "{color.palette.gray-900}" },
       "muted": {
         "$root": { "$value": "{color.palette.gray-500}" },
         "disabled": { "$value": "{color.palette.gray-300}" }
@@ -158,7 +167,7 @@ Each layer becomes a nesting level in the JSON structure:
 }
 ```
 
-When a node needs to be both a token and a group (e.g. `color.text.muted` has a value *and* a child `disabled`), use `$root` to hold the node's own value while allowing children alongside it.
+When a node needs to be both a token and a group (e.g. `color.text.muted` has a value _and_ a child `disabled`), use `$root` to hold the node's own value while allowing children alongside it.
 
 Dispersa flattens this structure during parsing, so `color.text.muted` and `color.action.brand.hover` are the token paths you see in build output.
 
@@ -170,13 +179,13 @@ Component tokens sit above the semantic layer. They map semantic tokens to speci
 category.component.variant.property.state
 ```
 
-| Layer | Purpose | Example values |
-|---|---|---|
-| **category** | Token type or domain | `color`, `spacing`, `typography`, `shadow` |
-| **component** | UI component name | `button`, `card`, `input`, `badge`, `tooltip` |
-| **variant** | Optional variant or role | `primary`, `secondary`, `ghost`, `success`, `danger` |
-| **property** | CSS-ish concern | `background`, `text`, `border`, `padding`, `shadow`, `radius`, `gap` |
-| **state** | Optional interaction state | `hover`, `active`, `focus`, `disabled`, `selected` |
+| Layer         | Purpose                    | Example values                                                       |
+| ------------- | -------------------------- | -------------------------------------------------------------------- |
+| **category**  | Token type or domain       | `color`, `spacing`, `typography`, `shadow`                           |
+| **component** | UI component name          | `button`, `card`, `input`, `badge`, `tooltip`                        |
+| **variant**   | Optional variant or role   | `primary`, `secondary`, `ghost`, `success`, `danger`                 |
+| **property**  | CSS-ish concern            | `background`, `text`, `border`, `padding`, `shadow`, `radius`, `gap` |
+| **state**     | Optional interaction state | `hover`, `active`, `focus`, `disabled`, `selected`                   |
 
 The same ordering rule applies: layers can be skipped but never reordered. Variant and state are optional; category, component, and property are required.
 
@@ -184,18 +193,18 @@ Semantic concepts (`text`, `background`, `action`, `border`...) and component na
 
 ### Component Token Examples
 
-| Token path | Category | Component | Variant | Property | State |
-|---|---|---|---|---|---|
-| `color.button.primary.background` | color | button | primary | background | -- |
-| `color.button.primary.background.hover` | color | button | primary | background | hover |
-| `color.button.secondary.border` | color | button | secondary | border | -- |
-| `color.button.danger.background` | color | button | danger | background | -- |
-| `color.card.background` | color | card | -- | background | -- |
-| `spacing.card.padding` | spacing | card | -- | padding | -- |
-| `color.input.border` | color | input | -- | border | -- |
-| `color.input.border.focus` | color | input | -- | border | focus |
-| `color.input.danger.border` | color | input | danger | border | -- |
-| `color.badge.success.background` | color | badge | success | background | -- |
+| Token path                              | Category | Component | Variant   | Property   | State |
+| --------------------------------------- | -------- | --------- | --------- | ---------- | ----- |
+| `color.button.primary.background`       | color    | button    | primary   | background | --    |
+| `color.button.primary.background.hover` | color    | button    | primary   | background | hover |
+| `color.button.secondary.border`         | color    | button    | secondary | border     | --    |
+| `color.button.danger.background`        | color    | button    | danger    | background | --    |
+| `color.card.background`                 | color    | card      | --        | background | --    |
+| `spacing.card.padding`                  | spacing  | card      | --        | padding    | --    |
+| `color.input.border`                    | color    | input     | --        | border     | --    |
+| `color.input.border.focus`              | color    | input     | --        | border     | focus |
+| `color.input.danger.border`             | color    | input     | danger    | border     | --    |
+| `color.badge.success.background`        | color    | badge     | success   | background | --    |
 
 ### Mapping to DTCG JSON
 
@@ -221,8 +230,8 @@ Component tokens follow the same nesting pattern, with category as the outermost
     "input": {
       "border": {
         "$type": "color",
-        "$root": { "$value": "{color.border.default}" },
-        "focus": { "$value": "{color.border.default.focus}" }
+        "$root": { "$value": "{color.border}" },
+        "focus": { "$value": "{color.border.focus}" }
       }
     }
   },

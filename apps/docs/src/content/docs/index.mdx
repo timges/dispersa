@@ -32,38 +32,35 @@ import HeroDemo from '../../components/HeroDemo'
 2. **Explore and customize the scaffold**
 
    ```typescript
-   import { Dispersa, css } from 'dispersa'
+   import { build, css } from 'dispersa'
    import { colorToHex } from 'dispersa/transforms'
-
-   const dispersa = new Dispersa({
-     resolver: './tokens.resolver.json',
-     buildPath: './output',
-   })
-
-   await dispersa.build({
-     outputs: [css({
-       name: 'css',
-       file: 'tokens.css',
-       preset: 'bundle',
-       preserveReferences: true,
-       transforms: [colorToHex()],
-     })],
+   
+   await build({
+      resolver: './tokens.resolver.json',
+      buildPath: './output',
+      outputs: [css({
+        name: 'css',
+        file: 'tokens.css',
+        preset: 'bundle',
+        preserveReferences: true,
+        transforms: [colorToHex()],
+      })],
    })
    ```
 
 3. **Build and ship**
 
-   ```bash
-   pnpm run build
-   ```
-
-   ```css
-   :root {
-     --color-palette-blue-500: #0066cc;
-     --color-action-brand: var(--color-palette-blue-500);
-     --spacing-scale-md: 16px;
-   }
-   ```
+    ```bash
+    pnpm run build
+    ```
+    
+    ```css
+    :root {
+      --color-palette-blue-500: #0066cc;
+      --color-action-brand: var(--color-palette-blue-500);
+      --spacing-scale-md: 16px;
+    }
+    ```
 
 </Steps>
 
@@ -71,16 +68,21 @@ import HeroDemo from '../../components/HeroDemo'
 
 <CardGrid>
   <Card title="DTCG 2025.10" icon="approve-check">
-    Full support for the stable [Design Tokens spec](https://www.designtokens.org/TR/2025.10/) -- resolver documents, sets, modifiers, and every token type.
+    Full support for the stable [Design Tokens spec](https://www.designtokens.org/TR/2025.10/) --
+    resolver documents, sets, modifiers, and every token type.
   </Card>
   <Card title="6 Output Formats" icon="document">
-    CSS, JSON, JS/TS, Tailwind v4, Swift/SwiftUI, and Kotlin/Compose -- all from one source of truth.
+    CSS, JSON, JS/TS, Tailwind v4, Swift/SwiftUI, and Kotlin/Compose -- all from one source of
+    truth.
   </Card>
   <Card title="Schema Validation" icon="warning">
-    Tokens and resolver documents are [validated](/concepts/validation/) against the official [DTCG 2025.10 JSON schemas](https://www.designtokens.org/TR/2025.10/). Catch structural errors before they reach production.
+    Tokens and resolver documents are [validated](/concepts/validation/) against the official [DTCG
+    2025.10 JSON schemas](https://www.designtokens.org/TR/2025.10/). Catch structural errors before
+    they reach production.
   </Card>
   <Card title="Extensible Pipeline" icon="setting">
-    Plug in custom filters, transforms, and renderers. See [how the pipeline works](/concepts/pipeline/).
+    Plug in custom filters, transforms, and renderers. See [how the pipeline
+    works](/concepts/pipeline/).
   </Card>
 </CardGrid>
 

@@ -23,9 +23,13 @@ A TypeScript build system for processing [DTCG 2025.10](https://www.designtokens
 Dispersa includes a plugin-based linting system to validate design tokens against semantic rules. Linting can run standalone or as part of the build pipeline.
 
 ```typescript
+import { lint } from 'dispersa'
 import { dispersaPlugin, recommendedConfig } from 'dispersa/lint'
 
-const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
+const result = await lint({
+  resolver: './tokens.resolver.json',
+  ...recommendedConfig,
+})
 console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
 ```
 
@@ -53,7 +57,7 @@ Define tokens inline and build CSS -- no files needed:
 
 ```typescript
 import type { ResolverDocument } from 'dispersa'
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
@@ -114,9 +118,11 @@ const resolver: ResolverDocument = {
   resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/theme' }],
 }
 
-const dispersa = new Dispersa({ resolver })
+import { build, css } from 'dispersa'
+import { colorToHex } from 'dispersa/transforms'
 
-const result = await dispersa.build({
+const result = await build({
+  resolver,
   outputs: [
     css({
       name: 'css',
@@ -582,7 +588,7 @@ Dispersa can run entirely without the filesystem. Pass a `ResolverDocument` obje
 
 ```typescript
 import type { ResolverDocument } from 'dispersa'
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { colorToHex } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
@@ -604,9 +610,8 @@ const resolver: ResolverDocument = {
   resolutionOrder: [{ $ref: '#/sets/base' }],
 }
 
-const dispersa = new Dispersa({ resolver })
-
-const result = await dispersa.build({
+const result = await build({
+  resolver,
   outputs: [
     css({
       name: 'css',
@@ -748,44 +753,59 @@ export default defineConfig({
 
 ## API reference
 
-### `Dispersa` class
+### Core functions
+
+Dispersa provides standalone functions for all operations:
 
 ```typescript
-const dispersa = new Dispersa(options?: DispersaOptions)
+import {
+  build,
+  buildOrThrow,
+  buildPermutation,
+  resolveTokens,
+  lint,
+  resolveAllPermutations,
+  generateTypes,
+} from 'dispersa'
 ```
 
-**Constructor options:**
-
-| Option       | Type                                    | Description                                            |
-| ------------ | --------------------------------------- | ------------------------------------------------------ |
-| `resolver`   | `string \| ResolverDocument`            | Default resolver (file path or inline object)          |
-| `buildPath`  | `string`                                | Default output directory                               |
-| `validation` | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation behavior (`'warn'` logs via `console.warn`) |
-
-**Methods:**
-
-| Method                                      | Description                                           |
+| Function                                    | Description                                           |
 | ------------------------------------------- | ----------------------------------------------------- |
 | `build(config)`                             | Build tokens. Returns `BuildResult` (never throws).   |
 | `buildOrThrow(config)`                      | Build tokens. Throws on failure.                      |
 | `buildPermutation(config, modifierInputs?)` | Build a single permutation.                           |
 | `resolveTokens(resolver, modifierInputs?)`  | Resolve tokens for one permutation without rendering. |
+| `lint(options)`                             | Run lint rules on resolved tokens.                    |
 | `resolveAllPermutations(resolver)`          | Resolve tokens for every permutation.                 |
 | `generateTypes(tokens, fileName, options?)` | Generate a `.d.ts` file from resolved tokens.         |
 
+### BuildConfig
+
+When calling `build()` or `buildOrThrow()`, pass a `BuildConfig` object:
+
+| Option       | Type                                    | Description                           |
+| ------------ | --------------------------------------- | ------------------------------------- |
+| `resolver`   | `string \| ResolverDocument`            | Resolver (file path or inline object) |
+| `buildPath`  | `string`                                | Output directory                      |
+| `outputs`    | `OutputConfig[]`                        | Array of output configurations        |
+| `validation` | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation behavior                   |
+| `filters`    | `Filter[]`                              | Global filters                        |
+| `transforms` | `Transform[]`                           | Global transforms                     |
+| `lint`       | `LintBuildConfig`                       | Lint configuration                    |
+
 ### Subpath exports
 
-| Export                   | Description                                                                  |
-| ------------------------ | ---------------------------------------------------------------------------- |
-| `dispersa`               | `Dispersa` class, builder functions (`css`, `json`, `js`, `tailwind`), types |
-| `dispersa/transforms`    | Built-in transform factories                                                 |
-| `dispersa/filters`       | Built-in filter factories                                                    |
-| `dispersa/builders`      | Output builder functions                                                     |
-| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper                    |
-| `dispersa/preprocessors` | Preprocessor type                                                            |
-| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)                 |
-| `dispersa/config`        | `defineConfig` helper for CLI config files                                   |
-| `dispersa/lint`          | Linting system: `LintRunner`, built-in rules, `createRule`, formatters       |
+| Export                   | Description                                                            |
+| ------------------------ | ---------------------------------------------------------------------- |
+| `dispersa`               | Core functions (`build`, `lint`, etc.), builder functions, types       |
+| `dispersa/transforms`    | Built-in transform factories                                           |
+| `dispersa/filters`       | Built-in filter factories                                              |
+| `dispersa/builders`      | Output builder functions                                               |
+| `dispersa/renderers`     | Renderer types, `defineRenderer`, and `outputTree` helper              |
+| `dispersa/preprocessors` | Preprocessor type                                                      |
+| `dispersa/errors`        | Error classes (`DispersaError`, `TokenReferenceError`, etc.)           |
+| `dispersa/config`        | `defineConfig` helper for CLI config files                             |
+| `dispersa/lint`          | Linting system: `LintRunner`, built-in rules, `createRule`, formatters |
 
 Everything outside these entry points is internal and not a stable API contract.
 

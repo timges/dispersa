@@ -18,22 +18,23 @@ Click any stage below to see what it does:
 
 ## Stages
 
-| Stage | Scope | Description |
-|-------|-------|-------------|
-| 1. Resolve | Shared | Load and validate the resolver document, merge sets, apply modifier contexts |
-| 2. Preprocess | Shared | Run optional preprocessors on the raw token tree |
-| 3. Parse | Shared | Validate and flatten token documents, resolve references and aliases |
-| 4. Global Filter | Shared | Remove tokens globally before per-output processing |
-| 5. Global Transform | Shared | Transform all tokens before per-output processing |
-| 6. Filter | Per-output | Further narrow tokens for each specific output |
-| 7. Transform | Per-output | Convert token values and names for the target platform |
-| 8. Render | Per-output | Format tokens into CSS, JSON, JS, Tailwind, Swift, Kotlin, etc. |
+| Stage               | Scope      | Description                                                                  |
+| ------------------- | ---------- | ---------------------------------------------------------------------------- |
+| 1. Resolve          | Shared     | Load and validate the resolver document, merge sets, apply modifier contexts |
+| 2. Preprocess       | Shared     | Run optional preprocessors on the raw token tree                             |
+| 3. Parse            | Shared     | Validate and flatten token documents, resolve references and aliases         |
+| 4. Lint             | Shared     | Run lint rules on resolved tokens (optional, configured via lint option)     |
+| 5. Global Filter    | Shared     | Remove tokens globally before per-output processing                          |
+| 6. Global Transform | Shared     | Transform all tokens before per-output processing                            |
+| 7. Filter           | Per-output | Further narrow tokens for each specific output                               |
+| 8. Transform        | Per-output | Convert token values and names for the target platform                       |
+| 9. Render           | Per-output | Format tokens into CSS, JSON, JS, Tailwind, Swift, Kotlin, etc.              |
 
 ## Global vs. Per-Output
 
-Stages 1-5 run **once** for the entire build and produce a resolved, flat token set. Stages 6-8 run **per output**, so each output can have its own filters, transforms, and renderer.
+Stages 1-6 run **once** for the entire build and produce a resolved, flat token set. Stages 7-9 run **per output**, so each output can have its own filters, transforms, and renderer.
 
-### Stages 1-5: Shared (run once)
+### Stages 1-6: Shared (run once)
 
 1. **Resolve** -- Loads and parses the [resolver document](https://www.designtokens.org/TR/2025.10/resolver/). The resolver is validated against the official DTCG 2025.10 JSON schema, catching structural errors like missing versions, invalid set references, or malformed modifiers. After validation, sets are merged in order and modifier contexts (themes, platforms, densities) are applied to produce the raw token tree for each permutation.
 
@@ -41,43 +42,52 @@ Stages 1-5 run **once** for the entire build and produce a resolved, flat token 
 
 3. **Parse** -- Resolves JSON Pointer `$ref` references (including external files), flattens nested groups to dot-path keys (e.g. `color.action.brand`), inherits group-level `$type`, and resolves [`{token.name}` alias references](https://www.designtokens.org/TR/2025.10/format/#aliases-references) with circular dependency detection. During parsing, each token document is validated against the DTCG format schema, and individual tokens are checked against their type-specific schemas (color, dimension, etc.). Token names and group structures are also validated per the DTCG specification.
 
-4. **Global Filter** -- Global filters from `BuildConfig` reduce the token set for all outputs. Tokens excluded here never reach any output.
+4. **Lint** -- Runs lint rules on resolved tokens to check for issues like naming conventions, missing descriptions, deprecated usage, or custom rules from plugins. Linting is optional and configured via the `lint` option in `BuildConfig`. Results are included in build output when linting is enabled.
 
-5. **Global Transform** -- Global transforms from `BuildConfig` run on all tokens (e.g. `nameKebabCase()`). These apply before any per-output transforms.
+5. **Global Filter** -- Global filters from `BuildConfig` reduce the token set for all outputs. Tokens excluded here never reach any output.
 
-### Stages 6-8: Per-output
+6. **Global Transform** -- Global transforms from `BuildConfig` run on all tokens (e.g. `nameKebabCase()`). These apply before any per-output transforms.
 
-6. **Filter** -- Per-output filters from each `OutputConfig` further narrow the globally transformed set for that specific output.
+### Stages 7-9: Per-output
 
-7. **Transform** -- Per-output transforms run after global transforms (e.g. `colorToHex()` for CSS). They convert token values and names for the target format.
+7. **Filter** -- Per-output filters from each `OutputConfig` further narrow the globally transformed set for that specific output.
 
-8. **Render** -- The renderer formats the final tokens into the target output: CSS custom properties, JSON, JS/TS modules, Tailwind `@theme` blocks, Swift/SwiftUI, Kotlin/Compose, or any custom format via `defineRenderer`.
+8. **Transform** -- Per-output transforms run after global transforms (e.g. `colorToHex()` for CSS). They convert token values and names for the target format.
+
+9. **Render** -- The renderer formats the final tokens into the target output: CSS custom properties, JSON, JS/TS modules, Tailwind `@theme` blocks, Swift/SwiftUI, Kotlin/Compose, or any custom format via `defineRenderer`.
 
 ## Processing Order
 
 ```typescript
-await dispersa.build({
-  // Global: applied to ALL outputs (stages 4-5)
+import { build, css, json } from 'dispersa'
+import { byType, nameKebabCase } from 'dispersa/transforms'
+
+await build({
+  // Global: applied to ALL outputs (stages 5-6)
   filters: [byType('color')],
   transforms: [nameKebabCase()],
 
   outputs: [
     css({
       name: 'css',
-      // Per-output: applied AFTER global (stages 6-7)
-      transforms: [colorToHex()],
+      // Per-output: applied AFTER global (stages 7-8)
+      transforms: [
+        /* color transforms */
+      ],
     }),
     json({
       name: 'json',
       // Per-output: different transforms for this output
-      transforms: [colorToRgb()],
+      transforms: [
+        /* other transforms */
+      ],
     }),
   ],
 })
 ```
 
 <Aside type="note" title="Same pipeline everywhere">
-The pipeline is the same whether you use `build()`, `buildOrThrow()`, or the CLI.
+  The pipeline is the same whether you use `build()`, `buildOrThrow()`, or the CLI.
 </Aside>
 
 <LinkCard

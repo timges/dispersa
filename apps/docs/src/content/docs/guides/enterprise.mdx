@@ -20,10 +20,7 @@ Organize your resolver with sets for base tokens and modifiers for brand, theme,
   "version": "2025.10",
   "sets": {
     "base": {
-      "sources": [
-        { "$ref": "./tokens/base/colors.json" },
-        { "$ref": "./tokens/base/spacing.json" }
-      ]
+      "sources": [{ "$ref": "./tokens/base/colors.json" }, { "$ref": "./tokens/base/spacing.json" }]
     },
     "alias": {
       "sources": [{ "$ref": "./tokens/semantic/aliases.json" }]
@@ -59,7 +56,10 @@ Organize your resolver with sets for base tokens and modifiers for brand, theme,
 Build only the permutations you need instead of the full cross-product:
 
 ```typescript
-await dispersa.build({
+import { build, css } from 'dispersa'
+
+await build({
+  resolver: './tokens.resolver.json',
   permutations: [
     { brand: 'acme', theme: 'light' },
     { brand: 'acme', theme: 'dark' },
@@ -94,7 +94,7 @@ Produces: `acme/tokens-light.css`, `acme/tokens-dark.css`, `globex/tokens-light.
 - **Resolution order matters** — modifiers listed later override earlier ones
 
 <Aside type="note" title="Resolution order">
-Resolution order matters. Modifiers listed later override earlier ones.
+  Resolution order matters. Modifiers listed later override earlier ones.
 </Aside>
 
 <LinkCard

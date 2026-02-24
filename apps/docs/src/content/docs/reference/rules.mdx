@@ -159,7 +159,6 @@ rules: {
 | `segments`    | `Record<string, SegmentDefinition>` | `{}`    | Named segment definitions                         |
 | `paths`       | `string[]`                          | `[]`    | Valid path patterns with `{segment}` placeholders |
 | `transitions` | `TransitionRule[]`                  | `[]`    | Context-aware segment transition rules            |
-| `strict`      | `boolean`                           | `true`  | If true, only matching paths are allowed          |
 | `ignore`      | `string[]`                          | `[]`    | Glob patterns to exclude                          |
 
 ### Segment Definition
@@ -235,7 +234,7 @@ const lintRules = {
         '{category}.{component}.{variant}.{property}',
         '{category}.{component}.{variant}.{property}.{state}',
       ],
-      strict: true,
+
     },
   ],
 }

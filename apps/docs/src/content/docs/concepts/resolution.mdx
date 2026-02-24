@@ -19,10 +19,7 @@ The **resolution engine** implements the [resolver spec](https://www.designtoken
 {
   "sets": {
     "core": {
-      "sources": [
-        { "$ref": "./tokens/base.json" },
-        { "$ref": "./tokens/overrides.json" }
-      ]
+      "sources": [{ "$ref": "./tokens/base.json" }, { "$ref": "./tokens/overrides.json" }]
     }
   }
 }
@@ -56,10 +53,7 @@ Selecting `theme: 'dark'` overlays the dark theme tokens on the base set.
 
 ```json
 {
-  "resolutionOrder": [
-    { "$ref": "#/sets/core" },
-    { "$ref": "#/modifiers/theme" }
-  ]
+  "resolutionOrder": [{ "$ref": "#/sets/core" }, { "$ref": "#/modifiers/theme" }]
 }
 ```
 
@@ -78,8 +72,9 @@ Each permutation produces a complete token set. Presets control how these map to
 ### Resolve for a Single Permutation
 
 ```typescript
-const dispersa = new Dispersa({ resolver: './tokens.resolver.json' })
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json', { theme: 'dark' })
+import { resolveTokens } from 'dispersa'
+
+const tokens = await resolveTokens('./tokens.resolver.json', { theme: 'dark' })
 ```
 
 ### Resolve All Permutations

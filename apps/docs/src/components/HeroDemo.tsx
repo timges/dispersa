@@ -399,7 +399,7 @@ function SpectralArrow({ vertical }: { vertical?: boolean }) {
         whiteSpace: 'nowrap' as const,
       }}
     >
-      .build({'{...}'})
+      build({'{...}'})
     </span>
   )
 

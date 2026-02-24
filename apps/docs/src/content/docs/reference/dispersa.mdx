@@ -1,39 +1,29 @@
 ---
-title: Dispersa Class
-description: Complete API reference for the Dispersa class — constructor, build methods, token resolution, and type generation.
+title: Dispersa API
+description: Complete API reference for Dispersa functions — build, lint, token resolution, and type generation.
 sidebar:
   order: 1
 ---
 
 import { Aside, LinkCard } from '@astrojs/starlight/components'
 
-## Constructor
+## Core Functions
+
+Dispersa provides standalone functions instead of a class:
 
 ```typescript
-new Dispersa(options?: DispersaOptions)
+import {
+  build,
+  buildOrThrow,
+  buildPermutation,
+  resolveTokens,
+  lint,
+  resolveAllPermutations,
+  generateTypes,
+} from 'dispersa'
 ```
 
-### DispersaOptions
-
-| Option | Type | Description |
-|--------|------|-------------|
-| resolver | `string \| ResolverDocument` | Path to resolver file or inline resolver document |
-| buildPath | `string` | Output directory when building to disk |
-| validation | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation mode (default: 'error') |
-
-```typescript
-import { Dispersa } from 'dispersa'
-
-const dispersa = new Dispersa({
-  resolver: './tokens.resolver.json',
-  buildPath: './dist',
-  validation: { mode: 'warn' },
-})
-```
-
-## Methods
-
-### build(config)
+## build(config)
 
 Runs a full build. **Never throws** — returns a `BuildResult` with `success` and optional `errors`.
 
@@ -42,7 +32,11 @@ build(config: BuildConfig): Promise<BuildResult>
 ```
 
 ```typescript
-const result = await dispersa.build({
+import { build, css } from 'dispersa'
+
+const result = await build({
+  resolver: './tokens.resolver.json',
+  buildPath: './dist',
   outputs: [css({ name: 'tokens', file: 'tokens.css' })],
 })
 
@@ -57,7 +51,7 @@ if (result.success) {
 }
 ```
 
-### buildOrThrow(config)
+## buildOrThrow(config)
 
 Same as `build`, but **throws** on failure instead of returning errors.
 
@@ -66,12 +60,15 @@ buildOrThrow(config: BuildConfig): Promise<BuildResult>
 ```
 
 ```typescript
-await dispersa.buildOrThrow({
+import { buildOrThrow, css } from 'dispersa'
+
+await buildOrThrow({
+  resolver: './tokens.resolver.json',
   outputs: [css({ name: 'tokens', file: 'tokens.css' })],
 })
 ```
 
-### buildPermutation(config, modifierInputs?)
+## buildPermutation(config, modifierInputs?)
 
 Builds a single permutation with the given modifier inputs. Useful for generating one variant at a time.
 
@@ -80,15 +77,18 @@ buildPermutation(config: BuildConfig, modifierInputs?: ModifierInputs): Promise<
 ```
 
 ```typescript
-const result = await dispersa.buildPermutation(
+import { buildPermutation, css } from 'dispersa'
+
+const result = await buildPermutation(
   {
+    resolver: './tokens.resolver.json',
     outputs: [css({ name: 'dark', file: 'dark.css' })],
   },
   { theme: 'dark', density: 'compact' },
 )
 ```
 
-### resolveTokens(resolver, modifierInputs?)
+## resolveTokens(resolver, modifierInputs?)
 
 Resolves tokens for a resolver without rendering. Returns the resolved token map for the given modifier inputs.
 
@@ -100,13 +100,45 @@ resolveTokens(
 ```
 
 ```typescript
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json', {
+import { resolveTokens } from 'dispersa'
+
+const tokens = await resolveTokens('./tokens.resolver.json', {
   mode: 'light',
 })
 console.log(tokens['color.background.default'])
 ```
 
-### resolveAllPermutations(resolver)
+## lint(options)
+
+Runs lint rules on resolved tokens. Returns a `LintResult` with issues and counts.
+
+```typescript
+lint(options: LintOptions): Promise<LintResult>
+```
+
+`LintOptions` accepts:
+
+| Property         | Type                         | Description                                 |
+| ---------------- | ---------------------------- | ------------------------------------------- |
+| `resolver`       | `string \| ResolverDocument` | Resolver file path or inline object         |
+| `modifierInputs` | `Record<string, string>`     | Modifier values (e.g., `{ theme: 'dark' }`) |
+| `validation`     | `ValidationOptions`          | Validation settings                         |
+| `plugins`        | `Record<string, LintPlugin>` | Lint plugins to load                        |
+| `rules`          | `Record<string, RuleConfig>` | Rule configurations                         |
+| `failOnError`    | `boolean`                    | Throw on lint errors (default: `true`)      |
+
+```typescript
+import { lint } from 'dispersa'
+import { recommendedConfig } from 'dispersa/lint'
+
+const result = await lint({
+  resolver: './tokens.resolver.json',
+  ...recommendedConfig,
+})
+console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
+```
+
+## resolveAllPermutations(resolver)
 
 Resolves tokens for every permutation defined in the resolver. Returns an array of `{ tokens, modifierInputs }`.
 
@@ -117,14 +149,16 @@ resolveAllPermutations(
 ```
 
 ```typescript
-const permutations = await dispersa.resolveAllPermutations('./tokens.resolver.json')
+import { resolveAllPermutations } from 'dispersa'
+
+const permutations = await resolveAllPermutations('./tokens.resolver.json')
 for (const { tokens, modifierInputs } of permutations) {
   console.log('Permutation:', modifierInputs)
   console.log('Tokens:', Object.keys(tokens).length)
 }
 ```
 
-### generateTypes(tokens, fileName, options?)
+## generateTypes(tokens, fileName, options?)
 
 Generates TypeScript types for a resolved token map and writes to a file.
 
@@ -137,8 +171,10 @@ generateTypes(
 ```
 
 ```typescript
-const tokens = await dispersa.resolveTokens('./tokens.resolver.json')
-await dispersa.generateTypes(tokens, './dist/tokens.d.ts', {
+import { resolveTokens, generateTypes } from 'dispersa'
+
+const tokens = await resolveTokens('./tokens.resolver.json')
+await generateTypes(tokens, './dist/tokens.d.ts', {
   moduleName: 'tokens',
 })
 ```
@@ -147,44 +183,48 @@ await dispersa.generateTypes(tokens, './dist/tokens.d.ts', {
 
 Configuration passed to `build`, `buildOrThrow`, and `buildPermutation`:
 
-| Option | Type | Description |
-|--------|------|-------------|
-| resolver | `string \| ResolverDocument` | Override instance resolver |
-| buildPath | `string` | Override instance build path |
-| outputs | `OutputConfig[]` | Required. Output configurations |
-| filters | `Filter[]` | Global filters applied before any output |
-| transforms | `Transform[]` | Global transforms applied before any output |
-| preprocessors | `Preprocessor[]` | Preprocessors applied to raw tokens |
-| permutations | `ModifierInputs[]` | Explicit permutation list (overrides resolver) |
-| hooks | `LifecycleHooks` | `onBuildStart`, `onBuildEnd` |
+| Option        | Type                                    | Description                                 |
+| ------------- | --------------------------------------- | ------------------------------------------- |
+| resolver      | `string \| ResolverDocument`            | Resolver file path or inline document       |
+| buildPath     | `string`                                | Output directory                            |
+| outputs       | `OutputConfig[]`                        | Required. Output configurations             |
+| validation    | `{ mode?: 'error' \| 'warn' \| 'off' }` | Validation mode                             |
+| filters       | `Filter[]`                              | Global filters applied before any output    |
+| transforms    | `Transform[]`                           | Global transforms applied before any output |
+| preprocessors | `Preprocessor[]`                        | Preprocessors applied to raw tokens         |
+| permutations  | `ModifierInputs[]`                      | Explicit permutation list                   |
+| lint          | `LintBuildConfig`                       | Lint configuration                          |
+| hooks         | `LifecycleHooks`                        | `onBuildStart`, `onBuildEnd`                |
 
 ## BuildResult
 
 Returned by `build`, `buildOrThrow`, and `buildPermutation`:
 
-| Property | Type | Description |
-|----------|------|-------------|
-| success | `boolean` | Whether the build completed without errors |
-| outputs | `{ name: string; path?: string; content: string }[]` | Per-output results |
-| errors | `BuildError[]` | Present when `success` is false |
+| Property   | Type                                                 | Description                                |
+| ---------- | ---------------------------------------------------- | ------------------------------------------ |
+| success    | `boolean`                                            | Whether the build completed without errors |
+| outputs    | `{ name: string; path?: string; content: string }[]` | Per-output results                         |
+| errors     | `BuildError[]`                                       | Present when `success` is false            |
+| lintResult | `LintResult`                                         | Lint results when linting is enabled       |
 
 ## BuildError
 
-| Property | Type | Description |
-|----------|------|-------------|
-| message | `string` | Human-readable error message |
-| code | `ErrorCode` | Error category |
-| path | `string` | File path when relevant |
-| tokenPath | `string` | Token path when relevant |
-| severity | `'error' \| 'warning'` | Severity level |
-| suggestions | `string[]` | Suggested fixes (e.g. similar token names) |
+| Property    | Type                   | Description                                |
+| ----------- | ---------------------- | ------------------------------------------ |
+| message     | `string`               | Human-readable error message               |
+| code        | `ErrorCode`            | Error category                             |
+| path        | `string`               | File path when relevant                    |
+| tokenPath   | `string`               | Token path when relevant                   |
+| severity    | `'error' \| 'warning'` | Severity level                             |
+| suggestions | `string[]`             | Suggested fixes (e.g. similar token names) |
 
 ## ErrorCode
 
 `'TOKEN_REFERENCE' | 'CIRCULAR_REFERENCE' | 'VALIDATION' | 'FILE_OPERATION' | 'CONFIGURATION' | 'BASE_PERMUTATION' | 'MODIFIER' | 'UNKNOWN'`
 
 <Aside type="tip" title="Error handling">
-Use `build()` when you want to handle errors programmatically. Use `buildOrThrow()` when you want failures to propagate as exceptions.
+  Use `build()` when you want to handle errors programmatically. Use `buildOrThrow()` when you want
+  failures to propagate as exceptions.
 </Aside>
 
 <LinkCard

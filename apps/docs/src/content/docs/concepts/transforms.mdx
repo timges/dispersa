@@ -33,45 +33,45 @@ import { colorToHex, nameKebabCase, dimensionToRem } from 'dispersa/transforms'
 
 Color transforms convert the [color object](https://www.designtokens.org/TR/2025.10/color/) (`colorSpace` + `components`) into platform-specific strings.
 
-| Transform | Input | Output |
-|-----------|-------|--------|
-| colorToHex() | `{ colorSpace: 'srgb', components: [0, 0.4, 0.8] }` | `#0066cc` |
-| colorToRgb() | same | `rgb(0, 102, 204)` |
-| colorToHsl() | same | `hsl(210, 100%, 40%)` |
-| colorToOklch() | same | `oklch(...)` |
-| colorToOklab() | same | `oklab(...)` |
-| colorToLch() | same | `lch(...)` |
-| colorToLab() | same | `lab(...)` |
-| colorToHwb() | same | `hwb(...)` |
-| colorToColorFunction() | same | color function string |
+| Transform              | Input                                               | Output                |
+| ---------------------- | --------------------------------------------------- | --------------------- |
+| colorToHex()           | `{ colorSpace: 'srgb', components: [0, 0.4, 0.8] }` | `#0066cc`             |
+| colorToRgb()           | same                                                | `rgb(0, 102, 204)`    |
+| colorToHsl()           | same                                                | `hsl(210, 100%, 40%)` |
+| colorToOklch()         | same                                                | `oklch(...)`          |
+| colorToOklab()         | same                                                | `oklab(...)`          |
+| colorToLch()           | same                                                | `lch(...)`            |
+| colorToLab()           | same                                                | `lab(...)`            |
+| colorToHwb()           | same                                                | `hwb(...)`            |
+| colorToColorFunction() | same                                                | color function string |
 
 ## Dimension Transforms
 
-| Transform | Input | Output |
-|-----------|-------|--------|
-| dimensionToPx() | `{ value: 16, unit: 'px' }` | `"16px"` |
-| dimensionToRem() | `{ value: 16, unit: 'px' }` | `"1rem"` |
-| dimensionToUnitless() | `{ value: 16, unit: 'px' }` | `16` |
+| Transform             | Input                       | Output   |
+| --------------------- | --------------------------- | -------- |
+| dimensionToPx()       | `{ value: 16, unit: 'px' }` | `"16px"` |
+| dimensionToRem()      | `{ value: 16, unit: 'px' }` | `"1rem"` |
+| dimensionToUnitless() | `{ value: 16, unit: 'px' }` | `16`     |
 
 ## Name Transforms
 
-| Transform | Input (name) | Output |
-|-----------|--------------|--------|
-| nameKebabCase() | `color.action.brand` | `color-action-brand` |
-| nameCamelCase() | `color.action.brand` | `colorActionBrand` |
-| namePascalCase() | `color.action.brand` | `ColorActionBrand` |
-| nameSnakeCase() | `color.action.brand` | `color_action_brand` |
-| nameConstantCase() | `color.action.brand` | `COLOR_ACTION_BRAND` |
-| namePrefix('ds-') | `color-action-brand` | `ds-color-action-brand` |
+| Transform            | Input (name)         | Output                     |
+| -------------------- | -------------------- | -------------------------- |
+| nameKebabCase()      | `color.action.brand` | `color-action-brand`       |
+| nameCamelCase()      | `color.action.brand` | `colorActionBrand`         |
+| namePascalCase()     | `color.action.brand` | `ColorActionBrand`         |
+| nameSnakeCase()      | `color.action.brand` | `color_action_brand`       |
+| nameConstantCase()   | `color.action.brand` | `COLOR_ACTION_BRAND`       |
+| namePrefix('ds-')    | `color-action-brand` | `ds-color-action-brand`    |
 | nameSuffix('-token') | `color-action-brand` | `color-action-brand-token` |
 
 ## Other Transforms
 
-| Transform | Input | Output |
-|-----------|-------|--------|
-| fontWeightToNumber() | `"bold"` | `700` |
-| durationToMs() | `{ value: 0.2, unit: 's' }` | `{ value: 200, unit: 'ms' }` |
-| durationToSeconds() | `{ value: 200, unit: 'ms' }` | `{ value: 0.2, unit: 's' }` |
+| Transform            | Input                        | Output                       |
+| -------------------- | ---------------------------- | ---------------------------- |
+| fontWeightToNumber() | `"bold"`                     | `700`                        |
+| durationToMs()       | `{ value: 0.2, unit: 's' }`  | `{ value: 200, unit: 'ms' }` |
+| durationToSeconds()  | `{ value: 200, unit: 'ms' }` | `{ value: 0.2, unit: 's' }`  |
 
 ## Global vs. Per-Output Transforms
 
@@ -79,11 +79,15 @@ Color transforms convert the [color object](https://www.designtokens.org/TR/2025
 - **Per-output** — Transforms in `OutputConfig` apply after global transforms, only for that output.
 
 **Execution order example:**
+
 - Global: `nameKebabCase()` (applies to all outputs)
 - Per-output (CSS): `colorToHex()` (applies only to the CSS output)
 
 ```typescript
-await dispersa.build({
+import { build, css } from 'dispersa'
+
+await build({
+  resolver: './tokens.resolver.json',
   transforms: [nameKebabCase()],
   outputs: [
     css({

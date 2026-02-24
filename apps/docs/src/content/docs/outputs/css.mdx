@@ -17,30 +17,27 @@ import { css } from 'dispersa'
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| name | string | — | Unique output identifier |
-| file | string or function | — | Output path (supports `{*context*}` interpolation for modifiers) |
-| preset | 'bundle' \| 'standalone' \| 'modifier' | 'bundle' | Output preset |
-| selector | string or SelectorFunction | ':root' | CSS selector |
-| mediaQuery | string or MediaQueryFunction | — | Media query wrapper |
-| preserveReferences | boolean | false | Emit `var()` for aliases |
-| minify | boolean | false | Minify output |
-| transforms | Transform[] | — | Per-output transforms (`nameKebabCase()` is always applied first) |
-| filters | Filter[] | — | Per-output filters |
+| Option             | Type                                   | Default  | Description                                                       |
+| ------------------ | -------------------------------------- | -------- | ----------------------------------------------------------------- |
+| name               | string                                 | —        | Unique output identifier                                          |
+| file               | string or function                     | —        | Output path (supports `{*context*}` interpolation for modifiers)  |
+| preset             | 'bundle' \| 'standalone' \| 'modifier' | 'bundle' | Output preset                                                     |
+| selector           | string or SelectorFunction             | ':root'  | CSS selector                                                      |
+| mediaQuery         | string or MediaQueryFunction           | —        | Media query wrapper                                               |
+| preserveReferences | boolean                                | false    | Emit `var()` for aliases                                          |
+| minify             | boolean                                | false    | Minify output                                                     |
+| transforms         | Transform[]                            | —        | Per-output transforms (`nameKebabCase()` is always applied first) |
+| filters            | Filter[]                               | —        | Per-output filters                                                |
 
 ## Basic Example
 
 ```typescript
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { colorToHex, dimensionToPx } from 'dispersa/transforms'
 
-const dispersa = new Dispersa({
+await build({
   resolver: './tokens.resolver.json',
   buildPath: './dist',
-})
-
-await dispersa.build({
   outputs: [
     css({
       name: 'tokens',
@@ -86,7 +83,7 @@ Output:
   --color-brand-primary: #0066cc;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-brand-primary: #66aaff;
 }
 ```
