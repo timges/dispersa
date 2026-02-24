@@ -1,5 +1,19 @@
 # dispersa
 
+## 1.0.0
+
+### Major Changes
+
+- [`6db9b0e`](https://github.com/dispersa-core/dispersa/commit/6db9b0e1f0246ea9579812bf469d532a3e8a340c) Thanks [@timges](https://github.com/timges)! - - [BREAKING] rework dispersa api to be functional insted of class based. The classbased approach was unnecessary, cause consecutive builds with the same instance are unlikely + the state the instance holds is very little. Functional exposure improves the DX by a lot.
+
+### Minor Changes
+
+- [`6db9b0e`](https://github.com/dispersa-core/dispersa/commit/6db9b0e1f0246ea9579812bf469d532a3e8a340c) Thanks [@timges](https://github.com/timges)! - - introduce comprehensive linting api
+
+- [`6db9b0e`](https://github.com/dispersa-core/dispersa/commit/6db9b0e1f0246ea9579812bf469d532a3e8a340c) Thanks [@timges](https://github.com/timges)! - - unifiy metadata rendering (description, deprecation, ...) and resolve inconsistencies between output targets
+
+- [`6db9b0e`](https://github.com/dispersa-core/dispersa/commit/6db9b0e1f0246ea9579812bf469d532a3e8a340c) Thanks [@timges](https://github.com/timges)! - - improve path-schema linting rule. It's stable now and offers good performance [O(2 * n]) through DP processing
+
 ## 0.4.3
 
 ### Patch Changes
