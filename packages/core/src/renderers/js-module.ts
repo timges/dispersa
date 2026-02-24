@@ -10,9 +10,10 @@ import {
   stripInternalMetadata,
 } from '@renderers/bundlers/utils'
 import { buildNestedTokenObject, getSortedTokenEntries } from '@shared/utils/token-utils'
-import type { ResolvedTokens } from '@tokens/types'
+import type { ResolvedToken, ResolvedTokens } from '@tokens/types'
 import prettier from 'prettier'
 
+import { buildTokenDeprecationComment, buildTokenDescriptionComment } from './metadata'
 import { outputTree } from './output-tree'
 import type { JsModuleRendererOptions, RenderContext, RenderOutput, Renderer } from './types'
 
@@ -62,27 +63,17 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
 
   private async formatTokens(
     tokens: ResolvedTokens,
-    options: JsModuleRendererOptions,
+    options: Required<JsModuleRendererOptions>,
   ): Promise<string> {
-    const opts: Required<JsModuleRendererOptions> = {
-      preset: options.preset ?? 'standalone',
-      structure: options.structure ?? 'nested',
-      minify: options.minify ?? false,
-      moduleName: options.moduleName ?? 'tokens',
-      generateHelper: options.generateHelper ?? false,
-    }
-
     const lines: string[] = []
-    lines.push(...this.formatAsObject(tokens, opts))
+    lines.push(...this.formatAsObject(tokens, options))
 
     const code = lines.join('\n')
 
-    // Skip prettier formatting if minify is true
-    if (opts.minify) {
+    if (options.minify) {
       return code
     }
 
-    // Use Prettier for consistent, high-quality formatting
     return await prettier.format(code, {
       parser: 'babel',
       printWidth: 80,
@@ -94,24 +85,65 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
     })
   }
 
-  /**
-   * Format as default export object
-   */
   private formatAsObject(
     tokens: ResolvedTokens,
     options: Required<JsModuleRendererOptions>,
   ): string[] {
     const lines: string[] = []
-    const tokenObj = this.tokensToPlainObject(tokens, options.structure)
+    const tokenMap = this.buildTokenMap(tokens)
     const varName = options.moduleName !== '' ? options.moduleName : 'tokens'
 
-    lines.push(`const ${varName} = {`)
-    this.addObjectProperties(lines, tokenObj, 1)
-    lines.push('}')
+    if (options.structure === 'flat') {
+      lines.push(`const ${varName} = {`)
+      this.addFlatProperties(lines, tokens, 1)
+      lines.push('}')
+    } else {
+      lines.push(`const ${varName} = {`)
+      const tokenObj = this.tokensToPlainObject(tokens, 'nested')
+      this.addNestedProperties(lines, tokenObj, tokenMap, 1)
+      lines.push('}')
+    }
+
     lines.push('')
     lines.push(`export default ${varName}`)
 
     return lines
+  }
+
+  private buildTokenMap(tokens: ResolvedTokens): Map<string, ResolvedToken> {
+    const map = new Map<string, ResolvedToken>()
+    for (const [name, token] of Object.entries(tokens)) {
+      map.set(name, token)
+    }
+    return map
+  }
+
+  private addFlatProperties(lines: string[], tokens: ResolvedTokens, indent: number): void {
+    const indentStr = '  '.repeat(indent)
+    const sortedEntries = getSortedTokenEntries(tokens)
+
+    for (let i = 0; i < sortedEntries.length; i++) {
+      const [name, token] = sortedEntries[i]!
+      const isLast = i === sortedEntries.length - 1
+
+      this.pushTokenComments(lines, token, indentStr)
+
+      lines.push(
+        `${indentStr}${this.quoteKey(name)}: ${JSON.stringify(token.$value)}${isLast ? '' : ','}`,
+      )
+    }
+  }
+
+  private pushTokenComments(lines: string[], token: ResolvedToken, indent: string): void {
+    const deprecationComment = buildTokenDeprecationComment(token, 'js')
+    if (deprecationComment) {
+      lines.push(`${indent}${deprecationComment}`)
+    }
+
+    const descriptionComment = buildTokenDescriptionComment(token, 'js')
+    if (descriptionComment) {
+      lines.push(`${indent}${descriptionComment}`)
+    }
   }
 
   private tokensToPlainObject(
@@ -129,7 +161,12 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
     return result
   }
 
-  private addObjectProperties(lines: string[], obj: Record<string, unknown>, indent: number): void {
+  private addNestedProperties(
+    lines: string[],
+    obj: Record<string, unknown>,
+    tokenMap: Map<string, ResolvedToken>,
+    indent: number,
+  ): void {
     const indentStr = '  '.repeat(indent)
     const entries = Object.entries(obj).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
 
@@ -143,6 +180,11 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
       const isNestedObject = typeof value === 'object' && value !== null && !Array.isArray(value)
 
       if (!isNestedObject) {
+        const token = tokenMap.get(key)
+        if (token) {
+          this.pushTokenComments(lines, token, indentStr)
+        }
+
         lines.push(
           `${indentStr}${this.quoteKey(key)}: ${JSON.stringify(value)}${isLast ? '' : ','}`,
         )
@@ -150,14 +192,11 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
       }
 
       lines.push(`${indentStr}${this.quoteKey(key)}: {`)
-      this.addObjectProperties(lines, value as Record<string, unknown>, indent + 1)
+      this.addNestedProperties(lines, value as Record<string, unknown>, tokenMap, indent + 1)
       lines.push(`${indentStr}}${isLast ? '' : ','}`)
     }
   }
 
-  /**
-   * Quote key if necessary
-   */
   private quoteKey(key: string): string {
     if (/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key)) {
       return key
@@ -166,25 +205,6 @@ export class JsModuleRenderer implements Renderer<JsModuleRendererOptions> {
   }
 }
 
-/**
- * JavaScript module renderer factory function
- *
- * Creates a JS module renderer with the specified preset and options.
- *
- * @param preset - Output preset: 'bundle' or 'standalone'
- * @param options - JS module formatting options (structure, minify, moduleName, generateHelper)
- * @returns Renderer instance
- *
- * @example
- * ```typescript
- * outputs: [{
- *   name: 'js',
- *   renderer: jsRenderer(),
- *   options: { preset: 'standalone', structure: 'flat', moduleName: 'tokens' },
- *   file: 'tokens.js'
- * }]
- * ```
- */
 export function jsRenderer(): Renderer<JsModuleRendererOptions> {
   const rendererInstance = new JsModuleRenderer()
   return {

@@ -15,6 +15,8 @@ import type { ResolverDocument } from '@resolution/types'
 import { ConfigurationError } from '@shared/errors/index'
 import type { ResolvedTokens } from '@tokens/types'
 
+import { buildModifierComment } from '../metadata'
+
 import type { BundleDataItem } from './types'
 import type { BundleMetadata } from './utils'
 import { buildMetadata, normalizeModifierInputs, stripInternalMetadata } from './utils'
@@ -165,7 +167,7 @@ export async function bundleAsJsModule(
   const metadata = buildMetadata(resolver)
   const jsBlocks: string[] = []
 
-  for (const { tokens, modifierInputs } of bundleData) {
+  for (const { tokens, modifierInputs, isBase } of bundleData) {
     const cleanTokens = stripInternalMetadata(tokens)
     const key = buildStableDashKey({
       modifierInputs,
@@ -173,10 +175,34 @@ export async function bundleAsJsModule(
       defaults: metadata.defaults,
     })
     const camelKey = toCamelKey(key)
+
+    const normalizedInputs = normalizeModifierInputs(modifierInputs)
+    const modifierParts: string[] = []
+    for (const dim of metadata.dimensions) {
+      const value = normalizedInputs[dim.toLowerCase()]
+      if (value) {
+        modifierParts.push(`${dim}=${value}`)
+      }
+    }
+
     const formattedJs = await formatTokens(cleanTokens)
     const tokenObject = extractObjectFromJsModule(formattedJs)
     const indentedObject = tokenObject.replace(/\n/g, '\n  ')
-    jsBlocks.push(`  // ${key}\n  ${JSON.stringify(camelKey)}: ${indentedObject}`)
+
+    let comment: string
+    if (modifierParts.length > 0) {
+      const modifierPart = modifierParts[0]!
+      const eqIndex = modifierPart.indexOf('=')
+      const modifier = modifierPart.slice(0, eqIndex)
+      const context = modifierPart.slice(eqIndex + 1)
+      comment = buildModifierComment(modifier, context)
+    } else if (isBase) {
+      comment = '// Base permutation'
+    } else {
+      comment = `// ${key}`
+    }
+
+    jsBlocks.push(`  ${comment}\n  ${JSON.stringify(camelKey)}: ${indentedObject}`)
   }
 
   return assembleJsBundle(metadata, jsBlocks, options?.generateHelper ?? false)

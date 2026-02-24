@@ -41,6 +41,7 @@ import {
   toSafeIdentifier,
 } from './bundlers/utils'
 import type { TokenGroup } from './bundlers/utils'
+import { buildKotlinDeprecationAnnotation, buildTokenDescriptionComment } from './metadata'
 import { outputTree } from './output-tree'
 import type { RenderContext, RenderOutput, Renderer } from './types'
 
@@ -164,10 +165,6 @@ function resolveColorFormat(format?: string): 'argb_hex' | 'argb_float' {
 
 function escapeKotlinString(str: string): string {
   return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\$/g, '\\$')
-}
-
-function escapeKDoc(str: string): string {
-  return str.replace(/\*\//g, '* /').replace(/\r?\n/g, ' ').trim()
 }
 
 function formatKotlinNumber(value: number): string {
@@ -346,9 +343,16 @@ export class AndroidRenderer implements Renderer<AndroidRendererOptions> {
         const kotlinValue = this.formatKotlinValue(token, options, baseDepth + 1)
         const annotation = this.typeAnnotationSuffix(token)
 
-        if (token.$description) {
-          lines.push(`${valIndent}/** ${escapeKDoc(token.$description)} */`)
+        const descriptionComment = buildTokenDescriptionComment(token, 'kotlin')
+        if (descriptionComment) {
+          lines.push(`${valIndent}${descriptionComment}`)
         }
+
+        const deprecation = buildKotlinDeprecationAnnotation(token)
+        if (deprecation) {
+          lines.push(`${valIndent}${deprecation}`)
+        }
+
         lines.push(
           `${valIndent}${options.visPrefix}val ${kotlinName}${annotation} = ${kotlinValue}`,
         )
@@ -399,8 +403,14 @@ export class AndroidRenderer implements Renderer<AndroidRendererOptions> {
     const kotlinValue = this.formatKotlinValue(token, options, depth)
     const annotation = this.typeAnnotationSuffix(token)
 
-    if (token.$description) {
-      lines.push(`${pad}/** ${escapeKDoc(token.$description)} */`)
+    const descriptionComment = buildTokenDescriptionComment(token, 'kotlin')
+    if (descriptionComment) {
+      lines.push(`${pad}${descriptionComment}`)
+    }
+
+    const deprecation = buildKotlinDeprecationAnnotation(token)
+    if (deprecation) {
+      lines.push(`${pad}${deprecation}`)
     }
 
     lines.push(`${pad}${options.visPrefix}val ${kotlinName}${annotation} = ${kotlinValue}`)

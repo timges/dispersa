@@ -32,6 +32,7 @@ import {
   resolveFileName,
   stripInternalMetadata,
 } from './bundlers/utils'
+import { buildTokenDeprecationComment, buildTokenDescriptionComment } from './metadata'
 import { outputTree } from './output-tree'
 import type {
   MediaQueryFunction,
@@ -150,6 +151,17 @@ export class TailwindRenderer implements Renderer<TailwindRendererOptions> {
     for (const [, token] of getSortedTokenEntries(tokens)) {
       const varName = this.buildVariableName(token)
       const varValue = this.formatValue(token)
+
+      const deprecationComment = buildTokenDeprecationComment(token, 'tailwind')
+      if (deprecationComment) {
+        lines.push(`${indent}${deprecationComment}${newline}`)
+      }
+
+      const descriptionComment = buildTokenDescriptionComment(token, 'tailwind')
+      if (descriptionComment) {
+        lines.push(`${indent}${descriptionComment}${newline}`)
+      }
+
       lines.push(`${indent}--${varName}:${space}${varValue};${newline}`)
     }
 
@@ -187,6 +199,17 @@ export class TailwindRenderer implements Renderer<TailwindRendererOptions> {
     for (const [, token] of getSortedTokenEntries(tokens)) {
       const varName = this.buildVariableName(token)
       const varValue = this.formatValue(token)
+
+      const deprecationComment = buildTokenDeprecationComment(token, 'tailwind')
+      if (deprecationComment) {
+        lines.push(`${tokenIndent}${deprecationComment}${newline}`)
+      }
+
+      const descriptionComment = buildTokenDescriptionComment(token, 'tailwind')
+      if (descriptionComment) {
+        lines.push(`${tokenIndent}${descriptionComment}${newline}`)
+      }
+
       lines.push(`${tokenIndent}--${varName}:${space}${varValue};${newline}`)
     }
 

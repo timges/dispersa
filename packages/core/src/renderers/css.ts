@@ -13,11 +13,7 @@ import {
   isDurationObject,
 } from '@processing/transforms/built-in/duration-converter'
 import { ConfigurationError } from '@shared/errors/index'
-import {
-  formatDeprecationMessage,
-  getPureAliasReferenceName,
-  getSortedTokenEntries,
-} from '@shared/utils/token-utils'
+import { getPureAliasReferenceName, getSortedTokenEntries } from '@shared/utils/token-utils'
 import type {
   DimensionValue,
   DurationValue,
@@ -41,6 +37,7 @@ import {
   resolveSelector,
   stripInternalMetadata,
 } from './bundlers/utils'
+import { buildTokenDeprecationComment, buildTokenDescriptionComment } from './metadata'
 import type { CssRendererOptions, RenderContext, RenderOutput, Renderer } from './types'
 
 type ResolvedCssOptions = Omit<CssRendererOptions, 'selector' | 'mediaQuery'> & {
@@ -60,10 +57,6 @@ type CompositeLeaf = {
 }
 
 export class CssRenderer implements Renderer<CssRendererOptions> {
-  private sanitizeCssCommentText(text: string): string {
-    return text.replace(/\*\//g, '*\\/').replace(/\r?\n/g, ' ').trim()
-  }
-
   async format(context: RenderContext, options?: CssRendererOptions): Promise<RenderOutput> {
     const opts: CssRendererOptions = {
       preset: options?.preset ?? 'bundle',
@@ -176,13 +169,14 @@ export class CssRenderer implements Renderer<CssRendererOptions> {
   ): void {
     const entries = this.buildCssEntries(token, tokens, referenceTokens, preserveReferences)
 
-    if (token.$deprecated != null && token.$deprecated !== false) {
-      const deprecationMsg = formatDeprecationMessage(token, '', 'comment')
-      lines.push(`${indent}/* ${this.sanitizeCssCommentText(deprecationMsg)} */${newline}`)
+    const deprecationComment = buildTokenDeprecationComment(token, 'css')
+    if (deprecationComment) {
+      lines.push(`${indent}${deprecationComment}${newline}`)
     }
 
-    if (token.$description && token.$description !== '') {
-      lines.push(`${indent}/* ${this.sanitizeCssCommentText(token.$description)} */${newline}`)
+    const descriptionComment = buildTokenDescriptionComment(token, 'css')
+    if (descriptionComment) {
+      lines.push(`${indent}${descriptionComment}${newline}`)
     }
 
     for (const entry of entries) {

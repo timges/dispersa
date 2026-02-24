@@ -35,6 +35,7 @@ import {
   stripInternalMetadata,
   toSafeIdentifier,
 } from './bundlers/utils'
+import { buildSwiftDeprecationAttribute, buildTokenDescriptionComment } from './metadata'
 import { outputTree } from './output-tree'
 import type { RenderContext, RenderOutput, Renderer } from './types'
 
@@ -252,10 +253,16 @@ export class IosRenderer implements Renderer<IosRendererOptions> {
       const swiftValue = this.formatSwiftValue(token, options)
       const typeAnnotation = this.getTypeAnnotation(token)
       const annotation = typeAnnotation ? `: ${typeAnnotation}` : ''
-      const docComment = this.buildDocComment(token, indent)
+      const docComment = buildTokenDescriptionComment(token, 'swift')
       if (docComment) {
-        lines.push(docComment)
+        lines.push(`${indent}${docComment}`)
       }
+
+      const deprecationAttr = buildSwiftDeprecationAttribute(token)
+      if (deprecationAttr) {
+        lines.push(`${indent}${deprecationAttr}`)
+      }
+
       lines.push(`${indent}${access} ${staticPrefix}${swiftName}${annotation} = ${swiftValue}`)
     }
   }
@@ -271,17 +278,6 @@ export class IosRenderer implements Renderer<IosRendererOptions> {
     }
 
     return Array.from(imports).sort()
-  }
-
-  /**
-   * Builds a `///` doc comment from a token's `$description`, if present.
-   */
-  private buildDocComment(token: ResolvedToken, indent: string): string | undefined {
-    if (!token.$description) {
-      return undefined
-    }
-
-    return `${indent}/// ${token.$description}`
   }
 
   /**

@@ -276,7 +276,7 @@ export type { AndroidRendererOptions } from './android'
  *
  * @example
  * ```typescript
- * const result = await dispersa.build(config)
+ * const result = await build(config)
  * if (result.success) {
  *   result.outputs.forEach(output => {
  *     console.log(`Generated ${output.name}: ${output.path}`)
