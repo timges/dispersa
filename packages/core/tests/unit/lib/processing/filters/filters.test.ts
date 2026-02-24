@@ -1,15 +1,8 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-import type { ResolvedToken } from '../../../../../src/index'
+import { describe, expect, it } from 'vitest'
 import { byPath, byType, isAlias, isBase, type Filter } from '../../../../../src/filters'
-import { Dispersa } from '../../../../../src/dispersa'
+import type { ResolvedToken } from '../../../../../src/index'
 
 describe('Filter Integration Tests', () => {
-  let dispersa: Dispersa
-
-  beforeEach(() => {
-    dispersa = new Dispersa()
-  })
-
   describe('Built-in Filters', () => {
     it('should filter tokens by type using byType factory', async () => {
       const colorFilter = byType('color')

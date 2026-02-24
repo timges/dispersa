@@ -8,10 +8,10 @@
  */
 
 import {
+  type LintConfig,
   type LintPlugin,
   type LintRule,
   type LintRuleContext,
-  type LintConfig,
 } from 'dispersa/lint'
 
 const ColorPaletteMessages = {

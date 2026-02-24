@@ -1,21 +1,14 @@
 import { rm } from 'node:fs/promises'
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-import { BuildConfig, css, json, js } from '../../../src/index'
-import { Dispersa } from '../../../src/dispersa'
+import { build } from '../../../src/dispersa'
+import { BuildConfig, css, js, json } from '../../../src/index'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Multi-Output Build Integration', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-multioutput-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -48,7 +41,7 @@ describe('Multi-Output Build Integration', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs.length).toBe(3)
@@ -59,7 +52,7 @@ describe('Multi-Output Build Integration', () => {
     })
 
     it('generates correct number of outputs across outputs and permutations', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: testBuildPath,
         outputs: [
@@ -92,5 +85,3 @@ describe('Multi-Output Build Integration', () => {
     })
   })
 })
-
-

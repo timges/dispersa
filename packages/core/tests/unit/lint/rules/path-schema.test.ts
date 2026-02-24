@@ -188,4 +188,151 @@ describe('path-schema rule', () => {
       expect(reports).toHaveLength(0)
     })
   })
+
+  describe('optional segments', () => {
+    it('should accept path when required segment present', async () => {
+      const tokens = createMockTokens({
+        'color.button.primary': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color', 'spacing'], optional: false },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary', 'secondary'] },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(0)
+    })
+
+    it('should accept path when optional segment omitted', async () => {
+      const tokens = createMockTokens({
+        'color.primary': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color', 'spacing'], optional: false },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary', 'secondary'] },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(0)
+    })
+
+    it('should accept path with gap when middle segment optional', async () => {
+      const tokens = createMockTokens({
+        'color.primary': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color'], optional: false },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary'], optional: false },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(0)
+    })
+
+    it('should reject path when required segment missing', async () => {
+      const tokens = createMockTokens({
+        primary: { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color'], optional: false },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary'], optional: false },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(1)
+      expect(reports[0]?.messageId).toBe('INVALID_PATH')
+    })
+
+    it('should handle multiple optional segments', async () => {
+      const tokens = createMockTokens({
+        color: { type: 'color' },
+        'color.button': { type: 'color' },
+        'color.primary': { type: 'color' },
+        'color.button.primary': { type: 'color' },
+        'color.button.primary.hover': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color'], optional: true },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary'], optional: true },
+          modifier: { values: ['hover'], optional: true },
+        },
+        paths: ['{category}.{component}.{state}.{modifier}'],
+      })
+
+      expect(reports).toHaveLength(0)
+    })
+
+    it('should work with all segments optional', async () => {
+      const tokens = createMockTokens({
+        anything: { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          a: { values: [/.*/], optional: true },
+          b: { values: [/.*/], optional: true },
+          c: { values: [/.*/], optional: true },
+        },
+        paths: ['{a}.{b}.{c}'],
+      })
+
+      // 'anything' should match since all segments are optional
+      expect(reports.length).toBe(0)
+    })
+
+    it('should reject path with too many segments when all required', async () => {
+      const tokens = createMockTokens({
+        'color.button.primary.extra': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color'] },
+          component: { values: ['button'] },
+          state: { values: ['primary'] },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(1)
+      expect(reports[0]?.messageId).toBe('INVALID_PATH')
+    })
+
+    it('should validate segment values even when optional segment omitted', async () => {
+      const tokens = createMockTokens({
+        'color.invalid_state': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color'] },
+          component: { values: ['button'], optional: true },
+          state: { values: ['primary', 'secondary'] },
+        },
+        paths: ['{category}.{component}.{state}'],
+      })
+
+      expect(reports).toHaveLength(1)
+      expect(reports[0]?.messageId).toBe('INVALID_PATH')
+    })
+  })
 })

@@ -13,8 +13,8 @@
 import type {
   AnyLintRule,
   LintPlugin,
-  LintRuleContext,
   LintReportDescriptor,
+  LintRuleContext,
 } from '../../../src/lint/types'
 import type {
   InternalResolvedToken,

@@ -13,7 +13,7 @@
  * to different categories (spacing vs font sizes).
  */
 
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { byPath, byType } from 'dispersa/filters'
 import { colorToHex } from 'dispersa/transforms'
 import path from 'node:path'
@@ -22,12 +22,9 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: path.join(__dirname, 'output'),
-})
-
-const result = await dispersa.build({
   outputs: [
     // Colors: byType('color') works because "color" is a unique DTCG type
     css({

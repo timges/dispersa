@@ -4,16 +4,14 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { css, json, js } from '../../src/index'
-import { colorToHex, dimensionToRem } from '../../src/transforms'
+import { build, resolveAllPermutations, resolveTokens } from '../../src/dispersa'
+import { css, json } from '../../src/index'
 import type { ResolverDocument } from '../../src/resolution/types'
-import { Dispersa } from '../../src/dispersa'
+import { colorToHex, dimensionToRem } from '../../src/transforms'
 
 describe('In-Memory API E2E Tests', () => {
   describe('Inline Resolver Documents', () => {
     it('should accept inline resolver object instead of file path', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -43,7 +41,7 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const tokens = await dispersa.resolveTokens(resolver)
+      const tokens = await resolveTokens(resolver)
 
       expect(tokens).toBeDefined()
       expect(tokens['color.primary']).toBeDefined()
@@ -55,8 +53,6 @@ describe('In-Memory API E2E Tests', () => {
     })
 
     it('should support modifiers in inline resolver', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -103,8 +99,8 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/theme' }],
       }
 
-      const lightTokens = await dispersa.resolveTokens(resolver, { theme: 'light' })
-      const darkTokens = await dispersa.resolveTokens(resolver, { theme: 'dark' })
+      const lightTokens = await resolveTokens(resolver, { theme: 'light' })
+      const darkTokens = await resolveTokens(resolver, { theme: 'dark' })
 
       expect(lightTokens['color.background'].$value).toEqual({
         colorSpace: 'srgb',
@@ -117,8 +113,6 @@ describe('In-Memory API E2E Tests', () => {
     })
 
     it('should resolve all permutations from inline resolver', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -165,16 +159,14 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/scale' }],
       }
 
-      const permutations = await dispersa.resolveAllPermutations(resolver)
+      const permutations = await resolveAllPermutations(resolver)
 
-      expect(permutations).toHaveLength(2) // mobile and desktop
+      expect(permutations).toHaveLength(2)
       expect(permutations.some((p) => p.modifierInputs.scale === 'mobile')).toBe(true)
       expect(permutations.some((p) => p.modifierInputs.scale === 'desktop')).toBe(true)
     })
 
     it('should return modifier inputs using resolver casing', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -203,20 +195,16 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/Theme' }],
       }
 
-      const permutations = await dispersa.resolveAllPermutations(resolver)
-      const contexts = permutations.map((perm) => perm.modifierInputs.Theme)
+      const permutations = await resolveAllPermutations(resolver)
+      const contexts = permutations.map(
+        (perm: { modifierInputs: { Theme: string } }) => perm.modifierInputs.Theme,
+      )
 
       expect(contexts).toContain('LightMode')
       expect(contexts).toContain('DarkMode')
     })
 
     it('should skip reference resolution in warn mode without throwing', async () => {
-      const dispersa = new Dispersa({
-        validation: {
-          mode: 'warn',
-        },
-      })
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -235,15 +223,13 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const tokens = await dispersa.resolveTokens(resolver)
+      const tokens = await resolveTokens(resolver, {}, { mode: 'warn' })
       expect(tokens['color.primary']?.$ref).toBe('#/missing/value')
     })
   })
 
   describe('In-Memory Build Without Filesystem', () => {
     it('should build in-memory and return content without writing files', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -269,7 +255,7 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver,
         outputs: [
           css({
@@ -307,8 +293,6 @@ describe('In-Memory API E2E Tests', () => {
     })
 
     it('should build with bundle renderers in-memory', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -355,7 +339,7 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/theme' }],
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver,
         outputs: [
           css({
@@ -376,8 +360,6 @@ describe('In-Memory API E2E Tests', () => {
     })
 
     it('should handle multiple permutations in-memory', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -413,7 +395,7 @@ describe('In-Memory API E2E Tests', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/modifiers/scale' }],
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver,
         outputs: [
           json({
@@ -448,8 +430,6 @@ describe('In-Memory API E2E Tests', () => {
 
   describe('Custom Transform Pipeline In-Memory', () => {
     it('should apply custom transforms without filesystem', async () => {
-      const dispersa = new Dispersa()
-
       const resolver: ResolverDocument = {
         version: '2025.10',
         sets: {
@@ -480,7 +460,7 @@ describe('In-Memory API E2E Tests', () => {
         },
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver,
         outputs: [
           json({

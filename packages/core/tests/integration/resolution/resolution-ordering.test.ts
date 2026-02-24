@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { resolveTokens } from '../../../dist'
 import type { ResolverDocument } from '../../../src/resolution/types'
-import { Dispersa } from '../../../src/dispersa'
-
 const srgb = (red: number, green: number, blue: number) => ({
   colorSpace: 'srgb',
   components: [red, green, blue],
@@ -41,8 +40,7 @@ describe('Resolution order behavior', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/sets/override' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.primary']?.$value).toEqual(srgb(1, 0, 0))
   })
@@ -79,8 +77,7 @@ describe('Resolution order behavior', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }, { $ref: '#/sets/override' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.primary']?.$value).toEqual(srgb(1, 0, 0))
   })

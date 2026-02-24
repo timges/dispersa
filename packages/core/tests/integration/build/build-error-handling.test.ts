@@ -1,21 +1,13 @@
 import { rm } from 'node:fs/promises'
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-import { BuildConfig, css } from '../../../src/index'
-import { Dispersa } from '../../../src/dispersa'
+import { build, BuildConfig, css, resolveTokens } from '../../../src/index'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Build Error Handling', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-errors-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -36,7 +28,7 @@ describe('Build Error Handling', () => {
         ],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(false)
       expect(result.errors).toBeDefined()
@@ -44,7 +36,7 @@ describe('Build Error Handling', () => {
 
     it('handles invalid modifier context', async () => {
       await expect(async () => {
-        await dispersa.resolveTokens(resolverPath, {
+        await resolveTokens(resolverPath, {
           theme: 'nonexistent-theme',
           scale: 'tablet',
         })
@@ -73,7 +65,7 @@ describe('Build Error Handling', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(false)
       expect(result.errors).toBeDefined()
@@ -105,7 +97,7 @@ describe('Build Error Handling', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(false)
       expect(result.errors).toBeDefined()
@@ -113,5 +105,3 @@ describe('Build Error Handling', () => {
     })
   })
 })
-
-

@@ -1,22 +1,15 @@
 import { rm } from 'node:fs/promises'
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
+import { build, buildPermutation } from '../../../src/dispersa'
 import { BuildConfig, css, json } from '../../../src/index'
 import { nameKebabCase } from '../../../src/transforms'
-import { Dispersa } from '../../../src/dispersa'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Build Permutation Generation', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-permutations-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -39,7 +32,7 @@ describe('Build Permutation Generation', () => {
       }
 
       const modifierInputs = { theme: 'dark', scale: 'desktop' }
-      const result = await dispersa.buildPermutation(config, modifierInputs)
+      const result = await buildPermutation(config, modifierInputs)
       expect(result.success).toBe(true)
       const outputs = result.outputs
 
@@ -65,7 +58,7 @@ describe('Build Permutation Generation', () => {
         ],
       }
 
-      const result = await dispersa.buildPermutation(config, {})
+      const result = await buildPermutation(config, {})
       expect(result.success).toBe(true)
       const outputs = result.outputs
 
@@ -95,7 +88,7 @@ describe('Build Permutation Generation', () => {
         ],
       }
 
-      const result = await dispersa.buildPermutation(config, { theme: 'light', scale: 'mobile' })
+      const result = await buildPermutation(config, { theme: 'light', scale: 'mobile' })
       expect(result.success).toBe(true)
       const outputs = result.outputs
 
@@ -107,7 +100,7 @@ describe('Build Permutation Generation', () => {
 
   describe('Auto-Generated Permutations', () => {
     it('auto-generates all permutations when none specified', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: testBuildPath,
         outputs: [
@@ -130,5 +123,3 @@ describe('Build Permutation Generation', () => {
     })
   })
 })
-
-

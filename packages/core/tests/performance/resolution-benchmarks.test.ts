@@ -7,17 +7,11 @@
  * - Permutation generation: < 200ms for 10 modifiers
  */
 
-import { describe, expect, it, beforeEach } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { ResolverDocument } from '../../src/resolution/types'
-import { Dispersa } from '../../src/dispersa'
+import { resolveAllPermutations, resolveTokens } from '../../src/dispersa'
 
 describe('Resolution Performance Benchmarks', () => {
-  let dispersa: Dispersa
-
-  beforeEach(() => {
-    dispersa = new Dispersa()
-  })
-
   /**
    * Helper to generate test tokens
    */
@@ -54,7 +48,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(50) // Should be very fast for small sets
       console.log(`  ✓ Resolved 10 tokens in ${time.toFixed(2)}ms`)
@@ -73,7 +67,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(100)
       console.log(`  ✓ Resolved 100 tokens in ${time.toFixed(2)}ms`)
@@ -92,7 +86,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(200) // Baseline: < 200ms for 1000 tokens
       console.log(`  ✓ Resolved 1000 tokens in ${time.toFixed(2)}ms`)
@@ -126,7 +120,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(100)
       console.log(`  ✓ Resolved 100 aliases in ${time.toFixed(2)}ms`)
@@ -159,7 +153,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(50)
       console.log(`  ✓ Resolved 20-deep alias chain in ${time.toFixed(2)}ms`)
@@ -195,7 +189,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveAllPermutations(resolver))
+      const time = await measureTime(() => resolveAllPermutations(resolver))
 
       // 2 themes × 3 scales = 6 permutations
       expect(time).toBeLessThan(300) // Baseline: < 300ms for 6 permutations with 100 tokens each
@@ -224,7 +218,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveAllPermutations(resolver))
+      const time = await measureTime(() => resolveAllPermutations(resolver))
 
       expect(time).toBeLessThan(200)
       console.log(`  ✓ Generated 5 permutations (50 tokens each) in ${time.toFixed(2)}ms`)
@@ -258,7 +252,7 @@ describe('Resolution Performance Benchmarks', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(150)
       console.log(`  ✓ Resolved nested groups (10 levels × 10 tokens) in ${time.toFixed(2)}ms`)
@@ -285,7 +279,7 @@ describe('Resolution Performance Benchmarks', () => {
         ],
       }
 
-      const time = await measureTime(() => dispersa.resolveTokens(resolver))
+      const time = await measureTime(() => resolveTokens(resolver))
 
       expect(time).toBeLessThan(250)
       console.log(`  ✓ Resolved 3 sets (200 tokens each) in ${time.toFixed(2)}ms`)
@@ -309,7 +303,7 @@ describe('Resolution Performance Benchmarks', () => {
       const times: number[] = []
 
       for (let i = 0; i < iterations; i++) {
-        const time = await measureTime(() => dispersa.resolveTokens(resolver))
+        const time = await measureTime(() => resolveTokens(resolver))
         times.push(time)
       }
 

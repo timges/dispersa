@@ -8,7 +8,16 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { type RenderContext, type Renderer, Dispersa, css, js, json } from 'dispersa'
+import {
+  type RenderContext,
+  type Renderer,
+  build,
+  css,
+  generateTypes,
+  js,
+  json,
+  resolveTokens,
+} from 'dispersa'
 import { isAlias } from 'dispersa/filters'
 import { colorToColorFunction, dimensionToPx, nameCamelCase } from 'dispersa/transforms'
 
@@ -16,11 +25,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const outputDir = path.join(__dirname, 'output')
-
-const dispersa = new Dispersa({
-  resolver: path.join(__dirname, 'tokens.resolver.json'),
-  buildPath: outputDir,
-})
 
 const myRenderer = {
   name: 'my-renderer',
@@ -44,7 +48,9 @@ const modifierSelector = (modifierName: string, context: string, isBase: boolean
   return `:root[data-${modifierName}="${context}"]`
 }
 
-const result = await dispersa.build({
+const result = await build({
+  resolver: path.join(__dirname, 'tokens.resolver.json'),
+  buildPath: outputDir,
   outputs: [
     {
       name: 'my-renderer',
@@ -95,12 +101,12 @@ if (!result.success) {
 }
 
 // Generate TypeScript types (using light/desktop/comfortable as base)
-const tokens = await dispersa.resolveTokens(path.join(__dirname, 'tokens.resolver.json'), {
+const tokens = await resolveTokens(path.join(__dirname, 'tokens.resolver.json'), {
   theme: 'light',
   platform: 'desktop',
   density: 'comfortable',
 })
-await dispersa.generateTypes(tokens, path.join(outputDir, 'tokens.d.ts'), {
+await generateTypes(tokens, path.join(outputDir, 'tokens.d.ts'), {
   moduleName: 'DesignTokens',
 })
 

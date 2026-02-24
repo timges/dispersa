@@ -10,7 +10,7 @@
  * - Running lint as part of build or standalone
  */
 
-import { Dispersa, css } from 'dispersa'
+import { build, css, lint } from 'dispersa'
 import { dispersaPlugin } from 'dispersa/lint'
 import { colorToHex, dimensionToRem, fontWeightToNumber } from 'dispersa/transforms'
 import path from 'node:path'
@@ -22,11 +22,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const lintOnly = process.argv.includes('--lint-only')
-
-const dispersa = new Dispersa({
-  resolver: path.join(__dirname, 'tokens.resolver.json'),
-  buildPath: path.join(__dirname, 'output'),
-})
 
 const lintPlugins = {
   dispersa: dispersaPlugin,
@@ -77,14 +72,12 @@ console.log('='.repeat(60))
 
 console.log('\n--- Running standalone lint with recommended config ---')
 try {
-  const result = await dispersa.lint(path.join(__dirname, 'tokens.resolver.json'), {
+  const result = await lint({
+    resolver: path.join(__dirname, 'tokens.resolver.json'),
     plugins: lintPlugins,
     rules: {
       ...lintRules,
-      'dispersa/path-schema': [
-        'warn',
-        { segments: pathSchemaSegments, paths: pathSchemaPatterns, strict: true },
-      ],
+      'dispersa/path-schema': ['warn', { segments: pathSchemaSegments, paths: pathSchemaPatterns }],
     },
     failOnError: false,
   })
@@ -112,17 +105,16 @@ if (lintOnly) {
 
 console.log('\n--- Running build with lint enabled ---')
 
-const result = await dispersa.build({
+const result = await build({
+  resolver: path.join(__dirname, 'tokens.resolver.json'),
+  buildPath: path.join(__dirname, 'output'),
   lint: {
     enabled: true,
     failOnError: false,
     plugins: lintPlugins,
     rules: {
       ...lintRules,
-      'dispersa/path-schema': [
-        'warn',
-        { segments: pathSchemaSegments, paths: pathSchemaPatterns, strict: false },
-      ],
+      'dispersa/path-schema': ['warn', { segments: pathSchemaSegments, paths: pathSchemaPatterns }],
     },
   },
   outputs: [

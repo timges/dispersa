@@ -3,7 +3,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { Dispersa, css, js, json } from 'dispersa'
+import { build, css, js, json } from 'dispersa'
 import { nameCamelCase } from 'dispersa/transforms'
 import fs from 'fs-extra'
 
@@ -12,15 +12,12 @@ const __dirname = path.dirname(__filename)
 
 const outputDir = path.join(__dirname, 'output')
 
-const dispersa = new Dispersa({
-  resolver: path.join(__dirname, 'tokens.resolver.json'),
-  buildPath: outputDir,
-})
-
 async function buildAll() {
   await fs.emptyDir(outputDir)
 
-  const result = await dispersa.build({
+  const result = await build({
+    buildPath: outputDir,
+    resolver: path.join(__dirname, 'tokens.resolver.json'),
     outputs: [
       css({
         name: 'css',

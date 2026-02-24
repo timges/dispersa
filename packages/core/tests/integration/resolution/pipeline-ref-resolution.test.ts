@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { resolveTokens } from '../../../dist'
 import type { ResolverDocument } from '../../../src/resolution/types'
-import { Dispersa } from '../../../src/dispersa'
 
 describe('Pipeline $ref Resolution', () => {
   it('resolves embedded JSON Pointer $ref values before flattening', async () => {
@@ -38,8 +38,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.derived'].$value).toEqual({
       colorSpace: 'srgb',
@@ -73,8 +72,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.alias'].$value).toEqual({
       colorSpace: 'srgb',
@@ -109,8 +107,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['colors.primary'].$value).toEqual({
       colorSpace: 'srgb',
@@ -147,8 +144,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.viaAlias'].$type).toBe('color')
     expect(tokens['color.viaRef'].$type).toBe('color')
@@ -184,8 +180,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    await expect(dispersa.resolveTokens(resolver)).rejects.toThrow(/type mismatch/i)
+    await expect(resolveTokens(resolver)).rejects.toThrow(/type mismatch/i)
   })
 
   it('warns and preserves unresolved $ref objects in warn mode', async () => {
@@ -212,8 +207,7 @@ describe('Pipeline $ref Resolution', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa({ validation: { mode: 'warn' } })
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver, {}, { mode: 'warn' })
 
     expect(tokens['color.base'].$value).toEqual({
       colorSpace: 'srgb',

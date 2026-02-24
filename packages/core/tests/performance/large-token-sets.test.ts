@@ -4,9 +4,10 @@
  */
 
 import { describe, expect, it } from 'vitest'
+import { resolveAllPermutations, resolveTokens } from '../../dist'
 import { css } from '../../src/builders'
+import { build } from '../../src/dispersa'
 import type { ResolverDocument } from '../../src/resolution/types'
-import { Dispersa } from '../../src/dispersa'
 
 describe('Large Token Sets (Enterprise Scale)', () => {
   function generateLargeTokenSet(count: number): Record<string, any> {
@@ -27,7 +28,6 @@ describe('Large Token Sets (Enterprise Scale)', () => {
   }
 
   it('should handle 5000 tokens (enterprise scale)', async () => {
-    const dispersa = new Dispersa()
     const resolver: ResolverDocument = {
       version: '2025.10',
       sets: {
@@ -38,7 +38,7 @@ describe('Large Token Sets (Enterprise Scale)', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const time = await measureTime(() => dispersa.resolveTokens(resolver))
+    const time = await measureTime(() => resolveTokens(resolver))
 
     expect(time).toBeLessThan(1000) // 1 second for 5000 tokens
     console.log(
@@ -47,7 +47,6 @@ describe('Large Token Sets (Enterprise Scale)', () => {
   })
 
   it('should build 5000 tokens with multiple formats', async () => {
-    const dispersa = new Dispersa()
     const resolver: ResolverDocument = {
       version: '2025.10',
       sets: {
@@ -59,7 +58,7 @@ describe('Large Token Sets (Enterprise Scale)', () => {
     }
 
     const time = await measureTime(() =>
-      dispersa.build({
+      build({
         resolver,
         outputs: [
           css({
@@ -77,7 +76,6 @@ describe('Large Token Sets (Enterprise Scale)', () => {
   })
 
   it('should handle multiple permutations at scale', async () => {
-    const dispersa = new Dispersa()
     const resolver: ResolverDocument = {
       version: '2025.10',
       sets: {
@@ -99,7 +97,7 @@ describe('Large Token Sets (Enterprise Scale)', () => {
     }
 
     // 2 themes × 3 platforms = 6 permutations × 1000 tokens
-    const time = await measureTime(() => dispersa.resolveAllPermutations(resolver))
+    const time = await measureTime(() => resolveAllPermutations(resolver))
 
     expect(time).toBeLessThan(1500)
     console.log(`  ✓ Generated 6 permutations (1000 tokens each) in ${time.toFixed(2)}ms`)

@@ -79,7 +79,7 @@ export type CssBuilderConfig = BuilderConfigBase & CssRendererOptions
  *
  * The `file` property is optional. When omitted, content is returned in-memory instead
  * of being written to disk. The `file` property is required when `buildPath` is provided
- * to `dispersa.build()`.
+ * to `build()`.
  *
  * @example Basic CSS bundle with transforms
  * ```typescript
@@ -120,7 +120,7 @@ export type CssBuilderConfig = BuilderConfigBase & CssRendererOptions
  *   selector: ':root'
  * })
  * // Use without buildPath to get content in-memory
- * const result = await dispersa.build({ outputs: [config] })
+ * const result = await build({ outputs: [config] })
  * console.log(result.outputs[0].content)
  * ```
  */
@@ -171,7 +171,7 @@ export type JsonBuilderConfig = BuilderConfigBase & JsonRendererOptions
  *
  * The `file` property is optional. When omitted, content is returned in-memory instead
  * of being written to disk. The `file` property is required when `buildPath` is provided
- * to `dispersa.build()`.
+ * to `build()`.
  *
  * @example Standalone JSON with flat structure
  * ```typescript
@@ -208,7 +208,7 @@ export type JsonBuilderConfig = BuilderConfigBase & JsonRendererOptions
  *   structure: 'flat'
  * })
  * // Use without buildPath to get content in-memory
- * const result = await dispersa.build({ outputs: [config] })
+ * const result = await build({ outputs: [config] })
  * console.log(result.outputs[0].content)
  * ```
  */
@@ -260,7 +260,7 @@ export type JsBuilderConfig = BuilderConfigBase & JsModuleRendererOptions
  *
  * The `file` property is optional. When omitted, content is returned in-memory instead
  * of being written to disk. The `file` property is required when `buildPath` is provided
- * to `dispersa.build()`.
+ * to `build()`.
  *
  * @example Bundle JS with helper function
  * ```typescript
@@ -299,7 +299,7 @@ export type JsBuilderConfig = BuilderConfigBase & JsModuleRendererOptions
  *   structure: 'flat'
  * })
  * // Use without buildPath to get content in-memory
- * const result = await dispersa.build({ outputs: [config] })
+ * const result = await build({ outputs: [config] })
  * console.log(result.outputs[0].content)
  * ```
  */

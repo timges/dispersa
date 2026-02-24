@@ -1,5 +1,4 @@
 import { execSync } from 'node:child_process'
-import { createHash } from 'node:crypto'
 import { readFile, readdir, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -34,19 +33,10 @@ function sortKeys<T>(obj: Record<string, T>): Record<string, T> {
   return sorted
 }
 
-/** Hash file contents for compact snapshots of large outputs. */
-function hashContents(files: Record<string, string>): Record<string, string> {
-  const hashed: Record<string, string> = {}
-  for (const [filePath, content] of Object.entries(files)) {
-    hashed[filePath] = createHash('sha256').update(content).digest('hex').slice(0, 16)
-  }
-  return hashed
-}
-
 // Small examples: snapshot full file contents
 const smallExamples = ['typescript-starter', 'split-by-type', 'custom-plugins']
 
-// Large examples: snapshot file list with content hashes (too many permutations for inline content)
+// Examples with many file permutations
 const largeExamples = ['multi-format', 'multi-brand', 'atlassian-semantic', 'multi-platform']
 
 for (const example of smallExamples) {
@@ -86,8 +76,7 @@ for (const example of largeExamples) {
 
     it('should produce expected file structure and content', async () => {
       const files = sortKeys(await readOutputFiles(outputDir))
-      const hashed = sortKeys(hashContents(files))
-      expect(hashed).toMatchSnapshot()
+      expect(files).toMatchSnapshot()
     })
   })
 }

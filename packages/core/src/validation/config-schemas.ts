@@ -486,6 +486,12 @@ export const buildConfigSchema = {
       description: 'Resolver configuration - file path or ResolverDocument object',
     },
     buildPath: { type: 'string' },
+    validation: {
+      type: 'object',
+      properties: {
+        mode: { type: 'string', enum: ['error', 'warn', 'off'] },
+      },
+    },
     hooks: {
       type: 'object',
       description: 'Global build lifecycle hooks (functions, validated at runtime)',

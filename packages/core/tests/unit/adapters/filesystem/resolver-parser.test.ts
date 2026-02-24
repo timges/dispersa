@@ -2,10 +2,10 @@
  * @fileoverview Unit tests for ResolverParser
  */
 
-import { describe, expect, it, vi, beforeEach } from 'vitest'
+import * as fs from 'node:fs/promises'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ResolverParser } from '../../../../src/adapters/filesystem/resolver-parser'
 import type { ResolverDocument } from '../../../../src/resolution/types'
-import * as fs from 'node:fs/promises'
 
 // Mock fs module
 vi.mock('node:fs/promises', () => ({

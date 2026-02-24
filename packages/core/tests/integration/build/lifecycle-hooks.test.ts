@@ -7,9 +7,9 @@
 
 import { describe, expect, it, vi } from 'vitest'
 
-import { Dispersa, css, json } from '../../../src/index'
-import { colorToHex, nameKebabCase } from '../../../src/transforms'
+import { build, css, json } from '../../../src/index'
 import type { ResolverDocument } from '../../../src/resolution/types'
+import { colorToHex, nameKebabCase } from '../../../src/transforms'
 
 /**
  * Minimal inline resolver for hook tests (no filesystem needed)
@@ -44,11 +44,11 @@ function createTestResolver(): ResolverDocument {
 describe('Lifecycle Hooks', () => {
   describe('onBuildStart', () => {
     it('should fire before build processing', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildStart = vi.fn()
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({ name: 'json', preset: 'standalone', structure: 'flat' }),
@@ -66,11 +66,11 @@ describe('Lifecycle Hooks', () => {
     })
 
     it('should fire before onBuildEnd', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const callOrder: string[] = []
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({ name: 'json', preset: 'standalone', structure: 'flat' }),
@@ -85,11 +85,11 @@ describe('Lifecycle Hooks', () => {
     })
 
     it('should support async hooks', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       let hookCompleted = false
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({ name: 'json', preset: 'standalone', structure: 'flat' }),
@@ -108,11 +108,11 @@ describe('Lifecycle Hooks', () => {
 
   describe('onBuildEnd', () => {
     it('should fire after all outputs complete', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildEnd = vi.fn()
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({ name: 'json', preset: 'standalone', structure: 'flat' }),
@@ -130,7 +130,7 @@ describe('Lifecycle Hooks', () => {
     })
 
     it('should receive errors when build fails', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildEnd = vi.fn()
 
@@ -138,7 +138,7 @@ describe('Lifecycle Hooks', () => {
         format: () => { throw new Error('Renderer failure') },
       }
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [{ name: 'bad', renderer: badRenderer }],
         hooks: { onBuildEnd },
@@ -152,7 +152,7 @@ describe('Lifecycle Hooks', () => {
     })
 
     it('should fire even when build partially fails', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildEnd = vi.fn()
 
@@ -160,7 +160,7 @@ describe('Lifecycle Hooks', () => {
         format: () => { throw new Error('Renderer failure') },
       }
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({ name: 'good-json', preset: 'standalone', structure: 'flat' }),
@@ -179,12 +179,12 @@ describe('Lifecycle Hooks', () => {
 
   describe('Per-output onBuildStart', () => {
     it('should fire per-output onBuildStart before processing each output', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildStartJson = vi.fn()
       const onBuildStartCss = vi.fn()
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({
@@ -215,12 +215,12 @@ describe('Lifecycle Hooks', () => {
 
   describe('Per-output onBuildEnd', () => {
     it('should fire right after each output finishes', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildEndJson = vi.fn()
       const onBuildEndCss = vi.fn()
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({
@@ -248,7 +248,7 @@ describe('Lifecycle Hooks', () => {
     })
 
     it('should receive failure result when the output throws', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const onBuildEnd = vi.fn()
 
@@ -256,7 +256,7 @@ describe('Lifecycle Hooks', () => {
         format: () => { throw new Error('Renderer failure') },
       }
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           { name: 'bad', renderer: badRenderer, hooks: { onBuildEnd } },
@@ -273,11 +273,11 @@ describe('Lifecycle Hooks', () => {
 
   describe('Hook execution order', () => {
     it('should fire: global start first, per-output start before its end, global end last', async () => {
-      const dispersa = new Dispersa()
+
       const resolver = createTestResolver()
       const callOrder: string[] = []
 
-      await dispersa.build({
+      await build({
         resolver,
         outputs: [
           json({

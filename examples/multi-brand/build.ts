@@ -8,7 +8,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { Dispersa, css, js, json } from 'dispersa'
+import { build, css, generateTypes, js, json, resolveTokens } from 'dispersa'
 import { nameCamelCase } from 'dispersa/transforms'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -16,12 +16,9 @@ const __dirname = path.dirname(__filename)
 
 const outputDir = path.join(__dirname, 'output')
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: outputDir,
-})
-
-const result = await dispersa.build({
   outputs: [
     json({
       name: 'json-standalone',
@@ -66,14 +63,14 @@ if (!result.success) {
 }
 
 // Generate TypeScript types
-const tokens = await dispersa.resolveTokens(path.join(__dirname, 'tokens.resolver.json'), {
+const tokens = await resolveTokens(path.join(__dirname, 'tokens.resolver.json'), {
   brand: 'primary',
   platform: 'web',
   density: 'comfortable',
   theme: 'light',
   accessibility: 'standard',
 })
-await dispersa.generateTypes(tokens, path.join(outputDir, 'types/tokens.d.ts'), {
+await generateTypes(tokens, path.join(outputDir, 'types/tokens.d.ts'), {
   moduleName: 'EnterpriseDesignSystem',
 })
 

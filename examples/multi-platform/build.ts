@@ -13,7 +13,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { Dispersa, android, css, ios, tailwind } from 'dispersa'
+import { android, build, css, ios, tailwind } from 'dispersa'
 import { colorToHex, dimensionToPx, nameKebabCase } from 'dispersa/transforms'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -21,12 +21,9 @@ const __dirname = path.dirname(__filename)
 
 const outputDir = path.join(__dirname, 'output')
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: outputDir,
-})
-
-const result = await dispersa.build({
   outputs: [
     // Web — CSS custom properties (bundle: base + overrides per theme)
     css({

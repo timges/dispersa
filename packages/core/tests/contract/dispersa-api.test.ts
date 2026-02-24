@@ -1,52 +1,29 @@
 /**
- * @fileoverview Contract tests for Dispersa class API
+ * @fileoverview Contract tests for Dispersa functional API
  *
- * These tests verify that the Dispersa class maintains a stable API.
- * Method signatures, return types, and behavior contracts must remain consistent.
+ * These tests verify that the Dispersa functions maintain a stable API.
+ * Function signatures, return types, and behavior contracts must remain consistent.
  */
 
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import {
+  build,
+  buildOrThrow,
+  buildPermutation,
+  generateTypes,
+  lint,
+  resolveAllPermutations,
+  resolveTokens,
+} from '../../src/dispersa'
+import { dispersaPlugin } from '../../src/lint'
 import { json } from '../../src/index'
 import type { ResolverDocument } from '../../src/resolution/types'
-import { Dispersa } from '../../src/dispersa'
+import { getFixturePath } from '../utils/test-helpers'
 
-describe('Dispersa Class API Contract', () => {
-  let dispersa: Dispersa
-
-  beforeEach(() => {
-    dispersa = new Dispersa()
-  })
-
-  describe('Constructor', () => {
-    it('should be callable without arguments', () => {
-      expect(() => new Dispersa()).not.toThrow()
-    })
-
-    it('should accept optional configuration', () => {
-      expect(() => new Dispersa({})).not.toThrow()
-      expect(() => new Dispersa({ buildPath: './output' })).not.toThrow()
-    })
-
-    it('should accept resolver in constructor', () => {
-      const resolver: ResolverDocument = {
-        version: '2025.10',
-        sets: {
-          base: {
-            sources: [
-              { spacing: { small: { $value: { value: 8, unit: 'px' }, $type: 'dimension' } } },
-            ],
-          },
-        },
-        resolutionOrder: [{ $ref: '#/sets/base' }],
-      }
-      expect(() => new Dispersa({ resolver })).not.toThrow()
-    })
-  })
-
-  describe('resolveTokens() Method', () => {
-    it('should exist as a method', () => {
-      expect(dispersa).toHaveProperty('resolveTokens')
-      expect(typeof dispersa.resolveTokens).toBe('function')
+describe('Dispersa Functional API Contract', () => {
+  describe('resolveTokens()', () => {
+    it('should exist as a function', () => {
+      expect(typeof resolveTokens).toBe('function')
     })
 
     it('should accept ResolverDocument as first argument', async () => {
@@ -62,7 +39,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      await expect(dispersa.resolveTokens(resolver)).resolves.toBeDefined()
+      await expect(resolveTokens(resolver)).resolves.toBeDefined()
     })
 
     it('should accept optional modifier inputs as second argument', async () => {
@@ -84,8 +61,8 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      await expect(dispersa.resolveTokens(resolver, { theme: 'light' })).resolves.toBeDefined()
-      await expect(dispersa.resolveTokens(resolver, {})).resolves.toBeDefined()
+      await expect(resolveTokens(resolver, { theme: 'light' })).resolves.toBeDefined()
+      await expect(resolveTokens(resolver, {})).resolves.toBeDefined()
     })
 
     it('should return a Promise', () => {
@@ -101,7 +78,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const result = dispersa.resolveTokens(resolver)
+      const result = resolveTokens(resolver)
       expect(result).toBeInstanceOf(Promise)
     })
 
@@ -125,7 +102,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const tokens = await dispersa.resolveTokens(resolver)
+      const tokens = await resolveTokens(resolver)
       expect(tokens).toBeDefined()
       expect(typeof tokens).toBe('object')
       expect(tokens['color.red']).toBeDefined()
@@ -136,10 +113,9 @@ describe('Dispersa Class API Contract', () => {
     })
   })
 
-  describe('resolveAllPermutations() Method', () => {
-    it('should exist as a method', () => {
-      expect(dispersa).toHaveProperty('resolveAllPermutations')
-      expect(typeof dispersa.resolveAllPermutations).toBe('function')
+  describe('resolveAllPermutations()', () => {
+    it('should exist as a function', () => {
+      expect(typeof resolveAllPermutations).toBe('function')
     })
 
     it('should accept resolver as argument', async () => {
@@ -155,7 +131,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      await expect(dispersa.resolveAllPermutations(resolver)).resolves.toBeDefined()
+      await expect(resolveAllPermutations(resolver)).resolves.toBeDefined()
     })
 
     it('should return a Promise of array', () => {
@@ -171,7 +147,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const result = dispersa.resolveAllPermutations(resolver)
+      const result = resolveAllPermutations(resolver)
       expect(result).toBeInstanceOf(Promise)
     })
 
@@ -194,7 +170,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const permutations = await dispersa.resolveAllPermutations(resolver)
+      const permutations = await resolveAllPermutations(resolver)
       expect(Array.isArray(permutations)).toBe(true)
 
       permutations.forEach((perm) => {
@@ -206,10 +182,9 @@ describe('Dispersa Class API Contract', () => {
     })
   })
 
-  describe('build() Method', () => {
-    it('should exist as a method', () => {
-      expect(dispersa).toHaveProperty('build')
-      expect(typeof dispersa.build).toBe('function')
+  describe('build()', () => {
+    it('should exist as a function', () => {
+      expect(typeof build).toBe('function')
     })
 
     it('should accept BuildConfig object', async () => {
@@ -236,7 +211,7 @@ describe('Dispersa Class API Contract', () => {
         ],
       }
 
-      await expect(dispersa.build(config)).resolves.toBeDefined()
+      await expect(build(config)).resolves.toBeDefined()
     })
 
     it('should return a Promise', () => {
@@ -252,7 +227,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const result = dispersa.build({
+      const result = build({
         resolver,
         outputs: [
           json({
@@ -277,7 +252,7 @@ describe('Dispersa Class API Contract', () => {
         resolutionOrder: [{ $ref: '#/sets/base' }],
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver,
         outputs: [
           json({
@@ -295,7 +270,7 @@ describe('Dispersa Class API Contract', () => {
     })
 
     it('should include errors property when build fails', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: 'nonexistent.json',
         outputs: [
           json({
@@ -311,10 +286,30 @@ describe('Dispersa Class API Contract', () => {
     })
   })
 
-  describe('buildPermutation() Method', () => {
-    it('should exist as a method', () => {
-      expect(dispersa).toHaveProperty('buildPermutation')
-      expect(typeof dispersa.buildPermutation).toBe('function')
+  describe('buildOrThrow()', () => {
+    it('should exist as a function', () => {
+      expect(typeof buildOrThrow).toBe('function')
+    })
+
+    it('should throw on invalid resolver', async () => {
+      await expect(
+        buildOrThrow({
+          resolver: 'nonexistent.json',
+          outputs: [
+            json({
+              name: 'test',
+              file: 'test.json',
+              preset: 'standalone',
+            }),
+          ],
+        }),
+      ).rejects.toThrow()
+    })
+  })
+
+  describe('buildPermutation()', () => {
+    it('should exist as a function', () => {
+      expect(typeof buildPermutation).toBe('function')
     })
 
     it('should accept config first with optional modifier inputs', async () => {
@@ -341,7 +336,7 @@ describe('Dispersa Class API Contract', () => {
         ],
       }
 
-      await expect(dispersa.buildPermutation(config, {})).resolves.toMatchObject({
+      await expect(buildPermutation(config, {})).resolves.toMatchObject({
         success: true,
       })
     })
@@ -364,17 +359,16 @@ describe('Dispersa Class API Contract', () => {
         outputs: [json({ name: 'test', file: 'test.json', preset: 'standalone' })],
       }
 
-      const outputs = await dispersa.buildPermutation(config, {})
+      const outputs = await buildPermutation(config, {})
       expect(outputs.success).toBe(true)
       expect(Array.isArray(outputs.outputs)).toBe(true)
       expect(outputs.outputs.length).toBe(1)
     })
   })
 
-  describe('generateTypes() Method', () => {
-    it('should exist as a method', () => {
-      expect(dispersa).toHaveProperty('generateTypes')
-      expect(typeof dispersa.generateTypes).toBe('function')
+  describe('generateTypes()', () => {
+    it('should exist as a function', () => {
+      expect(typeof generateTypes).toBe('function')
     })
 
     it('should accept tokens, output path, and options', async () => {
@@ -388,54 +382,89 @@ describe('Dispersa Class API Contract', () => {
         },
       }
 
-      // Should not throw
       await expect(
-        dispersa.generateTypes(tokens, '/tmp/test.d.ts', { moduleName: 'Test' }),
+        generateTypes(tokens, '/tmp/test.d.ts', { moduleName: 'Test' }),
       ).resolves.toBeUndefined()
     })
   })
 
-  describe('API Consistency', () => {
-    it('should maintain method names across instances', () => {
-      const dispersa1 = new Dispersa()
-      const dispersa2 = new Dispersa()
+  describe('lint()', () => {
+    const resolverPath = getFixturePath('tokens.resolver.json')
 
-      expect(Object.keys(dispersa1).sort()).toEqual(Object.keys(dispersa2).sort())
+    it('should exist as a function', () => {
+      expect(typeof lint).toBe('function')
     })
 
-    it('should have all expected public methods', () => {
-      const expectedMethods = [
-        'resolveTokens',
-        'resolveAllPermutations',
-        'build',
-        'buildOrThrow',
-        'buildPermutation',
-        'generateTypes',
+    it('should accept LintOptions and return LintResult', async () => {
+      const result = await lint({
+        resolver: resolverPath,
+        plugins: { dispersa: dispersaPlugin },
+        rules: {},
+      })
+
+      expect(result).toBeDefined()
+      expect(result).toHaveProperty('issues')
+      expect(result).toHaveProperty('errorCount')
+      expect(result).toHaveProperty('warningCount')
+      expect(typeof result.errorCount).toBe('number')
+      expect(typeof result.warningCount).toBe('number')
+    })
+
+    it('should throw LintError when failOnError is true and errors exist', async () => {
+      await expect(
+        lint({
+          resolver: resolverPath,
+          plugins: { dispersa: dispersaPlugin },
+          rules: { 'dispersa/require-description': 'error' },
+        }),
+      ).rejects.toThrow()
+    })
+
+    it('should return result without throwing when failOnError is false', async () => {
+      const result = await lint({
+        resolver: resolverPath,
+        plugins: { dispersa: dispersaPlugin },
+        rules: { 'dispersa/require-description': 'error' },
+        failOnError: false,
+      })
+
+      expect(result).toBeDefined()
+      expect(result.errorCount).toBeGreaterThan(0)
+    })
+  })
+
+  describe('API Consistency', () => {
+    it('should have all expected public functions exported', () => {
+      const functions = [
+        resolveTokens,
+        resolveAllPermutations,
+        build,
+        buildOrThrow,
+        buildPermutation,
+        generateTypes,
+        lint,
       ]
 
-      expectedMethods.forEach((method) => {
-        expect(dispersa).toHaveProperty(method)
-        expect(typeof dispersa[method]).toBe('function')
+      functions.forEach((fn) => {
+        expect(typeof fn).toBe('function')
       })
     })
   })
 
   describe('Error Handling Contracts', () => {
     it('should reject with Error when resolver is invalid', async () => {
-      await expect(dispersa.resolveTokens('nonexistent.json')).rejects.toThrow()
+      await expect(resolveTokens('nonexistent.json')).rejects.toThrow()
     })
 
     it('should not throw synchronously for invalid input', async () => {
-      // Should not throw synchronously
-      const promise = dispersa.resolveTokens('invalid')
+      const promise = resolveTokens('invalid')
       expect(promise).toBeInstanceOf(Promise)
 
-      // But the promise should reject asynchronously
       await expect(promise).rejects.toThrow()
     })
 
     it('should return failed build result rather than throwing', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: 'invalid',
         outputs: [
           json({

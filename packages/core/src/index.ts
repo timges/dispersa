@@ -13,7 +13,17 @@
 // PRIMARY API
 // ============================================================================
 
-export { Dispersa } from './dispersa'
+export {
+  build,
+  buildOrThrow,
+  buildPermutation,
+  resolveTokens,
+  lint,
+  resolveAllPermutations,
+  generateTypes,
+} from './dispersa'
+
+export type { LintOptions } from './dispersa'
 
 // ============================================================================
 // PUBLIC TYPES

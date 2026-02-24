@@ -7,8 +7,10 @@ import { describe, expect, it } from 'vitest'
 import type { OutputConfig } from '../../src/config'
 import type { ResolverDocument } from '../../src/resolution/types'
 import type { ResolvedTokens } from '../../src/tokens/types'
-import { cssRenderer, jsRenderer, jsonRenderer } from '../../src/renderers'
 import type { RenderContext, Renderer } from '../../src/renderers/types'
+import { cssRenderer } from '../../src/renderers/css'
+import { jsonRenderer } from '../../src/renderers/json'
+import { jsRenderer } from '../../src/renderers/js-module'
 
 describe('Renderer Performance Benchmarks', () => {
   function generateTokens(count: number): ResolvedTokens {
@@ -32,6 +34,7 @@ describe('Renderer Performance Benchmarks', () => {
   }
 
   const baseResolver: ResolverDocument = {
+    version: '2025.10',
     sets: {},
     resolutionOrder: [],
   }

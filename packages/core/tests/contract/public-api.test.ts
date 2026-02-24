@@ -17,9 +17,18 @@ import * as TransformsAPI from '../../src/transforms'
 
 describe('Public API Contract Tests', () => {
   describe('Primary API', () => {
-    it('should export Dispersa class', () => {
-      expect(DispersaAPI).toHaveProperty('Dispersa')
-      expect(typeof DispersaAPI.Dispersa).toBe('function')
+    it('should export build function', () => {
+      expect(DispersaAPI).toHaveProperty('build')
+      expect(typeof DispersaAPI.build).toBe('function')
+    })
+
+    it('should export core functions', () => {
+      expect(DispersaAPI).toHaveProperty('build')
+      expect(DispersaAPI).toHaveProperty('buildOrThrow')
+      expect(DispersaAPI).toHaveProperty('resolveTokens')
+      expect(DispersaAPI).toHaveProperty('lint')
+      expect(DispersaAPI).toHaveProperty('resolveAllPermutations')
+      expect(DispersaAPI).toHaveProperty('generateTypes')
     })
   })
 
@@ -27,7 +36,24 @@ describe('Public API Contract Tests', () => {
     it('should export core APIs from main entry', () => {
       const actualExports = Object.keys(DispersaAPI)
 
-      expect(actualExports).toContain('Dispersa')
+      expect(actualExports).toContain('build')
+      expect(actualExports).toContain('css')
+      expect(actualExports).toContain('json')
+      expect(actualExports).toContain('js')
+      expect(actualExports).toContain('tailwind')
+      expect(actualExports).toContain('ios')
+      expect(actualExports).toContain('android')
+      expect(actualExports).toContain('outputTree')
+      expect(actualExports).toContain('isOutputTree')
+      expect(actualExports).toContain('defineRenderer')
+    })
+  })
+
+  describe('API Stability - Main Entry Point', () => {
+    it('should export core APIs from main entry', () => {
+      const actualExports = Object.keys(DispersaAPI)
+
+      expect(actualExports).toContain('build')
       expect(actualExports).toContain('css')
       expect(actualExports).toContain('json')
       expect(actualExports).toContain('js')

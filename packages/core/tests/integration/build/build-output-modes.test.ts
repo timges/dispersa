@@ -2,19 +2,15 @@ import { rm } from 'node:fs/promises'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
+import { build } from '../../../src/dispersa'
 import { css } from '../../../src/index'
-import { Dispersa } from '../../../src/dispersa'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Build Output Modes', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-output-modes-' + Date.now()
 
   beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
   })
 
   afterEach(async () => {
@@ -23,7 +19,7 @@ describe('Build Output Modes', () => {
 
   describe('Standalone Preset', () => {
     it('works with standalone preset', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: testBuildPath,
         permutations: [{ theme: 'light' }, { theme: 'dark' }],
@@ -50,7 +46,7 @@ describe('Build Output Modes', () => {
 
   describe('Bundle Preset', () => {
     it('works with bundle preset', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: testBuildPath,
         permutations: [{ theme: 'light' }, { theme: 'dark' }],
@@ -76,7 +72,7 @@ describe('Build Output Modes', () => {
 
   describe('API Consistency', () => {
     it('works with new API structure', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: testBuildPath,
         permutations: [{ theme: 'light' }],
@@ -95,5 +91,3 @@ describe('Build Output Modes', () => {
     })
   })
 })
-
-

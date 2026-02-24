@@ -10,7 +10,7 @@
  * - Bundle output (single file) and modifier output (per-theme folders)
  */
 
-import { Dispersa, css } from 'dispersa'
+import { build, css } from 'dispersa'
 import { colorToHex, dimensionToRem, fontWeightToNumber } from 'dispersa/transforms'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,12 +18,9 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: path.join(__dirname, 'output'),
-})
-
-const result = await dispersa.build({
   outputs: [
     css({
       name: 'css-bundle',

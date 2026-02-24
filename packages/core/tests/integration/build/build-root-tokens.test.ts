@@ -1,10 +1,10 @@
-import { afterEach, describe, expect, it } from 'vitest'
 import { rm } from 'node:fs/promises'
+import { afterEach, describe, expect, it } from 'vitest'
 
+import { build } from '../../../src/dispersa'
 import { BuildConfig, css, json } from '../../../src/index'
-import { nameKebabCase, colorToHex } from '../../../src/transforms'
-import { Dispersa } from '../../../src/dispersa'
 import type { ResolverDocument } from '../../../src/resolution/types'
+import { colorToHex, nameKebabCase } from '../../../src/transforms'
 
 const srgb = (r: number, g: number, b: number) => ({
   colorSpace: 'srgb',
@@ -61,7 +61,7 @@ describe('$root token output', () => {
   })
 
   it('CSS output uses clean names without $root', async () => {
-    const dispersa = new Dispersa()
+
     const config: BuildConfig = {
       resolver: inlineResolver,
       buildPath: testBuildPath,
@@ -77,7 +77,7 @@ describe('$root token output', () => {
       permutations: [{}],
     }
 
-    const result = await dispersa.build(config)
+    const result = await build(config)
 
     expect(result.success).toBe(true)
     const content = result.outputs[0]!.content
@@ -91,7 +91,7 @@ describe('$root token output', () => {
   })
 
   it('JSON flat output uses clean keys without $root', async () => {
-    const dispersa = new Dispersa()
+
     const config: BuildConfig = {
       resolver: inlineResolver,
       buildPath: testBuildPath,
@@ -107,7 +107,7 @@ describe('$root token output', () => {
       permutations: [{}],
     }
 
-    const result = await dispersa.build(config)
+    const result = await build(config)
 
     expect(result.success).toBe(true)
     const parsed = JSON.parse(result.outputs[0]!.content)
@@ -121,7 +121,7 @@ describe('$root token output', () => {
   })
 
   it('JSON nested output has no $root node in tree', async () => {
-    const dispersa = new Dispersa()
+
     const config: BuildConfig = {
       resolver: inlineResolver,
       buildPath: testBuildPath,
@@ -137,7 +137,7 @@ describe('$root token output', () => {
       permutations: [{}],
     }
 
-    const result = await dispersa.build(config)
+    const result = await build(config)
 
     expect(result.success).toBe(true)
     const parsed = JSON.parse(result.outputs[0]!.content)
@@ -152,7 +152,7 @@ describe('$root token output', () => {
   })
 
   it('alias referencing $root resolves correctly then strips', async () => {
-    const dispersa = new Dispersa()
+
     const config: BuildConfig = {
       resolver: inlineResolver,
       buildPath: testBuildPath,
@@ -168,7 +168,7 @@ describe('$root token output', () => {
       permutations: [{}],
     }
 
-    const result = await dispersa.build(config)
+    const result = await build(config)
 
     expect(result.success).toBe(true)
     const parsed = JSON.parse(result.outputs[0]!.content)
@@ -177,7 +177,7 @@ describe('$root token output', () => {
   })
 
   it('CSS preserveReferences resolves $root aliases as var() references', async () => {
-    const dispersa = new Dispersa()
+
     const config: BuildConfig = {
       resolver: inlineResolver,
       buildPath: testBuildPath,
@@ -194,7 +194,7 @@ describe('$root token output', () => {
       permutations: [{}],
     }
 
-    const result = await dispersa.build(config)
+    const result = await build(config)
 
     expect(result.success).toBe(true)
     const content = result.outputs[0]!.content

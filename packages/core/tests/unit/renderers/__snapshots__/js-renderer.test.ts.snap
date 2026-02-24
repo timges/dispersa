@@ -508,42 +508,19 @@ export default tokens
 
 exports[`JS Module Renderer > should generate flat structure when specified 1`] = `
 "const tokens = {
-  'animation.duration.fast': {
-    unit: 'ms',
-    value: 150,
-  },
-  'animation.duration.instant': {
-    unit: 'ms',
-    value: 0,
-  },
-  'animation.duration.normal': {
-    unit: 'ms',
-    value: 300,
-  },
-  'animation.duration.slow': {
-    unit: 'ms',
-    value: 500,
-  },
+  'animation.duration.fast': { value: 150, unit: 'ms' },
+  'animation.duration.instant': { value: 0, unit: 'ms' },
+  'animation.duration.normal': { value: 300, unit: 'ms' },
+  'animation.duration.slow': { value: 500, unit: 'ms' },
   'animation.easing.ease-in': [0.42, 0, 1, 1],
   'animation.easing.ease-in-out': [0.42, 0, 0.58, 1],
   'animation.easing.ease-out': [0, 0, 0.58, 1],
   'animation.easing.linear': [0, 0, 1, 1],
-  'color.base.background': {
-    colorSpace: 'srgb',
-    components: [1, 1, 1],
-  },
-  'color.base.primary': {
-    colorSpace: 'srgb',
-    components: [0, 0.482, 1],
-  },
-  'color.base.text': {
-    colorSpace: 'srgb',
-    components: [0.067, 0.094, 0.153],
-  },
-  'color.primitive.blue': {
-    colorSpace: 'hsl',
-    components: [240, 1, 0.5],
-  },
+  'color.base.background': { colorSpace: 'srgb', components: [1, 1, 1] },
+  'color.base.primary': { colorSpace: 'srgb', components: [0, 0.482, 1] },
+  'color.base.text': { colorSpace: 'srgb', components: [0.067, 0.094, 0.153] },
+  // Pure blue in HSL format
+  'color.primitive.blue': { colorSpace: 'hsl', components: [240, 1, 0.5] },
   'color.primitive.brand.blue': {
     colorSpace: 'srgb',
     components: [0, 0.482, 1],
@@ -596,115 +573,45 @@ exports[`JS Module Renderer > should generate flat structure when specified 1`] 
     colorSpace: 'srgb',
     components: [0.067, 0.094, 0.153],
   },
-  'color.primitive.green': {
-    colorSpace: 'srgb',
-    components: [0, 1, 0],
-  },
-  'color.primitive.red': {
-    colorSpace: 'srgb',
-    components: [1, 0, 0],
-  },
-  'dimension.base.0': {
-    unit: 'px',
-    value: 0,
-  },
-  'dimension.base.1': {
-    unit: 'rem',
-    value: 0.25,
-  },
-  'dimension.base.16': {
-    unit: 'rem',
-    value: 4,
-  },
-  'dimension.base.2': {
-    unit: 'rem',
-    value: 0.5,
-  },
-  'dimension.base.4': {
-    unit: 'rem',
-    value: 1,
-  },
-  'dimension.base.8': {
-    unit: 'rem',
-    value: 2,
-  },
-  'dimension.border-radius.full': {
-    unit: 'px',
-    value: 9999,
-  },
-  'dimension.border-radius.lg': {
-    unit: 'rem',
-    value: 0.5,
-  },
-  'dimension.border-radius.md': {
-    unit: 'rem',
-    value: 0.375,
-  },
-  'dimension.border-radius.none': {
-    unit: 'px',
-    value: 0,
-  },
-  'dimension.border-radius.sm': {
-    unit: 'rem',
-    value: 0.125,
-  },
-  'dimension.viewport.full-height': {
-    unit: 'rem',
-    value: 100,
-  },
-  'dimension.viewport.full-width': {
-    unit: 'rem',
-    value: 100,
-  },
+  // Pure green in DTCG format
+  'color.primitive.green': { colorSpace: 'srgb', components: [0, 1, 0] },
+  // Pure red in DTCG format
+  'color.primitive.red': { colorSpace: 'srgb', components: [1, 0, 0] },
+  'dimension.base.0': { value: 0, unit: 'px' },
+  'dimension.base.1': { value: 0.25, unit: 'rem' },
+  'dimension.base.16': { value: 4, unit: 'rem' },
+  'dimension.base.2': { value: 0.5, unit: 'rem' },
+  'dimension.base.4': { value: 1, unit: 'rem' },
+  'dimension.base.8': { value: 2, unit: 'rem' },
+  'dimension.border-radius.full': { value: 9999, unit: 'px' },
+  'dimension.border-radius.lg': { value: 0.5, unit: 'rem' },
+  'dimension.border-radius.md': { value: 0.375, unit: 'rem' },
+  'dimension.border-radius.none': { value: 0, unit: 'px' },
+  'dimension.border-radius.sm': { value: 0.125, unit: 'rem' },
+  'dimension.viewport.full-height': { value: 100, unit: 'rem' },
+  'dimension.viewport.full-width': { value: 100, unit: 'rem' },
+  // Monospace font as string
   'font.family.mono': 'Monaco, monospace',
+  // Sans-serif font stack
   'font.family.sans': ['Inter', 'system-ui', 'sans-serif'],
   'font.family.serif': ['Merriweather', 'Georgia', 'serif'],
-  'font.letterSpacing.normal': {
-    unit: 'rem',
-    value: 0,
-  },
-  'font.letterSpacing.tight': {
-    unit: 'rem',
-    value: -0.05,
-  },
-  'font.letterSpacing.wide': {
-    unit: 'rem',
-    value: 0.05,
-  },
+  'font.letterSpacing.normal': { value: 0, unit: 'rem' },
+  'font.letterSpacing.tight': { value: -0.05, unit: 'rem' },
+  'font.letterSpacing.wide': { value: 0.05, unit: 'rem' },
   'font.lineHeight.normal': 1.5,
   'font.lineHeight.relaxed': 1.75,
   'font.lineHeight.tight': 1.25,
-  'font.size.2xl': {
-    unit: 'rem',
-    value: 1.5,
-  },
-  'font.size.3xl': {
-    unit: 'rem',
-    value: 1.875,
-  },
-  'font.size.base': {
-    unit: 'rem',
-    value: 1,
-  },
-  'font.size.lg': {
-    unit: 'rem',
-    value: 1.125,
-  },
-  'font.size.sm': {
-    unit: 'rem',
-    value: 0.875,
-  },
-  'font.size.xl': {
-    unit: 'rem',
-    value: 1.25,
-  },
-  'font.size.xs': {
-    unit: 'rem',
-    value: 0.75,
-  },
+  'font.size.2xl': { value: 1.5, unit: 'rem' },
+  'font.size.3xl': { value: 1.875, unit: 'rem' },
+  'font.size.base': { value: 1, unit: 'rem' },
+  'font.size.lg': { value: 1.125, unit: 'rem' },
+  'font.size.sm': { value: 0.875, unit: 'rem' },
+  'font.size.xl': { value: 1.25, unit: 'rem' },
+  'font.size.xs': { value: 0.75, unit: 'rem' },
   'font.weight.bold': 700,
   'font.weight.light': 300,
   'font.weight.medium': 500,
+  // Named font weight
   'font.weight.normal': 'normal',
   'font.weight.semibold': 'semi-bold',
   'opacity.opaque': 1,
@@ -714,6 +621,7 @@ exports[`JS Module Renderer > should generate flat structure when specified 1`] 
     colorSpace: 'srgb',
     components: [0.4, 0.063, 0.949],
   },
+  // Deep alias chain
   'semantic.color.action.primary': {
     colorSpace: 'srgb',
     components: [0, 0.482, 1],
@@ -730,6 +638,7 @@ exports[`JS Module Renderer > should generate flat structure when specified 1`] 
     colorSpace: 'srgb',
     components: [0.612, 0.639, 0.686],
   },
+  // Primary text color - aliases to base
   'semantic.color.text.primary': {
     colorSpace: 'srgb',
     components: [0.067, 0.094, 0.153],
@@ -738,87 +647,32 @@ exports[`JS Module Renderer > should generate flat structure when specified 1`] 
     colorSpace: 'srgb',
     components: [0.294, 0.333, 0.388],
   },
-  'semantic.spacing.component.gap': {
-    unit: 'rem',
-    value: 0.5,
-  },
-  'semantic.spacing.component.margin': {
-    unit: 'rem',
-    value: 2,
-  },
-  'semantic.spacing.component.padding': {
-    unit: 'rem',
-    value: 1,
-  },
+  'semantic.spacing.component.gap': { value: 0.5, unit: 'rem' },
+  'semantic.spacing.component.margin': { value: 2, unit: 'rem' },
+  'semantic.spacing.component.padding': { value: 1, unit: 'rem' },
   'shadow.elevation.lg': {
-    blur: {
-      unit: 'px',
-      value: 15,
-    },
-    color: {
-      alpha: 0.1,
-      colorSpace: 'srgb',
-      components: [0, 0, 0],
-    },
-    offsetX: {
-      unit: 'px',
-      value: 0,
-    },
-    offsetY: {
-      unit: 'px',
-      value: 10,
-    },
-    spread: {
-      unit: 'px',
-      value: -3,
-    },
+    color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
+    offsetX: { value: 0, unit: 'px' },
+    offsetY: { value: 10, unit: 'px' },
+    blur: { value: 15, unit: 'px' },
+    spread: { value: -3, unit: 'px' },
   },
   'shadow.elevation.md': {
-    blur: {
-      unit: 'px',
-      value: 6,
-    },
-    color: {
-      alpha: 0.1,
-      colorSpace: 'srgb',
-      components: [0, 0, 0],
-    },
-    offsetX: {
-      unit: 'px',
-      value: 0,
-    },
-    offsetY: {
-      unit: 'px',
-      value: 4,
-    },
-    spread: {
-      unit: 'px',
-      value: -1,
-    },
+    color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
+    offsetX: { value: 0, unit: 'px' },
+    offsetY: { value: 4, unit: 'px' },
+    blur: { value: 6, unit: 'px' },
+    spread: { value: -1, unit: 'px' },
   },
+  // Small elevation shadow
   'shadow.elevation.sm': {
-    blur: {
-      unit: 'px',
-      value: 2,
-    },
-    color: {
-      alpha: 0.05,
-      colorSpace: 'srgb',
-      components: [0, 0, 0],
-    },
-    offsetX: {
-      unit: 'px',
-      value: 0,
-    },
-    offsetY: {
-      unit: 'px',
-      value: 1,
-    },
-    spread: {
-      unit: 'px',
-      value: 0,
-    },
+    color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.05 },
+    offsetX: { value: 0, unit: 'px' },
+    offsetY: { value: 1, unit: 'px' },
+    blur: { value: 2, unit: 'px' },
+    spread: { value: 0, unit: 'px' },
   },
+  // Extra large shadow with multiple layers
   'shadow.elevation.xl': [
     {
       color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1 },
@@ -836,108 +690,35 @@ exports[`JS Module Renderer > should generate flat structure when specified 1`] 
     },
   ],
   'shadow.inset.default': {
-    blur: {
-      unit: 'px',
-      value: 4,
-    },
-    color: {
-      alpha: 0.05,
-      colorSpace: 'srgb',
-      components: [0, 0, 0],
-    },
+    color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.05 },
+    offsetX: { value: 0, unit: 'px' },
+    offsetY: { value: 2, unit: 'px' },
+    blur: { value: 4, unit: 'px' },
+    spread: { value: 0, unit: 'px' },
     inset: true,
-    offsetX: {
-      unit: 'px',
-      value: 0,
-    },
-    offsetY: {
-      unit: 'px',
-      value: 2,
-    },
-    spread: {
-      unit: 'px',
-      value: 0,
-    },
   },
-  'spacing.scale.0': {
-    unit: 'px',
-    value: 0,
-  },
-  'spacing.scale.1': {
-    unit: 'rem',
-    value: 0.25,
-  },
-  'spacing.scale.10': {
-    unit: 'rem',
-    value: 2.5,
-  },
-  'spacing.scale.12': {
-    unit: 'rem',
-    value: 3,
-  },
-  'spacing.scale.16': {
-    unit: 'rem',
-    value: 4,
-  },
-  'spacing.scale.2': {
-    unit: 'rem',
-    value: 0.5,
-  },
-  'spacing.scale.20': {
-    unit: 'rem',
-    value: 5,
-  },
-  'spacing.scale.3': {
-    unit: 'rem',
-    value: 0.75,
-  },
-  'spacing.scale.4': {
-    unit: 'rem',
-    value: 1,
-  },
-  'spacing.scale.5': {
-    unit: 'rem',
-    value: 1.25,
-  },
-  'spacing.scale.6': {
-    unit: 'rem',
-    value: 1.5,
-  },
-  'spacing.scale.8': {
-    unit: 'rem',
-    value: 2,
-  },
-  'spacing.semantic.lg': {
-    unit: 'rem',
-    value: 2,
-  },
-  'spacing.semantic.md': {
-    unit: 'rem',
-    value: 1,
-  },
-  'spacing.semantic.sm': {
-    unit: 'rem',
-    value: 0.5,
-  },
-  'spacing.semantic.xl': {
-    unit: 'rem',
-    value: 3,
-  },
-  'spacing.semantic.xs': {
-    unit: 'rem',
-    value: 0.25,
-  },
+  'spacing.scale.0': { value: 0, unit: 'px' },
+  'spacing.scale.1': { value: 0.25, unit: 'rem' },
+  'spacing.scale.10': { value: 2.5, unit: 'rem' },
+  'spacing.scale.12': { value: 3, unit: 'rem' },
+  'spacing.scale.16': { value: 4, unit: 'rem' },
+  'spacing.scale.2': { value: 0.5, unit: 'rem' },
+  'spacing.scale.20': { value: 5, unit: 'rem' },
+  'spacing.scale.3': { value: 0.75, unit: 'rem' },
+  'spacing.scale.4': { value: 1, unit: 'rem' },
+  'spacing.scale.5': { value: 1.25, unit: 'rem' },
+  'spacing.scale.6': { value: 1.5, unit: 'rem' },
+  'spacing.scale.8': { value: 2, unit: 'rem' },
+  'spacing.semantic.lg': { value: 2, unit: 'rem' },
+  'spacing.semantic.md': { value: 1, unit: 'rem' },
+  'spacing.semantic.sm': { value: 0.5, unit: 'rem' },
+  'spacing.semantic.xl': { value: 3, unit: 'rem' },
+  'spacing.semantic.xs': { value: 0.25, unit: 'rem' },
   'typography.heading': {
     fontFamily: ['Inter', 'sans-serif'],
-    fontSize: {
-      unit: 'px',
-      value: 32,
-    },
+    fontSize: { value: 32, unit: 'px' },
     fontWeight: 700,
-    letterSpacing: {
-      unit: 'px',
-      value: 0,
-    },
+    letterSpacing: { value: 0, unit: 'px' },
     lineHeight: 1.2,
   },
 }

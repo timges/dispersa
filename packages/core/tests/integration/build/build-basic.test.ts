@@ -2,20 +2,12 @@ import { rm } from 'node:fs/promises'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { BuildConfig, css, json } from '../../../src/index'
-import { Dispersa } from '../../../src/dispersa'
+import { build, BuildConfig, css, json, resolveAllPermutations, resolveTokens } from '../../../src/index'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Basic Build Operations', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-basic-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -40,7 +32,7 @@ describe('Basic Build Operations', () => {
         ],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs.length).toBe(2) // One per permutation
@@ -68,7 +60,7 @@ describe('Basic Build Operations', () => {
         permutations: [{ theme: 'light', scale: 'mobile' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs.length).toBe(1)
@@ -96,7 +88,7 @@ describe('Basic Build Operations', () => {
         permutations: [{}], // Empty permutation uses defaults
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs.length).toBe(1)
@@ -105,7 +97,7 @@ describe('Basic Build Operations', () => {
 
   describe('resolveTokens()', () => {
     it('resolves tokens without writing files', async () => {
-      const tokens = await dispersa.resolveTokens(resolverPath, {
+      const tokens = await resolveTokens(resolverPath, {
         theme: 'light',
         scale: 'tablet',
       })
@@ -119,14 +111,14 @@ describe('Basic Build Operations', () => {
     })
 
     it('uses defaults when no modifiers provided', async () => {
-      const tokens = await dispersa.resolveTokens(resolverPath, {})
+      const tokens = await resolveTokens(resolverPath, {})
 
       expect(tokens).toBeDefined()
       expect(Object.keys(tokens).length).toBeGreaterThan(0)
     })
 
     it('resolves aliases correctly', async () => {
-      const tokens = await dispersa.resolveTokens(resolverPath, {
+      const tokens = await resolveTokens(resolverPath, {
         theme: 'light',
         scale: 'tablet',
       })
@@ -142,12 +134,12 @@ describe('Basic Build Operations', () => {
     })
 
     it('produces different results with different modifiers', async () => {
-      const lightTokens = await dispersa.resolveTokens(resolverPath, {
+      const lightTokens = await resolveTokens(resolverPath, {
         theme: 'light',
         scale: 'tablet',
       })
 
-      const darkTokens = await dispersa.resolveTokens(resolverPath, {
+      const darkTokens = await resolveTokens(resolverPath, {
         theme: 'dark',
         scale: 'tablet',
       })
@@ -162,7 +154,7 @@ describe('Basic Build Operations', () => {
 
   describe('resolveAllPermutations()', () => {
     it('resolves all permutations without writing files', async () => {
-      const permutations = await dispersa.resolveAllPermutations(resolverPath)
+      const permutations = await resolveAllPermutations(resolverPath)
 
       expect(permutations).toBeDefined()
       expect(permutations.length).toBe(6) // 2 themes x 3 scales
@@ -176,7 +168,7 @@ describe('Basic Build Operations', () => {
     })
 
     it('generates all modifier combinations', async () => {
-      const permutations = await dispersa.resolveAllPermutations(resolverPath)
+      const permutations = await resolveAllPermutations(resolverPath)
 
       const modifierCombos = permutations.map((p) => p.modifierInputs)
 

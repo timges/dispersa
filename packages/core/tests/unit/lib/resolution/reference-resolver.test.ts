@@ -1,5 +1,3 @@
-import * as path from 'node:path'
-
 import { describe, expect, it } from 'vitest'
 
 import { ReferenceResolver } from '../../../../src/resolution/reference-resolver'

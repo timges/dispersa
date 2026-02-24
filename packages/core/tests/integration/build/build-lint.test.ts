@@ -8,23 +8,15 @@
 
 import { rm } from 'node:fs/promises'
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-import { BuildConfig, json } from '../../../src/index'
-import { Dispersa } from '../../../src/dispersa'
+import { build, BuildConfig, json, lint } from '../../../src/index'
 import { recommendedConfig } from '../../../src/lint'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Lint Integration', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-lint-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -32,7 +24,8 @@ describe('Lint Integration', () => {
 
   describe('lint() standalone method', () => {
     it('returns lint result with issues', async () => {
-      const result = await dispersa.lint(resolverPath, {
+      const result = await lint({
+        resolver: resolverPath,
         plugins: { dispersa: recommendedConfig.plugins?.dispersa },
         rules: {
           'dispersa/require-description': 'warn',
@@ -46,7 +39,8 @@ describe('Lint Integration', () => {
 
     it('throws LintError when failOnError is true and errors exist', async () => {
       await expect(
-        dispersa.lint(resolverPath, {
+        lint({
+          resolver: resolverPath,
           plugins: { dispersa: recommendedConfig.plugins?.dispersa },
           rules: {
             'dispersa/require-description': 'error',
@@ -56,7 +50,8 @@ describe('Lint Integration', () => {
     })
 
     it('returns result without throwing when failOnError is false', async () => {
-      const result = await dispersa.lint(resolverPath, {
+      const result = await lint({
+        resolver: resolverPath,
         plugins: { dispersa: recommendedConfig.plugins?.dispersa },
         rules: {
           'dispersa/require-description': 'error',
@@ -69,16 +64,14 @@ describe('Lint Integration', () => {
     })
 
     it('applies modifier inputs to token resolution before linting', async () => {
-      const result = await dispersa.lint(
-        resolverPath,
-        {
-          plugins: { dispersa: recommendedConfig.plugins?.dispersa },
-          rules: {
-            'dispersa/naming-convention': ['warn', { format: 'kebab-case' }],
-          },
+      const result = await lint({
+        resolver: resolverPath,
+        modifierInputs: { theme: 'light', scale: 'mobile' },
+        plugins: { dispersa: recommendedConfig.plugins?.dispersa },
+        rules: {
+          'dispersa/naming-convention': ['warn', { format: 'kebab-case' }],
         },
-        { theme: 'light', scale: 'mobile' },
-      )
+      })
 
       expect(result).toBeDefined()
     })
@@ -106,7 +99,7 @@ describe('Lint Integration', () => {
         },
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.errors).toBeUndefined()
@@ -133,7 +126,7 @@ describe('Lint Integration', () => {
         },
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(false)
       expect(result.errors).toBeDefined()
@@ -162,7 +155,7 @@ describe('Lint Integration', () => {
         },
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.errors).toBeUndefined()
@@ -185,7 +178,7 @@ describe('Lint Integration', () => {
         },
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
     })

@@ -1,11 +1,10 @@
-import { mkdir, readdir } from 'node:fs/promises'
-import * as path from 'node:path'
+import { readdir } from 'node:fs/promises'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { css, json, js } from '../../src/index'
+import { build, generateTypes, resolveAllPermutations, resolveTokens } from '../../src/dispersa'
+import { css, js, json } from '../../src/index'
 import { colorToHex, colorToRgb, dimensionToRem } from '../../src/transforms'
-import { Dispersa } from '../../src/dispersa'
 import {
   cleanupTempDir,
   createTempDir,
@@ -16,11 +15,9 @@ import {
 
 describe('Complete Build Workflow E2E Tests', () => {
   let tempDir: string
-  let dispersa: Dispersa
 
   beforeEach(async () => {
     tempDir = await createTempDir()
-    dispersa = new Dispersa()
   })
 
   afterEach(async () => {
@@ -31,7 +28,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should resolve tokens from resolver file', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const tokens = await dispersa.resolveTokens(resolverPath, {
+      const tokens = await resolveTokens(resolverPath, {
         theme: 'light',
         scale: 'tablet',
       })
@@ -48,12 +45,12 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should resolve tokens with different modifiers', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const lightTokens = await dispersa.resolveTokens(resolverPath, {
+      const lightTokens = await resolveTokens(resolverPath, {
         theme: 'light',
         scale: 'tablet',
       })
 
-      const darkTokens = await dispersa.resolveTokens(resolverPath, {
+      const darkTokens = await resolveTokens(resolverPath, {
         theme: 'dark',
         scale: 'tablet',
       })
@@ -72,7 +69,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should resolve all permutations', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const permutations = await dispersa.resolveAllPermutations(resolverPath)
+      const permutations = await resolveAllPermutations(resolverPath)
 
       // Should have 6 permutations (2 themes × 3 scales)
       expect(permutations).toHaveLength(6)
@@ -89,7 +86,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build CSS output with transforms', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -117,7 +114,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build JSON output', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -148,7 +145,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build JavaScript module', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -174,7 +171,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build multiple outputs simultaneously', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -214,7 +211,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should apply output-specific transforms', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -259,7 +256,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build all permutations automatically', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         outputs: [
@@ -286,7 +283,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should build theme variations correctly', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      await dispersa.build({
+      await build({
         resolver: resolverPath,
         buildPath: tempDir,
         outputs: [
@@ -318,7 +315,7 @@ describe('Complete Build Workflow E2E Tests', () => {
 
   describe('Error Handling Workflow', () => {
     it('should handle invalid resolver paths gracefully', async () => {
-      const result = await dispersa.build({
+      const result = await build({
         resolver: 'nonexistent.json',
         buildPath: tempDir,
         outputs: [
@@ -337,9 +334,7 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should handle invalid modifier inputs', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      await expect(
-        dispersa.resolveTokens(resolverPath, { theme: 'invalid-theme' }),
-      ).rejects.toThrow()
+      await expect(resolveTokens(resolverPath, { theme: 'invalid-theme' })).rejects.toThrow()
     })
 
     it('should report build failures with broken renderer', async () => {
@@ -351,7 +346,7 @@ describe('Complete Build Workflow E2E Tests', () => {
         },
       }
 
-      const result = await dispersa.build({
+      const result = await build({
         resolver: resolverPath,
         buildPath: tempDir,
         permutations: [{ theme: 'light', scale: 'tablet' }],
@@ -373,10 +368,10 @@ describe('Complete Build Workflow E2E Tests', () => {
     it('should generate TypeScript types', async () => {
       const resolverPath = getFixturePath('tokens.resolver.json')
 
-      const tokens = await dispersa.resolveTokens(resolverPath, { theme: 'light', scale: 'tablet' })
+      const tokens = await resolveTokens(resolverPath, { theme: 'light', scale: 'tablet' })
       const fileName = `${tempDir}/tokens.d.ts`
 
-      await dispersa.generateTypes(tokens, fileName, {
+      await generateTypes(tokens, fileName, {
         moduleName: 'Tokens',
       })
 

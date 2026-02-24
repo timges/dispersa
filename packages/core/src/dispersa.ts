@@ -5,7 +5,7 @@
  */
 
 /**
- * @fileoverview Main Dispersa API
+ * @fileoverview Main Dispersa API - Functional exports
  */
 
 import { TypeWriter } from '@adapters/filesystem/type-writer'
@@ -18,10 +18,71 @@ import type { LintConfig, LintResult } from '@lint/types'
 import type { BuildResult } from '@renderers/types'
 import type { ModifierInputs, ResolverDocument } from '@resolution/types'
 import { ConfigurationError, LintError } from '@shared/errors/index'
+import type { ValidationOptions } from '@shared/types/validation'
 import { toBuildError } from '@shared/utils/error-utils'
 import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
 import type { ResolvedTokens } from '@tokens/types'
 import { SchemaValidator } from '@validation/validator'
+
+function createValidator(): SchemaValidator {
+  return new SchemaValidator()
+}
+
+function createPipeline(options?: DispersaOptions): TokenPipeline {
+  return new TokenPipeline({ validation: options?.validation })
+}
+
+function createOutputProcessor(): OutputProcessor {
+  return new OutputProcessor()
+}
+
+function createOrchestrator(
+  pipeline: TokenPipeline,
+  outputProcessor: OutputProcessor,
+): BuildOrchestrator {
+  return new BuildOrchestrator(pipeline, outputProcessor)
+}
+
+function resolveConfig(
+  config: Partial<BuildConfig>,
+  options?: DispersaOptions,
+): { resolver: string | ResolverDocument; buildPath: string } {
+  const resolver = config.resolver ?? options?.resolver
+  const buildPath = config.buildPath ?? options?.buildPath ?? ''
+
+  if (!resolver) {
+    throw new ConfigurationError('resolver is required in build config')
+  }
+
+  return { resolver, buildPath }
+}
+
+function validateBuildConfig(validator: SchemaValidator, config: BuildConfig): void {
+  const configErrors = validator.validateBuildConfig(config)
+  if (configErrors.length > 0) {
+    throw new ConfigurationError(
+      `Invalid build configuration: ${validator.getErrorMessage(configErrors)}`,
+    )
+  }
+
+  for (const output of config.outputs) {
+    const outputErrors = validator.validateOutputConfig(output)
+    if (outputErrors.length > 0) {
+      throw new ConfigurationError(
+        `Invalid output '${output.name}': ${validator.getErrorMessage(outputErrors)}`,
+      )
+    }
+  }
+}
+
+async function resolvePipeline(
+  pipeline: TokenPipeline,
+  resolver: string | ResolverDocument,
+  modifierInputs: ModifierInputs,
+): Promise<ResolvedTokens> {
+  const { tokens } = await pipeline.resolve(resolver, modifierInputs)
+  return stripInternalTokenMetadata(tokens)
+}
 
 /**
  * DTCG design token processor with multi-format output support
@@ -31,9 +92,9 @@ import { SchemaValidator } from '@validation/validator'
  * in multiple formats (CSS, JSON, JavaScript).
  *
  * **Runtime Validation:**
- * Dispersa validates all configuration inputs at runtime, including constructor options,
- * build configs, output configs, and custom component registrations. This catches
- * configuration errors early with helpful error messages.
+ * All functions validate their configuration inputs at runtime, including build configs,
+ * output configs, and custom component registrations. This catches configuration errors
+ * early with helpful error messages.
  *
  * Features:
  * - **Transforms**: Modify token values and names (e.g., convert colors, change case)
@@ -42,14 +103,14 @@ import { SchemaValidator } from '@validation/validator'
  * - **Renderers**: Generate output in various formats
  * - **Runtime validation**: JSON schema validation for all user inputs
  *
- * @example Basic usage with constructor defaults
+ * @example Basic build usage
  * ```typescript
- * const dispersa = new Dispersa({
- *   resolver: './tokens.resolver.json',
- *   buildPath: './output'
- * })
+ * import { build, css } from 'dispersa'
+ * import { nameKebabCase } from 'dispersa/transforms'
  *
- * const result = await dispersa.build({
+ * const result = await build({
+ *   resolver: './tokens.resolver.json',
+ *   buildPath: './output',
  *   outputs: [
  *     css({
  *       name: 'css',
@@ -64,14 +125,11 @@ import { SchemaValidator } from '@validation/validator'
  *
  * @example Mixed presets per output
  * ```typescript
- * import { css, json } from 'dispersa'
+ * import { build, css, json } from 'dispersa'
  *
- * const dispersa = new Dispersa({
+ * const result = await build({
  *   resolver: './tokens.resolver.json',
- *   buildPath: './output'
- * })
- *
- * await dispersa.build({
+ *   buildPath: './output',
  *   outputs: [
  *     css({
  *       name: 'css',
@@ -92,16 +150,13 @@ import { SchemaValidator } from '@validation/validator'
  *
  * @example Using filters and preprocessors
  * ```typescript
- * import { css } from 'dispersa'
+ * import { build, css } from 'dispersa'
  * import { byType } from 'dispersa/filters'
  * import { nameKebabCase } from 'dispersa/transforms'
  *
- * const dispersa = new Dispersa({
+ * const result = await build({
  *   resolver: './tokens.resolver.json',
- *   buildPath: './output'
- * })
- *
- * await dispersa.build({
+ *   buildPath: './output',
  *   outputs: [
  *     css({
  *       name: 'colors-only',
@@ -119,367 +174,100 @@ import { SchemaValidator } from '@validation/validator'
  * })
  * ```
  */
-export class Dispersa {
-  private validator: SchemaValidator
-  private pipeline: TokenPipeline
-  private outputProcessor: OutputProcessor
-  private orchestrator: BuildOrchestrator
-  private options: DispersaOptions
-
-  /**
-   * Creates a new Dispersa instance
-   *
-   * @param options - Configuration options (optional, can be empty object)
-   * @param options.resolver - Default resolver (file path or inline object, optional if provided at build time)
-   * @param options.buildPath - Default output directory for generated files (omit for in-memory mode)
-   * @throws {ConfigurationError} If options are invalid and validation is enabled
-   */
-  constructor(options: DispersaOptions = {}) {
-    this.options = options
-
-    // Initialize validator
-    this.validator = new SchemaValidator()
-
-    // Validate constructor options
-    const errors = this.validator.validateDispersaOptions(options)
-    if (errors.length > 0) {
-      throw new ConfigurationError(
-        `Invalid Dispersa options: ${this.validator.getErrorMessage(errors)}`,
-      )
-    }
-
-    // Initialize pipeline and processor
-    this.pipeline = new TokenPipeline({ validation: options.validation })
-    this.outputProcessor = new OutputProcessor()
-
-    // Initialize build orchestrator
-    this.orchestrator = new BuildOrchestrator(this.pipeline, this.outputProcessor)
-  }
-
-  /**
-   * Builds design tokens from a resolver configuration
-   *
-   * Processes tokens through the resolution pipeline, applies preprocessors,
-   * transforms, and filters, then generates output files in multiple formats
-   * for specified outputs.
-   *
-   * **Runtime Validation:**
-   * This method validates the build configuration
-   * and all output configurations before processing, throwing helpful errors for
-   * invalid inputs.
-   *
-   * **Permutation Handling:**
-   * - If `config.permutations` is provided and non-empty, builds those specific permutations
-   * - If `config.permutations` is undefined or empty, auto-discovers all permutations from resolver
-   *
-   * @param config - Build configuration
-   * @param config.resolver - Resolver configuration (file path or inline object, optional if set in constructor)
-   * @param config.outputs - Array of output configurations (renderers, transforms, filters)
-   * @param config.buildPath - Output directory for generated files (omit for in-memory mode, optional if set in constructor)
-   * @param config.transforms - Global transforms to apply to all tokens
-   * @param config.preprocessors - Global preprocessors to apply before parsing
-   * @param config.permutations - Array of modifier inputs for generating variations
-   * @returns Build result with success status and generated output files
-   * @throws {ConfigurationError} If configuration is invalid
-   * @throws {FileOperationError} If file operations fail
-   *
-   * @example Basic build
-   * ```typescript
-   * const dispersa = new Dispersa({
-   *   resolver: './tokens.resolver.json',
-   *   buildPath: './output'
-   * })
-   *
-   * const result = await dispersa.build({
-   *   outputs: [
-   *     css({
-   *       name: 'css',
-   *       file: 'tokens.css',
-   *       preset: 'bundle',
-   *       selector: ':root',
-   *       transforms: [nameKebabCase()]
-   *     })
-   *   ]
-   * })
-   * ```
-   *
-   * @example With filters and multiple presets
-   * ```typescript
-   * const result = await dispersa.build({
-   *   resolver: './tokens.resolver.json',
-   *   outputs: [
-   *     css({
-   *       name: 'css',
-   *       file: 'tokens.css',
-   *       preset: 'bundle',
-   *       selector: ':root',  // All themes in one file
-   *       transforms: [nameKebabCase()]
-   *     }),
-   *     json({
-   *       name: 'json',
-   *       file: 'tokens-{theme}.json',  // Separate file per theme
-   *       preset: 'standalone',
-   *       structure: 'flat'
-   *     })
-   *   ],
-   *   buildPath: './output',
-   *   permutations: [
-   *     { theme: 'light' },
-   *     { theme: 'dark' }
-   *   ]
-   * })
-   * ```
-   */
-  async build(config: BuildConfig): Promise<BuildResult> {
-    try {
-      return await this.buildOrThrow(config)
-    } catch (error) {
-      return {
-        success: false,
-        outputs: [],
-        errors: [toBuildError(error)],
-      }
+export async function build(config: BuildConfig): Promise<BuildResult> {
+  try {
+    return await buildOrThrow(config)
+  } catch (error) {
+    return {
+      success: false,
+      outputs: [],
+      errors: [toBuildError(error)],
     }
   }
+}
 
-  /**
-   * Builds design tokens and throws on any failure.
-   *
-   * Unlike {@link build}, which catches errors and returns them inside
-   * `BuildResult.errors`, this method propagates the first error as an
-   * exception. Use it when you want fail-fast behavior in CLI or CI workflows.
-   *
-   * @param config - Build configuration specifying resolver, outputs, transforms, etc.
-   * @returns A successful `BuildResult` (never contains errors)
-   * @throws {ConfigurationError} When the build config or resolver is invalid
-   * @throws {DispersaError} When token resolution, transforms, or rendering fails
-   *
-   * @example
-   * ```typescript
-   * try {
-   *   const result = await dispersa.buildOrThrow({
-   *     resolver: './tokens.resolver.json',
-   *     outputs: [css({ name: 'css', file: 'tokens.css' })],
-   *     buildPath: './output',
-   *   })
-   * } catch (error) {
-   *   process.exit(1)
-   * }
-   * ```
-   */
-  async buildOrThrow(config: BuildConfig): Promise<BuildResult> {
-    // Validate overall build config structure
-    const configErrors = this.validator.validateBuildConfig(config)
-    if (configErrors.length > 0) {
-      throw new ConfigurationError(
-        `Invalid build configuration: ${this.validator.getErrorMessage(configErrors)}`,
-      )
-    }
+export async function buildOrThrow(config: BuildConfig): Promise<BuildResult> {
+  const validator = createValidator()
 
-    // Validate each output config
-    for (const output of config.outputs) {
-      const outputErrors = this.validator.validateOutputConfig(output)
-      if (outputErrors.length > 0) {
-        throw new ConfigurationError(
-          `Invalid output '${output.name}': ${this.validator.getErrorMessage(outputErrors)}`,
-        )
-      }
-    }
+  validateBuildConfig(validator, config)
 
-    // Resolve config with constructor defaults
-    const { resolver, buildPath } = this.resolveConfig(config)
+  const { resolver, buildPath } = resolveConfig(config)
 
-    // Delegate to orchestrator
-    return this.orchestrator.build(resolver, buildPath, config)
+  const pipeline = createPipeline({ validation: config.validation })
+  const outputProcessor = createOutputProcessor()
+  const orchestrator = createOrchestrator(pipeline, outputProcessor)
+
+  return orchestrator.build(resolver, buildPath, config)
+}
+
+export async function buildPermutation(
+  config: BuildConfig,
+  modifierInputs: ModifierInputs = {},
+): Promise<BuildResult> {
+  return build({
+    ...config,
+    permutations: [modifierInputs],
+  })
+}
+
+export async function resolveTokens(
+  resolver: string | ResolverDocument,
+  modifierInputs: ModifierInputs = {},
+  validation?: ValidationOptions,
+): Promise<ResolvedTokens> {
+  const pipeline = createPipeline({ validation })
+  return resolvePipeline(pipeline, resolver, modifierInputs)
+}
+
+export type LintOptions = {
+  resolver: string | ResolverDocument
+  modifierInputs?: ModifierInputs
+  validation?: ValidationOptions
+} & LintConfig
+
+export async function lint(options: LintOptions): Promise<LintResult> {
+  const { resolver, modifierInputs = {}, validation, ...lintConfig } = options
+
+  const pipeline = createPipeline({ validation })
+  const tokens = await resolvePipeline(pipeline, resolver, modifierInputs)
+
+  const runner = new LintRunner({
+    ...lintConfig,
+    failOnError: lintConfig.failOnError ?? true,
+  })
+
+  const result = await runner.run(tokens)
+
+  if (result.errorCount > 0 && lintConfig.failOnError !== false) {
+    throw new LintError(result.issues)
   }
 
-  /**
-   * Builds tokens for a single permutation with all configured outputs
-   *
-   * Convenience wrapper around `build()` that forces a single permutation.
-   * This means it has the same runtime validation and error semantics as `build()`:
-   * it returns a `BuildResult` object rather than throwing (use `buildOrThrow()` if you
-   * want fail-fast behavior).
-   *
-   * @param config - Build configuration
-   * @param modifierInputs - Modifier values (e.g., `{ theme: 'dark' }`)
-   * @returns Build result (success, outputs, optional errors)
-   */
-  async buildPermutation(
-    config: BuildConfig,
-    modifierInputs: ModifierInputs = {},
-  ): Promise<BuildResult> {
-    return await this.build({
-      ...config,
-      permutations: [modifierInputs],
-    })
-  }
+  return result
+}
 
-  /**
-   * Resolve configuration with constructor defaults
-   */
-  private resolveConfig(config: Partial<BuildConfig>): {
-    resolver: string | ResolverDocument
-    buildPath: string
-  } {
-    const resolver = config.resolver ?? this.options.resolver
-    const buildPath = config.buildPath ?? this.options.buildPath ?? ''
+export async function resolveAllPermutations(resolver: string | ResolverDocument): Promise<
+  {
+    tokens: ResolvedTokens
+    modifierInputs: ModifierInputs
+  }[]
+> {
+  const pipeline = createPipeline()
+  const permutations = await pipeline.resolveAllPermutations(resolver)
+  return permutations.map(({ tokens, modifierInputs }) => ({
+    tokens: stripInternalTokenMetadata(tokens),
+    modifierInputs,
+  }))
+}
 
-    if (!resolver) {
-      throw new ConfigurationError(
-        'resolver must be provided either in constructor options or build config',
-      )
-    }
-
-    return { resolver, buildPath }
-  }
-
-  /**
-   * Resolves tokens for a specific permutation without generating output files
-   *
-   * Useful for programmatic access to resolved token values, testing,
-   * or implementing custom output logic. Returns fully resolved tokens
-   * with all references and aliases resolved.
-   *
-   * @param resolver - Resolver configuration (file path or inline object)
-   * @param modifierInputs - Modifier values for this permutation (e.g., `{ theme: 'dark' }`)
-   * @returns Object mapping token names to resolved token objects
-   * @throws {FileOperationError} If resolver file cannot be read
-   * @throws {TokenReferenceError} If token references cannot be resolved (when validate is enabled)
-   *
-   * @example
-   * ```typescript
-   * const tokens = await dispersa.resolveTokens(
-   *   './tokens.resolver.json',
-   *   { theme: 'dark' }
-   * )
-   *
-   * console.log(tokens['color.background'].$value) // '#1a1a1a'
-   * ```
-   */
-  async resolveTokens(
-    resolver: string | ResolverDocument,
-    modifierInputs: ModifierInputs = {},
-  ): Promise<ResolvedTokens> {
-    const { tokens } = await this.pipeline.resolve(resolver, modifierInputs)
-    return stripInternalTokenMetadata(tokens)
-  }
-
-  /**
-   * Runs linting on resolved tokens without generating output files
-   *
-   * This is a convenience method for running lint checks independently of building.
-   * It resolves tokens and applies lint rules, returning the lint results.
-   *
-   * @param resolver - Resolver configuration (file path or inline object)
-   * @param config - Lint configuration with plugins, rules, and settings
-   * @param modifierInputs - Optional modifier inputs for token resolution
-   * @returns Lint result with issues and counts
-   * @throws {LintError} If lint errors are found and failOnError is true (default)
-   *
-   * @example
-   * ```typescript
-   * import { recommendedConfig } from 'dispersa/lint'
-   *
-   * const result = await dispersa.lint('./tokens.resolver.json', recommendedConfig)
-   * console.log(`Found ${result.errorCount} errors, ${result.warningCount} warnings`)
-   * ```
-   */
-  async lint(
-    resolver: string | ResolverDocument,
-    config: LintConfig,
-    modifierInputs: ModifierInputs = {},
-  ): Promise<LintResult> {
-    const { tokens } = await this.pipeline.resolve(resolver, modifierInputs)
-
-    const runner = new LintRunner({
-      ...config,
-      failOnError: config.failOnError ?? true,
-    })
-
-    const result = await runner.run(tokens)
-
-    if (result.errorCount > 0 && config.failOnError !== false) {
-      throw new LintError(result.issues)
-    }
-
-    return result
-  }
-
-  /**
-   * Resolves tokens for all permutations defined in the resolver
-   *
-   * Auto-discovers all possible permutations from the resolver's modifier
-   * definitions and resolves tokens for each one. Useful for generating
-   * comprehensive token sets or validating all theme variations.
-   *
-   * @param resolver - Resolver configuration (file path or inline object)
-   * @returns Array of resolved token sets with their modifier inputs
-   * @throws {FileOperationError} If resolver file cannot be read
-   * @throws {TokenReferenceError} If token references cannot be resolved (when validate is enabled)
-   *
-   * @example
-   * ```typescript
-   * const permutations = await dispersa.resolveAllPermutations(
-   *   './tokens.resolver.json'
-   * )
-   *
-   * permutations.forEach(({ tokens, modifierInputs }) => {
-   *   console.log(`Theme: ${modifierInputs.theme}`)
-   *   console.log(`Tokens: ${Object.keys(tokens).length}`)
-   * })
-   * ```
-   */
-  async resolveAllPermutations(resolver: string | ResolverDocument): Promise<
-    {
-      tokens: ResolvedTokens
-      modifierInputs: ModifierInputs
-    }[]
-  > {
-    const permutations = await this.pipeline.resolveAllPermutations(resolver)
-    return permutations.map(({ tokens, modifierInputs }) => ({
-      tokens: stripInternalTokenMetadata(tokens),
-      modifierInputs,
-    }))
-  }
-
-  /**
-   * Generates TypeScript type definitions from resolved tokens
-   *
-   * Creates a `.d.ts` file with type-safe token definitions including:
-   * - Token name union type for autocomplete
-   * - Token value types
-   * - Nested structure types matching token organization
-   *
-   * @param tokens - Resolved tokens object
-   * @param fileName - Path for the generated `.d.ts` file
-   * @param options - Generation options
-   * @param options.moduleName - Name for the exported types (default: 'Tokens')
-   * @returns Promise that resolves when file is written
-   * @throws {FileOperationError} If file cannot be written
-   *
-   * @example
-   * ```typescript
-   * const tokens = await dispersa.resolveTokens('./tokens.resolver.json')
-   * await dispersa.generateTypes(tokens, './src/tokens.d.ts', {
-   *   moduleName: 'DesignTokens'
-   * })
-   *
-   * // Generated types can be used like:
-   * // const tokenName: TokenName = 'color.background'
-   * // const tokens: DesignTokens = { ... }
-   * ```
-   */
-  async generateTypes(
-    tokens: ResolvedTokens,
-    fileName: string,
-    options?: { moduleName?: string },
-  ): Promise<void> {
-    const typeWriter = new TypeWriter()
-    await typeWriter.write(tokens, {
-      fileName,
-      moduleName: options?.moduleName ?? 'Tokens',
-      includeValues: true,
-    })
-  }
+export async function generateTypes(
+  tokens: ResolvedTokens,
+  fileName: string,
+  options?: { moduleName?: string },
+): Promise<void> {
+  const typeWriter = new TypeWriter()
+  await typeWriter.write(tokens, {
+    fileName,
+    moduleName: options?.moduleName ?? 'Tokens',
+    includeValues: true,
+  })
 }

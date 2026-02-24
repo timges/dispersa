@@ -8,7 +8,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { Dispersa, type Filter, type ModifierInputs, type ResolvedToken } from 'dispersa'
+import { build, type Filter, type ModifierInputs, type ResolvedToken } from 'dispersa'
 import type { Transform } from 'dispersa/transforms'
 
 import { androidXmlRenderer } from './android-xml-renderer.js'
@@ -30,12 +30,9 @@ const uppercaseNamesTransform: Transform = {
   transform: (token: ResolvedToken) => ({ ...token, name: token.name.toUpperCase() }),
 }
 
-const dispersa = new Dispersa({
+const result = await build({
   resolver: path.join(__dirname, 'tokens.resolver.json'),
   buildPath: outputDir,
-})
-
-const result = await dispersa.build({
   outputs: [
     {
       name: 'yaml-colors',

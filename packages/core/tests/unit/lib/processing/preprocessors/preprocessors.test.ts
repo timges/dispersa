@@ -1,14 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { Preprocessor } from '../../../../../src/processing/preprocessors/types'
-import { Dispersa } from '../../../../../src/dispersa'
 
 describe('Preprocessor Integration Tests', () => {
-  let dispersa: Dispersa
-
-  beforeEach(() => {
-    dispersa = new Dispersa()
-  })
-
   describe('Preprocessor Execution Order', () => {
     it('should apply multiple preprocessors in sequence', async () => {
       const preprocessor1: Preprocessor = {

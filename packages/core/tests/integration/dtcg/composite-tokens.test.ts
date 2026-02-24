@@ -24,6 +24,7 @@ describe('Composite Tokens', () => {
   })
 
   const baseResolver: ResolverDocument = {
+    version: '2025.10',
     sets: {},
     resolutionOrder: [],
   }

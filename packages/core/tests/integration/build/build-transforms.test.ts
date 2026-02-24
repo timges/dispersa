@@ -2,25 +2,18 @@ import { rm } from 'node:fs/promises'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
+import { build } from '../../../src/dispersa'
 import {
-  BuildConfig,
-  css,
-  json,
+    BuildConfig,
+    css,
+    json,
 } from '../../../src/index'
 import { colorToHex, nameKebabCase } from '../../../src/transforms'
-import { Dispersa } from '../../../src/dispersa'
 import { getFixturePath } from '../../utils/test-helpers'
 
 describe('Build Transform Integration', () => {
-  let dispersa: Dispersa
   const resolverPath = getFixturePath('tokens.resolver.json')
   const testBuildPath = '/tmp/test-build-transforms-' + Date.now()
-
-  beforeEach(() => {
-    dispersa = new Dispersa({
-      resolver: resolverPath,
-    })
-  })
 
   afterEach(async () => {
     await rm(testBuildPath, { recursive: true, force: true })
@@ -43,7 +36,7 @@ describe('Build Transform Integration', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
 
@@ -78,14 +71,14 @@ describe('Build Transform Integration', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs.length).toBe(2)
 
       const cssOutput = result.outputs.find((o) => o.name === 'css')
       const css2Output = result.outputs.find((o) => o.name === 'css2')
-      
+
       expect(cssOutput).toBeDefined()
       expect(css2Output).toBeDefined()
 
@@ -124,7 +117,7 @@ describe('Build Transform Integration', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
 
@@ -158,7 +151,7 @@ describe('Build Transform Integration', () => {
         permutations: [{ theme: 'light', scale: 'tablet' }],
       }
 
-      const result = await dispersa.build(config)
+      const result = await build(config)
 
       expect(result.success).toBe(true)
       expect(result.outputs[0]!.content).toContain('CUSTOM FORMAT')
@@ -166,5 +159,3 @@ describe('Build Transform Integration', () => {
     })
   })
 })
-
-

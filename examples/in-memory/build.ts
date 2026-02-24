@@ -6,7 +6,7 @@
  */
 
 import type { ResolverDocument } from 'dispersa'
-import { Dispersa, css, js, json } from 'dispersa'
+import { build, css, js, json, resolveAllPermutations, resolveTokens } from 'dispersa'
 import { colorToHex, dimensionToRem, nameCamelCase } from 'dispersa/transforms'
 
 const resolver: ResolverDocument = {
@@ -81,9 +81,9 @@ const resolver: ResolverDocument = {
 }
 
 // No buildPath -- outputs stay in memory
-const dispersa = new Dispersa({ resolver })
 
-const result = await dispersa.build({
+const result = await build({
+  resolver,
   outputs: [
     css({
       name: 'css',
@@ -119,14 +119,14 @@ for (const output of result.outputs) {
 }
 
 // Direct token resolution
-const lightTokens = await dispersa.resolveTokens(resolver, { theme: 'light' })
-const darkTokens = await dispersa.resolveTokens(resolver, { theme: 'dark' })
+const lightTokens = await resolveTokens(resolver, { theme: 'light' })
+const darkTokens = await resolveTokens(resolver, { theme: 'dark' })
 
 console.log('Light background:', JSON.stringify(lightTokens['semantic.background']?.$value))
 console.log('Dark background:', JSON.stringify(darkTokens['semantic.background']?.$value))
 
 // All permutations
-const permutations = await dispersa.resolveAllPermutations(resolver)
+const permutations = await resolveAllPermutations(resolver)
 
 console.log(`\n${permutations.length} permutation(s):`)
 for (const perm of permutations) {

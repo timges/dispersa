@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import type { ResolverDocument } from '../../../src/resolution/types'
-import { Dispersa } from '../../../src/dispersa'
+import { resolveTokens } from '../../../src'
 
 describe('In-Memory Resolver BaseDir', () => {
   let tempDir: string
@@ -52,8 +52,7 @@ describe('In-Memory Resolver BaseDir', () => {
       resolutionOrder: [{ $ref: '#/sets/base' }],
     }
 
-    const dispersa = new Dispersa()
-    const tokens = await dispersa.resolveTokens(resolver)
+    const tokens = await resolveTokens(resolver)
 
     expect(tokens['color.primary'].$value).toEqual({
       colorSpace: 'srgb',
