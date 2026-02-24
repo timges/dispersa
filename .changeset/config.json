@@ -18,6 +18,7 @@
     "dispersa-basic-example",
     "dispersa-multi-platform",
     "dispersa-split-by-type",
-    "dispersa-hello-world"
+    "dispersa-hello-world",
+    "dispersa-linting-starter"
   ]
 }
