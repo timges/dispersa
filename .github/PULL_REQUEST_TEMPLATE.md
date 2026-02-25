@@ -17,5 +17,5 @@
 - [ ] My changes build without errors (`pnpm build`)
 - [ ] I have added/updated tests for my changes
 - [ ] All tests pass (`pnpm test`)
-- [ ] I have added a changeset (`pnpm changeset`) if this is a user-facing change
+- [ ] I have added a changeset (`pnpm changeset`) - required for all user-facing changes
 - [ ] I have updated documentation if needed

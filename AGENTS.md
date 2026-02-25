@@ -158,8 +158,9 @@ export const colorTransform = (options: ColorTransformOptions) => ({
 ### Builder Pattern for Output
 
 ```typescript
-const result = await dispersa.build({
-  output: dispersa.output.css(), // .json(), .js()
+import { build, css } from 'dispersa'
+
+const result = await build({
   // ...config
 })
 ```

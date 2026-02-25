@@ -1,0 +1,25 @@
+name: Changeset Required
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-changeset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for changesets
+        run: |
+          if [ ! -d ".changeset" ]; then
+            echo "No .changeset directory found"
+            exit 1
+          fi
+
+          CHANGESET_FILES=$(find .changeset -maxdepth 1 -type f -name "*.md" | wc -l)
+          if [ "$CHANGESET_FILES" -eq 0 ]; then
+            echo "No changeset files found. Add one with: pnpm changeset"
+            exit 1
+          fi
