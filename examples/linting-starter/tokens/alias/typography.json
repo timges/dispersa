@@ -1,0 +1,66 @@
+{
+  "$description": "Semantic typography tokens — six-layer convention: category.concept.scale",
+  "typography": {
+    "heading": {
+      "$description": "Heading typography styles",
+      "lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "{font.size.3xl}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": { "value": -0.02, "unit": "rem" },
+          "lineHeight": "{font.lineHeight.tight}"
+        },
+        "$description": "Large heading (h1)"
+      },
+      "md": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "{font.size.2xl}",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": { "value": -0.01, "unit": "rem" },
+          "lineHeight": "{font.lineHeight.tight}"
+        },
+        "$description": "Medium heading (h2)"
+      },
+      "sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "{font.size.xl}",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": { "value": 0, "unit": "rem" },
+          "lineHeight": "{font.lineHeight.tight}"
+        },
+        "$description": "Small heading (h3)"
+      }
+    },
+    "body": {
+      "$description": "Body text styles",
+      "md": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "{font.size.base}",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": { "value": 0, "unit": "rem" },
+          "lineHeight": "{font.lineHeight.normal}"
+        },
+        "$description": "Default body text"
+      },
+      "sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "{font.size.sm}",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": { "value": 0, "unit": "rem" },
+          "lineHeight": "{font.lineHeight.normal}"
+        },
+        "$description": "Small body text / captions"
+      }
+    }
+  }
+}

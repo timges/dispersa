@@ -1,97 +1,115 @@
 {
-  "$description": "Semantic alias tokens following Spectrum color-aliases.json mapping",
+  "$description": "Semantic alias tokens following six-layer convention: category.concept.sentiment.prominence.state.scale",
   "color": {
-    "alias": {
-      "background-base": {
-        "$type": "color",
-        "$value": "{color.gray.25}",
-        "$description": "Page background (Spectrum: background-base-color → gray-25)"
-      },
-      "background-layer-1": {
-        "$type": "color",
-        "$value": "{color.gray.50}",
-        "$description": "First layer surface (Spectrum: background-layer-1-color → gray-50)"
-      },
-      "background-layer-2": {
-        "$type": "color",
-        "$value": "{color.gray.75}",
-        "$description": "Second layer surface (Spectrum: background-layer-2-color)"
-      },
-      "neutral-background-default": {
-        "$type": "color",
-        "$value": "{color.gray.800}",
-        "$description": "Neutral background (Spectrum: neutral-background-color-default → gray-800)"
-      },
-      "neutral-background-hover": {
-        "$type": "color",
-        "$value": "{color.gray.900}",
-        "$description": "Neutral background hover (Spectrum: neutral-background-color-hover → gray-900)"
-      },
-      "accent-background-default": {
-        "$type": "color",
-        "$value": "{color.blue.900}",
-        "$description": "Accent background (Spectrum: accent-background-color-default → accent-color-900)"
-      },
-      "accent-background-hover": {
-        "$type": "color",
-        "$value": "{color.blue.1000}",
-        "$description": "Accent background hover (Spectrum: accent-background-color-hover → accent-color-1000)"
-      },
-      "negative-background-default": {
-        "$type": "color",
-        "$value": "{color.red.900}",
-        "$description": "Negative background (Spectrum: negative-background-color-default → negative-color-900)"
-      },
-      "positive-background-default": {
-        "$type": "color",
-        "$value": "{color.green.900}",
-        "$description": "Positive background (Spectrum: positive-background-color-default → positive-color-900)"
-      },
-      "notice-background-default": {
-        "$type": "color",
-        "$value": "{color.orange.600}",
-        "$description": "Notice background (Spectrum: notice-background-color-default → notice-color-600)"
-      },
-      "disabled-background": {
-        "$type": "color",
-        "$value": "{color.gray.100}",
-        "$description": "Disabled background (Spectrum: disabled-background-color → gray-100)"
-      },
-      "focus-indicator": {
-        "$type": "color",
-        "$value": "{color.blue.800}",
-        "$description": "Focus ring color (Spectrum: focus-indicator-color → blue-800)"
-      },
-      "text-primary": {
-        "$type": "color",
-        "$value": "{color.gray.900}",
+    "text": {
+      "$type": "color",
+      "$description": "Text color tokens",
+      "default": {
+        "$value": "{color.palette.gray.900}",
         "$description": "Primary text"
       },
-      "text-secondary": {
-        "$type": "color",
-        "$value": "{color.gray.700}",
+      "secondary": {
+        "$value": "{color.palette.gray.700}",
         "$description": "Secondary text"
       },
-      "text-disabled": {
-        "$type": "color",
-        "$value": "{color.gray.400}",
+      "disabled": {
+        "$value": "{color.palette.gray.400}",
         "$description": "Disabled text"
       },
-      "text-on-accent": {
-        "$type": "color",
-        "$value": "{color.static.white}",
+      "inverse": {
+        "$value": "{color.palette.static.white}",
         "$description": "Text on accent backgrounds"
+      }
+    },
+    "background": {
+      "$type": "color",
+      "$description": "Background color tokens",
+      "default": {
+        "$value": "{color.palette.gray.25}",
+        "$description": "Page background"
       },
-      "border-default": {
-        "$type": "color",
-        "$value": "{color.gray.300}",
+      "layer-1": {
+        "$value": "{color.palette.gray.50}",
+        "$description": "First layer surface"
+      },
+      "layer-2": {
+        "$value": "{color.palette.gray.75}",
+        "$description": "Second layer surface"
+      },
+      "neutral": {
+        "default": {
+          "$value": "{color.palette.gray.800}",
+          "$description": "Neutral background"
+        },
+        "hover": {
+          "$value": "{color.palette.gray.900}",
+          "$description": "Neutral background hover"
+        }
+      },
+      "accent": {
+        "default": {
+          "$value": "{color.palette.blue.900}",
+          "$description": "Accent background"
+        },
+        "hover": {
+          "$value": "{color.palette.blue.1000}",
+          "$description": "Accent background hover"
+        }
+      },
+      "danger": {
+        "default": {
+          "$value": "{color.palette.red.900}",
+          "$description": "Danger background"
+        }
+      },
+      "success": {
+        "default": {
+          "$value": "{color.palette.green.900}",
+          "$description": "Success background"
+        }
+      },
+      "warning": {
+        "default": {
+          "$value": "{color.palette.orange.600}",
+          "$description": "Warning background"
+        }
+      },
+      "disabled": {
+        "$value": "{color.palette.gray.100}",
+        "$description": "Disabled background"
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "$description": "Surface color tokens"
+    },
+    "action": {
+      "$type": "color",
+      "$description": "Interactive element colors"
+    },
+    "border": {
+      "$type": "color",
+      "$description": "Border color tokens",
+      "default": {
+        "$value": "{color.palette.gray.300}",
         "$description": "Default border color"
       },
-      "border-hover": {
-        "$type": "color",
-        "$value": "{color.gray.400}",
+      "hover": {
+        "$value": "{color.palette.gray.400}",
         "$description": "Hover border color"
+      },
+      "focus": {
+        "$value": "{color.palette.blue.800}",
+        "$description": "Focus ring color"
       }
+    },
+    "icon": {
+      "$type": "color",
+      "$description": "Icon color tokens"
+    },
+    "overlay": {
+      "$type": "color",
+      "$description": "Overlay color tokens"
     }
   }
 }

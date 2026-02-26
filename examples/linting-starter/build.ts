@@ -32,28 +32,66 @@ const pathSchemaSegments = {
   category: {
     values: ['color', 'spacing', 'typography', 'shadow'],
   },
-  component: {
-    values: ['button'],
-    description: 'Component name',
+  tier: {
+    values: ['palette', 'scale', 'raw'],
+    description: 'Base token tier (palette for colors, scale for dimensions)',
   },
-  variant: {
-    values: ['primary', 'secondary', 'ghost', 'danger', 'success', 'warning'],
+  concept: {
+    values: [
+      'text',
+      'background',
+      'surface',
+      'action',
+      'border',
+      'icon',
+      'overlay',
+      'gap',
+      'inset',
+    ],
+    description: 'Semantic concept - what the token is used for',
+  },
+  sentiment: {
+    values: ['neutral', 'brand', 'danger', 'success', 'warning', 'info'],
     optional: true,
   },
-  property: {
-    values: ['background', 'text', 'border', 'padding', 'shadow', 'radius', 'gap'],
+  prominence: {
+    values: ['default', 'muted', 'subtle', 'strong', 'inverse'],
+    optional: true,
   },
   state: {
     values: ['hover', 'active', 'focus', 'disabled', 'selected'],
     optional: true,
   },
+  scale: {
+    values: ['xs', 'sm', 'md', 'lg', 'xl'],
+    optional: true,
+  },
+  component: {
+    values: ['button'],
+    description: 'Component name',
+  },
+  property: {
+    values: ['background', 'text', 'border', 'padding', 'shadow', 'radius', 'gap'],
+  },
 }
 
 const pathSchemaPatterns = [
+  // Base tier: color.palette.blue-500, spacing.scale.md
+  '{category}.palette.*',
+  '{category}.scale.*',
+  '{category}.raw.*',
+  // Semantic tier: color.text.default, color.action.brand.hover, color.background.danger.subtle
+  '{category}.{concept}',
+  '{category}.{concept}.{sentiment}',
+  '{category}.{concept}.{prominence}',
+  '{category}.{concept}.{sentiment}.{prominence}',
+  '{category}.{concept}.{state}',
+  '{category}.{concept}.{sentiment}.{state}',
+  '{category}.{concept}.{prominence}.{state}',
+  '{category}.{concept}.{scale}',
+  // Component tier: color.button.primary.background, spacing.button.padding
   '{category}.{component}.{property}',
   '{category}.{component}.{property}.{state}',
-  '{category}.{component}.{variant}.{property}',
-  '{category}.{component}.{variant}.{property}.{state}',
 ]
 
 const lintRules = {

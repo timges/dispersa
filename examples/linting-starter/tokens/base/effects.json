@@ -1,8 +1,8 @@
 {
-  "$description": "Effects — shadows and elevation",
+  "$description": "Shadow primitives — raw values referenced by semantic elevation tokens",
   "shadow": {
     "raw": {
-      "$description": "Shadow and elevation tokens",
+      "$description": "Elevation shadows",
       "sm": {
         "$type": "shadow",
         "$value": {
@@ -12,7 +12,7 @@
           "blur": { "value": 2, "unit": "px" },
           "spread": { "value": 0, "unit": "px" }
         },
-        "$description": "Subtle shadow"
+        "$description": "Subtle shadow for cards and inputs"
       },
       "md": {
         "$type": "shadow",
@@ -21,31 +21,20 @@
           "offsetX": { "value": 0, "unit": "px" },
           "offsetY": { "value": 4, "unit": "px" },
           "blur": { "value": 6, "unit": "px" },
-          "spread": { "value": 0, "unit": "px" }
+          "spread": { "value": -1, "unit": "px" }
         },
-        "$description": "Medium shadow"
+        "$description": "Medium shadow for dropdowns and popovers"
       },
       "lg": {
         "$type": "shadow",
         "$value": {
-          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.15 },
+          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.1 },
           "offsetX": { "value": 0, "unit": "px" },
           "offsetY": { "value": 10, "unit": "px" },
           "blur": { "value": 15, "unit": "px" },
-          "spread": { "value": 0, "unit": "px" }
+          "spread": { "value": -3, "unit": "px" }
         },
-        "$description": "Large shadow"
-      },
-      "xl": {
-        "$type": "shadow",
-        "$value": {
-          "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.2 },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 20, "unit": "px" },
-          "blur": { "value": 25, "unit": "px" },
-          "spread": { "value": 0, "unit": "px" }
-        },
-        "$description": "Extra large shadow"
+        "$description": "Large shadow for modals and dialogs"
       }
     }
   }

@@ -1,61 +1,156 @@
 {
-  "$description": "Semantic color aliases — referencing base colors",
+  "$description": "Semantic color tokens — six-layer convention: category.concept.sentiment.prominence.state.scale",
   "color": {
-    "brand": {
-      "$description": "Brand colors",
-      "primary": {
-        "$type": "color",
-        "$value": "{color.palette.blue-500}"
+    "text": {
+      "$type": "color",
+      "$description": "Text color tokens",
+      "default": {
+        "$value": "{color.palette.gray-900}",
+        "$description": "Primary text color"
       },
-      "secondary": {
-        "$type": "color",
-        "$value": "{color.palette.green500}"
-      },
-      "tertiary": {
-        "$type": "color",
-        "$value": "{color.palette.orange500}"
-      }
-    },
-    "semantic": {
-      "$description": "Semantic colors",
-      "success": {
-        "$type": "color",
-        "$value": "{color.palette.green500}"
-      },
-      "warning": {
-        "$type": "color",
-        "$value": "{color.palette.orange500}"
+      "muted": {
+        "$root": {
+          "$value": "{color.palette.gray-500}",
+          "$description": "Secondary/muted text color"
+        },
+        "disabled": {
+          "$value": "{color.palette.gray-300}",
+          "$description": "Disabled text color"
+        }
       },
       "danger": {
-        "$type": "color",
-        "$value": "{color.palette.red-500}"
+        "$root": {
+          "$value": "{color.palette.red-500}",
+          "$description": "Danger/error text color"
+        },
+        "muted": {
+          "$value": "{color.palette.red-600}",
+          "$description": "Subdued danger text color"
+        }
       },
-      "info": {
-        "$type": "color",
-        "$value": "{color.palette.blue-600}"
+      "success": {
+        "$value": "{color.palette.green-500}",
+        "$description": "Success text color"
+      },
+      "brand": {
+        "$value": "{color.palette.blue-500}",
+        "$description": "Brand-colored text"
+      },
+      "inverse": {
+        "$value": "{color.palette.white}",
+        "$description": "Text on dark backgrounds"
       }
     },
-    "neutral": {
-      "$description": "Neutral colors",
-      "light": {
-        "$type": "color",
-        "$value": "{color.palette.gray100}"
-      },
+    "background": {
+      "$type": "color",
+      "$description": "Background color tokens",
       "default": {
-        "$type": "color",
-        "$value": "{color.palette.gray-500}"
+        "$value": "{color.palette.white}",
+        "$description": "Page background"
       },
-      "dark": {
-        "$type": "color",
-        "$value": "{color.palette.gray900}"
+      "danger": {
+        "subtle": {
+          "$value": "{color.palette.red-100}",
+          "$description": "Subtle danger background"
+        }
+      },
+      "success": {
+        "subtle": {
+          "$value": "{color.palette.green-100}",
+          "$description": "Subtle success background"
+        }
+      },
+      "warning": {
+        "subtle": {
+          "$value": "{color.palette.orange-100}",
+          "$description": "Subtle warning background"
+        }
+      },
+      "brand": {
+        "subtle": {
+          "$value": "{color.palette.blue-100}",
+          "$description": "Subtle brand background"
+        }
       }
     },
-    "legacy": {
-      "$description": "Legacy colors with deprecated usage",
-      "oldPrimary": {
-        "$type": "color",
-        "$value": "{color.brand.primary}",
-        "$description": "Use color.brand.primary instead"
+    "surface": {
+      "$type": "color",
+      "$description": "Surface color tokens (cards, panels)",
+      "default": {
+        "$value": "{color.palette.gray-100}",
+        "$description": "Elevated surface"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "$description": "Interactive element colors",
+      "brand": {
+        "$root": {
+          "$value": "{color.palette.blue-500}",
+          "$description": "Primary action color"
+        },
+        "hover": {
+          "$value": "{color.palette.blue-600}",
+          "$description": "Primary action hover"
+        },
+        "strong": {
+          "$root": {
+            "$value": "{color.palette.blue-600}",
+            "$description": "Strong/high-contrast action color"
+          },
+          "active": {
+            "$value": "{color.palette.blue-600}",
+            "$description": "Strong action pressed"
+          }
+        }
+      },
+      "danger": {
+        "$root": {
+          "$value": "{color.palette.red-500}",
+          "$description": "Destructive action color"
+        },
+        "hover": {
+          "$value": "{color.palette.red-600}",
+          "$description": "Destructive action hover"
+        }
+      }
+    },
+    "border": {
+      "$type": "color",
+      "$description": "Border color tokens",
+      "default": {
+        "$root": {
+          "$value": "{color.palette.gray-300}",
+          "$description": "Default border color"
+        },
+        "focus": {
+          "$value": "{color.palette.blue-500}",
+          "$description": "Focused border color"
+        }
+      },
+      "muted": {
+        "$value": "{color.palette.gray-100}",
+        "$description": "Subtle/muted border color"
+      }
+    },
+    "icon": {
+      "$type": "color",
+      "$description": "Icon color tokens",
+      "success": {
+        "$value": "{color.palette.green-500}",
+        "$description": "Success icon color"
+      },
+      "warning": {
+        "$value": "{color.palette.orange-500}",
+        "$description": "Warning icon color"
+      }
+    },
+    "overlay": {
+      "$type": "color",
+      "$description": "Overlay color tokens",
+      "default": {
+        "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.5 },
+        "$description": "Modal/dialog overlay"
       }
     }
   }

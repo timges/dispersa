@@ -1,8 +1,23 @@
 {
+  "$description": "Semantic spacing tokens — six-layer convention: category.concept.scale",
   "spacing": {
-    "md": {
+    "gap": {
       "$type": "dimension",
-      "$value": "{spacing.0}"
+      "$description": "Gap spacing for flexbox/grid gaps and between-element spacing",
+      "xs": { "$value": "{spacing.scale.xs}" },
+      "sm": { "$value": "{spacing.scale.sm}" },
+      "md": { "$value": "{spacing.scale.md}" },
+      "lg": { "$value": "{spacing.scale.lg}" },
+      "xl": { "$value": "{spacing.scale.xl}" }
+    },
+    "inset": {
+      "$type": "dimension",
+      "$description": "Inset spacing for padding within containers",
+      "xs": { "$value": "{spacing.scale.xs}" },
+      "sm": { "$value": "{spacing.scale.sm}" },
+      "md": { "$value": "{spacing.scale.md}" },
+      "lg": { "$value": "{spacing.scale.lg}" },
+      "xl": { "$value": "{spacing.scale.xl}" }
     }
   }
 }

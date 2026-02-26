@@ -1,23 +1,22 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
-  "name": "Linting Starter - Dispersa",
+  "name": "TypeScript Starter - Dispersa",
   "version": "2025.10",
-  "description": "Design tokens with intentional lint issues for testing",
+  "description": "Design tokens with colors, typography, spacing, effects, and light/dark themes",
   "sets": {
     "colors": {
       "description": "Color palette and alias colors",
       "sources": [{ "$ref": "./tokens/base/colors.json" }, { "$ref": "./tokens/alias/colors.json" }]
     },
-    "components": {
-      "description": "Component tokens referencing semantic aliases",
-      "sources": [{ "$ref": "./tokens/alias/components/button.json" }]
-    },
     "typography": {
       "description": "Font families, sizes, weights, and line heights",
-      "sources": [{ "$ref": "./tokens/base/typography.json" }]
+      "sources": [
+        { "$ref": "./tokens/base/typography.json" },
+        { "$ref": "./tokens/alias/typography.json" }
+      ]
     },
     "spacing": {
-      "description": "Spacing scale",
+      "description": "Spacing scale and alias spacing",
       "sources": [
         { "$ref": "./tokens/base/spacing.json" },
         { "$ref": "./tokens/alias/spacing.json" }
@@ -25,7 +24,10 @@
     },
     "effects": {
       "description": "Shadows and elevation",
-      "sources": [{ "$ref": "./tokens/base/effects.json" }]
+      "sources": [
+        { "$ref": "./tokens/base/effects.json" },
+        { "$ref": "./tokens/alias/effects.json" }
+      ]
     }
   },
   "modifiers": {
@@ -43,7 +45,6 @@
     { "$ref": "#/sets/typography" },
     { "$ref": "#/sets/spacing" },
     { "$ref": "#/sets/effects" },
-    { "$ref": "#/sets/components" },
     { "$ref": "#/modifiers/theme" }
   ]
 }

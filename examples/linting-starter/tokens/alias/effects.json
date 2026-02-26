@@ -1,0 +1,23 @@
+{
+  "$description": "Semantic effect tokens — six-layer convention: category.concept.scale",
+  "shadow": {
+    "elevation": {
+      "$description": "Elevation shadow levels",
+      "sm": {
+        "$type": "shadow",
+        "$value": "{shadow.raw.sm}",
+        "$description": "Low elevation (cards, inputs)"
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": "{shadow.raw.md}",
+        "$description": "Medium elevation (dropdowns, popovers)"
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": "{shadow.raw.lg}",
+        "$description": "High elevation (modals, dialogs)"
+      }
+    }
+  }
+}

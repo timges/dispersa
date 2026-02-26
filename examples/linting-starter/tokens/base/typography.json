@@ -1,19 +1,40 @@
 {
-  "$description": "Typography scale — font families, sizes, weights, and line heights",
-  "typography": {
-    "fontFamily": {
-      "$description": "Font family definitions",
-      "primary": {
+  "$description": "Typography foundations - font families, weights, sizes, and line heights",
+  "font": {
+    "family": {
+      "$description": "Font stacks",
+      "sans": {
         "$type": "fontFamily",
-        "$value": ["Inter", "system-ui", "sans-serif"]
+        "$value": ["Inter", "system-ui", "sans-serif"],
+        "$description": "Default sans-serif font stack"
       },
-      "monospace": {
+      "mono": {
         "$type": "fontFamily",
-        "$value": ["Fira Code", "monospace"]
+        "$value": ["JetBrains Mono", "Fira Code", "monospace"],
+        "$description": "Monospace font stack for code"
       }
     },
-    "fontSize": {
-      "$description": "Font size scale",
+    "weight": {
+      "$description": "Font weight scale",
+      "regular": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700
+      }
+    },
+    "size": {
+      "$description": "Type scale",
       "xs": {
         "$type": "dimension",
         "$value": { "value": 0.75, "unit": "rem" }
@@ -40,34 +61,22 @@
       },
       "3xl": {
         "$type": "dimension",
-        "$value": { "value": 1.875, "unit": "rem" }
-      },
-      "4xl": {
-        "$type": "dimension",
-        "$value": { "value": 2.25, "unit": "rem" }
+        "$value": { "value": 2, "unit": "rem" }
       }
     },
-    "fontWeight": {
-      "$description": "Font weight scale",
-      "light": {
-        "$type": "fontWeight",
-        "$value": 300
+    "lineHeight": {
+      "$description": "Line height multipliers",
+      "tight": {
+        "$type": "number",
+        "$value": 1.25
       },
       "normal": {
-        "$type": "fontWeight",
-        "$value": 400
+        "$type": "number",
+        "$value": 1.5
       },
-      "medium": {
-        "$type": "fontWeight",
-        "$value": 500
-      },
-      "semibold": {
-        "$type": "fontWeight",
-        "$value": 600
-      },
-      "bold": {
-        "$type": "fontWeight",
-        "$value": 700
+      "relaxed": {
+        "$type": "number",
+        "$value": 1.75
       }
     }
   }

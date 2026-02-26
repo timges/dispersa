@@ -7,15 +7,17 @@
     },
     "surface": {
       "$type": "color",
-      "$value": "{color.palette.gray100}"
+      "$value": "{color.palette.gray-100}"
     },
     "text": {
       "$type": "color",
-      "$value": "{color.palette.gray900}"
+      "$value": "{color.palette.gray-900}"
     },
-    "textMuted": {
-      "$type": "color",
-      "$value": "{color.palette.gray-500}"
+    "text": {
+      "muted": {
+        "$type": "color",
+        "$value": "{color.palette.gray-500}"
+      }
     }
   }
 }

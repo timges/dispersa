@@ -5,40 +5,42 @@
       "primary": {
         "background": {
           "$type": "color",
-          "$root": { "$value": "{color.brand.primary}" },
-          "hover": { "$value": "{color.brand.primary}" }
+          "$value": "{color.action.brand}"
+        },
+        "background-hover": {
+          "$value": "{color.action.brand.hover}"
         },
         "text": {
           "$type": "color",
-          "$value": "{color.neutral.light}"
+          "$value": "{color.palette.white}"
         },
         "border": {
           "$type": "color",
-          "$value": "{color.brand.primary}"
+          "$value": "{color.action.brand}"
         }
       },
       "secondary": {
         "background": {
           "$type": "color",
-          "$value": "{color.neutral.light}"
+          "$value": "{color.palette.gray-100}"
         },
         "text": {
           "$type": "color",
-          "$value": "{color.brand.primary}"
+          "$value": "{color.action.brand}"
         },
         "border": {
           "$type": "color",
-          "$value": "{color.brand.primary}"
+          "$value": "{color.border.default}"
         }
       },
       "danger": {
         "background": {
           "$type": "color",
-          "$value": "{color.semantic.danger}"
+          "$value": "{color.text.danger}"
         },
         "text": {
           "$type": "color",
-          "$value": "{color.neutral.light}"
+          "$value": "{color.palette.white}"
         }
       }
     }
@@ -48,19 +50,19 @@
       "primary": {
         "padding": {
           "$type": "dimension",
-          "$value": "{spacing.md}"
+          "$value": "{spacing.gap.md}"
         }
       },
       "secondary": {
         "padding": {
           "$type": "dimension",
-          "$value": "{spacing.md}"
+          "$value": "{spacing.gap.md}"
         }
       },
       "danger": {
         "padding": {
           "$type": "dimension",
-          "$value": "{spacing.md}"
+          "$value": "{spacing.gap.md}"
         }
       }
     }
