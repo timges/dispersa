@@ -1,5 +1,11 @@
 # dispersa
 
+## 1.1.0
+
+### Minor Changes
+
+- [`e5a0e72`](https://github.com/dispersa-core/dispersa/commit/e5a0e721aacf1ec0ffc7d9976efd98a9b2be4f39) Thanks [@timges](https://github.com/timges)! - fix linting rule bugs
+
 ## 1.0.0
 
 ### Major Changes
