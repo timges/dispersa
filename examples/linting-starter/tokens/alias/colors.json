@@ -10,8 +10,7 @@
       },
       "muted": {
         "$root": {
-          "$value": "{color.palette.gray-500}",
-          "$description": "Secondary/muted text color"
+          "$value": "{color.palette.gray-500}"
         },
         "disabled": {
           "$value": "{color.palette.gray-300}",
@@ -44,6 +43,7 @@
     "background": {
       "$type": "color",
       "$description": "Background color tokens",
+      "$value": "{color.palette.white}",
       "default": {
         "$value": "{color.palette.white}",
         "$description": "Page background"
@@ -76,6 +76,7 @@
     "surface": {
       "$type": "color",
       "$description": "Surface color tokens (cards, panels)",
+      "$value": "{color.palette.gray-100}",
       "default": {
         "$value": "{color.palette.gray-100}",
         "$description": "Elevated surface"

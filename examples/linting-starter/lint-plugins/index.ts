@@ -243,7 +243,7 @@ const TokenPrefixMessages = {
 } as const
 
 type TokenPrefixOptions = {
-  prefixes?: Record<string, string[]>
+  segments?: Record<string, string[]>
 }
 
 export const tokenPrefix: LintRule<
@@ -255,15 +255,15 @@ export const tokenPrefix: LintRule<
     description: 'Enforce naming prefixes based on token category',
     messages: {
       INVALID_PREFIX:
-        "Token '{{name}}' should start with '{{expected}}' based on its category '{{category}}'",
+        "Token '{{name}}' has invalid second segment '{{segment}}' for category '{{category}}'. Expected: {{expected}}",
     },
   },
   defaultOptions: {
-    prefixes: {
-      color: ['color'],
-      typography: ['font', 'text', 'line'],
-      spacing: ['space', 'gap', 'inset'],
-      effects: ['shadow', 'elevation'],
+    segments: {
+      typography: ['heading', 'body', 'font', 'text', 'line'],
+      spacing: ['gap', 'inset', 'scale'],
+      shadow: ['elevation', 'raw'],
+      color: ['palette', 'text', 'background', 'surface', 'action', 'border', 'icon', 'overlay'],
     },
   },
   create(
@@ -273,23 +273,25 @@ export const tokenPrefix: LintRule<
     >,
   ) {
     const { tokens, options, report } = context
-    const prefixMap = options.prefixes ?? {}
+    const segmentMap = options.segments ?? {}
 
     for (const token of Object.values(tokens)) {
       const category = token.path[0]
-      const expectedPrefixes = prefixMap[category]
+      const secondSegment = token.path[1]
+      const validSegments = segmentMap[category]
 
-      if (expectedPrefixes && expectedPrefixes.length > 0) {
-        const hasValidPrefix = expectedPrefixes.some((prefix) => token.name.startsWith(prefix))
+      if (validSegments && validSegments.length > 0 && secondSegment) {
+        const isValid = validSegments.includes(secondSegment)
 
-        if (!hasValidPrefix && token.path.length > 1) {
+        if (!isValid && token.path.length > 1) {
           report({
             token,
             messageId: 'INVALID_PREFIX',
             data: {
               name: token.name,
               category,
-              expected: expectedPrefixes.join(' or '),
+              segment: secondSegment,
+              expected: validSegments.join(' or '),
             },
           })
         }

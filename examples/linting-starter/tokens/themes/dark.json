@@ -12,12 +12,6 @@
     "text": {
       "$type": "color",
       "$value": "{color.palette.gray-100}"
-    },
-    "text": {
-      "muted": {
-        "$type": "color",
-        "$value": "{color.palette.gray-400}"
-      }
     }
   }
 }

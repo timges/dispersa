@@ -30,6 +30,39 @@ describe('path-schema rule', () => {
       expect(reports).toHaveLength(0)
     })
 
+    it('should accept tokens with hardcoded literal segments', async () => {
+      const tokens = createMockTokens({
+        'color.palette.blue-500': { type: 'color' },
+        'color.palette.red-500': { type: 'color' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color', 'spacing'] },
+        },
+        paths: ['{category}.palette.*'],
+      })
+
+      expect(reports).toHaveLength(0)
+    })
+
+    it('should reject tokens with mismatched hardcoded literal segments', async () => {
+      const tokens = createMockTokens({
+        'color.palette.blue-500': { type: 'color' },
+        'spacing.semantic.md': { type: 'dimension' },
+      })
+
+      const reports = await collectReports(pathSchema, tokens, {
+        segments: {
+          category: { values: ['color', 'spacing'] },
+        },
+        paths: ['{category}.palette.*'],
+      })
+
+      expect(reports).toHaveLength(1)
+      expect(reports[0]?.tokenName).toBe('spacing.semantic.md')
+    })
+
     it('should report tokens not matching any pattern', async () => {
       const tokens = createMockTokens({
         'invalid.token': { type: 'color' },

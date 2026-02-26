@@ -30,7 +30,7 @@ const lintPlugins = {
 
 const pathSchemaSegments = {
   category: {
-    values: ['color', 'spacing', 'typography', 'shadow'],
+    values: ['color', 'spacing', 'typography', 'shadow', 'font'],
   },
   tier: {
     values: ['palette', 'scale', 'raw'],
@@ -47,6 +47,9 @@ const pathSchemaSegments = {
       'overlay',
       'gap',
       'inset',
+      'heading',
+      'body',
+      'elevation',
     ],
     description: 'Semantic concept - what the token is used for',
   },
@@ -63,7 +66,7 @@ const pathSchemaSegments = {
     optional: true,
   },
   scale: {
-    values: ['xs', 'sm', 'md', 'lg', 'xl'],
+    values: ['xs', 'sm', 'md', 'lg', 'xl', 'two-xl', 'three-xl'],
     optional: true,
   },
   component: {
@@ -73,6 +76,9 @@ const pathSchemaSegments = {
   property: {
     values: ['background', 'text', 'border', 'padding', 'shadow', 'radius', 'gap'],
   },
+  fontProperty: {
+    values: ['family', 'weight', 'size', 'line-height'],
+  },
 }
 
 const pathSchemaPatterns = [
@@ -80,6 +86,8 @@ const pathSchemaPatterns = [
   '{category}.palette.*',
   '{category}.scale.*',
   '{category}.raw.*',
+  // Font base tier: font.family.sans, font.weight.regular, font.size.lg, font.line-height.tight
+  'font.{fontProperty}.*',
   // Semantic tier: color.text.default, color.action.brand.hover, color.background.danger.subtle
   '{category}.{concept}',
   '{category}.{concept}.{sentiment}',
@@ -88,6 +96,7 @@ const pathSchemaPatterns = [
   '{category}.{concept}.{state}',
   '{category}.{concept}.{sentiment}.{state}',
   '{category}.{concept}.{prominence}.{state}',
+  '{category}.{concept}.{sentiment}.{prominence}.{state}',
   '{category}.{concept}.{scale}',
   // Component tier: color.button.primary.background, spacing.button.padding
   '{category}.{component}.{property}',
@@ -95,8 +104,10 @@ const pathSchemaPatterns = [
 ]
 
 const lintRules = {
-  'dispersa/require-description': 'warn' as const,
-  'dispersa/naming-convention': ['error' as const, { format: 'kebab-case' }] as const,
+  'dispersa/require-description': [
+    'warn' as const,
+    { ignore: ['color.background', 'color.surface'] },
+  ] as const,
   'dispersa/no-deprecated-usage': 'warn' as const,
   'dispersa/no-duplicate-values': ['warn' as const, { types: ['color'] }] as const,
   'custom/require-type': 'error' as const,

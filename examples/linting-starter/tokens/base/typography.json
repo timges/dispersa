@@ -18,19 +18,23 @@
       "$description": "Font weight scale",
       "regular": {
         "$type": "fontWeight",
-        "$value": 400
+        "$value": 400,
+        "$description": "Regular weight (400)"
       },
       "medium": {
         "$type": "fontWeight",
-        "$value": 500
+        "$value": 500,
+        "$description": "Medium weight (500)"
       },
       "semibold": {
         "$type": "fontWeight",
-        "$value": 600
+        "$value": 600,
+        "$description": "Semi-bold weight (600)"
       },
       "bold": {
         "$type": "fontWeight",
-        "$value": 700
+        "$value": 700,
+        "$description": "Bold weight (700)"
       }
     },
     "size": {
@@ -41,42 +45,51 @@
       },
       "sm": {
         "$type": "dimension",
-        "$value": { "value": 0.875, "unit": "rem" }
+        "$value": { "value": 0.875, "unit": "rem" },
+        "$description": "Small text (0.875rem)"
       },
       "base": {
         "$type": "dimension",
-        "$value": { "value": 1, "unit": "rem" }
+        "$value": { "value": 1, "unit": "rem" },
+        "$description": "Base size (1rem)"
       },
       "lg": {
         "$type": "dimension",
-        "$value": { "value": 1.125, "unit": "rem" }
+        "$value": { "value": 1.125, "unit": "rem" },
+        "$description": "Large text (1.125rem)"
       },
       "xl": {
         "$type": "dimension",
-        "$value": { "value": 1.25, "unit": "rem" }
+        "$value": { "value": 1.25, "unit": "rem" },
+        "$description": "Extra large (1.25rem)"
       },
       "2xl": {
         "$type": "dimension",
-        "$value": { "value": 1.5, "unit": "rem" }
+        "$value": { "value": 1.5, "unit": "rem" },
+        "$description": "2X large (1.5rem)"
       },
       "3xl": {
         "$type": "dimension",
-        "$value": { "value": 2, "unit": "rem" }
+        "$value": { "value": 2, "unit": "rem" },
+        "$description": "3X large (2rem)"
       }
     },
-    "lineHeight": {
+    "line-height": {
       "$description": "Line height multipliers",
       "tight": {
         "$type": "number",
-        "$value": 1.25
+        "$value": 1.25,
+        "$description": "Tight line height (1.25)"
       },
       "normal": {
         "$type": "number",
-        "$value": 1.5
+        "$value": 1.5,
+        "$description": "Normal line height (1.5)"
       },
       "relaxed": {
         "$type": "number",
-        "$value": 1.75
+        "$value": 1.75,
+        "$description": "Relaxed line height (1.75)"
       }
     }
   }

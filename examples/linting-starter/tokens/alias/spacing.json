@@ -4,20 +4,20 @@
     "gap": {
       "$type": "dimension",
       "$description": "Gap spacing for flexbox/grid gaps and between-element spacing",
-      "xs": { "$value": "{spacing.scale.xs}" },
-      "sm": { "$value": "{spacing.scale.sm}" },
-      "md": { "$value": "{spacing.scale.md}" },
-      "lg": { "$value": "{spacing.scale.lg}" },
-      "xl": { "$value": "{spacing.scale.xl}" }
+      "xs": { "$value": "{spacing.scale.xs}", "$description": "Extra small gap" },
+      "sm": { "$value": "{spacing.scale.sm}", "$description": "Small gap" },
+      "md": { "$value": "{spacing.scale.md}", "$description": "Medium gap" },
+      "lg": { "$value": "{spacing.scale.lg}", "$description": "Large gap" },
+      "xl": { "$value": "{spacing.scale.xl}", "$description": "Extra large gap" }
     },
     "inset": {
       "$type": "dimension",
       "$description": "Inset spacing for padding within containers",
-      "xs": { "$value": "{spacing.scale.xs}" },
-      "sm": { "$value": "{spacing.scale.sm}" },
-      "md": { "$value": "{spacing.scale.md}" },
-      "lg": { "$value": "{spacing.scale.lg}" },
-      "xl": { "$value": "{spacing.scale.xl}" }
+      "xs": { "$value": "{spacing.scale.xs}", "$description": "Extra small inset" },
+      "sm": { "$value": "{spacing.scale.sm}", "$description": "Small inset" },
+      "md": { "$value": "{spacing.scale.md}", "$description": "Medium inset" },
+      "lg": { "$value": "{spacing.scale.lg}", "$description": "Large inset" },
+      "xl": { "$value": "{spacing.scale.xl}", "$description": "Extra large inset" }
     }
   }
 }

@@ -4,12 +4,12 @@
     "scale": {
       "$type": "dimension",
       "$description": "Base spacing values built on a 4px grid",
-      "xs": { "$value": { "value": 4, "unit": "px" } },
-      "sm": { "$value": { "value": 8, "unit": "px" } },
-      "md": { "$value": { "value": 16, "unit": "px" } },
-      "lg": { "$value": { "value": 24, "unit": "px" } },
-      "xl": { "$value": { "value": 32, "unit": "px" } },
-      "2xl": { "$value": { "value": 48, "unit": "px" } }
+      "xs": { "$value": { "value": 4, "unit": "px" }, "$description": "Extra small (4px)" },
+      "sm": { "$value": { "value": 8, "unit": "px" }, "$description": "Small (8px)" },
+      "md": { "$value": { "value": 16, "unit": "px" }, "$description": "Medium (16px)" },
+      "lg": { "$value": { "value": 24, "unit": "px" }, "$description": "Large (24px)" },
+      "xl": { "$value": { "value": 32, "unit": "px" }, "$description": "Extra large (32px)" },
+      "2xl": { "$value": { "value": 48, "unit": "px" }, "$description": "2X large (48px)" }
     }
   }
 }

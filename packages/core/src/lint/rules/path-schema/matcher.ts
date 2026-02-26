@@ -184,7 +184,18 @@ export class PathSchemaMatcher {
    */
   private matchPattern(pattern: CompiledPattern, pathSegments: string[]): boolean {
     // Extract pattern parts that consume segments (segments + wildcards)
-    const patternParts = pattern.filter((p) => p.type === 'segment' || p.type === 'wildcard')
+    // But include literals that are NOT just path separators (single dots)
+    const patternParts = pattern.filter((p) => {
+      if (p.type === 'segment' || p.type === 'wildcard') {
+        return true
+      }
+      if (p.type === 'literal') {
+        // Keep literals that are more than just separators (e.g., '.palette.')
+        // Single '.' or sequences of '.' are path separators, not meaningful literals
+        return p.value !== '.' && !/^\.+$/.test(p.value)
+      }
+      return false
+    })
     const pathLen = pathSegments.length
     const patternLen = patternParts.length
 
@@ -250,7 +261,7 @@ export class PathSchemaMatcher {
    */
   private isPartOptional(part: { type: string; name?: string }): boolean {
     if (part.type !== 'segment' || !part.name) {
-      return false // Wildcards are not optional
+      return false // Wildcards and literals are not optional
     }
     const segmentDef = this.segments[part.name]
     return segmentDef?.optional ?? false
@@ -265,6 +276,13 @@ export class PathSchemaMatcher {
   ): boolean {
     if (part.type === 'wildcard') {
       return true
+    }
+
+    if (part.type === 'literal' && part.value !== undefined) {
+      // Strip leading/trailing dots from literal for comparison
+      // e.g., '.palette.' should match 'palette'
+      const literalValue = part.value.replace(/^\.+|\.+$/g, '')
+      return literalValue === value
     }
 
     if (part.type === 'segment' && part.name) {

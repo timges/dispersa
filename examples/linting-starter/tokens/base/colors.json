@@ -15,7 +15,8 @@
       },
       "blue700": {
         "$type": "color",
-        "$value": { "colorSpace": "srgb", "components": [0, 0.27, 0.55] }
+        "$value": { "colorSpace": "srgb", "components": [0, 0.27, 0.55] },
+        "$description": "Deep blue for emphasis"
       },
       "green-500": {
         "$type": "color",
@@ -29,7 +30,8 @@
       },
       "red-600": {
         "$type": "color",
-        "$value": { "colorSpace": "srgb", "components": [0.72, 0.11, 0.11] }
+        "$value": { "colorSpace": "srgb", "components": [0.72, 0.11, 0.11] },
+        "$description": "Dark red for hover states"
       },
       "orange-500": {
         "$type": "color",
