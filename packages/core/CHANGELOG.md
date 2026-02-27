@@ -1,5 +1,13 @@
 # dispersa
 
+## 1.2.0
+
+### Minor Changes
+
+- [`12a257a`](https://github.com/dispersa-core/dispersa/commit/12a257a9b211509e034e99f41bfab09736915992) Thanks [@timges](https://github.com/timges)! - fix lint issues:
+  - finding duplication
+  - skipped permutations
+
 ## 1.1.0
 
 ### Minor Changes
