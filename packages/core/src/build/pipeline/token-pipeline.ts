@@ -9,7 +9,6 @@
 import { ResolverLoader } from '@adapters/filesystem/resolver-loader'
 import { LintRunner } from '@lint/lint-runner'
 import type { LintBuildConfig, LintResult } from '@lint/types'
-import { LintError } from '@shared/errors'
 import { applyFilters, applyTransforms } from '@processing/apply'
 import type { Filter } from '@processing/filters/types'
 import type { Preprocessor } from '@processing/preprocessors/types'
@@ -18,10 +17,12 @@ import { AliasResolver } from '@resolution/alias-resolver'
 import { ReferenceResolver } from '@resolution/reference-resolver'
 import { ResolutionEngine } from '@resolution/resolution-engine'
 import type { ModifierInputs, ResolverDocument } from '@resolution/types'
+import { LintError } from '@shared/errors'
 import type { ValidationOptions } from '@shared/types/validation'
+import { rewriteRootReferences } from '@shared/utils/token-utils'
 import { ValidationHandler } from '@shared/utils/validation-handler'
 import { TokenParser } from '@tokens/token-parser'
-import type { InternalResolvedTokens, InternalTokenDocument, TokenValue } from '@tokens/types'
+import type { InternalResolvedTokens, InternalTokenDocument } from '@tokens/types'
 import type {
     AliasResolvedStage,
     EngineReadyStage,
@@ -32,43 +33,6 @@ import type {
     RawTokensStage,
     ReferenceResolvedStage,
 } from './pipeline-stages'
-
-const ROOT_REF_PATTERN = /\.\$root\}/g
-
-/**
- * Rewrite `{foo.$root}` → `{foo}` inside alias reference strings.
- * Handles plain string values and composite objects with nested references.
- */
-function rewriteRootReferences(value: TokenValue): TokenValue {
-  if (typeof value === 'string') {
-    return ROOT_REF_PATTERN.test(value)
-      ? (value.replace(ROOT_REF_PATTERN, '}') as TokenValue)
-      : value
-  }
-
-  if (Array.isArray(value)) {
-    let changed = false
-    const mapped = value.map((item) => {
-      const rewritten = rewriteRootReferences(item as TokenValue)
-      if (rewritten !== item) changed = true
-      return rewritten
-    })
-    return changed ? (mapped as TokenValue) : value
-  }
-
-  if (typeof value === 'object' && value !== null) {
-    let changed = false
-    const result: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(value)) {
-      const rewritten = rewriteRootReferences(v as TokenValue)
-      if (rewritten !== v) changed = true
-      result[k] = rewritten
-    }
-    return changed ? (result as TokenValue) : value
-  }
-
-  return value
-}
 
 export type TokenPipelineOptions = {
   validation?: ValidationOptions

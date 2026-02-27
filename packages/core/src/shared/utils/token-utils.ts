@@ -2,7 +2,12 @@
  * @fileoverview Token utility functions
  */
 
-import type { InternalResolvedTokens, ResolvedToken, ResolvedTokens } from '@tokens/types'
+import type {
+  InternalResolvedTokens,
+  ResolvedToken,
+  ResolvedTokens,
+  TokenValue,
+} from '@tokens/types'
 
 /**
  * Format deprecation message for a token
@@ -132,4 +137,45 @@ export function getPureAliasReferenceName(value: unknown): string | undefined {
   }
   const match = /^\{([^}]+)\}$/.exec(value)
   return match?.[1]?.trim()
+}
+
+const ROOT_REF_PATTERN = /\.\$root\}/g
+
+/**
+ * Rewrite `{foo.$root}` → `{foo}` inside alias reference strings.
+ * Handles plain string values and composite objects with nested references.
+ */
+export function rewriteRootReferences(value: TokenValue): TokenValue {
+  if (typeof value === 'string') {
+    return ROOT_REF_PATTERN.test(value)
+      ? (value.replace(ROOT_REF_PATTERN, '}') as TokenValue)
+      : value
+  }
+
+  if (Array.isArray(value)) {
+    let changed = false
+    const mapped = value.map((item) => {
+      const rewritten = rewriteRootReferences(item as TokenValue)
+      if (rewritten !== item) {
+        changed = true
+      }
+      return rewritten
+    })
+    return changed ? (mapped as TokenValue) : value
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    let changed = false
+    const result: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(value)) {
+      const rewritten = rewriteRootReferences(v as TokenValue)
+      if (rewritten !== v) {
+        changed = true
+      }
+      result[k] = rewritten
+    }
+    return changed ? (result as TokenValue) : value
+  }
+
+  return value
 }
