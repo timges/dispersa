@@ -122,7 +122,6 @@ describe('BuildOrchestrator', () => {
         configWithGlobals.transforms,
         configWithGlobals.preprocessors,
         configWithGlobals.filters,
-        configWithGlobals.lint,
       )
     })
 

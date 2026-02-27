@@ -84,13 +84,20 @@ export class BuildOrchestrator {
     }
 
     if (!config.permutations || config.permutations.length === 0) {
+      // Resolve all permutations without lint
       const permutations = await this.pipeline.resolveAllPermutations(
         resolver,
         config.transforms,
         config.preprocessors,
         config.filters,
-        config.lint,
       )
+
+      // Run lint on all permutations with deduplication
+      if (config.lint?.enabled) {
+        const tokenSets = permutations.map((p) => p.tokens)
+        await this.pipeline.runLintOnPermutations(tokenSets, config.lint)
+      }
+
       return this.executeBuild(buildPath, config, permutations, resolver)
     }
 
@@ -102,11 +109,15 @@ export class BuildOrchestrator {
           config.transforms,
           config.preprocessors,
           config.filters,
-          config.lint,
         )
         return { tokens, modifierInputs: resolvedInputs }
       }),
     )
+
+    if (config.lint?.enabled) {
+      const tokenSets = permutations.map((p) => p.tokens)
+      await this.pipeline.runLintOnPermutations(tokenSets, config.lint)
+    }
 
     return this.executeBuild(buildPath, config, permutations, resolver)
   }

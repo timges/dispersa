@@ -259,4 +259,38 @@ export class LintRunner {
     this.pluginLoader.clearCache()
     this.resolvedConfig = null
   }
+
+  /**
+   * Run lint on multiple token sets with deduplication
+   *
+   * When running lint across multiple permutations (e.g., light/dark themes),
+   * the same issue may appear multiple times. This method deduplicates issues
+   * by ruleId, tokenName, and message.
+   *
+   * Use this for both standalone lint and build lint to ensure identical output.
+   *
+   * @param tokenSets - Array of resolved token sets to lint
+   * @returns Combined lint result with deduplicated issues
+   */
+  async runMultiple(tokenSets: InternalResolvedTokens[]): Promise<LintResult> {
+    const results = await Promise.all(tokenSets.map((tokens) => this.run(tokens)))
+
+    const allIssues = results.flatMap((result) => result.issues)
+
+    const seen = new Set<string>()
+    const deduplicated: LintIssue[] = []
+
+    for (const issue of allIssues) {
+      const key = `${issue.ruleId}:${issue.tokenName}:${issue.message}`
+      if (!seen.has(key)) {
+        seen.add(key)
+        deduplicated.push(issue)
+      }
+    }
+
+    const errorCount = deduplicated.filter((i) => i.severity === 'error').length
+    const warningCount = deduplicated.filter((i) => i.severity === 'warn').length
+
+    return { issues: deduplicated, errorCount, warningCount }
+  }
 }

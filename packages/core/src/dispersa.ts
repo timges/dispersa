@@ -21,7 +21,7 @@ import { ConfigurationError, LintError } from '@shared/errors/index'
 import type { ValidationOptions } from '@shared/types/validation'
 import { toBuildError } from '@shared/utils/error-utils'
 import { stripInternalTokenMetadata } from '@shared/utils/token-utils'
-import type { ResolvedTokens } from '@tokens/types'
+import type { ResolvedTokens, InternalResolvedTokens } from '@tokens/types'
 import { SchemaValidator } from '@validation/validator'
 
 function createValidator(): SchemaValidator {
@@ -229,14 +229,26 @@ export async function lint(options: LintOptions): Promise<LintResult> {
   const { resolver, modifierInputs = {}, validation, ...lintConfig } = options
 
   const pipeline = createPipeline({ validation })
-  const tokens = await resolvePipeline(pipeline, resolver, modifierInputs)
 
   const runner = new LintRunner({
     ...lintConfig,
     failOnError: lintConfig.failOnError ?? true,
   })
 
-  const result = await runner.run(tokens)
+  let tokenSets: InternalResolvedTokens[]
+
+  if (Object.keys(modifierInputs).length > 0) {
+    // Specific modifier inputs provided - resolve only that permutation
+    const { tokens } = await pipeline.resolve(resolver, modifierInputs)
+    tokenSets = [tokens]
+  } else {
+    // No specific modifier inputs - resolve all permutations
+    const permutations = await pipeline.resolveAllPermutations(resolver)
+    tokenSets = permutations.map((p) => p.tokens)
+  }
+
+  // Use runMultiple for deduplication across permutations
+  const result = await runner.runMultiple(tokenSets)
 
   if (result.errorCount > 0 && lintConfig.failOnError !== false) {
     throw new LintError(result.issues)

@@ -351,14 +351,41 @@ export class ResolutionEngine {
   private mergeTokens(
     target: InternalTokenDocument,
     source: InternalTokenDocument,
+    path: string[] = [],
   ): InternalTokenDocument {
     const result = { ...target }
 
     for (const [key, value] of Object.entries(source)) {
-      const isGroup =
+      const currentPath = [...path, key]
+      const isSourceGroup =
         typeof value === 'object' && value !== null && !Array.isArray(value) && !('$value' in value)
+      const targetValue = target[key]
+      const isTargetGroup =
+        typeof targetValue === 'object' &&
+        targetValue !== null &&
+        !Array.isArray(targetValue) &&
+        !('$value' in targetValue)
 
-      if (!isGroup) {
+      // Warn when group/token type changes during merge
+      // Skip $-prefixed keys (like $root, $description, etc.) - these are DTCG metadata
+      if (targetValue !== undefined && !key.startsWith('$')) {
+        if (isSourceGroup && !isTargetGroup) {
+          this.validationHandler.warn(
+            `Token '${currentPath.join('.')}' is being replaced by a group. ` +
+              'This may cause loss of existing children.',
+          )
+        } else if (!isSourceGroup && isTargetGroup) {
+          const targetHasChildren = Object.keys(targetValue).some((k) => !k.startsWith('$'))
+          if (targetHasChildren) {
+            this.validationHandler.warn(
+              `Group '${currentPath.join('.')}' is being replaced by a token. ` +
+                'Existing children will be lost.',
+            )
+          }
+        }
+      }
+
+      if (!isSourceGroup) {
         result[key] = value
         continue
       }
@@ -366,6 +393,7 @@ export class ResolutionEngine {
       result[key] = this.mergeTokens(
         ((result[key] as InternalTokenDocument | undefined) ?? {}) as InternalTokenDocument,
         value as InternalTokenDocument,
+        currentPath,
       )
     }
 
